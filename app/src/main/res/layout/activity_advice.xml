@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#87CEFA"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/merge_advice_title"
+        layout="@layout/title_merge_layout" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:gravity="center_vertical"
+            android:text="亲，我们珍视每一个反馈，你们的意见或批评是对我们最大的"
+            android:textColor="#4169E1"
+            android:textSize="11sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:gravity="center_vertical"
+            android:text="支持，是我们对产品优化改进最大的动力和方向。"
+            android:textColor="#4169E1"
+            android:textSize="11sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@drawable/abc_cab_background_top_material"
+            android:maxLines="100"
+            android:text="请在这里输入"
+            android:textColor="#008080"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/do_sign_btn"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_marginTop="20dp"
+            android:background="#06A1D9"
+            android:text="提交反馈" />
+    </LinearLayout>
+
+</LinearLayout>

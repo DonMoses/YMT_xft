@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#87CEFA"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/merge_sign_title"
+        layout="@layout/title_merge_layout" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_sign_table"
+        android:stretchColumns="2">
+
+        <TableRow
+            android:layout_height="28dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:gravity="center_vertical"
+                android:text="+86"
+                android:textColor="#4169E1" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="19dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="#7B68EE" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="请输入手机号码"
+                android:inputType="number"
+                android:textColor="#008080"
+                android:textSize="12sp" />
+        </TableRow>
+
+        <TableRow android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:src="@drawable/icon_sign_account" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="19dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="#7B68EE" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="账号为4~20位字符"
+                android:inputType="textPersonName"
+                android:textColor="#008080"
+                android:textSize="12sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_height="28dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:src="@drawable/icon_sign_psw" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="18dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="#7B68EE" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="密码为6~18位数字和字母组合"
+                android:inputType="textPassword"
+                android:textColor="#008080"
+                android:textSize="12sp" />
+        </TableRow>
+
+        <TableRow android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:src="@drawable/icon_sign_psw" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="19dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="#7B68EE" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="再次输入以确认密码"
+                android:inputType="textPassword"
+                android:textColor="#008080"
+                android:textSize="12sp" />
+        </TableRow>
+
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:stretchColumns="1">
+
+        <TableRow>
+
+            <TextView
+                android:layout_height="18dp"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="注: "
+                android:textColor="#4169E1"
+                android:textSize="10sp" />
+
+            <TextView
+                android:layout_height="18dp"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="本平台为消防安全平台，所有内容均为国家发行的合规规定，"
+                android:textColor="#4169E1"
+                android:textSize="10sp" />
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView />
+
+            <TextView
+                android:layout_height="18dp"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="请认真阅读《消防通安全协议》再进行下一步注册操作。"
+                android:textColor="#4169E1"
+                android:textSize="10sp" />
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView />
+
+            <LinearLayout
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:background="@drawable/agreement_normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginStart="3dp"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:text="我已阅读并同意《消防通安全协议》"
+                    android:textColor="#4169E1"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+        </TableRow>
+    </TableLayout>
+
+    <Button
+        android:id="@+id/do_sign_btn"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_margin="30dp"
+        android:background="#06A1D9"
+        android:text="注 册" />
+    
+</LinearLayout>

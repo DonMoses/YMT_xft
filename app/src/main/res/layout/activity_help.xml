@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F0F0"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/merge_help_title"
+        layout="@layout/title_merge_layout" />
+
+    <LinearLayout
+        android:id="@+id/help_btn_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_margin="12dp"
+        android:background="#FFFFFF"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icon_btn_in_help_normal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:text="联系在线值守专家"
+            android:textColor="#5C5C5C"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:drawableLeft="@drawable/icon_text_indicator"
+        android:drawableStart="@drawable/icon_text_indicator"
+        android:text="常见问题"
+        android:textColor="@color/material_blue_grey_800"
+        android:textSize="16sp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#FFFFFF">
+
+        <ListView
+            android:id="@+id/common_quest_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:divider="#CFCFCF"
+            android:dividerHeight="0.8dp">
+
+        </ListView>
+
+    </FrameLayout>
+</LinearLayout>

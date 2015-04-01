@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Demo1</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="item_sign">立即注册</string>
+    <string name="item_advice">意见反馈</string>
+    <string name="item_help">帮注中心</string>
+    <string name="item_setting">设置</string>
+
+    <string-array name="common_quest_array">
+
+        <item>涂料、壁纸、地板如何选购？</item>
+        <item>如何鉴别假冒伪劣的消防产品？</item>
+        <item>干粉灭火器夏天能放在汽车上吗？会不会发生爆炸？</item>
+        <item>商家堵塞安全疏散通道堆放货物被罚5万元，合理吗？</item>
+        <item>成都目前消防重点单位的界定标准是什么？</item>
+        <item>消防安全岗位证书培训应由哪些机构组织，单位可否自行组织？</item>
+        <item>什么是构筑社会消防安全“防火墙”工程，具体要求有哪些？</item>
+        <item>当前正在开展的社会单位消防安全“四个能力”建设的具体内容有哪些？</item>
+        <item>2015年公安边防消防安全警卫部队接收普通高等学校毕业生政策问答？</item>
+        <item>公民应该掌握的消防安全尝试究竟包括哪些方面的内容？</item>
+        <item>哪些情形属于火灾隐患？</item>
+        <item>消防备案是怎么一回事？操作的流程是怎样的？</item>
+        <item>涂料、壁纸、地板如何选购？</item>
+        <item>如何鉴别假冒伪劣的消防产品？</item>
+        <item>干粉灭火器夏天能放在汽车上吗？会不会发生爆炸？</item>
+        <item>商家堵塞安全疏散通道堆放货物被罚5万元，合理吗？</item>
+        <item>成都目前消防重点单位的界定标准是什么？</item>
+        <item>消防安全岗位证书培训应由哪些机构组织，单位可否自行组织？</item>
+        <item>什么是构筑社会消防安全“防火墙”工程，具体要求有哪些？</item>
+        <item>当前正在开展的社会单位消防安全“四个能力”建设的具体内容有哪些？</item>
+        <item>2015年公安边防消防安全警卫部队接收普通高等学校毕业生政策问答？</item>
+        <item>公民应该掌握的消防安全尝试究竟包括哪些方面的内容？</item>
+        <item>哪些情形属于火灾隐患？</item>
+        <item>消防备案是怎么一回事？操作的流程是怎样的？</item>
+
+    </string-array>
+
+</resources>
