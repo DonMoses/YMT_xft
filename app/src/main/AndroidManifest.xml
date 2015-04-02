@@ -36,6 +36,8 @@
         <activity android:name=".mainPages.SignUpActivity" />
         <activity android:name=".mainPages.AdviceActivity" />
         <activity android:name=".mainPages.HelpActivity" />
+        <activity android:name=".mainPages.SignInActivity" />
+        <activity android:name=".mainPages.SettingActivity" />
 
     </application>
 
