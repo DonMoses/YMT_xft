@@ -16,15 +16,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="25dp"
         android:src="@drawable/logo" />
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/bg_input_box"
         android:stretchColumns="2">
@@ -44,6 +45,7 @@
                 android:background="#7B68EE" />
 
             <EditText
+                android:id="@+id/sign_in_account_text"
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
                 android:background="@null"
@@ -68,6 +70,7 @@
                 android:background="#7B68EE" />
 
             <EditText
+                android:id="@+id/sign_in_psw_text"
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
                 android:background="@null"
@@ -81,24 +84,149 @@
     </TableLayout>
 
     <Button
+        android:id="@+id/sign_in_btn"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="8dp"
         android:background="#06A1D9"
         android:text="登录" />
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="12dp">
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="8dp">
 
         <Button
+            android:id="@+id/jump_sign_up"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@null"
+            android:text="注册"
+            android:textColor="#06A1D9" />
+
+        <Button
+            android:id="@+id/jump_found_psw"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@null"
+            android:text="找回密码"
+            android:textColor="#06A1D9" />
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="33dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="80dp"
+        android:text="选择其他账号登陆："
+        android:textColor="@color/material_blue_grey_800"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/sign_in_wechat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@drawable/wechat" />
+
+            <ImageButton
+                android:id="@+id/sign_in_qq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@null"
+                android:src="@drawable/qq" />
+
+            <ImageButton
+                android:id="@+id/sign_in_sina"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@null"
+                android:src="@drawable/sina" />
+        </FrameLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp">
+
+        <TextView
+            android:id="@+id/supervisor_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/supervisor"
+            android:textColor="@color/material_blue_grey_800"
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/authority_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="@string/authority"
+            android:textColor="@color/material_blue_grey_800"
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/sponsor_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/supervisor_txt"
+            android:text="@string/sponsor"
+            android:textColor="@color/material_blue_grey_800"
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/operator_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/authority_txt"
+            android:text="@string/operator"
+            android:textColor="@color/material_blue_grey_800"
+            android:textSize="9sp" />
+
+    </RelativeLayout>
 
 </LinearLayout>
