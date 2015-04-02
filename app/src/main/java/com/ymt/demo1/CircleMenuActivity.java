@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.ymt.demo1.mainPages.AdviceActivity;
 import com.ymt.demo1.mainPages.HelpActivity;
+import com.ymt.demo1.mainPages.SignInActivity;
 import com.ymt.demo1.mainPages.SignUpActivity;
 import com.zhy.view.CircleMenuLayout;
 
@@ -45,6 +46,31 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
         circleMenuLayout.setOnMenuItemClickListener(new CircleMenuLayout.OnMenuItemClickListener() {
             @Override
             public void itemClick(View view, int pos) {
+                switch (pos) {
+                    case 0:
+                        startActivity(new Intent(CircleMenuActivity.this, SignInActivity.class));
+                        break;
+                    case 1:
+
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+
+                        break;
+                    case 5:
+
+                        break;
+                    case 6:
+
+                        break;
+                    default:
+                        break;
+
+                }
                 Toast.makeText(CircleMenuActivity.this, titles[pos], Toast.LENGTH_SHORT).show();
             }
 
