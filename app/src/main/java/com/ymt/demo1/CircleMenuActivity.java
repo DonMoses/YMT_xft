@@ -20,8 +20,8 @@ import com.zhy.view.CircleMenuLayout;
  */
 public class CircleMenuActivity extends Activity implements View.OnTouchListener, View.OnClickListener {
 
-    private ImageView signIcon, adviceIcon, helpIcon, settingIcon;
-    private TextView signText, adviceText, helpText, settingText;
+    private ImageView signIcon, adviceIcon, helpIcon, settingIcon, collectionIcon;
+    private TextView signText, adviceText, helpText, settingText, collectionText;
 
     private String[] titles = new String[]{"个人中心", "更多内容", "消防论坛", "知识平台", "专家咨询", "资讯平台", "我的收藏"};
     private int[] titleIcons = new int[]{R.drawable.icon_personal_center,
@@ -43,6 +43,10 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
         CircleMenuLayout circleMenuLayout = (CircleMenuLayout) findViewById(R.id.id_menulayout);
 
         circleMenuLayout.setMenuItemIconsAndTexts(titleIcons, titles);
+
+        /*
+        圆形菜单item 单击事件， 分别跳转到相应界面
+         */
         circleMenuLayout.setOnMenuItemClickListener(new CircleMenuLayout.OnMenuItemClickListener() {
             @Override
             public void itemClick(View view, int pos) {
@@ -84,6 +88,7 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
         View menuAdvice = findViewById(R.id.advice_layout);
         View menuHelp = findViewById(R.id.help_layout);
         View menuSetting = findViewById(R.id.setting_layout);
+        View menuCollection = findViewById(R.id.collection_layout);
 
         signIcon = (ImageView) menuSign.findViewById(R.id.sign_icon);
         signText = (TextView) menuSign.findViewById(R.id.sign_text);
@@ -93,21 +98,28 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
         helpText = (TextView) menuHelp.findViewById(R.id.help_text);
         settingIcon = (ImageView) menuSetting.findViewById(R.id.setting_icon);
         settingText = (TextView) menuSetting.findViewById(R.id.setting_text);
+        collectionIcon = (ImageView) findViewById(R.id.collection_icon);
+        collectionText = (TextView) findViewById(R.id.collection_text);
 
         menuSign.setOnTouchListener(this);
         menuAdvice.setOnTouchListener(this);
         menuHelp.setOnTouchListener(this);
         menuSetting.setOnTouchListener(this);
+        menuCollection.setOnTouchListener(this);
         menuSign.setOnClickListener(this);
         menuAdvice.setOnClickListener(this);
         menuHelp.setOnClickListener(this);
         menuSetting.setOnClickListener(this);
+        menuCollection.setOnClickListener(this);
 
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
+        /*
+        触摸时改变tab 背景 和字体颜色
+         */
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             switch (v.getId()) {
                 case R.id.sign_layout:
@@ -126,12 +138,18 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
                     settingIcon.setImageResource(R.drawable.icon_setting_pressed);
                     settingText.setTextColor(getResources().getColor(android.R.color.holo_blue_bright));
                     break;
+                case R.id.collection_layout:
+                    collectionIcon.setImageResource(R.drawable.icon_collection_pressed);
+                    collectionText.setTextColor(getResources().getColor(android.R.color.holo_blue_bright));
                 default:
                     break;
             }
 
         }
 
+        /*
+        触摸释放后改变 tab背景和 字体颜色
+         */
         if (event.getAction() == MotionEvent.ACTION_UP) {
             switch (v.getId()) {
                 case R.id.sign_layout:
@@ -150,6 +168,9 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
                     settingIcon.setImageResource(R.drawable.icon_setting_normal);
                     settingText.setTextColor(getResources().getColor(android.R.color.darker_gray));
                     break;
+                case R.id.collection_layout:
+                    collectionIcon.setImageResource(R.drawable.icon_collection_normal);
+                    collectionText.setTextColor(getResources().getColor(android.R.color.darker_gray));
                 default:
                     break;
             }
@@ -163,15 +184,23 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_layout:
+                //跳转到注册界面
                 startActivity(new Intent(this, SignUpActivity.class));
                 break;
             case R.id.advice_layout:
+                //跳转到意见反馈
                 startActivity(new Intent(this, AdviceActivity.class));
                 break;
             case R.id.help_layout:
+                //跳转到帮助中心
                 startActivity(new Intent(this, HelpActivity.class));
                 break;
             case R.id.setting_layout:
+                //跳转到设置
+
+                break;
+            case R.id.collection_layout:
+                //跳转到收藏
 
                 break;
             default:
