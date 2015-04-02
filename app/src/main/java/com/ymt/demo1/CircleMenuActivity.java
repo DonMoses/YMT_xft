@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.ymt.demo1.mainPages.AdviceActivity;
 import com.ymt.demo1.mainPages.HelpActivity;
+import com.ymt.demo1.mainPages.SettingActivity;
 import com.ymt.demo1.mainPages.SignInActivity;
 import com.ymt.demo1.mainPages.SignUpActivity;
 import com.zhy.view.CircleMenuLayout;
@@ -197,7 +198,7 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
                 break;
             case R.id.setting_layout:
                 //跳转到设置
-
+                startActivity(new Intent(this, SettingActivity.class));
                 break;
             case R.id.collection_layout:
                 //跳转到收藏
