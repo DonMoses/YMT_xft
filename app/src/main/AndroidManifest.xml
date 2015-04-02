@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".CircleMenuActivity" />
-        <activity android:name=".mainPages.SignActivity" />
+        <activity android:name=".mainPages.SignUpActivity" />
         <activity android:name=".mainPages.AdviceActivity" />
         <activity android:name=".mainPages.HelpActivity" />
 

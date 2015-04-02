@@ -15,7 +15,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/bg_sign_table"
+        android:background="@drawable/bg_input_box"
         android:stretchColumns="2">
 
         <TableRow
@@ -204,5 +204,5 @@
         android:layout_margin="30dp"
         android:background="#06A1D9"
         android:text="注 册" />
-    
+
 </LinearLayout>

@@ -11,12 +11,12 @@ import com.ymt.demo1.R;
 /**
  * Created by Moses on 2015
  */
-public class SignActivity extends Activity {
+public class SignUpActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign);
+        setContentView(R.layout.activity_sign_up);
         initView();
     }
 

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_sign_in"
+    android:orientation="vertical">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#06A1D9"
+        android:gravity="center"
+        android:text="账号登陆" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/logo" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_input_box"
+        android:stretchColumns="2">
+
+        <TableRow android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:src="@drawable/icon_account" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="19dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="#7B68EE" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:text="请输入账号"
+                android:textColor="#008080"
+                android:textSize="12sp" />
+        </TableRow>
+
+        <TableRow android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:src="@drawable/icon_psw" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="19dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="#7B68EE" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:text="请输入登陆密码"
+                android:inputType="textPassword"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="12sp" />
+        </TableRow>
+
+    </TableLayout>
+
+</LinearLayout>

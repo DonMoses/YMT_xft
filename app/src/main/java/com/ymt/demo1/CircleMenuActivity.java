@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.ymt.demo1.mainPages.AdviceActivity;
 import com.ymt.demo1.mainPages.HelpActivity;
-import com.ymt.demo1.mainPages.SignActivity;
+import com.ymt.demo1.mainPages.SignUpActivity;
 import com.zhy.view.CircleMenuLayout;
 
 /**
@@ -22,9 +22,11 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
     private ImageView signIcon, adviceIcon, helpIcon, settingIcon;
     private TextView signText, adviceText, helpText, settingText;
 
-    private String[] titles = new String[]{"个人中心", "更多内容", "消防论坛", "知识平台", "专家咨询", "资讯平台"};
-    private int[] titleIcons = new int[]{R.drawable.icon_personal_center, R.drawable.icon_search_more, R.drawable.icon_fire_hub,
-            R.drawable.icon_fire_learning, R.drawable.icon_fire_expert, R.drawable.icon_fire_consult};
+    private String[] titles = new String[]{"个人中心", "更多内容", "消防论坛", "知识平台", "专家咨询", "资讯平台", "我的收藏"};
+    private int[] titleIcons = new int[]{R.drawable.icon_personal_center,
+            R.drawable.icon_search_more, R.drawable.icon_fire_hub,
+            R.drawable.icon_fire_learning, R.drawable.icon_fire_expert,
+            R.drawable.icon_fire_consult, R.drawable.icon_fire_consult};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,9 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
         initViews();
     }
 
+    /**
+     * 初始化原型菜单组件
+     */
     protected void initViews() {
         CircleMenuLayout circleMenuLayout = (CircleMenuLayout) findViewById(R.id.id_menulayout);
 
@@ -132,7 +137,7 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_layout:
-                startActivity(new Intent(this, SignActivity.class));
+                startActivity(new Intent(this, SignUpActivity.class));
                 break;
             case R.id.advice_layout:
                 startActivity(new Intent(this, AdviceActivity.class));
