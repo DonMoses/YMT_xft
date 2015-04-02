@@ -69,4 +69,10 @@
         
     </string-array>
 
+    <string name="supervisor">监管方：公安部消防局</string>
+    <string name="authority">主官方：公安部四川消防研究所</string>
+    <string name="sponsor">主办方：四川法斯特安全性能评估有限公司</string>
+    <string name="operator">运营方：四川开新科技有限公司</string>
+
+
 </resources>
