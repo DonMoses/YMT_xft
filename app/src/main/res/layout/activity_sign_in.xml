@@ -23,8 +23,8 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/bg_input_box"
         android:stretchColumns="2">
@@ -72,12 +72,33 @@
                 android:layout_height="28dp"
                 android:background="@null"
                 android:gravity="center_vertical"
-                android:text="请输入登陆密码"
                 android:inputType="textPassword"
+                android:text="请输入登陆密码"
                 android:textColor="@android:color/holo_red_dark"
                 android:textSize="12sp" />
         </TableRow>
 
     </TableLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="12dp"
+        android:background="#06A1D9"
+        android:text="登录" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="12dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 </LinearLayout>
