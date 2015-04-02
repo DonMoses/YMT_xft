@@ -68,7 +68,7 @@ public class SettingActivity extends Activity {
                 settingAdapter.setSelectedItemPosition(position);
                 settingAdapter.notifyDataSetInvalidated();
 
-                //跳转到帮助详情页面
+                //跳转到设置详细页面
 
 
             }
@@ -80,7 +80,7 @@ public class SettingActivity extends Activity {
                 settingAdapter.setSelectedItemPosition(position);
                 settingAdapter.notifyDataSetInvalidated();
 
-                //跳转到帮助详情页面
+                //跳转到设置详细页面
 
 
                 return true;

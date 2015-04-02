@@ -84,13 +84,11 @@ public class HelpActivity extends Activity {
                 //跳转到帮助详情页面
 
 
-
                 return true;
             }
         });
 
     }
-
 
 
 }
