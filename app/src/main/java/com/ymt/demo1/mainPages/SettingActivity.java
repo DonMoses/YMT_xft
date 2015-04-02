@@ -10,6 +10,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.adapter.LongClickItemsAdapter;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Dan on 2015/4/2
@@ -50,13 +54,36 @@ public class SettingActivity extends Activity {
             }
         });
 
-        ListView settingListView = (ListView) findViewById(R.id.common_quest_list_view);
+        ListView settingListView = (ListView) findViewById(R.id.setting_list_view);
+        String[] quests = getResources().getStringArray(R.array.common_quest_array);
+        final LongClickItemsAdapter settingAdapter = new LongClickItemsAdapter(this);
+        settingListView.setAdapter(settingAdapter);
+        ArrayList<String> mQuests = new ArrayList<>();
+        Collections.addAll(mQuests, quests);
+        settingAdapter.setmList(mQuests);
+
         settingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //设置选项点击事件
+                settingAdapter.setSelectedItemPosition(position);
+                settingAdapter.notifyDataSetInvalidated();
+
+                //跳转到帮助详情页面
 
 
+            }
+        });
+
+        settingListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                settingAdapter.setSelectedItemPosition(position);
+                settingAdapter.notifyDataSetInvalidated();
+
+                //跳转到帮助详情页面
+
+
+                return true;
             }
         });
 
@@ -66,8 +93,10 @@ public class SettingActivity extends Activity {
             public void onClick(View v) {
                 //退出当前账号
 
-                
+
             }
         });
     }
+
+
 }
