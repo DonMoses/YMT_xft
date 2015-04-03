@@ -1,4 +1,4 @@
-package com.ymt.demo1.mainPages;
+package com.ymt.demo1.mainPages.help;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -16,24 +16,25 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Created by Dan on 2015/4/2
+ * Created by Moses on 2015
  */
-public class SettingActivity extends Activity {
+public class HelpActivity extends Activity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_setting);
+        setContentView(R.layout.activity_help);
         initView();
     }
 
     protected void initView() {
-        View mergeView = findViewById(R.id.merge_setting_title);
-        View adviceTitle = mergeView.findViewById(R.id.merge_title_layout);
-        final Button backBtn = (Button) adviceTitle.findViewById(R.id.merge_title_back);
+
+        View mergeView = findViewById(R.id.merge_help_title);
+        View helpTitle = mergeView.findViewById(R.id.merge_title_layout);
+        final Button backBtn = (Button) helpTitle.findViewById(R.id.merge_title_back);
         TextView titleTxt = (TextView) mergeView.findViewById(R.id.merge_title_text);
-        titleTxt.setText("设置");
-        adviceTitle.setOnTouchListener(new View.OnTouchListener() {
+        titleTxt.setText("帮助中心");
+        helpTitle.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -47,55 +48,46 @@ public class SettingActivity extends Activity {
             }
         });
 
-        adviceTitle.setOnClickListener(new View.OnClickListener() {
+        helpTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
 
-        ListView settingListView = (ListView) findViewById(R.id.setting_list_view);
+        ListView questListView = (ListView) findViewById(R.id.common_quest_list_view);
         String[] quests = getResources().getStringArray(R.array.common_quest_array);
-        final LongClickItemsAdapter settingAdapter = new LongClickItemsAdapter(this);
-        settingListView.setAdapter(settingAdapter);
+        final LongClickItemsAdapter questAdapter = new LongClickItemsAdapter(this);
+        questListView.setAdapter(questAdapter);
         ArrayList<String> mQuests = new ArrayList<>();
         Collections.addAll(mQuests, quests);
-        settingAdapter.setmList(mQuests);
+        questAdapter.setmList(mQuests);
 
-        settingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        questListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                settingAdapter.setSelectedItemPosition(position);
-                settingAdapter.notifyDataSetInvalidated();
+                questAdapter.setSelectedItemPosition(position);
+                questAdapter.notifyDataSetInvalidated();
 
-                //跳转到设置详细页面
+                //跳转到帮助详情页面
 
 
             }
         });
 
-        settingListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        questListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                settingAdapter.setSelectedItemPosition(position);
-                settingAdapter.notifyDataSetInvalidated();
+                questAdapter.setSelectedItemPosition(position);
+                questAdapter.notifyDataSetInvalidated();
 
-                //跳转到设置详细页面
+                //跳转到帮助详情页面
 
 
                 return true;
             }
         });
 
-        Button signOutBtn = (Button) findViewById(R.id.sign_out_btn);
-        signOutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //退出当前账号
-
-
-            }
-        });
     }
 
 

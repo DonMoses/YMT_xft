@@ -2,7 +2,6 @@ package com.ymt.demo1.mainPages;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +9,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.mainPages.sign.FoundPswActivity;
+import com.ymt.demo1.mainPages.sign.SignUpActivity;
 
 /**
  * Created by Dan on 2015/4/2
@@ -41,15 +42,15 @@ public class SignInActivity extends Activity {
                 switch (v.getId()) {
                     case R.id.jump_sign_up:
                         //跳转到注册界面
-                        signUpBtn.setBackgroundColor(Color.BLUE);
-                        signUpBtn.setTextColor(Color.WHITE);
+//                        signUpBtn.setBackgroundColor(Color.BLUE);
+//                        signUpBtn.setTextColor(Color.WHITE);
                         startActivity(new Intent(SignInActivity.this, SignUpActivity.class));
                         break;
                     case R.id.jump_found_psw:
                         //找回密码逻辑
-                        foundPswBtn.setBackgroundColor(Color.BLUE);
-                        foundPswBtn.setTextColor(Color.WHITE);
-
+//                        foundPswBtn.setBackgroundColor(Color.BLUE);
+//                        foundPswBtn.setTextColor(Color.WHITE);
+                        startActivity(new Intent(SignInActivity.this, FoundPswActivity.class));
                         break;
                     case R.id.sign_in_btn:
                         /*获取用户名和密码，匹配则登录（跳转到个人界面），不匹配弹出提示框*/
@@ -66,7 +67,7 @@ public class SignInActivity extends Activity {
                         break;
                     case R.id.sign_in_sina:
                         //使用sina账号登录
-                        
+
                         break;
                     default:
                         break;

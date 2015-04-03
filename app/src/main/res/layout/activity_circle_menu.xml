@@ -23,19 +23,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/cirlce_style_logo"
+                android:src="@drawable/circle_style_logo"
                 android:textColor="#ffffff" />
 
             <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:layout_marginTop="15dp">
 
                 <TableRow android:layout_margin="3dp">
 
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:text="免费"
                         android:textColor="#CCCCCC"
                         android:textSize="12sp" />
@@ -43,7 +45,6 @@
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:gravity="center"
                         android:text="共享"
                         android:textColor="#CCCCCC"
@@ -52,7 +53,6 @@
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:gravity="center"
                         android:text="共赢"
                         android:textColor="#CCCCCC"
@@ -65,7 +65,6 @@
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:text="Free"
                         android:textColor="#CCCCCC"
                         android:textSize="12sp" />
@@ -73,7 +72,6 @@
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:gravity="center"
                         android:text="Share"
                         android:textColor="#CCCCCC"
@@ -82,7 +80,6 @@
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:gravity="center"
                         android:text="Win"
                         android:textColor="#CCCCCC"
@@ -129,7 +126,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="54dp"
         android:layout_gravity="bottom"
         android:alpha="0.8"
         android:background="@android:color/white"
@@ -154,7 +151,7 @@
                 android:id="@+id/sign_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="立即注册"
+                android:text="注册"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="13.5sp" />
 
@@ -183,7 +180,7 @@
                 android:id="@+id/advice_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="意见反馈"
+                android:text="反馈"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="13.5sp" />
 
@@ -212,7 +209,7 @@
                 android:id="@+id/help_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="帮助中心"
+                android:text="帮助"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="13.5sp" />
 
@@ -270,7 +267,7 @@
                 android:id="@+id/collection_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="我的收藏"
+                android:text="收藏"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="13.5sp" />
 

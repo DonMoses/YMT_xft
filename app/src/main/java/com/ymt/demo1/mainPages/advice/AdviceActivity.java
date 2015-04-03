@@ -1,4 +1,4 @@
-package com.ymt.demo1.mainPages;
+package com.ymt.demo1.mainPages.advice;
 
 import android.app.Activity;
 import android.os.Bundle;

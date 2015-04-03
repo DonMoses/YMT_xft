@@ -9,11 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ymt.demo1.mainPages.AdviceActivity;
-import com.ymt.demo1.mainPages.HelpActivity;
-import com.ymt.demo1.mainPages.SettingActivity;
+import com.ymt.demo1.mainPages.advice.AdviceActivity;
+import com.ymt.demo1.mainPages.help.HelpActivity;
+import com.ymt.demo1.mainPages.setting.SettingActivity;
 import com.ymt.demo1.mainPages.SignInActivity;
-import com.ymt.demo1.mainPages.SignUpActivity;
+import com.ymt.demo1.mainPages.sign.SignUpActivity;
 import com.zhy.view.CircleMenuLayout;
 
 /**
