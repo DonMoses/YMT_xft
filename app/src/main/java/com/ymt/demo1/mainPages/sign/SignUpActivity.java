@@ -29,10 +29,10 @@ public class SignUpActivity extends Activity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    backBtn.setBackgroundResource(R.drawable.btn_back_detail_pressed);
+
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    backBtn.setBackgroundResource(R.drawable.btn_back_detail_normal);
+                    backBtn.setBackgroundResource(R.drawable.back_normal);
                 }
 
                 return false;

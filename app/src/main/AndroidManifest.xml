@@ -32,13 +32,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CircleMenuActivity" />
+        <activity
+            android:name=".CircleMenuActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".mainPages.sign.SignUpActivity" />
         <activity android:name=".mainPages.advice.AdviceActivity" />
         <activity android:name=".mainPages.help.HelpActivity" />
         <activity android:name=".mainPages.SignInActivity" />
         <activity android:name=".mainPages.setting.SettingActivity" />
-        <activity android:name=".mainPages.sign.FoundPswActivity"/>
+        <activity android:name=".mainPages.sign.FoundPswActivity" />
+        <activity android:name=".mainPages.setting.AboutUsActivity" />
+        <activity android:name=".mainPages.setting.ManageStoreActivity" />
+        <activity android:name=".mainPages.setting.ManageAccountActivity" />
+        <activity android:name=".mainPages.setting.ManageAppearanceActivity" />
+        <activity android:name=".mainPages.setting.ManagePswActivity" />
 
     </application>
 
