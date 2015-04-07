@@ -1,4 +1,4 @@
-package com.ymt.demo1.mainPages;
+package com.ymt.demo1.mainTabPages;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,8 +9,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.mainPages.sign.FoundPswActivity;
-import com.ymt.demo1.mainPages.sign.SignUpActivity;
+import com.ymt.demo1.mainTabPages.sign.FoundPswActivity;
+import com.ymt.demo1.mainTabPages.sign.SignUpActivity;
 
 /**
  * Created by Dan on 2015/4/2

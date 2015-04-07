@@ -9,11 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ymt.demo1.mainPages.advice.AdviceActivity;
-import com.ymt.demo1.mainPages.help.HelpActivity;
-import com.ymt.demo1.mainPages.setting.SettingActivity;
-import com.ymt.demo1.mainPages.SignInActivity;
-import com.ymt.demo1.mainPages.sign.SignUpActivity;
+import com.ymt.demo1.mainCirclePages.MoreCatoActivity;
+import com.ymt.demo1.mainTabPages.advice.AdviceActivity;
+import com.ymt.demo1.mainTabPages.help.HelpActivity;
+import com.ymt.demo1.mainTabPages.setting.SettingActivity;
+import com.ymt.demo1.mainTabPages.sign.SignUpActivity;
+import com.ymt.demo1.mainCirclePages.PersonalPagerTabAcvitiy;
 import com.zhy.view.CircleMenuLayout;
 
 /**
@@ -53,10 +54,12 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
             public void itemClick(View view, int pos) {
                 switch (pos) {
                     case 0:
-                        startActivity(new Intent(CircleMenuActivity.this, SignInActivity.class));
+                        //如果新用户，则跳转到注册。如果旧用户，则跳转个人界面。
+//                        startActivity(new Intent(CircleMenuActivity.this, SignInActivity.class));
+                        startActivity(new Intent(CircleMenuActivity.this, PersonalPagerTabAcvitiy.class));
                         break;
                     case 1:
-
+                        startActivity(new Intent(CircleMenuActivity.this, MoreCatoActivity.class));
                         break;
                     case 2:
 

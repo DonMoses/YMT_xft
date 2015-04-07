@@ -1,4 +1,4 @@
-package com.ymt.demo1.mainPages.setting;
+package com.ymt.demo1.mainTabPages.setting;
 
 import android.app.Activity;
 import android.os.Bundle;
