@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/merge_advice_title"
-        layout="@layout/title_merge_layout" />
+        layout="@layout/title_merge_simple" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,6 +36,7 @@
             android:layout_height="120dp"
             android:background="@drawable/abc_cab_background_top_material"
             android:maxLines="100"
+            android:gravity="top"
             android:text="请在这里输入"
             android:textColor="#008080"
             android:textSize="12sp" />

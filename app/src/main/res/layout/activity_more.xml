@@ -2,12 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F0F0"
+    android:background="#E6EFFF"
     android:orientation="vertical">
 
     <include
         android:id="@+id/merge_more_title"
-        layout="@layout/title_merge_layout" />
+        layout="@layout/title_merge_simple" />
 
+    <GridView
+        android:id="@+id/more_cato_gridView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="15dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:horizontalSpacing="22dp"
+        android:numColumns="3"
+        android:verticalSpacing="12dp">
+
+    </GridView>
 
 </LinearLayout>

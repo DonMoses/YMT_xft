@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/merge_sign_title"
-        layout="@layout/title_merge_layout" />
+        layout="@layout/title_merge_simple" />
 
     <TableLayout
         android:layout_width="match_parent"

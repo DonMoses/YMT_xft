@@ -23,9 +23,8 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:replace="android:icon">
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" />
-        <activity android:name=".guidepages.GuideActivity">
+            android:name=".guidepages.GuideActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,21 +32,57 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CircleMenuActivity"
-            android:launchMode="singleTask" />
-        <activity android:name=".mainTabPages.sign.SignUpActivity" />
-        <activity android:name=".mainTabPages.advice.AdviceActivity" />
-        <activity android:name=".mainTabPages.help.HelpActivity" />
-        <activity android:name=".mainTabPages.SignInActivity" />
-        <activity android:name=".mainTabPages.setting.SettingActivity" />
-        <activity android:name=".mainTabPages.sign.FoundPswActivity" />
-        <activity android:name=".mainTabPages.setting.AboutUsActivity" />
-        <activity android:name=".mainTabPages.setting.ManageStoreActivity" />
-        <activity android:name=".mainTabPages.setting.ManageAccountActivity" />
-        <activity android:name=".mainTabPages.setting.ManageAppearanceActivity" />
-        <activity android:name=".mainTabPages.setting.ManagePswActivity" />
-        <activity android:name=".mainCirclePages.PersonalPagerTabAcvitiy" />
-        <activity android:name=".mainCirclePages.MoreCatoActivity" />
+            android:name=".styleTabCircle.CircleMenuActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".styleTabCircle.sign.SignUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".styleTabCircle.advice.AdviceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".styleTabCircle.help.HelpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".styleTabCircle.SignInActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".styleTabCircle.setting.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".styleTabCircle.sign.FoundPswActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".styleTabCircle.setting.AboutUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".styleTabCircle.setting.ManageStoreActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".styleTabCircle.setting.ManageAppearanceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".styleTabCircle.setting.ManagePswActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.personal.PersonalPagerTabActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.hub.FireHubPagerTabActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.MoreCatoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.hub.PostActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.eduPlane.OverYearsTestActivity"
+            android:screenOrientation="portrait" />
 
 
     </application>

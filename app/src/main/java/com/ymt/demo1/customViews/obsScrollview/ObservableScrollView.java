@@ -25,6 +25,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
 
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+
 /**
  * ScrollView that its scroll position can be observed.
  */
@@ -42,6 +44,8 @@ public class ObservableScrollView extends ScrollView implements Scrollable {
     private boolean mIntercepted;
     private MotionEvent mPrevMoveEvent;
     private ViewGroup mTouchInterceptionViewGroup;
+    private PullToRefreshListView mListView;
+
 
     public ObservableScrollView(Context context) {
         super(context);
@@ -96,25 +100,6 @@ public class ObservableScrollView extends ScrollView implements Scrollable {
             }
             mPrevScrollY = t;
         }
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (mCallbacks != null) {
-            switch (ev.getActionMasked()) {
-                case MotionEvent.ACTION_DOWN:
-                    // Whether or not motion events are consumed by children,
-                    // flag initializations which are related to ACTION_DOWN events should be executed.
-                    // Because if the ACTION_DOWN is consumed by children and only ACTION_MOVEs are
-                    // passed to parent (this view), the flags will be invalid.
-                    // Also, applications might implement initialization codes to onDownMotionEvent,
-                    // so call it here.
-                    mFirstScroll = mDragging = true;
-                    mCallbacks.onDownMotionEvent();
-                    break;
-            }
-        }
-        return super.onInterceptTouchEvent(ev);
     }
 
     @Override
@@ -249,4 +234,64 @@ public class ObservableScrollView extends ScrollView implements Scrollable {
             }
         };
     }
+
+    /**
+     * 覆写onInterceptTouchEvent方法，点击操作发生在ListView的区域的时候,
+     * 返回false让ScrollView的onTouchEvent接收不到MotionEvent，而是把Event传到下一级的控件中
+     */
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+
+        if (mCallbacks != null) {
+            switch (ev.getActionMasked()) {
+                case MotionEvent.ACTION_DOWN:
+                    // Whether or not motion events are consumed by children,
+                    // flag initializations which are related to ACTION_DOWN events should be executed.
+                    // Because if the ACTION_DOWN is consumed by children and only ACTION_MOVEs are
+                    // passed to parent (this view), the flags will be invalid.
+                    // Also, applications might implement initialization codes to onDownMotionEvent,
+                    // so call it here.
+                    mFirstScroll = mDragging = true;
+                    mCallbacks.onDownMotionEvent();
+                    break;
+            }
+        }
+
+        // TODO Auto-generated method stub
+        if (mListView != null && checkArea(mListView, ev)) {
+            return false;
+        }
+        return super.onInterceptTouchEvent(ev);
+    }
+
+    /**
+     * 测试view是否在点击范围内
+     *
+     * @param locate
+     * @param v
+     * @return
+     */
+    private boolean checkArea(View v, MotionEvent event) {
+        float x = event.getRawX();
+        float y = event.getRawY();
+        int[] locate = new int[2];
+        v.getLocationOnScreen(locate);
+        int l = locate[0];
+        int r = l + v.getWidth();
+        int t = locate[1];
+        int b = t + v.getHeight();
+        if (l < x && x < r && t < y && y < b) {
+            return true;
+        }
+        return false;
+    }
+
+    public PullToRefreshListView getListView() {
+        return mListView;
+    }
+
+    public void setListView(PullToRefreshListView listView) {
+        this.mListView = listView;
+    }
+
 }

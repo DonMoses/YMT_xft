@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cato_text"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FAFBFF"
+    android:gravity="center"
+    android:hint="cato"
+    android:paddingBottom="18dp"
+    android:paddingTop="18dp"
+    android:textColor="@android:color/darker_gray"
+    android:textColorHint="@color/material_blue_grey_800"
+    android:textSize="14sp" />

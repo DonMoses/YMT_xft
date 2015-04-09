@@ -19,9 +19,12 @@ package com.ymt.demo1.customViews.widget;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Parcel;
@@ -178,9 +181,11 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
             if (view instanceof TextView) {
                 TextView tabTextView = (TextView) view;
                 if (position == i) {
-                    tabTextView.setTextColor(getResources().getColor(android.R.color.holo_blue_light));
+                    tabTextView.setTextColor(getResources().getColor(android.R.color.white));
+
                 } else {
                     tabTextView.setTextColor(tabTextColor);
+
                 }
 
             }
@@ -287,7 +292,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
                 tab.setTextSize(TypedValue.COMPLEX_UNIT_PX, tabTextSize);
                 tab.setTypeface(tabTypeface, tabTypefaceStyle);
                 if (i == 0) {
-                    tab.setTextColor(getResources().getColor(android.R.color.holo_blue_light));
+                    tab.setTextColor(getResources().getColor(android.R.color.white));
                 } else {
                     tab.setTextColor(tabTextColor);
                 }
@@ -355,7 +360,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
             lineRight = (currentPositionOffset * nextTabRight + (1f - currentPositionOffset) * lineRight);
         }
 
-        canvas.drawRect(lineLeft, height - indicatorHeight, lineRight, height, rectPaint);
+        //绘制边缘背景
+        RectF rectF = new RectF(lineLeft + 28, 28, lineRight - 28, height - 28);
+        canvas.drawRoundRect(rectF, 45, 45, rectPaint);
 
         // draw underline
 

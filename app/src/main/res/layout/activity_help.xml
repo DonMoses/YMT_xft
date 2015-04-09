@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/merge_help_title"
-        layout="@layout/title_merge_layout" />
+        layout="@layout/title_merge_simple" />
 
     <LinearLayout
         android:id="@+id/help_btn_layout"

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:background="#06A1D9"
+        android:clickable="true">
+
+        <LinearLayout
+            android:id="@+id/merge_title_layout"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/merge_title_back"
+                android:layout_width="13dp"
+                android:layout_height="22dp"
+                android:background="@drawable/back_normal" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/merge_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:hint="历年真题"
+            android:textSize="18sp" />
+
+        <ImageButton
+            android:id="@+id/merge_search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/icon_search" />
+    </RelativeLayout>
+
+
+    <ListView
+        android:id="@+id/tests_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_layout"
+        android:layout_marginBottom="54dp"
+        android:background="#FFFFFF"
+        android:divider="@android:color/holo_blue_dark"
+        android:dividerHeight="0.3dp" />
+
+    <ProgressBar
+        android:id="@+id/empty_pro_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="54dp"
+        android:background="@android:color/darker_gray" />
+
+    <TableLayout
+        android:id="@+id/test_bottom_tab_view"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:stretchColumns="0,1,2">
+
+        <TableRow>
+
+            <LinearLayout
+                android:id="@+id/tab_test_menu"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/test_menu_btn"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:background="@drawable/icon_test_menu" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="全部"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tab_test_collect"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/test_collect_btn"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:background="@drawable/icon_test_collect" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我的收藏"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tab_test_setting"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/test_setting_btn"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:background="@drawable/icon_test_setting" />
+
+                <TextView
+                    android:id="@+id/test_setting_end_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="练习设置"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
+</RelativeLayout>
