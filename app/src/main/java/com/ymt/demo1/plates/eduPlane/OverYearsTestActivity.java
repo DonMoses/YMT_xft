@@ -6,10 +6,14 @@ package com.ymt.demo1.plates.eduPlane;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -21,6 +25,7 @@ import android.widget.Toast;
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.TestInfo;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
@@ -29,6 +34,7 @@ import java.util.ArrayList;
 public class OverYearsTestActivity extends Activity implements View.OnClickListener {
     final int SIMPLE_TYPE = 0;
     private View bottomTab;
+    private View tabDiView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,8 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
         底部tab菜单及其item 、 事件
          */
         bottomTab = findViewById(R.id.test_bottom_tab_view);
+        tabDiView = findViewById(R.id.tab_divider_view);
+
         View tabMenu = bottomTab.findViewById(R.id.tab_test_menu);
         View tabCollect = bottomTab.findViewById(R.id.tab_test_collect);
         View tabSetting = bottomTab.findViewById(R.id.tab_test_setting);
@@ -62,11 +70,33 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
          */
         ListView overYearsList = (ListView) findViewById(R.id.tests_list_view);
         overYearsList.setEmptyView(findViewById(R.id.empty_pro_bar));           //无数据时显示progress bar
+
          /*
         历年真题列表滑动监听
             此处根据listView的滑动动态改变底部Tab 的显示和隐藏
          */
+        overYearsList.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                switch (scrollState) {
+                    case SCROLL_STATE_IDLE:                 //停止时
+                        showBottomTab();    //直接显示
+                        break;
+                    case SCROLL_STATE_FLING:                //滚动中
+                    case SCROLL_STATE_TOUCH_SCROLL:         //触摸中
+                        hideBottomTab();    //直接隐藏
+                        break;
+                    default:
+                        break;
 
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
 
          /*
         历年真题列表item 点击事件
@@ -107,14 +137,22 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
      */
     protected void showBottomTab() {
         bottomTab.setVisibility(View.VISIBLE);
-
+        tabDiView.setVisibility(View.VISIBLE);
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_tab_auto_show);
+        bottomTab.setAnimation(animation);
+        tabDiView.setAnimation(animation);
     }
 
     /**
-     * 隐藏底部tab
+     * 滑动时隐藏底部tab
      */
+
     protected void hideBottomTab() {
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_tab_auto_hide);
+        bottomTab.setAnimation(animation);
+        tabDiView.setAnimation(animation);
         bottomTab.setVisibility(View.INVISIBLE);
+        tabDiView.setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -206,7 +244,6 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
                         viewHolder.totalScore = (TextView) convertView.findViewById(R.id.tests_score_txt);
                         viewHolder.watchedCount = (TextView) convertView.findViewById(R.id.watched_count_txt);
                         viewHolder.collectedCount = (TextView) convertView.findViewById(R.id.collected_count_txt);
-
                         convertView.setTag(viewHolder);
                         break;
                     default:
@@ -222,6 +259,7 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
                         break;
                 }
             }
+
             /*
             设置TestInfo字段信息到列表的item中
              */
@@ -255,4 +293,31 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
             TextView collectedCount;
         }
     }
+
+    static class ShowTabHandler extends Handler {
+        private WeakReference<OverYearsTestActivity> overYearsTestActivityWeakReference;
+
+        public ShowTabHandler(OverYearsTestActivity overYearsTestActivity) {
+            overYearsTestActivityWeakReference = new WeakReference<>(overYearsTestActivity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            OverYearsTestActivity overYearsTestActivity = overYearsTestActivityWeakReference.get();
+            if (overYearsTestActivity != null) {
+                //todo 通过外部类的引用，操操作外部类的成员和方法
+                switch (msg.what) {
+                    case 0:
+
+                        break;
+                    default:
+                        break;
+
+                }
+            }
+        }
+    }
+
+
 }
