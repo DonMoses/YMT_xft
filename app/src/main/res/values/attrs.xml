@@ -18,7 +18,11 @@
 
     <declare-styleable name="AppGuideButton">
         <attr name="guideBtnColor" format="integer" />
+    </declare-styleable>
 
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
     </declare-styleable>
 
 </resources>
