@@ -1,20 +1,15 @@
 package com.ymt.demo1.plates.eduPlane;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.adapter.AppGuideGridViewAdapter;
 import com.ymt.demo1.beams.AppGuide;
-import com.ymt.demo1.customViews.AppGuideButton;
 
 import java.util.ArrayList;
 
@@ -44,29 +39,29 @@ public class ApplicationGuideActivity extends Activity {
             }
         });
 
-        AppGuideBtnAdapter adapter = new AppGuideBtnAdapter(this);
+        AppGuideGridViewAdapter adapter = new AppGuideGridViewAdapter(this);
         guideGridView.setAdapter(adapter);
 
         ArrayList<AppGuide> mData = new ArrayList<>();
-        mData.add(addAppGuide(Color.RED, "报名时间"));
+        mData.add(addAppGuide(getResources().getColor(R.color.guide_bksj), "报名时间"));
         adapter.setList(mData);
-        mData.add(addAppGuide(Color.BLUE, "报名条件"));
+        mData.add(addAppGuide(getResources().getColor(R.color.guide_bmtj), "报名条件"));
         adapter.setList(mData);
-        mData.add(addAppGuide(Color.RED, "考试时间"));
+        mData.add(addAppGuide(getResources().getColor(R.color.guide_kssj), "考试时间"));
         adapter.setList(mData);
-        mData.add(addAppGuide(Color.GREEN, "考试科目"));
+        mData.add(addAppGuide(getResources().getColor(R.color.guide_kskm), "考试科目"));
         adapter.setList(mData);
-        mData.add(addAppGuide(Color.RED, "考试时长"));
+        mData.add(addAppGuide(getResources().getColor(R.color.guide_kssc), "考试时长"));
         adapter.setList(mData);
-        mData.add(addAppGuide(Color.GRAY, "免考规定"));
+        mData.add(addAppGuide(getResources().getColor(R.color.guide_mkgd), "免考规定"));
         adapter.setList(mData);
-        mData.add(addAppGuide(Color.BLUE, "成绩管理"));
+        mData.add(addAppGuide(getResources().getColor(R.color.guide_cjgl), "成绩管理"));
         adapter.setList(mData);
-        mData.add(addAppGuide(Color.BLUE, "证书"));
+        mData.add(addAppGuide(getResources().getColor(R.color.guide_hgzs), "证书"));
         adapter.setList(mData);
-        mData.add(addAppGuide(Color.GREEN, "执业范围"));
+        mData.add(addAppGuide(getResources().getColor(R.color.guide_zyfw), "执业范围"));
         adapter.setList(mData);
-        mData.add(addAppGuide(Color.BLUE, "考核认定"));
+        mData.add(addAppGuide(getResources().getColor(R.color.guide_khrd), "考核认定"));
 
         /*
         title 返回按钮
@@ -89,49 +84,4 @@ public class ApplicationGuideActivity extends Activity {
 
     }
 
-    class AppGuideBtnAdapter extends BaseAdapter {
-        ArrayList<AppGuide> mList = new ArrayList<>();
-        Context context;
-        LayoutInflater inflater;
-
-        public AppGuideBtnAdapter(Context context) {
-            this.context = context;
-            inflater = LayoutInflater.from(context);
-        }
-
-        public void setList(ArrayList<AppGuide> mList) {
-            this.mList = mList;
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public int getCount() {
-            return mList.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mList.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            AppGuideButton guideButton;
-            if (convertView == null) {
-                convertView = new AppGuideButton(ApplicationGuideActivity.this);
-                guideButton = (AppGuideButton) convertView;
-                convertView.setTag(guideButton);
-            } else {
-                guideButton = (AppGuideButton) convertView.getTag();
-            }
-            guideButton.setColor(((AppGuide) getItem(position)).getBgColor());
-            guideButton.setText(((AppGuide) getItem(position)).getTitle());
-            return convertView;
-        }
-    }
 }

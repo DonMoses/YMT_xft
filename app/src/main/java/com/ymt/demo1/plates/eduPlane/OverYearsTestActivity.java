@@ -36,6 +36,7 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
     final int SIMPLE_TYPE = 0;
     private View bottomTab;
     private View tabDiView;
+    private ListView overYearsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +70,7 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
         /*
         历年真题列表
          */
-        ListView overYearsList = (ListView) findViewById(R.id.tests_list_view);
+        overYearsList = (ListView) findViewById(R.id.tests_list_view);
         overYearsList.setEmptyView(findViewById(R.id.empty_pro_bar));           //无数据时显示progress bar
 
          /*
@@ -172,6 +173,30 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
             case R.id.tab_test_menu:
                 //todo 点击选项tab
                 Toast.makeText(OverYearsTestActivity.this, "全部题目", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, ListOverYearsTestsActivity.class);
+                ArrayList<String> mTests = new ArrayList<>();   // 键tests_years
+
+                /*
+                将历年真题 年份，传送到下一个界面中显示
+                 */
+                TestsItemAdapter iAdapter = (TestsItemAdapter) overYearsList.getAdapter();
+                mTests.add("全部");
+                for (int i = 0; i < iAdapter.getCount(); i++) {
+                    TestInfo testInfo = (TestInfo) iAdapter.getItem(i);
+                    String title = testInfo.getTitle();
+                    /*
+                    这里只截取年份。 如 2015，1989等
+                     */
+                    String year = title.substring(0, 4);
+                    mTests.add(year);
+                }
+
+                /*
+                 传送年份到下一个界面
+                  */
+                intent.putStringArrayListExtra("tests_years", mTests);
+                startActivity(intent);
+
                 break;
             case R.id.tab_test_collect:
                 //todo 点击收藏tab
