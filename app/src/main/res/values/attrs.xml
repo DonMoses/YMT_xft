@@ -16,4 +16,9 @@
         <attr name="pstsSelectedTextColor" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="AppGuideButton">
+        <attr name="guideBtnColor" format="integer" />
+
+    </declare-styleable>
+
 </resources>

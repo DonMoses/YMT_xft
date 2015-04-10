@@ -31,9 +31,9 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
     private String[] titles = new String[]{"个人中心", "更多", "论坛", "知识平台", "咨询分类", "教育平台", "专家咨询", "资讯平台"};
     private int[] titleIcons = new int[]{R.drawable.icon_personal_center,
             R.drawable.icon_search_more, R.drawable.icon_fire_hub,
-            R.drawable.icon_fire_learning, R.drawable.icon_fire_expert,
-            R.drawable.icon_fire_consult, R.drawable.icon_fire_consult,
-            R.drawable.icon_fire_consult};
+            R.drawable.icon_fire_learning, R.drawable.icon_consult_cato,
+            R.drawable.icon_edu_plane, R.drawable.icon_fire_expert,
+            R.drawable.icon_fire_news};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

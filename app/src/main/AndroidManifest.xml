@@ -33,8 +33,7 @@
         </activity>
         <activity
             android:name=".styleTabCircle.CircleMenuActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:launchMode="singleTask" />
         <activity
             android:name=".styleTabCircle.sign.SignUpActivity"
             android:screenOrientation="portrait" />
@@ -83,7 +82,7 @@
         <activity
             android:name=".plates.eduPlane.OverYearsTestActivity"
             android:screenOrientation="portrait" />
-
+        <activity android:name=".plates.eduPlane.ApplicationGuideActivity" />
 
     </application>
 
