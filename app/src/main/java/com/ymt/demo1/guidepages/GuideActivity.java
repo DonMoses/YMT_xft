@@ -5,16 +5,17 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.ymt.demo1.customViews.obsScrollview.CacheFragmentStatePagerAdapter;
+import com.ymt.demo1.customViews.widget.GuideTabStrip;
 import com.ymt.demo1.styleTabCircle.CircleMenuActivity;
 import com.ymt.demo1.R;
 
 /**
  * Created by Moses on 2015
  */
-public class GuideActivity extends FragmentActivity implements ViewPager.OnPageChangeListener {
+public class GuideActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,45 +31,35 @@ public class GuideActivity extends FragmentActivity implements ViewPager.OnPageC
         GuidePageAdapter pageAdapter = new GuidePageAdapter(manager);
 
         guideVPager.setAdapter(pageAdapter);
-        guideVPager.setOnPageChangeListener(this);
 
-
-    }
-
-    @Override
-    public void onPageScrolled(int i, float v, int i2) {
+        GuideTabStrip tabStrip = (GuideTabStrip) findViewById(R.id.guide_tab);
+        tabStrip.setIndicatorColor(getResources().getColor(android.R.color.holo_red_light));
+        tabStrip.setViewPager(guideVPager);
 
     }
 
-    @Override
-    public void onPageSelected(int i) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int i) {
-
-    }
-
-
-    public class GuidePageAdapter extends FragmentStatePagerAdapter {
+    /**
+     * This adapter provides two types of fragments as an example.
+     * {@linkplain #createItem(int)} should be modified if you use this example for your app.
+     */
+    private class GuidePageAdapter extends CacheFragmentStatePagerAdapter {
 
         public GuidePageAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
-        public Fragment getItem(int i) {
+        protected Fragment createItem(int position) {
             GuidePageFragment pageFragment = null;
-            switch (i) {
+            switch (position) {
                 case 0:
-                    pageFragment = GuidePageFragment.newInstance(R.drawable.guide1);
+                    pageFragment = GuidePageFragment.newInstance(R.drawable.guide_1);
                     break;
                 case 1:
-                    pageFragment = GuidePageFragment.newInstance(R.drawable.guide2);
+                    pageFragment = GuidePageFragment.newInstance(R.drawable.guide_2);
                     break;
                 case 2:
-                    pageFragment = GuidePageFragment.newInstance(R.drawable.guide3);
+                    pageFragment = GuidePageFragment.newInstance(R.drawable.guide_3);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -94,6 +85,10 @@ public class GuideActivity extends FragmentActivity implements ViewPager.OnPageC
             return 3;
         }
 
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "";
+        }
     }
 
 }

@@ -27,7 +27,7 @@ public class ListOverYearsTestsActivity extends Activity {
 
     protected void initView() {
         DragGridView gridView = (DragGridView) findViewById(R.id.list_tests_gridView);
-        SimpleTextGridViewAdapter adapter = new SimpleTextGridViewAdapter(this);
+        SimpleTextGridViewAdapter adapter = new SimpleTextGridViewAdapter(this, 6, 2);
         gridView.setAdapter(adapter);
 
         Intent intent = getIntent();

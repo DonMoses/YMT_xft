@@ -3,9 +3,13 @@ package com.ymt.demo1.adapter;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
@@ -27,8 +31,28 @@ public class SimpleTextGridViewAdapter extends BaseAdapter {
     LayoutInflater inflater;
     private int hidePosition = AdapterView.INVALID_POSITION;
 
-    public SimpleTextGridViewAdapter(Context context) {
+    private int itemWidth;      //item宽
+    private int itemHeight;     //item高
+
+    /**
+     * @param numColumns : 列数
+     * @param spacing    ：间隔
+     */
+    public SimpleTextGridViewAdapter(Context context, int numColumns, int spacing) {
         this.context = context;
+        WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = manager.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        /*
+      屏幕的宽高
+      为了显示正方形的item ，则item宽 = 高。xml布局中不指定其宽高，直接match_parent即可。
+     */
+        int scWidth = size.x;
+        //根据GridView的列和间隔，先将dp 转化为 px，然后如下计算item宽高。
+        itemHeight = itemWidth =
+                (scWidth - (numColumns) * (Dp2Px(context, spacing))) / (numColumns + 1);
+
         inflater = LayoutInflater.from(context);
     }
 
@@ -36,6 +60,15 @@ public class SimpleTextGridViewAdapter extends BaseAdapter {
     public int getCount() {
         return mList.size();
 
+    }
+
+    /**
+     * 设置返回item 的view 的宽高
+     * 将dp 转换为 px
+     */
+    public static int Dp2Px(Context context, float dp) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dp * scale + 0.5f);
     }
 
     @Override
@@ -64,23 +97,27 @@ public class SimpleTextGridViewAdapter extends BaseAdapter {
             view = (TextView) convertView.getTag();
         }
 
+
         //hide时隐藏Text
         if (position != hidePosition) {
+            view.setBackgroundColor(context.getResources().getColor(R.color.guide_bg));
             view.setText(getItem(position).toString());
-            switch (getItem(position).toString()) {
-                case "全部":
-                    view.setBackgroundColor(context.getResources().getColor(R.color.bg_view_blue));
-                    view.setTextColor(ColorStateList.valueOf(Color.WHITE));
-                    break;
-                default:
-                    break;
-            }
         } else {
+            view.setBackgroundColor(Color.WHITE);
             view.setText("");
-            view.getBackground().setAlpha(0);
+        }
+
+        if (getItem(position).toString().equals("全部")) {
+            view.setBackgroundColor(context.getResources().getColor(R.color.bg_view_blue));
+            view.setTextColor(ColorStateList.valueOf(Color.WHITE));
+        } else {
+            view.setBackgroundColor(context.getResources().getColor(R.color.guide_bg));
+            view.setTextColor(context.getResources().getColor(android.R.color.primary_text_light));
         }
 
         view.setId(position);
+        AbsListView.LayoutParams param = new AbsListView.LayoutParams(itemWidth, itemHeight);
+        convertView.setLayoutParams(param);
 
         return convertView;
     }

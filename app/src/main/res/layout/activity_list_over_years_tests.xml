@@ -5,12 +5,16 @@
 
     <com.ymt.demo1.customViews.DragGridView
         android:id="@+id/list_tests_gridView"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:horizontalSpacing="3dp"
-        android:numColumns="7"
-        android:verticalSpacing="3dp">
+        android:fadingEdge="none"
+        android:gravity="center_horizontal"
+        android:horizontalSpacing="2dp"
+        android:listSelector="@null"
+        android:numColumns="6"
+        android:scrollbars="none"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="2dp">
 
     </com.ymt.demo1.customViews.DragGridView>
 </FrameLayout>
