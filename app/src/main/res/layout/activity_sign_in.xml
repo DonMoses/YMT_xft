@@ -50,8 +50,9 @@
                 android:layout_height="28dp"
                 android:background="@null"
                 android:gravity="center_vertical"
-                android:text="请输入账号"
+                android:hint="请输入账号"
                 android:textColor="#008080"
+                android:textColorHint="@android:color/darker_gray"
                 android:textSize="12sp" />
         </TableRow>
 
@@ -75,9 +76,10 @@
                 android:layout_height="28dp"
                 android:background="@null"
                 android:gravity="center_vertical"
+                android:hint="请输入登陆密码"
                 android:inputType="textPassword"
-                android:text="请输入登陆密码"
-                android:textColor="@android:color/holo_red_dark"
+                android:textColor="#008080"
+                android:textColorHint="@android:color/darker_gray"
                 android:textSize="12sp" />
         </TableRow>
 

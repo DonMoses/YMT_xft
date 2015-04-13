@@ -1,4 +1,4 @@
-package com.ymt.demo1.customViews.widget;
+package com.ymt.demo1.customViews;
 
 import android.content.Context;
 import android.graphics.Matrix;
@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 

@@ -3,6 +3,7 @@ package com.ymt.demo1.styleTabCircle;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.plates.eduPlane.EduMainActivity;
 import com.ymt.demo1.plates.eduPlane.OverYearsTestActivity;
 import com.ymt.demo1.plates.hub.FireHubPagerTabActivity;
 import com.ymt.demo1.plates.MoreCatoActivity;
@@ -70,10 +72,9 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
                     case 3:
                         break;
                     case 4:
-
                         break;
                     case 5:
-                        startActivity(new Intent(CircleMenuActivity.this, OverYearsTestActivity.class));    //教育平台
+                        startActivity(new Intent(CircleMenuActivity.this, EduMainActivity.class));          //教育平台
                         break;
                     case 6:
 

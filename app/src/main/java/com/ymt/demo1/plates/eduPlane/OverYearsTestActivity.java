@@ -205,7 +205,6 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
             case R.id.tab_test_setting:
                 //todo 点击设置tab
                 Toast.makeText(OverYearsTestActivity.this, "练习设置", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, ApplicationGuideActivity.class));
                 break;
             default:
                 break;

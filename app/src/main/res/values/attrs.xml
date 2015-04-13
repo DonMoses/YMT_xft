@@ -25,4 +25,14 @@
         <attr name="border_color" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="IndicatorView">
+        <!-- 当前索引图标 -->
+        <attr name="active" format="reference" />
+        <!-- 非当前索引图标 -->
+        <attr name="unActive" format="reference" />
+        <!-- 指示标志间距 -->
+        <attr name="space" format="dimension" />
+        <attr name="total" format="integer" />
+    </declare-styleable>
+
 </resources>

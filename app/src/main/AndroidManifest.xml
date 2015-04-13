@@ -90,6 +90,9 @@
             android:name=".plates.eduPlane.ListOverYearsTestsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/dialog" />
+        <activity
+            android:name=".plates.eduPlane.EduMainActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

@@ -34,6 +34,7 @@ public class AppGuideButton extends View {
         this.color = attrs.getAttributeIntValue(4, Color.GRAY);
         this.text = attrs.getAttributeValue(3);
 //        Log.e("TAG", "attr count>>>>>>" + attrs.getAttributeCount());
+
     }
 
     public AppGuideButton(Context context, AttributeSet attrs, int defStyleAttr) {
