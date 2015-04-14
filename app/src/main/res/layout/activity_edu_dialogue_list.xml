@@ -46,14 +46,30 @@
             android:background="@drawable/icon_search" />
     </RelativeLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#FFFFFF">
+        android:background="#FFFFFF"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:gravity="center_vertical"
+            android:text="热门资料"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="@android:color/holo_blue_dark" />
 
         <ListView
-            android:id="@+id/dialogue_list_view"
+            android:id="@+id/hot_study_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
@@ -61,22 +77,38 @@
             android:dividerHeight="0.3dp" />
 
         <ProgressBar
-            android:id="@+id/empty_pro_bar"
+            android:id="@+id/empty_pro_bar_u"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
 
-    </FrameLayout>
+    </LinearLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
         android:layout_weight="1"
-        android:background="#FFFFFF">
+        android:background="#FFFFFF"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:gravity="center_vertical"
+            android:text="所有资料"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="@android:color/holo_blue_dark" />
 
         <ListView
-            android:id="@+id/_list_view"
+            android:id="@+id/other_study_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
@@ -84,11 +116,11 @@
             android:dividerHeight="0.3dp" />
 
         <ProgressBar
-            android:id="@+id/pro_bar"
+            android:id="@+id/empty_pro_bar_d"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
 
-    </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>

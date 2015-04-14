@@ -50,53 +50,41 @@ public class StudyDatumActivity extends Activity implements View.OnClickListener
         searchBtn.setOnClickListener(this);
 
         /*
-        问答列表
+        资料列表
          */
-        ListView dialogueList = (ListView) findViewById(R.id.dialogue_list_view);
-        dialogueList.setEmptyView(findViewById(R.id.empty_pro_bar));           //无数据时显示progress bar
+        ListView hotList = (ListView) findViewById(R.id.hot_study_data);
+        ListView otherList = (ListView) findViewById(R.id.other_study_data);
+        hotList.setEmptyView(findViewById(R.id.empty_pro_bar_u));           //无数据时显示progress bar
+        otherList.setEmptyView(findViewById(R.id.empty_pro_bar_d));
 
          /*
-        列表滑动监听
+        资料列表点击事件
          */
-        dialogueList.setOnScrollListener(new AbsListView.OnScrollListener() {
+        AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                switch (scrollState) {
-                    case SCROLL_STATE_IDLE:                 //停止时
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (view.getId()) {
+                    case R.id.hot_study_data:
+                        Toast.makeText(StudyDatumActivity.this, "hot " + position, Toast.LENGTH_SHORT).show();
                         break;
-                    case SCROLL_STATE_FLING:                //滚动中
-                    case SCROLL_STATE_TOUCH_SCROLL:         //触摸中
-
+                    case R.id.other_study_data:
+                        Toast.makeText(StudyDatumActivity.this, "other " + position, Toast.LENGTH_SHORT).show();
                         break;
                     default:
                         break;
 
                 }
             }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            }
-        });
-
-         /*
-        历年真题列表item 点击事件
-            打开对应试题
-         */
-        dialogueList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(StudyDatumActivity.this, ((EduDialogueInfo) parent.getItemAtPosition(position)).getQuestion(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        };
+        hotList.setOnItemClickListener(onItemClickListener);
+        otherList.setOnItemClickListener(onItemClickListener);
 
         /*
         设置数据适配器
          */
         TestsItemAdapter adapter = new TestsItemAdapter(this);
-        dialogueList.setAdapter(adapter);
+        hotList.setAdapter(adapter);
+        otherList.setAdapter(adapter);
 
         //todo 这里加入网络获取问答数据
         ArrayList<EduDialogueInfo> mData = new ArrayList<>();
@@ -135,6 +123,7 @@ public class StudyDatumActivity extends Activity implements View.OnClickListener
 
     /*
     定义listView 中item 的适配器
+    todo 根据数据，修改此适配器。
      */
     class TestsItemAdapter extends BaseAdapter {
 
