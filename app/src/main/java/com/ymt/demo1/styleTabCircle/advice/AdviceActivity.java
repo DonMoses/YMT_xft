@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ymt.demo1.R;
@@ -24,7 +25,7 @@ public class AdviceActivity extends Activity {
     protected void initView() {
         View mergeView = findViewById(R.id.merge_advice_title);
         View adviceTitle = mergeView.findViewById(R.id.merge_title_layout);
-        final Button backBtn = (Button) adviceTitle.findViewById(R.id.merge_title_back);
+        final ImageButton backBtn = (ImageButton) adviceTitle.findViewById(R.id.merge_title_back);
         TextView titleTxt = (TextView) mergeView.findViewById(R.id.merge_title_text);
         titleTxt.setText("意见反馈");
         adviceTitle.setOnTouchListener(new View.OnTouchListener() {

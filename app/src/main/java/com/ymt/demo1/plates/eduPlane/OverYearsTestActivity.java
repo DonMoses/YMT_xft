@@ -24,7 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.TestInfo;
+import com.ymt.demo1.beams.EduTestInfo;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_over_years_test);
+        setContentView(R.layout.activity_edu_over_test);
         initView();
     }
 
@@ -62,7 +62,7 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
         /*
         title 上back 按钮和搜索按钮的点击事件
          */
-        Button backBtn = (Button) findViewById(R.id.merge_title_back);
+        View backBtn = findViewById(R.id.merge_title_layout);
         ImageButton searchBtn = (ImageButton) findViewById(R.id.merge_search_btn);
         backBtn.setOnClickListener(this);
         searchBtn.setOnClickListener(this);
@@ -107,7 +107,7 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
         overYearsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(OverYearsTestActivity.this, ((TestInfo) parent.getItemAtPosition(position)).getTitle(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(OverYearsTestActivity.this, ((EduTestInfo) parent.getItemAtPosition(position)).getTitle(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -118,10 +118,10 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
         overYearsList.setAdapter(adapter);
 
         //todo 这里加入网络获取历年真题数据
-        ArrayList<TestInfo> mData = new ArrayList<>();
+        ArrayList<EduTestInfo> mData = new ArrayList<>();
         //模拟加入历年真题数据
         for (int i = 0; i < 20; i++) {
-            TestInfo test = new TestInfo();
+            EduTestInfo test = new EduTestInfo();
             test.setTitle("2015年一级消防工程师《消防工程项目管理》考试真题");
             test.setCount(String.valueOf(125));
             test.setTotalTime(String.valueOf(120));
@@ -163,12 +163,12 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.merge_title_back:
+            case R.id.merge_title_layout:
 
                 finish();           //退出
                 break;
             case R.id.merge_search_btn:         //搜索
-
+                Toast.makeText(OverYearsTestActivity.this, "do search", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tab_test_menu:
                 //todo 点击选项tab
@@ -182,8 +182,8 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
                 TestsItemAdapter iAdapter = (TestsItemAdapter) overYearsList.getAdapter();
                 mTests.add("全部");
                 for (int i = 0; i < iAdapter.getCount(); i++) {
-                    TestInfo testInfo = (TestInfo) iAdapter.getItem(i);
-                    String title = testInfo.getTitle();
+                    EduTestInfo eduTestInfo = (EduTestInfo) iAdapter.getItem(i);
+                    String title = eduTestInfo.getTitle();
                     /*
                     这里只截取年份。 如 2015，1989等
                      */
@@ -216,7 +216,7 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
      */
     class TestsItemAdapter extends BaseAdapter {
 
-        ArrayList<TestInfo> mList = new ArrayList<>();
+        ArrayList<EduTestInfo> mList = new ArrayList<>();
         Context context;
         LayoutInflater inflater;
 
@@ -225,7 +225,7 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
             inflater = LayoutInflater.from(context);
         }
 
-        public void setList(ArrayList<TestInfo> list) {
+        public void setList(ArrayList<EduTestInfo> list) {
             this.mList = list;
             notifyDataSetChanged();
         }
@@ -291,7 +291,7 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
              */
             switch (type) {
                 case SIMPLE_TYPE:
-                    TestInfo test = (TestInfo) getItem(position);
+                    EduTestInfo test = (EduTestInfo) getItem(position);
                     viewHolder.title.setText(test.getTitle());
                     viewHolder.count.setText(test.getCount());
                     viewHolder.totalTime.setText(test.getTotalTime());

@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,7 +32,7 @@ public class HelpActivity extends Activity {
 
         View mergeView = findViewById(R.id.merge_help_title);
         View helpTitle = mergeView.findViewById(R.id.merge_title_layout);
-        final Button backBtn = (Button) helpTitle.findViewById(R.id.merge_title_back);
+        final ImageButton backBtn = (ImageButton) helpTitle.findViewById(R.id.merge_title_back);
         TextView titleTxt = (TextView) mergeView.findViewById(R.id.merge_title_text);
         titleTxt.setText("帮助中心");
         helpTitle.setOnTouchListener(new View.OnTouchListener() {

@@ -5,12 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Dan on 2015/4/13
@@ -38,6 +37,7 @@ public class EduMainActivity extends Activity {
     private TextView timeHour;
     private TextView timeMinute;
     private TextView timeSecond;
+    private static boolean ALWAYS_ON = true;
     //顶部ViewPager
     private ViewPager adViewPager;
     /*
@@ -55,10 +55,37 @@ public class EduMainActivity extends Activity {
     }
 
     protected void initView() {
+        initTitle();
         initAdViewPager();
         initNextExamView();
         initEduItem();
         initTab();
+    }
+
+    /**
+     * 初始化title
+     */
+    protected void initTitle() {
+        View title = findViewById(R.id.merge_title_layout);
+        ImageButton search = (ImageButton) findViewById(R.id.merge_search_btn);
+        View.OnClickListener titleListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.merge_title_layout:
+                        finish();
+                        break;
+                    case R.id.merge_search_btn:
+                        Toast.makeText(EduMainActivity.this, "do search", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+        title.setOnClickListener(titleListener);
+        search.setOnClickListener(titleListener);
+
     }
 
     /**
@@ -120,7 +147,7 @@ public class EduMainActivity extends Activity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true) {
+                while (ALWAYS_ON) {
 
                     if (adPagerAdapter.getCount() == 0) {
                         Toast.makeText(EduMainActivity.this, "这里应加入view", Toast.LENGTH_SHORT).show();
@@ -153,7 +180,7 @@ public class EduMainActivity extends Activity {
     }
 
     /**
-     * 平台内容item   。 ”我的学习“，”历年真题“，”报考指南“等
+     * 初始化平台内容item   。 ”我的学习“，”历年真题“，”报考指南“等
      */
     protected void initEduItem() {
 
@@ -177,10 +204,10 @@ public class EduMainActivity extends Activity {
                         Toast.makeText(EduMainActivity.this, "模拟考试", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.myStudy:
-                        Toast.makeText(EduMainActivity.this, "我的学习", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(EduMainActivity.this, MyStudyActivity.class));             //我的学习
                         break;
                     case R.id.studyDatum:
-                        Toast.makeText(EduMainActivity.this, "学习资料", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(EduMainActivity.this, StudyDatumActivity.class));          //学习资料
                         break;
                     case R.id.appGuide:
                         startActivity(new Intent(EduMainActivity.this, ApplicationGuideActivity.class));    //报考指南
@@ -189,7 +216,7 @@ public class EduMainActivity extends Activity {
                         Toast.makeText(EduMainActivity.this, "培训视频", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.dialogue:
-                        Toast.makeText(EduMainActivity.this, "问答", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(EduMainActivity.this, DialogueListActivity.class));         //问答
                         break;
                     case R.id.practicePaper:
                         Toast.makeText(EduMainActivity.this, "模拟试题", Toast.LENGTH_SHORT).show();
@@ -233,7 +260,7 @@ public class EduMainActivity extends Activity {
 
         //String 先转成date
         String begin = year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
-        SimpleDateFormat sDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         Date date = null;
         try {
             date = sDate.parse(begin);
@@ -250,10 +277,10 @@ public class EduMainActivity extends Activity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true) {
+                while (ALWAYS_ON) {
                     long curTime = System.currentTimeMillis();      //当前系统时间
                     if ((beginTime - curTime) <= 0) {
-                        break;
+                        continue;
                     }
                     final long gapTime = beginTime - curTime;
                     showDay = (int) (gapTime / (1000 * 3600 * 24));
@@ -275,7 +302,7 @@ public class EduMainActivity extends Activity {
     }
 
     /**
-     * 底部Tab。 ”我的收藏“，”切换题库“，”练习设置“等
+     * 初始化底部Tab。 ”我的收藏“，”切换题库“，”练习设置“等
      */
     protected void initTab() {
         View tabCollect = findViewById(R.id.edu_tab_my_collect);

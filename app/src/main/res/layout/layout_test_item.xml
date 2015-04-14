@@ -182,7 +182,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="查看"
-            android:textColor="@android:color/primary_text_light_nodisable"
+            android:textColor="@android:color/darker_gray"
             android:textSize="10sp" />
 
     </LinearLayout>

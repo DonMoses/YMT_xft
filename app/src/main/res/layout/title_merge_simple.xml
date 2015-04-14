@@ -11,10 +11,10 @@
         android:layout_height="match_parent"
         android:gravity="center">
 
-        <Button
+        <ImageButton
             android:id="@+id/merge_title_back"
-            android:layout_width="13dp"
-            android:layout_height="22dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@drawable/back_normal" />
 
     </LinearLayout>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ymt.demo1.baseClasses;
+package com.ymt.demo1.plates.eduPlane;
 
 import android.animation.ValueAnimator;
 import android.os.Bundle;
@@ -30,6 +30,9 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.baseClasses.BaseFragment;
+import com.ymt.demo1.baseClasses.ViewHelper;
+import com.ymt.demo1.baseClasses.ViewPagerTabFragmentScrollultraListViewFragment;
 import com.ymt.demo1.customViews.obsScrollview.CacheFragmentStatePagerAdapter;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollViewCallbacks;
 import com.ymt.demo1.customViews.obsScrollview.ScrollState;
@@ -42,7 +45,7 @@ import com.ymt.demo1.customViews.widget.PagerSlidingTabStrip;
  * This fragment manages ViewPager and its child Fragments.
  * Scrolling techniques are basically the same as ViewPagerTab2Activity.
  */
-public class PersonalPagerTabParentFragment extends BaseFragment implements ObservableScrollViewCallbacks {
+public class MyStudyFragment extends BaseFragment implements ObservableScrollViewCallbacks {
     public static final String FRAGMENT_TAG = "fragment";
 
     private TouchInterceptionFrameLayout mInterceptionLayout;
@@ -54,7 +57,7 @@ public class PersonalPagerTabParentFragment extends BaseFragment implements Obse
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_viewpagertabfragment_parent, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_study, container, false);
 
         ActionBarActivity parentActivity = (ActionBarActivity) getActivity();
         mPagerAdapter = new NavigationAdapter(getChildFragmentManager());
@@ -250,7 +253,7 @@ public class PersonalPagerTabParentFragment extends BaseFragment implements Obse
      */
     private static class NavigationAdapter extends CacheFragmentStatePagerAdapter {
 
-        private static final String[] TITLES = new String[]{"我的消息", "与我相关", "我的提问", "我的信息", "我的收藏", "签到"};
+        private static final String[] TITLES = new String[]{"我的考试", "我的课程", "我的下载", "我的收藏"};
 
         public NavigationAdapter(FragmentManager fm) {
             super(fm);

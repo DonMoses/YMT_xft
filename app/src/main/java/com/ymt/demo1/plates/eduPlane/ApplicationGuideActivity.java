@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.AppGuideGridViewAdapter;
-import com.ymt.demo1.beams.AppGuide;
+import com.ymt.demo1.beams.EduAppGuide;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,7 @@ public class ApplicationGuideActivity extends Activity {
         guideGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AppGuide clickedItem = (AppGuide) parent.getAdapter().getItem(position);
+                EduAppGuide clickedItem = (EduAppGuide) parent.getAdapter().getItem(position);
                 String title = clickedItem.getTitle();
                 Toast.makeText(ApplicationGuideActivity.this, title, Toast.LENGTH_SHORT).show();
             }
@@ -42,7 +42,7 @@ public class ApplicationGuideActivity extends Activity {
         AppGuideGridViewAdapter adapter = new AppGuideGridViewAdapter(this);
         guideGridView.setAdapter(adapter);
 
-        ArrayList<AppGuide> mData = new ArrayList<>();
+        ArrayList<EduAppGuide> mData = new ArrayList<>();
         mData.add(addAppGuide(getResources().getColor(R.color.guide_bksj), "报名时间"));
         adapter.setList(mData);
         mData.add(addAppGuide(getResources().getColor(R.color.guide_bmtj), "报名条件"));
@@ -76,11 +76,11 @@ public class ApplicationGuideActivity extends Activity {
 
     }
 
-    protected AppGuide addAppGuide(int bgColor, String title) {
-        AppGuide appGuide = new AppGuide();
-        appGuide.setBgColor(bgColor);
-        appGuide.setTitle(title);
-        return appGuide;
+    protected EduAppGuide addAppGuide(int bgColor, String title) {
+        EduAppGuide eduAppGuide = new EduAppGuide();
+        eduAppGuide.setBgColor(bgColor);
+        eduAppGuide.setTitle(title);
+        return eduAppGuide;
 
     }
 

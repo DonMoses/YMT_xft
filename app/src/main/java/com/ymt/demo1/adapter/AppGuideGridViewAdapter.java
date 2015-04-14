@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
-import com.ymt.demo1.beams.AppGuide;
+import com.ymt.demo1.beams.EduAppGuide;
 import com.ymt.demo1.customViews.AppGuideButton;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 
 public class AppGuideGridViewAdapter extends BaseAdapter {
-    ArrayList<AppGuide> mList = new ArrayList<>();
+    ArrayList<EduAppGuide> mList = new ArrayList<>();
     Context context;
     LayoutInflater inflater;
     private int hidePosition = AdapterView.INVALID_POSITION;
@@ -42,7 +42,7 @@ public class AppGuideGridViewAdapter extends BaseAdapter {
         return mList.get(position);
     }
 
-    public void setList(ArrayList<AppGuide> mList) {
+    public void setList(ArrayList<EduAppGuide> mList) {
         this.mList = mList;
         notifyDataSetChanged();
     }
@@ -65,8 +65,8 @@ public class AppGuideGridViewAdapter extends BaseAdapter {
 
         //hide时隐藏Text
         if (position != hidePosition) {
-            guideButton.setColor(((AppGuide) getItem(position)).getBgColor());
-            guideButton.setText(((AppGuide) getItem(position)).getTitle());
+            guideButton.setColor(((EduAppGuide) getItem(position)).getBgColor());
+            guideButton.setText(((EduAppGuide) getItem(position)).getTitle());
         } else {
             guideButton.setColor(Color.WHITE);
             guideButton.setText("");
@@ -95,12 +95,12 @@ public class AppGuideGridViewAdapter extends BaseAdapter {
     public void swapView(int draggedPos, int destPos) {
         //从前向后拖动，其他item依次前移
         if (draggedPos < destPos) {
-            mList.add(destPos + 1, (AppGuide) getItem(draggedPos));
+            mList.add(destPos + 1, (EduAppGuide) getItem(draggedPos));
             mList.remove(draggedPos);
         }
         //从后向前拖动，其他item依次后移
         else if (draggedPos > destPos) {
-            mList.add(destPos, (AppGuide) getItem(draggedPos));
+            mList.add(destPos, (EduAppGuide) getItem(draggedPos));
             mList.remove(draggedPos + 1);
         }
         hidePosition = destPos;

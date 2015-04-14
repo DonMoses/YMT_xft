@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +37,7 @@ public class MoreCatoActivity extends Activity {
         //设置顶部title及其事件
         View mergeView = findViewById(R.id.merge_more_title);
         View adviceTitle = mergeView.findViewById(R.id.merge_title_layout);
-        final Button backBtn = (Button) adviceTitle.findViewById(R.id.merge_title_back);
+        final ImageButton backBtn = (ImageButton) adviceTitle.findViewById(R.id.merge_title_back);
         TextView titleTxt = (TextView) mergeView.findViewById(R.id.merge_title_text);
         titleTxt.setText("更多");
         adviceTitle.setOnTouchListener(new View.OnTouchListener() {

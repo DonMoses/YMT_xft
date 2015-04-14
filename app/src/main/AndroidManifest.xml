@@ -93,6 +93,15 @@
         <activity
             android:name=".plates.eduPlane.EduMainActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.eduPlane.DialogueListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.eduPlane.MyStudyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.eduPlane.StudyDatumActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
@@ -58,7 +59,7 @@ public class FireHubPagerTabActivity extends BaseActivity {
         // 设置title 及back 键
         View mergeView = findViewById(R.id.merge_title);
         View adviceTitle = mergeView.findViewById(R.id.merge_title_layout);
-        final Button backBtn = (Button) adviceTitle.findViewById(R.id.merge_title_back);
+        final ImageButton backBtn = (ImageButton) adviceTitle.findViewById(R.id.merge_title_back);
         TextView titleTxt = (TextView) mergeView.findViewById(R.id.merge_title_text);
         titleTxt.setText("消防论坛");
         adviceTitle.setOnTouchListener(new View.OnTouchListener() {
@@ -83,10 +84,10 @@ public class FireHubPagerTabActivity extends BaseActivity {
                         finish();
                         break;
                     case R.id.merge_search_btn:               //search 键  。点击调到搜索界面
-
+                        Toast.makeText(FireHubPagerTabActivity.this, "do search", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.merge_action_btn:               //action 键  。点击弹出菜单
-
+                        Toast.makeText(FireHubPagerTabActivity.this, "do action", Toast.LENGTH_SHORT).show();
                         break;
                     default:
                         break;

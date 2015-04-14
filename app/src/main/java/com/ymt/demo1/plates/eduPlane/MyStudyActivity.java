@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ymt.demo1.plates.personal;
+package com.ymt.demo1.plates.eduPlane;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -27,13 +27,12 @@ import android.widget.TextView;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
-import com.ymt.demo1.baseClasses.PersonalPagerTabParentFragment;
 
 /**
  * This activity just provides a toolbar.
  * Toolbar is manipulated by ViewPagerTabFragmentParentFragment.
  */
-public class PersonalPagerTabActivity extends BaseActivity {
+public class MyStudyActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +40,10 @@ public class PersonalPagerTabActivity extends BaseActivity {
         setContentView(R.layout.activity_viewpagertabfragment);
 
         FragmentManager fm = getSupportFragmentManager();
-        if (fm.findFragmentByTag(PersonalPagerTabParentFragment.FRAGMENT_TAG) == null) {
+        if (fm.findFragmentByTag(MyStudyFragment.FRAGMENT_TAG) == null) {
             FragmentTransaction ft = fm.beginTransaction();
-            ft.add(R.id.fragment, new PersonalPagerTabParentFragment(),
-                    PersonalPagerTabParentFragment.FRAGMENT_TAG);
+            ft.add(R.id.fragment, new MyStudyFragment(),
+                    MyStudyFragment.FRAGMENT_TAG);
             ft.commit();
             fm.executePendingTransactions();
         }
@@ -58,7 +57,7 @@ public class PersonalPagerTabActivity extends BaseActivity {
         View adviceTitle = mergeView.findViewById(R.id.merge_title_layout);
         final ImageButton backBtn = (ImageButton) adviceTitle.findViewById(R.id.merge_title_back);
         TextView titleTxt = (TextView) mergeView.findViewById(R.id.merge_title_text);
-        titleTxt.setText("个人中心");
+        titleTxt.setText("我的学习");
         adviceTitle.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

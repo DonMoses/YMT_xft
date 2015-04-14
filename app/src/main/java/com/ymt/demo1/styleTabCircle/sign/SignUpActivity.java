@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.ymt.demo1.R;
 
@@ -23,7 +24,7 @@ public class SignUpActivity extends Activity {
     protected void initView() {
         View mergeView = findViewById(R.id.merge_sign_title);
         View signTitle = mergeView.findViewById(R.id.merge_title_layout);
-        final Button backBtn = (Button) signTitle.findViewById(R.id.merge_title_back);
+        final ImageButton backBtn = (ImageButton) signTitle.findViewById(R.id.merge_title_back);
 //        TextView titleTxt = (TextView) mergeView.findViewById(R.id.merge_title_text);
         signTitle.setOnTouchListener(new View.OnTouchListener() {
             @Override

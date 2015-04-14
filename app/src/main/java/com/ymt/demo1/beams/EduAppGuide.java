@@ -3,7 +3,7 @@ package com.ymt.demo1.beams;
 /**
  * Created by Dan on 2015/4/10
  */
-public class AppGuide {
+public class EduAppGuide {
     private int bgColor;
     private String title;
 

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="108dp"
+    android:background="#FFFFFF"
+    android:descendantFocusability="blocksDescendants"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/dialogue_qust_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_marginStart="3dp"
+        android:hint="2020年一级消防工程师《消防工程项目管理》考试真题"
+        android:textColor="@android:color/primary_text_light"
+        android:textColorHint="@android:color/primary_text_light"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/dialogue_answer_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialogue_qust_txt"
+        android:layout_marginLeft="3dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLength="50"
+        android:maxLines="2"
+        android:orientation="horizontal"
+        android:text="答：火灾自动报警系统、消火栓系统、自动喷淋系统、气体灭火系统、防排烟系统、消防应急疏散系统、消防广播通讯系统、消防材料系统。"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:id="@+id/dialogue_collected_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginStart="15dp"
+        android:gravity="center_vertical">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_tests_collected" />
+
+        <TextView
+            android:id="@+id/dialogue_collected_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_marginStart="3dp"
+            android:hint="4239"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="10sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="收藏"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/test_watch_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_toLeftOf="@id/dialogue_collected_view"
+        android:layout_toStartOf="@id/dialogue_collected_view"
+        android:gravity="center_vertical">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_tests_watch" />
+
+        <TextView
+            android:id="@+id/dialogue_watched_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_marginStart="3dp"
+            android:hint="4239"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="10sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查看"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -20,7 +20,7 @@ public class GuideActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_guide);
+        setContentView(R.layout.activity_edu_guide);
         initViews();
     }
 

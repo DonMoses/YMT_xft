@@ -3,7 +3,7 @@ package com.ymt.demo1.beams;
 /**
  * Created by Dan on 2015/4/9
  */
-public class TestInfo {
+public class EduTestInfo {
 
     private boolean isNewest;
     private String title;

@@ -21,7 +21,7 @@ public class ListOverYearsTestsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_over_years_tests);
+        setContentView(R.layout.activity_edu_test_grid);
         initView();
     }
 
