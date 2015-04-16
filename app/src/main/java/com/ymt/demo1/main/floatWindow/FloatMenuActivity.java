@@ -51,11 +51,12 @@ public class FloatMenuActivity extends Activity {
     }
 
     protected void initView() {
-        final String[] titles = new String[]{"", "", "", "", "", ""};
+        final String[] titles = new String[]{"", "", "", "", "", "", "", ""};
         int[] titleIcons = new int[]{
                 R.drawable.icon_float_more, R.drawable.icon_float_hub,
                 R.drawable.icon_float_learning, R.drawable.icon_float_consult,
-                R.drawable.icon_float_edu, R.drawable.icon_float_expert};
+                R.drawable.icon_float_edu, R.drawable.icon_float_personal_cen,
+                R.drawable.icon_float_news, R.drawable.icon_float_expert};
 
         CircleMenuLayout circleMenuLayout = (CircleMenuLayout) findViewById(R.id.float_circle_menu_layout);
         viewWidth = circleMenuLayout.getLayoutParams().width;
@@ -90,6 +91,11 @@ public class FloatMenuActivity extends Activity {
                         MyWindowManager.removeBigWindow();
                         startActivity(
                                 new Intent(FloatMenuActivity.this, EduMainActivity.class));          //教育平台
+                        break;
+                    case 5:
+                        MyWindowManager.removeBigWindow();
+                        startActivity(
+                                new Intent(FloatMenuActivity.this, PersonalPagerTabActivity.class));          //个人中心;
                         break;
 //                    case 8:
 //                        // 点击关闭悬浮窗的时候，移除所有悬浮窗，并停止Service
