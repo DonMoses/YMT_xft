@@ -11,10 +11,8 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,6 +20,7 @@ import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.EduDialogueInfo;
+import com.ymt.demo1.main.AppContext;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -35,8 +34,20 @@ public class StudyDatumActivity extends Activity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edu_dialogue_list);
+        setContentView(R.layout.activity_edu_study_datum);
         initView();
+
+    }
+    @Override
+    protected void onResume() {
+        AppContext.addToAppContext(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        AppContext.removeFromAppContext(this);
+        super.onPause();
     }
 
     protected void initView() {

@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.main.AppContext;
 
 /**
  * Created by Dan on 2015/4/9
@@ -21,6 +22,20 @@ public class SearchActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        initView();
+
+    }
+
+    @Override
+    protected void onPause() {
+        AppContext.removeFromAppContext(this);
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        AppContext.addToAppContext(this);
+        super.onResume();
     }
 
     protected void initView() {

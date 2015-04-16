@@ -1,4 +1,4 @@
-package com.ymt.demo1.styleTabCircle;
+package com.ymt.demo1.main.sign;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,8 +9,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.styleTabCircle.sign.FoundPswActivity;
-import com.ymt.demo1.styleTabCircle.sign.SignUpActivity;
 
 /**
  * Created by Dan on 2015/4/2

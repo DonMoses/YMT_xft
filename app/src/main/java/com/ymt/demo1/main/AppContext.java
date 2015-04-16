@@ -13,6 +13,7 @@ import java.util.List;
 public class AppContext extends Application {
     private static Context context;
     private static List<Activity> yActivities;
+    private static Activity floatActivity;
 
     @Override
     public void onCreate() {
@@ -64,5 +65,19 @@ public class AppContext extends Application {
             return yActivities.get(yActivities.size() - 1);
         }
         return null;
+    }
+
+    /**
+     * 获得FloatMenuActivity
+     */
+    public static Activity getFloatActivity() {
+        return floatActivity;
+    }
+
+    /**
+     * 设置FloatMenuActivity
+     */
+    public static void setFloatActivity(Activity activity) {
+        floatActivity = activity;
     }
 }

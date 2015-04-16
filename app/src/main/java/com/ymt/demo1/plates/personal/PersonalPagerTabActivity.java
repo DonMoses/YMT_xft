@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.baseClasses.PersonalPagerTabParentFragment;
+import com.ymt.demo1.main.AppContext;
 
 /**
  * This activity just provides a toolbar.
@@ -51,6 +52,18 @@ public class PersonalPagerTabActivity extends BaseActivity {
 
         initView();
 
+
+    }
+    @Override
+    protected void onResume() {
+        AppContext.addToAppContext(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        AppContext.removeFromAppContext(this);
+        super.onPause();
     }
 
     protected void initView() {

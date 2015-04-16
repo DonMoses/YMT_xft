@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.main.AppContext;
 
 import java.util.ArrayList;
 
@@ -31,6 +32,18 @@ public class MoreCatoActivity extends Activity {
         setContentView(R.layout.activity_more);
         initView();
 
+    }
+
+    @Override
+    protected void onResume() {
+        AppContext.addToAppContext(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        AppContext.removeFromAppContext(this);
+        super.onPause();
     }
 
     protected void initView() {

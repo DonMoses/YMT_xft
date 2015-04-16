@@ -16,6 +16,7 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.CyclePagerAdapter;
 import com.ymt.demo1.customViews.IndicatorView;
 import com.ymt.demo1.customViews.MyScaleImageView;
+import com.ymt.demo1.main.AppContext;
 
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
@@ -52,6 +53,18 @@ public class EduMainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edu_main);
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        AppContext.addToAppContext(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        AppContext.removeFromAppContext(this);
+        super.onPause();
     }
 
     protected void initView() {

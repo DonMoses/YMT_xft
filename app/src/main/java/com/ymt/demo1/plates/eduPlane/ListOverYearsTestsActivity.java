@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.SimpleTextGridViewAdapter;
 import com.ymt.demo1.customViews.DragGridView;
+import com.ymt.demo1.main.AppContext;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,18 @@ public class ListOverYearsTestsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edu_test_grid);
         initView();
+
+    }
+
+    @Override
+    protected void onResume() {
+        AppContext.addToAppContext(this);
+        super.onResume();
+    }
+    @Override
+    protected void onPause() {
+        AppContext.removeFromAppContext(this);
+        super.onPause();
     }
 
     protected void initView() {

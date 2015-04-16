@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.EduTestInfo;
+import com.ymt.demo1.main.AppContext;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -43,6 +44,18 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edu_over_test);
         initView();
+
+    }
+    @Override
+    protected void onResume() {
+        AppContext.addToAppContext(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        AppContext.removeFromAppContext(this);
+        super.onPause();
     }
 
     protected void initView() {

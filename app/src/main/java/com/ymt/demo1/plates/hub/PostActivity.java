@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.main.AppContext;
 
 /**
  * Created by Dan on 2015/4/8
@@ -21,6 +22,18 @@ public class PostActivity extends Activity {
         setContentView(R.layout.activity_post);
         initView();
 
+
+    }
+    @Override
+    protected void onResume() {
+        AppContext.addToAppContext(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        AppContext.removeFromAppContext(this);
+        super.onPause();
     }
 
     protected void initView() {

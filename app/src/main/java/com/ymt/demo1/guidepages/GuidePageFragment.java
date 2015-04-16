@@ -35,7 +35,7 @@ public class GuidePageFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_guide_page, container, false);
+        View view = inflater.inflate(R.layout.fragment_simple_guide_page, container, false);
         initView(view);
         return view;
 

@@ -1,9 +1,8 @@
-package com.ymt.demo1.styleTabCircle;
+package com.ymt.demo1.mainStyles;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,13 +11,12 @@ import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.plates.eduPlane.EduMainActivity;
-import com.ymt.demo1.plates.eduPlane.OverYearsTestActivity;
 import com.ymt.demo1.plates.hub.FireHubPagerTabActivity;
 import com.ymt.demo1.plates.MoreCatoActivity;
-import com.ymt.demo1.styleTabCircle.advice.AdviceActivity;
-import com.ymt.demo1.styleTabCircle.help.HelpActivity;
-import com.ymt.demo1.styleTabCircle.setting.SettingActivity;
-import com.ymt.demo1.styleTabCircle.sign.SignUpActivity;
+import com.ymt.demo1.main.advice.AdviceActivity;
+import com.ymt.demo1.main.help.HelpActivity;
+import com.ymt.demo1.main.setting.SettingActivity;
+import com.ymt.demo1.main.sign.SignUpActivity;
 import com.ymt.demo1.plates.personal.PersonalPagerTabActivity;
 import com.zhy.view.CircleMenuLayout;
 

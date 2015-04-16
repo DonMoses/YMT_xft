@@ -1,6 +1,5 @@
 package com.ymt.demo1.guidepages;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -9,7 +8,6 @@ import android.support.v4.view.ViewPager;
 
 import com.ymt.demo1.customViews.obsScrollview.CacheFragmentStatePagerAdapter;
 import com.ymt.demo1.customViews.widget.GuideTabStrip;
-import com.ymt.demo1.styleTabCircle.CircleMenuActivity;
 import com.ymt.demo1.R;
 
 /**
@@ -50,28 +48,16 @@ public class GuideActivity extends FragmentActivity {
 
         @Override
         protected Fragment createItem(int position) {
-            GuidePageFragment pageFragment = null;
+            Fragment pageFragment = null;
             switch (position) {
                 case 0:
-                    pageFragment = GuidePageFragment.newInstance(R.drawable.guide_1);
+                    pageFragment = GuidePageFragment.newInstance(R.drawable.guide1);
                     break;
                 case 1:
-                    pageFragment = GuidePageFragment.newInstance(R.drawable.guide_2);
+                    pageFragment = GuidePageFragment.newInstance(R.drawable.guide2);
                     break;
                 case 2:
-                    pageFragment = GuidePageFragment.newInstance(R.drawable.guide_3);
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                Thread.sleep(3000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            startActivity(new Intent(GuideActivity.this, CircleMenuActivity.class));
-                            GuideActivity.this.finish();
-                        }
-                    }).start();
+                    pageFragment = GuidePageFragment3.newInstance(R.drawable.guide3);
                     break;
                 default:
                     break;
