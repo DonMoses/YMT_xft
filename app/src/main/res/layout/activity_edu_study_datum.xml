@@ -1,50 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mytitle="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/darker_gray"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/title_layout"
+    <com.ymt.demo1.customViews.MyTitle
+        android:id="@id/my_title"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:background="#06A1D9"
-        android:clickable="true">
-
-        <LinearLayout
-            android:id="@+id/merge_title_layout"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:gravity="center">
-
-            <ImageButton
-                android:id="@+id/merge_title_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/back_normal" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/merge_title_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:hint="学习资料"
-            android:textSize="18sp" />
-
-        <ImageButton
-            android:id="@+id/merge_search_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/icon_search" />
-    </RelativeLayout>
+        android:layout_height="48dp"
+        android:background="@android:color/holo_blue_dark"
+        mytitle:setLeftActionIcon="@drawable/back_normal"
+        mytitle:setRightActIconR="@drawable/icon_search_more"
+        mytitle:setRightIconL="@drawable/icon_search"
+        mytitle:setTitleTxt="学习资料" />
 
     <LinearLayout
         android:layout_width="match_parent"

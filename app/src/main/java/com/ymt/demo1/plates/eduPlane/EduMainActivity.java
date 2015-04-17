@@ -1,6 +1,5 @@
 package com.ymt.demo1.plates.eduPlane;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,7 +15,9 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.CyclePagerAdapter;
 import com.ymt.demo1.customViews.IndicatorView;
 import com.ymt.demo1.customViews.MyScaleImageView;
-import com.ymt.demo1.main.AppContext;
+import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.BaseFloatActivity;
+import com.ymt.demo1.main.SearchActivity;
 
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
@@ -28,7 +29,7 @@ import java.util.Locale;
 /**
  * Created by Dan on 2015/4/13
  */
-public class EduMainActivity extends Activity {
+public class EduMainActivity extends BaseFloatActivity {
     private static final int DO_REFRESH = 0;
     private static final int SHOW_NEXT_PAGE = 1;
     /*
@@ -52,53 +53,39 @@ public class EduMainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edu_main);
+        initTitle();
         initView();
     }
 
-    @Override
-    protected void onResume() {
-        AppContext.addToAppContext(this);
-        super.onResume();
-    }
+    protected void initTitle() {
+        MyTitle title = (MyTitle) findViewById(R.id.my_title);
+        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
+        title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
+            @Override
+            public void onClick() {
+                finish();
+            }
+        });
 
-    @Override
-    protected void onPause() {
-        AppContext.removeFromAppContext(this);
-        super.onPause();
+        title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
+            @Override
+            public void onRightLClick() {
+                startActivity(new Intent(EduMainActivity.this, SearchActivity.class));
+            }
+
+            @Override
+            public void onRightRClick() {
+                //todo 设置按钮Action
+//                Toast.makeText(EduMainActivity.this, "设置按钮Action", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     protected void initView() {
-        initTitle();
         initAdViewPager();
         initNextExamView();
         initEduItem();
         initTab();
-    }
-
-    /**
-     * 初始化title
-     */
-    protected void initTitle() {
-        View title = findViewById(R.id.merge_title_layout);
-        ImageButton search = (ImageButton) findViewById(R.id.merge_search_btn);
-        View.OnClickListener titleListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.merge_title_layout:
-                        finish();
-                        break;
-                    case R.id.merge_search_btn:
-                        Toast.makeText(EduMainActivity.this, "do search", Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        };
-        title.setOnClickListener(titleListener);
-        search.setOnClickListener(titleListener);
-
     }
 
     /**

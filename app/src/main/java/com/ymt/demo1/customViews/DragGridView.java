@@ -3,6 +3,7 @@ package com.ymt.demo1.customViews;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -56,7 +57,7 @@ public class DragGridView extends GridView {
             Bitmap dragBitmap = Bitmap.createBitmap(view.getDrawingCache());
 
             //设置拖动item的参数
-            dragImageViewParams.gravity = Gravity.TOP | Gravity.LEFT;
+            dragImageViewParams.gravity = Gravity.TOP | Gravity.START;
             //设置拖动item为原item 1.2倍
             dragImageViewParams.width = (int) (AMP_FACTOR * dragBitmap.getWidth());
             dragImageViewParams.height = (int) (AMP_FACTOR * dragBitmap.getHeight());
@@ -125,7 +126,7 @@ public class DragGridView extends GridView {
 
 
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
+    public boolean onTouchEvent(@NonNull MotionEvent ev) {
 
         //被按下时记录按下的坐标
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
@@ -134,7 +135,7 @@ public class DragGridView extends GridView {
             downRawY = (int) ev.getRawY();
         }
         //dragImageView处于被拖动时，更新dragImageView位置
-        else if ((ev.getAction() == MotionEvent.ACTION_MOVE) && (isViewOnDrag == true)) {
+        else if ((ev.getAction() == MotionEvent.ACTION_MOVE) && (isViewOnDrag)) {
             Log.i(LOG_TAG, "" + ev.getRawX() + " " + ev.getRawY());
             //设置触摸点为dragImageView中心
             dragImageViewParams.x = (int) (ev.getRawX() - dragImageView.getWidth() / 2);
@@ -160,7 +161,7 @@ public class DragGridView extends GridView {
             }
         }
         //释放dragImageView
-        else if ((ev.getAction() == MotionEvent.ACTION_UP) && (isViewOnDrag == true)) {
+        else if ((ev.getAction() == MotionEvent.ACTION_UP) && (isViewOnDrag)) {
 
             /*
              先判断是哪种adapter，然后使用这个adapter操作其中的item

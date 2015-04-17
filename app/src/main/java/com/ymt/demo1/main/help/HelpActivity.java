@@ -2,15 +2,13 @@ package com.ymt.demo1.main.help;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.LongClickItemsAdapter;
+import com.ymt.demo1.customViews.MyTitle;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,36 +22,22 @@ public class HelpActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
+        initTitle();
         initView();
     }
 
-    protected void initView() {
-
-        View mergeView = findViewById(R.id.merge_help_title);
-        View helpTitle = mergeView.findViewById(R.id.merge_title_layout);
-        final ImageButton backBtn = (ImageButton) helpTitle.findViewById(R.id.merge_title_back);
-        TextView titleTxt = (TextView) mergeView.findViewById(R.id.merge_title_text);
-        titleTxt.setText("帮助中心");
-        helpTitle.setOnTouchListener(new View.OnTouchListener() {
+    protected void initTitle() {
+        MyTitle title = (MyTitle) findViewById(R.id.my_title);
+        title.setTitleStyle(MyTitle.TitleStyle.LEFT_ICON);
+        title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    backBtn.setBackgroundResource(R.drawable.back_normal);
-                }
-
-                return false;
-            }
-        });
-
-        helpTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            public void onClick() {
                 finish();
             }
         });
+    }
+
+    protected void initView() {
 
         ListView questListView = (ListView) findViewById(R.id.common_quest_list_view);
         String[] quests = getResources().getStringArray(R.array.common_quest_array);

@@ -1,6 +1,5 @@
-package com.ymt.demo1.plates;
+package com.ymt.demo1.main;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -11,12 +10,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.main.AppContext;
 
 /**
  * Created by Dan on 2015/4/9
  */
-public class SearchActivity extends Activity {
+public class SearchActivity extends BaseFloatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,18 +22,6 @@ public class SearchActivity extends Activity {
         setContentView(R.layout.activity_search);
         initView();
 
-    }
-
-    @Override
-    protected void onPause() {
-        AppContext.removeFromAppContext(this);
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        AppContext.addToAppContext(this);
-        super.onResume();
     }
 
     protected void initView() {

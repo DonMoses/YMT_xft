@@ -1,41 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mytitle="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F2F1EF"
     android:orientation="vertical">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.ymt.demo1.customViews.MyTitle
+        android:id="@id/my_title"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:background="#06A1D9">
-
-        <LinearLayout
-            android:id="@+id/merge_title_layout"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:gravity="center">
-
-            <ImageButton
-                android:id="@+id/merge_title_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/back_normal" />
-
-        </LinearLayout>
-
-        <TextView
-
-            android:id="@+id/merge_title_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/merge_title_layout"
-            android:layout_toRightOf="@id/merge_title_layout"
-            android:hint="发表"
-            android:textSize="18sp" />
-    </RelativeLayout>
-
+        android:layout_height="48dp"
+        android:background="@android:color/holo_blue_dark"
+        mytitle:setLeftActionIcon="@drawable/back_normal"
+        mytitle:setRightActIconR="@drawable/icon_search_more"
+        mytitle:setRightIconL="@drawable/icon_search"
+        mytitle:setTitleTxt="发帖" />
 
     <EditText
         android:id="@+id/post_title"

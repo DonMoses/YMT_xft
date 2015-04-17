@@ -26,7 +26,7 @@
         mytitle:setLeftActionIcon="@drawable/back_normal"
         mytitle:setRightActIconR="@drawable/icon_search_more"
         mytitle:setRightIconL="@drawable/icon_search"
-        mytitle:setTitleTxt="个人中心" />
+        mytitle:setTitleTxt="论坛" />
 
     <FrameLayout
         android:id="@+id/fragment"

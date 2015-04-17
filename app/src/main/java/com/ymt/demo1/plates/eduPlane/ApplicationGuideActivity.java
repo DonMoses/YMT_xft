@@ -1,6 +1,6 @@
 package com.ymt.demo1.plates.eduPlane;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,31 +10,34 @@ import android.widget.Toast;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.AppGuideGridViewAdapter;
 import com.ymt.demo1.beams.EduAppGuide;
-import com.ymt.demo1.main.AppContext;
+import com.ymt.demo1.customViews.DragGridView;
+import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.BaseFloatActivity;
 
 import java.util.ArrayList;
 
 /**
  * Created by Dan on 2015/4/9
  */
-public class ApplicationGuideActivity extends Activity {
+public class ApplicationGuideActivity extends BaseFloatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_guide);
+        initTitle();
         initView();
 
     }
-    @Override
-    protected void onResume() {
-        AppContext.addToAppContext(this);
-        super.onResume();
-    }
 
-    @Override
-    protected void onPause() {
-        AppContext.removeFromAppContext(this);
-        super.onPause();
+    protected void initTitle() {
+        MyTitle title = (MyTitle) findViewById(R.id.my_title);
+        title.setTitleStyle(MyTitle.TitleStyle.LEFT_ICON);
+        title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
+            @Override
+            public void onClick() {
+                finish();
+            }
+        });
     }
 
     protected void initView() {
@@ -42,7 +45,7 @@ public class ApplicationGuideActivity extends Activity {
         /*
         报考指南项目GridView视图
          */
-        GridView guideGridView = (GridView) findViewById(R.id.app_guide_gridView);
+        GridView guideGridView = (DragGridView) findViewById(R.id.app_guide_gridView);
         guideGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -76,16 +79,6 @@ public class ApplicationGuideActivity extends Activity {
         adapter.setList(mData);
         mData.add(addAppGuide(getResources().getColor(R.color.guide_khrd), "考核认定"));
 
-        /*
-        title 返回按钮
-         */
-        View backView = findViewById(R.id.merge_title_layout);
-        backView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
     }
 

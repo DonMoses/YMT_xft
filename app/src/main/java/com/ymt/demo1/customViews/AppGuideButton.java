@@ -1,6 +1,7 @@
 package com.ymt.demo1.customViews;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+
+import com.ymt.demo1.R;
 
 /**
  * Created by Dan on 2015/4/9
@@ -31,9 +34,12 @@ public class AppGuideButton extends View {
 
     public AppGuideButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.color = attrs.getAttributeIntValue(4, Color.GRAY);
-        this.text = attrs.getAttributeValue(3);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AppGuideButton);
+        this.color = a.getColor(R.styleable.AppGuideButton_guideBtnColor, Color.GRAY);
+        this.text = (String) a.getText(R.styleable.AppGuideButton_guideBtnText);
 //        Log.e("TAG", "attr count>>>>>>" + attrs.getAttributeCount());
+
+        a.recycle();
 
     }
 

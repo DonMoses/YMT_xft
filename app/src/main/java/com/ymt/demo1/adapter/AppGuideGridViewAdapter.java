@@ -54,6 +54,10 @@ public class AppGuideGridViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        /*
+        每次返回一个AppGuideButton
+            根据位置和内容，显现不同文本和背景
+         */
         AppGuideButton guideButton;
         if (convertView == null) {
             convertView = new AppGuideButton(context);

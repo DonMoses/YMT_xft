@@ -1,34 +1,28 @@
-package com.ymt.demo1.plates.hub;
+package com.ymt.demo1.main;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.BaseFloatActivity;
 
 /**
- * Created by Dan on 2015/4/8
+ * Created by Dan on 2015/4/17
  */
-public class PostActivity extends BaseFloatActivity {
+public class TestActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post);
+        setContentView(R.layout.activity_test);
         initTitle();
-        initView();
-
     }
 
     protected void initTitle() {
         MyTitle title = (MyTitle) findViewById(R.id.my_title);
-        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
+        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L_R);
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
             public void onClick() {
@@ -39,18 +33,14 @@ public class PostActivity extends BaseFloatActivity {
         title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
             public void onRightLClick() {
-                Toast.makeText(PostActivity.this, "发表", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(TestActivity.this, SearchActivity.class));
             }
 
             @Override
             public void onRightRClick() {
                 //todo 设置按钮Action
+                Toast.makeText(TestActivity.this, "设置按钮Action", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    protected void initView() {
-
-
     }
 }

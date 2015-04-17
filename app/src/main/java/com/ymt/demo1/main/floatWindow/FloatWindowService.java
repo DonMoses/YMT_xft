@@ -76,7 +76,6 @@ public class FloatWindowService extends Service {
                     }
                 });
             }
-
         }
 
     }
@@ -86,6 +85,8 @@ public class FloatWindowService extends Service {
      */
     public static boolean isApplicationBroughtToBackground(final Context context) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        //此方法已经废弃， 应该寻找更好方法
+        //须加入 <uses-permission android:name="android.permission.GET_TASKS" /> 权限
         List<RunningTaskInfo> tasks = am.getRunningTasks(1);
         if (!tasks.isEmpty()) {
             ComponentName topActivity = tasks.get(0).topActivity;
@@ -95,6 +96,5 @@ public class FloatWindowService extends Service {
         }
         return false;
     }
-
 
 }

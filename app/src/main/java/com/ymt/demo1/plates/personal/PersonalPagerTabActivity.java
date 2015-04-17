@@ -16,19 +16,16 @@
 
 package com.ymt.demo1.plates.personal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.baseClasses.PersonalPagerTabParentFragment;
-import com.ymt.demo1.main.AppContext;
+import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.SearchActivity;
 
 /**
  * This activity just provides a toolbar.
@@ -39,7 +36,7 @@ public class PersonalPagerTabActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_viewpagertabfragment);
+        setContentView(R.layout.activity_personal_center);
 
         FragmentManager fm = getSupportFragmentManager();
         if (fm.findFragmentByTag(PersonalPagerTabParentFragment.FRAGMENT_TAG) == null) {
@@ -49,49 +46,37 @@ public class PersonalPagerTabActivity extends BaseActivity {
             ft.commit();
             fm.executePendingTransactions();
         }
-
+        initTitle();
         initView();
 
-
-    }
-    @Override
-    protected void onResume() {
-        AppContext.addToAppContext(this);
-        super.onResume();
     }
 
-    @Override
-    protected void onPause() {
-        AppContext.removeFromAppContext(this);
-        super.onPause();
-    }
-
-    protected void initView() {
-        View mergeView = findViewById(R.id.merge_title);
-        View adviceTitle = mergeView.findViewById(R.id.merge_title_layout);
-        final ImageButton backBtn = (ImageButton) adviceTitle.findViewById(R.id.merge_title_back);
-        TextView titleTxt = (TextView) mergeView.findViewById(R.id.merge_title_text);
-        titleTxt.setText("个人中心");
-        adviceTitle.setOnTouchListener(new View.OnTouchListener() {
+    protected void initTitle() {
+        MyTitle title = (MyTitle) findViewById(R.id.my_title);
+        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
+        title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    backBtn.setBackgroundResource(R.drawable.back_normal);
-                }
-
-                return false;
-            }
-        });
-
-        adviceTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            public void onClick() {
                 finish();
             }
         });
+
+        title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
+            @Override
+            public void onRightLClick() {
+                startActivity(new Intent(PersonalPagerTabActivity.this, SearchActivity.class));
+            }
+
+            @Override
+            public void onRightRClick() {
+                //todo 设置按钮Action
+
+            }
+        });
+    }
+
+    protected void initView() {
+
 
     }
 

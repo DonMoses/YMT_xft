@@ -2,4 +2,6 @@
 <resources>
     <item name="simple_image_view" type="id" />
     <item name="cf_guide_view_pager" type="id" />
+
+    <item name="my_title" type="id" />
 </resources>

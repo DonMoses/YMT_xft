@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.main.TestActivity;
 import com.ymt.demo1.plates.eduPlane.EduMainActivity;
 import com.ymt.demo1.plates.hub.FireHubPagerTabActivity;
 import com.ymt.demo1.plates.MoreCatoActivity;
@@ -210,6 +211,10 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
                 break;
             case R.id.collection_layout:
                 //跳转到收藏
+
+
+                //todo 这里放入一个测试界面，方便开发中测验。 最后修改为收藏界面
+                startActivity(new Intent(this,TestActivity.class));
 
                 break;
             default:

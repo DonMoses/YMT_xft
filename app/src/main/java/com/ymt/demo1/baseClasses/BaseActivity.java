@@ -17,7 +17,6 @@
 package com.ymt.demo1.baseClasses;
 
 import android.content.res.TypedArray;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
@@ -29,10 +28,11 @@ import android.widget.ListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.SimpleHeaderRecyclerAdapter;
 import com.ymt.demo1.adapter.SimpleRecyclerAdapter;
+import com.ymt.demo1.main.BaseFloatActivity;
 
 import java.util.ArrayList;
 
-public abstract class BaseActivity extends ActionBarActivity {
+public abstract class BaseActivity extends BaseFloatActivity {
     private static final int NUM_OF_ITEMS = 100;
     private static final int NUM_OF_ITEMS_FEW = 3;
 

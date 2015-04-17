@@ -16,12 +16,12 @@
 
 package com.ymt.demo1.plates.hub;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +29,8 @@ import android.widget.Toast;
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.baseClasses.FireHubPagerTabParentFragment;
-import com.ymt.demo1.main.AppContext;
+import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.SearchActivity;
 
 /**
  * This activity just provides a toolbar.
@@ -40,7 +41,7 @@ public class FireHubPagerTabActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_viewpagertabfragment);
+        setContentView(R.layout.activity_hub);
 
         FragmentManager fm = getSupportFragmentManager();
         if (fm.findFragmentByTag(FireHubPagerTabParentFragment.FRAGMENT_TAG) == null) {
@@ -51,70 +52,36 @@ public class FireHubPagerTabActivity extends BaseActivity {
             fm.executePendingTransactions();
         }
 
+        initTitle();
         initView();
 
     }
-    @Override
-    protected void onResume() {
-        AppContext.addToAppContext(this);
-        super.onResume();
-    }
 
-    @Override
-    protected void onPause() {
-        AppContext.removeFromAppContext(this);
-        super.onPause();
-    }
-
-    protected void initView() {
-
-        // 设置title 及back 键
-        View mergeView = findViewById(R.id.merge_title);
-        View adviceTitle = mergeView.findViewById(R.id.merge_title_layout);
-        final ImageButton backBtn = (ImageButton) adviceTitle.findViewById(R.id.merge_title_back);
-        TextView titleTxt = (TextView) mergeView.findViewById(R.id.merge_title_text);
-        titleTxt.setText("消防论坛");
-        adviceTitle.setOnTouchListener(new View.OnTouchListener() {
+    protected void initTitle() {
+        MyTitle title = (MyTitle) findViewById(R.id.my_title);
+        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L_R);
+        title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    backBtn.setBackgroundResource(R.drawable.back_normal);
-                }
-
-                return false;
+            public void onClick() {
+                finish();
             }
         });
 
-        View.OnClickListener onClickListener = new View.OnClickListener() {
+        title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.merge_title_layout:       //back 键
-                        finish();
-                        break;
-                    case R.id.merge_search_btn:               //search 键  。点击调到搜索界面
-                        Toast.makeText(FireHubPagerTabActivity.this, "do search", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.merge_action_btn:               //action 键  。点击弹出菜单
-                        Toast.makeText(FireHubPagerTabActivity.this, "do action", Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        break;
-
-                }
+            public void onRightLClick() {
+                startActivity(new Intent(FireHubPagerTabActivity.this, SearchActivity.class));
             }
-        };
 
-        adviceTitle.setOnClickListener(onClickListener);
+            @Override
+            public void onRightRClick() {
+                //todo 设置按钮Action
+                Toast.makeText(FireHubPagerTabActivity.this, "设置按钮Action", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
-        //设置搜索button和action 键
-        ImageButton searchBtn = (ImageButton) mergeView.findViewById(R.id.merge_search_btn);
-        ImageButton actionBtn = (ImageButton) mergeView.findViewById(R.id.merge_action_btn);
-        searchBtn.setOnClickListener(onClickListener);
-        actionBtn.setOnClickListener(onClickListener);
+    protected void initView() {
 
 
     }

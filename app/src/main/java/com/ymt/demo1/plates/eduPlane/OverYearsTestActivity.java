@@ -3,7 +3,6 @@
  */
 package com.ymt.demo1.plates.eduPlane;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +16,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,7 +23,9 @@ import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.EduTestInfo;
-import com.ymt.demo1.main.AppContext;
+import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.BaseFloatActivity;
+import com.ymt.demo1.main.SearchActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ import java.util.ArrayList;
 /**
  * Created by Dan on 2015/4/9
  */
-public class OverYearsTestActivity extends Activity implements View.OnClickListener {
+public class OverYearsTestActivity extends BaseFloatActivity implements View.OnClickListener {
     final int SIMPLE_TYPE = 0;
     private View bottomTab;
     private View tabDiView;
@@ -43,19 +43,32 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edu_over_test);
+        initTitle();
         initView();
 
     }
-    @Override
-    protected void onResume() {
-        AppContext.addToAppContext(this);
-        super.onResume();
-    }
 
-    @Override
-    protected void onPause() {
-        AppContext.removeFromAppContext(this);
-        super.onPause();
+    protected void initTitle() {
+        MyTitle title = (MyTitle) findViewById(R.id.my_title);
+        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
+        title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
+            @Override
+            public void onClick() {
+                finish();
+            }
+        });
+
+        title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
+            @Override
+            public void onRightLClick() {
+                startActivity(new Intent(OverYearsTestActivity.this, SearchActivity.class));
+            }
+
+            @Override
+            public void onRightRClick() {
+                //todo 设置按钮Action
+            }
+        });
     }
 
     protected void initView() {
@@ -71,14 +84,6 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
         tabMenu.setOnClickListener(this);
         tabCollect.setOnClickListener(this);
         tabSetting.setOnClickListener(this);
-
-        /*
-        title 上back 按钮和搜索按钮的点击事件
-         */
-        View backBtn = findViewById(R.id.merge_title_layout);
-        ImageButton searchBtn = (ImageButton) findViewById(R.id.merge_search_btn);
-        backBtn.setOnClickListener(this);
-        searchBtn.setOnClickListener(this);
 
         /*
         历年真题列表
@@ -176,13 +181,7 @@ public class OverYearsTestActivity extends Activity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.merge_title_layout:
-
-                finish();           //退出
-                break;
-            case R.id.merge_search_btn:         //搜索
-                Toast.makeText(OverYearsTestActivity.this, "do search", Toast.LENGTH_SHORT).show();
-                break;
+            
             case R.id.tab_test_menu:
                 //todo 点击选项tab
                 Toast.makeText(OverYearsTestActivity.this, "全部题目", Toast.LENGTH_SHORT).show();

@@ -1,13 +1,17 @@
 package com.ymt.demo1.main.advice;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.SearchActivity;
 
 /**
  * Created by Moses on 2015
@@ -18,35 +22,18 @@ public class AdviceActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advice);
-        initView();
+        initTitle();
     }
 
-    protected void initView() {
-        View mergeView = findViewById(R.id.merge_advice_title);
-        View adviceTitle = mergeView.findViewById(R.id.merge_title_layout);
-        final ImageButton backBtn = (ImageButton) adviceTitle.findViewById(R.id.merge_title_back);
-        TextView titleTxt = (TextView) mergeView.findViewById(R.id.merge_title_text);
-        titleTxt.setText("意见反馈");
-        adviceTitle.setOnTouchListener(new View.OnTouchListener() {
+    protected void initTitle() {
+        MyTitle title = (MyTitle) findViewById(R.id.my_title);
+        title.setTitleStyle(MyTitle.TitleStyle.LEFT_ICON);
+        title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    backBtn.setBackgroundResource(R.drawable.back_normal);
-                }
-
-                return false;
-            }
-        });
-
-        adviceTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            public void onClick() {
                 finish();
             }
         });
-
     }
+
 }

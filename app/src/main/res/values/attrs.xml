@@ -17,7 +17,8 @@
     </declare-styleable>
 
     <declare-styleable name="AppGuideButton">
-        <attr name="guideBtnColor" format="integer" />
+        <attr name="guideBtnColor" format="integer|reference|color" />
+        <attr name="guideBtnText" format="string" />
     </declare-styleable>
 
     <declare-styleable name="CircleImageView">
@@ -34,5 +35,20 @@
         <attr name="space" format="dimension" />
         <attr name="total" format="integer" />
     </declare-styleable>
+
+    <!--自定义title-->
+    <declare-styleable name="MyTitle">
+        <!--坐标back图标-->
+        <attr name="setLeftActionIcon" format="reference" />
+        <!--中间title-->
+        <attr name="setTitleTxt" format="string" />
+        <!--右边图标一（search）-->
+        <attr name="setRightIconL" format="reference" />
+        <!--右边图标二（action）-->
+        <attr name="setRightActIconR" format="reference" />
+        <!--title字体颜色-->
+        <attr name="setTitleTxtColor" format="color|integer|reference" />
+    </declare-styleable>
+
 
 </resources>

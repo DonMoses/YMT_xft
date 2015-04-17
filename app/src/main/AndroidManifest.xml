@@ -33,6 +33,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".main.TestActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".main.floatWindow.FloatMenuActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -97,7 +101,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".plates.SearchActivity"
+            android:name=".main.SearchActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity

@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mytitle="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#87CEFA"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/merge_sign_title"
-        layout="@layout/title_merge_simple" />
+    <com.ymt.demo1.customViews.MyTitle
+        android:id="@id/my_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@android:color/holo_blue_dark"
+        mytitle:setLeftActionIcon="@drawable/back_normal"
+        mytitle:setRightActIconR="@drawable/icon_search_more"
+        mytitle:setRightIconL="@drawable/icon_search"
+        mytitle:setTitleTxt="注册" />
 
     <TableLayout
         android:layout_width="match_parent"

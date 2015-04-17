@@ -7,8 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.SearchActivity;
 
 /**
  * Created by Dan on 2015/4/2
@@ -21,8 +24,20 @@ public class SignInActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        initTitle();
         initView();
 
+    }
+
+    protected void initTitle() {
+        MyTitle title = (MyTitle) findViewById(R.id.my_title);
+        title.setTitleStyle(MyTitle.TitleStyle.LEFT_ICON);
+        title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
+            @Override
+            public void onClick() {
+                finish();
+            }
+        });
     }
 
     protected void initView() {

@@ -1,78 +1,50 @@
 package com.ymt.demo1.plates;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.main.AppContext;
+import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.BaseFloatActivity;
 
 import java.util.ArrayList;
 
 /**
  * Created by Dan on 2015/4/7
  */
-public class MoreCatoActivity extends Activity {
+public class MoreCatoActivity extends BaseFloatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_more);
+        initTitle();
         initView();
 
     }
 
-    @Override
-    protected void onResume() {
-        AppContext.addToAppContext(this);
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        AppContext.removeFromAppContext(this);
-        super.onPause();
-    }
-
-    protected void initView() {
-        //设置顶部title及其事件
-        View mergeView = findViewById(R.id.merge_more_title);
-        View adviceTitle = mergeView.findViewById(R.id.merge_title_layout);
-        final ImageButton backBtn = (ImageButton) adviceTitle.findViewById(R.id.merge_title_back);
-        TextView titleTxt = (TextView) mergeView.findViewById(R.id.merge_title_text);
-        titleTxt.setText("更多");
-        adviceTitle.setOnTouchListener(new View.OnTouchListener() {
+    protected void initTitle() {
+        MyTitle title = (MyTitle) findViewById(R.id.my_title);
+        title.setTitleStyle(MyTitle.TitleStyle.LEFT_ICON);
+        title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    backBtn.setBackgroundResource(R.drawable.back_normal);
-                }
-
-                return false;
-            }
-        });
-        //点击退出当前活动，回到主界面
-        adviceTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            public void onClick() {
                 finish();
             }
         });
+    }
+
+    protected void initView() {
 
         /*
         更多条目： gridView

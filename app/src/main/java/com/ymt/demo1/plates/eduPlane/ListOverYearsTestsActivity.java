@@ -1,4 +1,3 @@
-
 package com.ymt.demo1.plates.eduPlane;
 
 import android.app.Activity;
@@ -25,17 +24,6 @@ public class ListOverYearsTestsActivity extends Activity {
         setContentView(R.layout.activity_edu_test_grid);
         initView();
 
-    }
-
-    @Override
-    protected void onResume() {
-        AppContext.addToAppContext(this);
-        super.onResume();
-    }
-    @Override
-    protected void onPause() {
-        AppContext.removeFromAppContext(this);
-        super.onPause();
     }
 
     protected void initView() {

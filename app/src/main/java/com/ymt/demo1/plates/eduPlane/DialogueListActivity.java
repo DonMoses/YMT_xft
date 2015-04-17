@@ -3,8 +3,8 @@
  */
 package com.ymt.demo1.plates.eduPlane;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,7 +21,9 @@ import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.EduDialogueInfo;
-import com.ymt.demo1.main.AppContext;
+import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.BaseFloatActivity;
+import com.ymt.demo1.main.SearchActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -29,36 +31,41 @@ import java.util.ArrayList;
 /**
  * Created by Dan on 2015/4/9
  */
-public class DialogueListActivity extends Activity implements View.OnClickListener {
+public class DialogueListActivity extends BaseFloatActivity {
     final int SIMPLE_TYPE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edu_dialogue_list);
+        initTitle();
         initView();
     }
-    @Override
-    protected void onResume() {
-        AppContext.addToAppContext(this);
-        super.onResume();
-    }
 
-    @Override
-    protected void onPause() {
-        AppContext.removeFromAppContext(this);
-        super.onPause();
+    protected void initTitle() {
+        MyTitle title = (MyTitle) findViewById(R.id.my_title);
+        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
+        title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
+            @Override
+            public void onClick() {
+                finish();
+            }
+        });
+
+        title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
+            @Override
+            public void onRightLClick() {
+                startActivity(new Intent(DialogueListActivity.this, SearchActivity.class));
+            }
+
+            @Override
+            public void onRightRClick() {
+                //todo 设置按钮Action
+            }
+        });
     }
 
     protected void initView() {
-
-        /*
-        title 上back 按钮和搜索按钮的点击事件
-         */
-        View backView = findViewById(R.id.merge_title_layout);
-        ImageButton searchBtn = (ImageButton) findViewById(R.id.merge_search_btn);
-        backView.setOnClickListener(this);
-        searchBtn.setOnClickListener(this);
 
         /*
         问答列表
@@ -123,25 +130,6 @@ public class DialogueListActivity extends Activity implements View.OnClickListen
         }
         adapter.setList(mData);
 
-    }
-
-    /**
-     * View的点击事件。
-     */
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.merge_title_layout:
-
-                finish();           //退出
-                break;
-            case R.id.merge_search_btn:         //搜索
-                Toast.makeText(DialogueListActivity.this, "do search", Toast.LENGTH_SHORT).show();
-                break;
-
-            default:
-                break;
-        }
     }
 
     /*
