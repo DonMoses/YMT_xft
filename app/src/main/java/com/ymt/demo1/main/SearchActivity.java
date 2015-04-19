@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.dbBeams.SearchString;
+import com.ymt.demo1.dbTables.SearchString;
 
 import org.litepal.crud.DataSupport;
 import org.litepal.tablemanager.Connector;
