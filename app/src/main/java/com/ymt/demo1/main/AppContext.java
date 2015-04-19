@@ -1,8 +1,8 @@
 package com.ymt.demo1.main;
 
 import android.app.Activity;
-import android.app.Application;
-import android.content.Context;
+
+import org.litepal.LitePalApplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,21 +10,15 @@ import java.util.List;
 /**
  * Created by Dan on 2015/4/16
  */
-public class AppContext extends Application {
-    private static Context context;
+public class AppContext extends LitePalApplication {
     private static List<Activity> yActivities;
     private static Activity floatActivity;
 
     @Override
     public void onCreate() {
-        context = getApplicationContext();
         if (yActivities == null) {
             yActivities = new ArrayList<>();
         }
-    }
-
-    public static Context getContext() {
-        return context;
     }
 
     /**
