@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -34,7 +35,7 @@ public class SearchActivity extends BaseFloatActivity {
     }
 
     protected void initView() {
-        final AutoCompleteTextView searchTxt = (AutoCompleteTextView) findViewById(R.id.search_edit_text);
+        final EditText searchTxt = (EditText) findViewById(R.id.search_edit_text);
         ImageButton searchBtn = (ImageButton) findViewById(R.id.search_btn);
 
         /*

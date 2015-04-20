@@ -39,6 +39,7 @@
             android:textSize="11sp" />
 
         <EditText
+            android:id="@+id/advice_edit_text"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:background="@drawable/abc_cab_background_top_material"
@@ -49,7 +50,7 @@
             android:textSize="12sp" />
 
         <Button
-            android:id="@+id/do_sign_btn"
+            android:id="@+id/do_sub_btn"
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:layout_marginTop="20dp"

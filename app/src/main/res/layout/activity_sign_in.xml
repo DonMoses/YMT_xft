@@ -163,7 +163,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:src="@drawable/wechat" />
+                android:src="@drawable/share_we_chat" />
 
             <ImageButton
                 android:id="@+id/sign_in_qq"
@@ -171,7 +171,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@null"
-                android:src="@drawable/qq" />
+                android:src="@drawable/share_qq" />
 
             <ImageButton
                 android:id="@+id/sign_in_sina"
@@ -179,7 +179,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:background="@null"
-                android:src="@drawable/sina" />
+                android:src="@drawable/share_sina" />
         </FrameLayout>
 
         <View

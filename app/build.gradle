@@ -28,4 +28,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.3'
     compile project(':library_pulltorefresh')
     compile project(':library_ultraPulltoRefesh')
+    compile files('libs/litepal-1.2.0-src.jar')
+    compile files('libs/mframework.jar')
+    compile files('libs/ShareSDK-Wechat-2.5.9.jar')
 }

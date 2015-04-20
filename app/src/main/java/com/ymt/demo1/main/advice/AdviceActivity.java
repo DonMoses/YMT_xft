@@ -44,7 +44,7 @@ public class AdviceActivity extends Activity {
 
     protected void initView() {
         final Button subAdviceBtn = (Button) findViewById(R.id.do_sub_btn);
-        final EditText editAdviceTxt = (EditText) findViewById(R.id.advice_text);
+        final EditText editAdviceTxt = (EditText) findViewById(R.id.advice_edit_text);
 
          /*
                     测量控件大小，计算偏移以确定位置。
