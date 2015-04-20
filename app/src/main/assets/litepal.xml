@@ -3,11 +3,12 @@
     <dbname value="xft">
 
     </dbname>
-    <version value="1">
+    <version value="2">
 
     </version>
     <list>
         <mapping class="com.ymt.demo1.dbTables.SearchString" />
+        <mapping class="com.ymt.demo1.dbTables.Account" />
     </list>
 </litepal>
 

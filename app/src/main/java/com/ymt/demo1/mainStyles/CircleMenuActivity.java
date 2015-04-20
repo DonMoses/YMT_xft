@@ -214,7 +214,7 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
 
 
                 //todo 这里放入一个测试界面，方便开发中测验。 最后修改为收藏界面
-                startActivity(new Intent(this,TestActivity.class));
+                startActivity(new Intent(this, TestActivity.class));
 
                 break;
             default:

@@ -61,9 +61,11 @@ public class GuidePageFragment3 extends Fragment {
                 switch (v.getId()) {
                     case R.id.guide_sign_in:
                         startActivity(new Intent(getActivity(), SignInActivity.class));
+                        getActivity().finish();
                         break;
                     case R.id.guide_sign_up:
                         startActivity(new Intent(getActivity(), SignUpActivity.class));
+                        getActivity().finish();
                         break;
                     case R.id.guide_try_now:
                         startActivity(new Intent(getActivity(), CircleMenuActivity.class));
