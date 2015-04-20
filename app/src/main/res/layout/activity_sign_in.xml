@@ -20,8 +20,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="25dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/logo" />
 
     <TableLayout
@@ -30,7 +30,6 @@
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:layout_marginTop="20dp"
         android:background="@drawable/bg_input_box"
         android:stretchColumns="2">
 
@@ -60,7 +59,9 @@
                 android:textSize="12sp" />
         </TableRow>
 
-        <TableRow android:gravity="center_vertical">
+        <TableRow
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical">
 
             <ImageView
                 android:layout_width="19dp"
