@@ -24,11 +24,11 @@
         <ListView
             android:id="@+id/setting_list_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
+            android:layout_height="wrap_content"
             android:divider="#CFCFCF"
-            android:dividerHeight="0.8dp">
+            android:dividerHeight="0.8dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
 
         </ListView>
 
