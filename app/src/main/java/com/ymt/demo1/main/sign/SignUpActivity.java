@@ -76,32 +76,45 @@ public class SignUpActivity extends Activity {
                 psw = pswTxt.getText().toString();
                 rePsw = rePswTxt.getText().toString();
 
-                for (int i = 0; i < accountList.size(); i++) {
-                    if (accountList.get(i).getPhoneNum().equals(phoneNum)) {
-                        Toast.makeText(SignUpActivity.this, "该手机号已经注册!", Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-                    if (accountList.get(i).getAccountName().equals(account)) {
-                        Toast.makeText(SignUpActivity.this, "该用户名已经注册!", Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-                    if (!psw.equals(rePsw) || psw == null || psw.equals("")) {
-                        Toast.makeText(SignUpActivity.this, "密码输入错误!", Toast.LENGTH_SHORT).show();
-                        break;
-                    }
+                if (accountList == null || accountList.size() == 0) {
+                    jumpToSignIn(phoneNum, account, psw);
+                } else {
 
-                    Account account1 = new Account();
-                    account1.setPhoneNum(phoneNum);
-                    account1.setAccountName(account);
-                    account1.setPassword(psw);
-                    account1.save();
-                    Toast.makeText(SignUpActivity.this, "注册成功！", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(SignUpActivity.this, SignInActivity.class));
-                    finish();
+                    for (int i = 0; i < accountList.size(); i++) {
+                        if (accountList.get(i).getPhoneNum().equals(phoneNum)) {
+                            Toast.makeText(SignUpActivity.this, "该手机号已经注册!", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        if (accountList.get(i).getAccountName().equals(account)) {
+                            Toast.makeText(SignUpActivity.this, "该用户名已经注册!", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                        if (!psw.equals(rePsw) || psw == null || psw.equals("")) {
+                            Toast.makeText(SignUpActivity.this, "密码输入错误!", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+
+                        jumpToSignIn(phoneNum, account, psw);
+                    }
                 }
 
             }
         });
+    }
+
+    protected void jumpToSignIn(String phone, String account, String psw) {
+        Account account1 = new Account();
+        account1.setPhoneNum(phone);
+        account1.setAccountName(account);
+        account1.setPassword(psw);
+        account1.save();
+        Toast.makeText(SignUpActivity.this, "注册成功！", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent();
+        intent.putExtra("account", account);
+        intent.putExtra("password", psw);
+        setResult(RESULT_OK, intent);
+
+        finish();
     }
 
 }

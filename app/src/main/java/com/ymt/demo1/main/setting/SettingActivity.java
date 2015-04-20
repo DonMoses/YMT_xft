@@ -105,10 +105,11 @@ public class SettingActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //退出当前账号
-                //跳转到主界面
-                startActivity(new Intent(SettingActivity.this, CircleMenuActivity.class));
-                //退出账号
-
+                //跳转到登录界面
+                getSharedPreferences("saved_account", MODE_PRIVATE).edit().clear().apply();
+                Intent intent = new Intent(SettingActivity.this, SignInActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);                //清楚前面所有Activity
+                startActivity(intent);
                 //结束本活动
                 finish();
 
