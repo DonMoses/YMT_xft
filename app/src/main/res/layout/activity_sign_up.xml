@@ -177,7 +177,7 @@
             android:layout_marginStart="3dp"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:text="我已阅读并同意《消防通安全协议》"
+            android:text="@string/license"
             android:textColor="#4169E1"
             android:textSize="12sp" />
 

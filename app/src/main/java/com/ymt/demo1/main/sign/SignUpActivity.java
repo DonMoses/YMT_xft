@@ -3,9 +3,16 @@ package com.ymt.demo1.main.sign;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
@@ -14,6 +21,7 @@ import com.ymt.demo1.dbTables.Account;
 
 import org.litepal.crud.DataSupport;
 
+import java.util.Dictionary;
 import java.util.List;
 
 /**
@@ -56,6 +64,12 @@ public class SignUpActivity extends Activity {
         final EditText accountTxt = (EditText) findViewById(R.id.input_account);
         final EditText pswTxt = (EditText) findViewById(R.id.input_psw);
         final EditText rePswTxt = (EditText) findViewById(R.id.re_input_psw);
+        final TextView licenseTxt = (TextView) findViewById(R.id.licence_txt);
+        //todo 使用spannableString 设置富文本
+        SpannableString spannableString = new SpannableString(getString(R.string.license));
+        ForegroundColorSpan span = new ForegroundColorSpan(getResources().getColor(R.color.material_blue_grey_800));
+        spannableString.setSpan(span, 0, 7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        licenseTxt.setText(spannableString);
 
         //注册按钮事件
         Button signUpBtn = (Button) findViewById(R.id.do_sign_btn);
@@ -82,15 +96,15 @@ public class SignUpActivity extends Activity {
 
                     for (int i = 0; i < accountList.size(); i++) {
                         if (accountList.get(i).getPhoneNum().equals(phoneNum)) {
-                            Toast.makeText(SignUpActivity.this, "该手机号已经注册!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, R.string.phone_signed_up, Toast.LENGTH_SHORT).show();
                             break;
                         }
                         if (accountList.get(i).getAccountName().equals(account)) {
-                            Toast.makeText(SignUpActivity.this, "该用户名已经注册!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, R.string.account_signed_up, Toast.LENGTH_SHORT).show();
                             break;
                         }
                         if (!psw.equals(rePsw) || psw == null || psw.equals("")) {
-                            Toast.makeText(SignUpActivity.this, "密码输入错误!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, R.string.psw_wrong_input, Toast.LENGTH_SHORT).show();
                             break;
                         }
 

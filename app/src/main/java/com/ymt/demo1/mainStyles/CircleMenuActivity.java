@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.main.TestActivity;
+import com.ymt.demo1.demos.TestActivity;
 import com.ymt.demo1.plates.eduPlane.EduMainActivity;
 import com.ymt.demo1.plates.hub.FireHubPagerTabActivity;
 import com.ymt.demo1.plates.MoreCatoActivity;

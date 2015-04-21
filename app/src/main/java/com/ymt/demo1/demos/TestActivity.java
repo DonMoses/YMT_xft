@@ -1,4 +1,4 @@
-package com.ymt.demo1.main;
+package com.ymt.demo1.demos;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.SearchActivity;
 
 /**
  * Created by Dan on 2015/4/17
@@ -42,5 +43,11 @@ public class TestActivity extends Activity {
                 Toast.makeText(TestActivity.this, "设置按钮Action", Toast.LENGTH_SHORT).show();
             }
         });
+
+        /*
+        自定义View实现动画
+         */
+
+
     }
 }

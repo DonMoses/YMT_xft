@@ -97,21 +97,18 @@ public class SignInActivity extends Activity {
                         account1.setPassword(psw);
 
                         if (accountList == null || accountList.size() == 0) {
-                            Toast.makeText(SignInActivity.this, "请先注册！", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignInActivity.this, R.string.should_sign_up_1st, Toast.LENGTH_SHORT).show();
                         } else {
-
                             for (int i = 0; i < accountList.size(); i++) {
                                 if (accountList.get(i).getAccountName().equals(account) &&
                                         accountList.get(i).getPassword().equals(psw)) {
-                                    Toast.makeText(SignInActivity.this, "登录成功！", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(SignInActivity.this, R.string.sign_in_ok, Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(SignInActivity.this, CircleMenuActivity.class));
                                     finish();
-                                    break;
-                                } else {
-                                    Toast.makeText(SignInActivity.this, "密码输入错误，请检查后重新输入", Toast.LENGTH_SHORT).show();
+                                    return;
                                 }
-
                             }
+                            Toast.makeText(SignInActivity.this, R.string.account_psw_wrong, Toast.LENGTH_SHORT).show();
 
                         }
                         break;
