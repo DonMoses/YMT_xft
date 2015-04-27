@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:imeIndicator="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ime_pop_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/pager_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/ime_viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white" />
+
+        <com.ymt.demo1.customViews.IndicatorView
+            android:id="@+id/ime_pagerIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="5dp"
+            imeIndicator:active="@drawable/indicator_red"
+            imeIndicator:space="25dp"
+            imeIndicator:unActive="@drawable/indicator_white" />
+
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/darker_gray" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@android:color/white"
+        android:shrinkColumns="0,2,4,6,8,10"
+        android:stretchColumns="0,2,4,6,8,10,12">
+
+        <TableRow
+            android:layout_height="match_parent"
+            android:gravity="center_vertical">
+
+            <FrameLayout
+                android:id="@+id/ime_tab_1"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_input_emoj" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:background="@android:color/darker_gray" />
+
+            <FrameLayout
+                android:id="@+id/ime_tab_2"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_input_emoj" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:background="@android:color/darker_gray" />
+
+            <FrameLayout
+                android:id="@+id/ime_tab_3"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_input_emoj" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:background="@android:color/darker_gray" />
+
+            <View />
+        </TableRow>
+
+    </TableLayout>
+</LinearLayout>

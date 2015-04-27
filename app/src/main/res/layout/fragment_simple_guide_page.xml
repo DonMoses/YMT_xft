@@ -4,6 +4,6 @@
     android:layout_height="match_parent">
 
     <include layout="@layout/simple_image_view_layout" />
-    
+
 
 </FrameLayout>

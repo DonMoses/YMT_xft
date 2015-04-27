@@ -12,6 +12,7 @@ import com.ymt.demo1.R;
 
 /**
  * Created by Dan on 2015/4/21
+ * 一个转圈的View
  */
 public class MyRotateView extends View {
 

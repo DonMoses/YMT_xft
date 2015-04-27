@@ -28,4 +28,12 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <!--pop 动画style-->
+    <style name="MyPopAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/pop_action_anim_enter</item>
+        <item name="android:windowExitAnimation">@anim/pop_action_anim_out</item>
+
+    </style>
+
+
 </resources>

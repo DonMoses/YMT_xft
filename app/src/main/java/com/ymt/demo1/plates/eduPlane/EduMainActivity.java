@@ -7,7 +7,6 @@ import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,7 +57,7 @@ public class EduMainActivity extends BaseFloatActivity {
     }
 
     protected void initTitle() {
-        MyTitle title = (MyTitle) findViewById(R.id.my_title);
+        final MyTitle title = (MyTitle) findViewById(R.id.my_title);
         title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
@@ -76,7 +75,8 @@ public class EduMainActivity extends BaseFloatActivity {
             @Override
             public void onRightRClick() {
                 //todo 设置按钮Action
-//                Toast.makeText(EduMainActivity.this, "设置按钮Action", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EduMainActivity.this, "设置按钮Action", Toast.LENGTH_SHORT).show();
+
             }
         });
     }

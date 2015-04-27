@@ -55,7 +55,7 @@ public class FireHubPagerTabParentFragment extends BaseFragment implements Obser
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_firehubpagertabfragment_parent, container, false);
+        View view = inflater.inflate(R.layout.fragment_fire_hub_pagertabfragment_parent, container, false);
 
         ActionBarActivity parentActivity = (ActionBarActivity) getActivity();
         mPagerAdapter = new NavigationAdapter(getChildFragmentManager());

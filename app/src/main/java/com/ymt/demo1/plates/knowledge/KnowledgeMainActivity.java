@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.ymt.demo1.plates.hub;
+package com.ymt.demo1.plates.knowledge;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -25,31 +24,30 @@ import android.widget.PopupWindow;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
-import com.ymt.demo1.baseClasses.FireHubPagerTabParentFragment;
+import com.ymt.demo1.baseClasses.KnowledgePagerTabParentFragment;
+import com.ymt.demo1.baseClasses.PersonalPagerTabParentFragment;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.SearchActivity;
 import com.ymt.demo1.plates.PopActionUtil;
 
 /**
  * This activity just provides a toolbar.
  * Toolbar is manipulated by ViewPagerTabFragmentParentFragment.
  */
-public class FireHubPagerTabActivity extends BaseActivity {
+public class KnowledgeMainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hub);
+        setContentView(R.layout.activity_knowledge_main);
 
         FragmentManager fm = getSupportFragmentManager();
-        if (fm.findFragmentByTag(FireHubPagerTabParentFragment.FRAGMENT_TAG) == null) {
+        if (fm.findFragmentByTag(KnowledgePagerTabParentFragment.FRAGMENT_TAG) == null) {
             FragmentTransaction ft = fm.beginTransaction();
-            ft.add(R.id.fragment, new FireHubPagerTabParentFragment(),
-                    FireHubPagerTabParentFragment.FRAGMENT_TAG);
+            ft.add(R.id.fragment, new KnowledgePagerTabParentFragment(),
+                    KnowledgePagerTabParentFragment.FRAGMENT_TAG);
             ft.commit();
             fm.executePendingTransactions();
         }
-
         initTitle();
         initView();
 
@@ -57,7 +55,7 @@ public class FireHubPagerTabActivity extends BaseActivity {
 
     protected void initTitle() {
         final MyTitle title = (MyTitle) findViewById(R.id.my_title);
-        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L_R);
+        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
             public void onClick() {
@@ -68,16 +66,16 @@ public class FireHubPagerTabActivity extends BaseActivity {
         title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
             public void onRightLClick() {
-                startActivity(new Intent(FireHubPagerTabActivity.this, SearchActivity.class));
+                PopupWindow popupWindow = PopActionUtil.getInstance(
+                        KnowledgeMainActivity.this,
+                        new String[]{"最近浏览", "知识讨论", "更多"}).getPopActionMenu();
+                popupWindow.showAtLocation(title.getRootView(),
+                        Gravity.TOP | Gravity.END, 10, 100);
             }
 
             @Override
             public void onRightRClick() {
-                // 设置按钮Action
-                PopupWindow popupWindow = PopActionUtil.getInstance(
-                        FireHubPagerTabActivity.this,
-                        new String[]{"我的收藏", "最近浏览", "问题申诉"}).getPopActionMenu();
-                popupWindow.showAtLocation(title.getRootView(), Gravity.END | Gravity.TOP, 10, 100);
+                //此视图，右边只包含L按钮
 
             }
         });

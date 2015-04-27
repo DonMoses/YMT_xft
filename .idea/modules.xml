@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/library_pulltorefresh/library_pulltorefresh.iml" filepath="$PROJECT_DIR$/library_pulltorefresh/library_pulltorefresh.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/libs/library_ultraPulltoRefesh/library_ultraPulltoRefesh.iml" filepath="$PROJECT_DIR$/app/libs/library_ultraPulltoRefesh/library_ultraPulltoRefesh.iml" />
       <module fileurl="file://$PROJECT_DIR$/library_zhy_CircleMenu/library_zhy_CircleMenu.iml" filepath="$PROJECT_DIR$/library_zhy_CircleMenu/library_zhy_CircleMenu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/libs/ptr-lib/ptr-lib.iml" filepath="$PROJECT_DIR$/app/libs/ptr-lib/ptr-lib.iml" />
     </modules>
   </component>
 </project>

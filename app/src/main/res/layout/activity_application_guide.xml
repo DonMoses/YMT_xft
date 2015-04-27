@@ -6,6 +6,7 @@
     android:background="#FFFFFF"
     android:orientation="vertical"
     android:weightSum="1">
+
     <com.ymt.demo1.customViews.MyTitle
         android:id="@id/my_title"
         android:layout_width="match_parent"

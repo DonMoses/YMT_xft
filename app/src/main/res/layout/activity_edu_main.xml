@@ -2,7 +2,7 @@
 
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/tools"
+    xmlns:myIndicator="http://schemas.android.com/apk/res-auto"
     xmlns:mytitle="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -36,9 +36,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="8dp"
-            app:active="@drawable/indicator_red"
-            app:space="5dp"
-            app:unActive="@drawable/indicator_white" />
+            myIndicator:active="@drawable/indicator_red"
+            myIndicator:space="5dp"
+            myIndicator:unActive="@drawable/indicator_white" />
 
     </FrameLayout>
 

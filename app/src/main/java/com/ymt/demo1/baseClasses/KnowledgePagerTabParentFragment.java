@@ -27,7 +27,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.customViews.obsScrollview.CacheFragmentStatePagerAdapter;
@@ -42,7 +48,7 @@ import com.ymt.demo1.customViews.widget.PagerSlidingTabStrip;
  * This fragment manages ViewPager and its child Fragments.
  * Scrolling techniques are basically the same as ViewPagerTab2Activity.
  */
-public class PersonalPagerTabParentFragment extends BaseFragment implements ObservableScrollViewCallbacks {
+public class KnowledgePagerTabParentFragment extends BaseFragment implements ObservableScrollViewCallbacks {
     public static final String FRAGMENT_TAG = "fragment";
 
     private TouchInterceptionFrameLayout mInterceptionLayout;
@@ -54,8 +60,9 @@ public class PersonalPagerTabParentFragment extends BaseFragment implements Obse
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_personal_center_pagertabfragment_parent, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_knowledge_pagertabfragment_parent, container, false);
+        //初始化搜索界面
+        initSearch(view);
         ActionBarActivity parentActivity = (ActionBarActivity) getActivity();
         mPagerAdapter = new NavigationAdapter(getChildFragmentManager());
         mPager = (ViewPager) view.findViewById(R.id.pager);
@@ -88,6 +95,36 @@ public class PersonalPagerTabParentFragment extends BaseFragment implements Obse
 
     }
 
+    /**
+     * 初始化知识平台搜索控件
+     */
+    protected void initSearch(View view) {
+        final ImageView searchBtn = (ImageView) view.findViewById(R.id.knowledge_search_btn);
+        final EditText searchInputTxt = (EditText) view.findViewById(R.id.search_input);
+        GridView searchGridView = (GridView) view.findViewById(R.id.knowledge_searched_grid_view);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+                R.layout.item_view_common_quest,
+                new String[]{"消防部门", "规范组", "建委", "科研院校", "设计院", "开发商", "设备商", "服务商"});
+        searchGridView.setAdapter(adapter);
+        searchGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //todo 搜索关键字
+                String searchStr = parent.getAdapter().getItem(position).toString();
+                searchInputTxt.setText(searchStr);
+                Toast.makeText(getActivity(), searchStr, Toast.LENGTH_SHORT).show();
+            }
+        });
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo 搜索关键字
+                String searchStr = searchInputTxt.getText().toString();
+                Toast.makeText(getActivity(), searchStr, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @Override
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
         if (!mScrolled) {
@@ -113,7 +150,7 @@ public class PersonalPagerTabParentFragment extends BaseFragment implements Obse
 
             // If interceptionLayout can move, it should intercept.
             // And once it begins to move, horizontal scroll shouldn't work any longer.
-            View infoView = getActivity().findViewById(R.id.personal_info_layout);
+            View infoView = getActivity().findViewById(R.id.knowledge_search_layout);
             int infoViewHeight = infoView.getHeight();
             int translationY = (int) ViewHelper.getTranslationY(mInterceptionLayout);
             boolean scrollingUp = 0 < diffY;
@@ -142,7 +179,7 @@ public class PersonalPagerTabParentFragment extends BaseFragment implements Obse
 
         @Override
         public void onMoveMotionEvent(MotionEvent ev, float diffX, float diffY) {
-            View infoView = getActivity().findViewById(R.id.personal_info_layout);
+            View infoView = getActivity().findViewById(R.id.knowledge_search_layout);
             float translationY = ScrollUtils.getFloat(
                     ViewHelper.getTranslationY(mInterceptionLayout) + diffY, -infoView.getHeight(), 0);
             ViewHelper.setTranslationY(mInterceptionLayout, translationY);
@@ -174,7 +211,7 @@ public class PersonalPagerTabParentFragment extends BaseFragment implements Obse
     }
 
     private void adjustToolbar(ScrollState scrollState) {
-        View infoView = getActivity().findViewById(R.id.personal_info_layout);
+        View infoView = getActivity().findViewById(R.id.knowledge_search_layout);
         int toolbarHeight = infoView.getHeight();
         final Scrollable scrollable = getCurrentScrollable();
         if (scrollable == null) {
@@ -209,7 +246,7 @@ public class PersonalPagerTabParentFragment extends BaseFragment implements Obse
         if (view == null) {
             return false;
         }
-        View infoView = getActivity().findViewById(R.id.personal_info_layout);
+        View infoView = getActivity().findViewById(R.id.knowledge_search_layout);
         return ViewHelper.getTranslationY(mInterceptionLayout) == -infoView.getHeight();
     }
 
@@ -218,7 +255,7 @@ public class PersonalPagerTabParentFragment extends BaseFragment implements Obse
     }
 
     private void hideToolbar() {
-        View infoView = getActivity().findViewById(R.id.personal_info_layout);
+        View infoView = getActivity().findViewById(R.id.knowledge_search_layout);
         animateToolbar(-infoView.getHeight());
     }
 
@@ -230,7 +267,7 @@ public class PersonalPagerTabParentFragment extends BaseFragment implements Obse
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     float translationY = (float) animation.getAnimatedValue();
-                    View infoView = getActivity().findViewById(R.id.personal_info_layout);
+                    View infoView = getActivity().findViewById(R.id.knowledge_search_layout);
                     ViewHelper.setTranslationY(mInterceptionLayout, translationY);
                     ViewHelper.setTranslationY(infoView, translationY);
                     if (translationY < 0) {
@@ -250,7 +287,7 @@ public class PersonalPagerTabParentFragment extends BaseFragment implements Obse
      */
     private static class NavigationAdapter extends CacheFragmentStatePagerAdapter {
 
-        private static final String[] TITLES = new String[]{"我的消息", "与我相关", "我的提问", "我的信息", "我的收藏", "签到"};
+        private static final String[] TITLES = new String[]{"消防机构", "消防行业", "消防系统", "消防科研"};
 
         public NavigationAdapter(FragmentManager fm) {
             super(fm);

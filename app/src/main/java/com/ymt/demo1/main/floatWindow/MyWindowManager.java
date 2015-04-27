@@ -54,6 +54,7 @@ public class MyWindowManager {
                 smallWindowParams.x = screenWidth;
                 smallWindowParams.y = screenHeight / 2;
             }
+
             smallWindow.setParams(smallWindowParams);
             windowManager.addView(smallWindow, smallWindowParams);
         }

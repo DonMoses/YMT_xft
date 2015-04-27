@@ -1,7 +1,6 @@
 package com.ymt.demo1.main.floatWindow;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +11,7 @@ import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.plates.MoreCatoActivity;
 import com.ymt.demo1.plates.eduPlane.EduMainActivity;
 import com.ymt.demo1.plates.hub.FireHubPagerTabActivity;
+import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
 import com.ymt.demo1.plates.personal.PersonalPagerTabActivity;
 import com.zhy.view.CircleMenuLayout;
 
@@ -86,6 +86,11 @@ public class FloatMenuActivity extends Activity {
                         MyWindowManager.removeBigWindow();
                         startActivity(
                                 new Intent(FloatMenuActivity.this, FireHubPagerTabActivity.class));   //论坛
+                        break;
+                    case 2:
+                        MyWindowManager.removeBigWindow();
+                        startActivity(
+                                new Intent(FloatMenuActivity.this, KnowledgeMainActivity.class));    //知识平台
                         break;
                     case 4:
                         MyWindowManager.removeBigWindow();
