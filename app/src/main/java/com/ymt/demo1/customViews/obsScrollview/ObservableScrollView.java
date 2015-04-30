@@ -23,6 +23,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.ScrollView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -45,6 +46,7 @@ public class ObservableScrollView extends ScrollView implements Scrollable {
     private MotionEvent mPrevMoveEvent;
     private ViewGroup mTouchInterceptionViewGroup;
     private PullToRefreshListView mListView;
+    private ListView ptrListView;
 
 
     public ObservableScrollView(Context context) {
@@ -260,6 +262,9 @@ public class ObservableScrollView extends ScrollView implements Scrollable {
         // TODO Auto-generated method stub
         if (mListView != null && checkArea(mListView, ev)) {
             return false;
+        } // TODO Auto-generated method stub
+        if (ptrListView != null && checkArea(ptrListView, ev)) {
+            return false;
         }
         return super.onInterceptTouchEvent(ev);
     }
@@ -293,5 +298,15 @@ public class ObservableScrollView extends ScrollView implements Scrollable {
     public void setListView(PullToRefreshListView listView) {
         this.mListView = listView;
     }
+
+    public ListView getPtrListView() {
+        return ptrListView;
+    }
+
+    public void setPtrListView(ListView ptrListView) {
+        this.ptrListView = ptrListView;
+
+    }
+
 
 }

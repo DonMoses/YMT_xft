@@ -32,7 +32,7 @@ import android.widget.FrameLayout;
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseFragment;
 import com.ymt.demo1.baseClasses.ViewHelper;
-import com.ymt.demo1.baseClasses.ViewPagerTabFragmentScrollultraListViewFragment;
+import com.ymt.demo1.baseClasses.SimpleTestTabFragmentScrollUltraListViewFragment;
 import com.ymt.demo1.customViews.obsScrollview.CacheFragmentStatePagerAdapter;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollViewCallbacks;
 import com.ymt.demo1.customViews.obsScrollview.ScrollState;
@@ -282,7 +282,7 @@ public class MyStudyFragment extends BaseFragment implements ObservableScrollVie
 //                    break;
 //            }
 //            return new ViewPagerTabFragmentScrollListViewFragment();
-            return new ViewPagerTabFragmentScrollultraListViewFragment();
+            return new SimpleTestTabFragmentScrollUltraListViewFragment();
         }
 
         @Override

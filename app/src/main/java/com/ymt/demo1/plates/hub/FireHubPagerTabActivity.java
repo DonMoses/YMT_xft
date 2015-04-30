@@ -74,9 +74,9 @@ public class FireHubPagerTabActivity extends BaseActivity {
             @Override
             public void onRightRClick() {
                 // 设置按钮Action
-                PopupWindow popupWindow = PopActionUtil.getInstance(
-                        FireHubPagerTabActivity.this,
-                        new String[]{"我的收藏", "最近浏览", "问题申诉"}).getPopActionMenu();
+                PopActionUtil popActionUtil = PopActionUtil.getInstance(FireHubPagerTabActivity.this);
+                popActionUtil.setActions(new String[]{"我的收藏", "最近浏览", "问题申诉"});
+                PopupWindow popupWindow = popActionUtil.getPopActionMenu();
                 popupWindow.showAtLocation(title.getRootView(), Gravity.END | Gravity.TOP, 10, 100);
 
             }

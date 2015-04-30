@@ -16,17 +16,19 @@
 
 package com.ymt.demo1.plates.knowledge;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.baseClasses.KnowledgePagerTabParentFragment;
-import com.ymt.demo1.baseClasses.PersonalPagerTabParentFragment;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.PopActionListener;
 import com.ymt.demo1.plates.PopActionUtil;
 
 /**
@@ -34,6 +36,8 @@ import com.ymt.demo1.plates.PopActionUtil;
  * Toolbar is manipulated by ViewPagerTabFragmentParentFragment.
  */
 public class KnowledgeMainActivity extends BaseActivity {
+
+    private PopActionListener actionListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +67,44 @@ public class KnowledgeMainActivity extends BaseActivity {
             }
         });
 
+        actionListener = new PopActionListener() {
+            @Override
+            public void onAction(String action) {
+                switch (action) {
+                    case "最近浏览":
+                        Toast.makeText(KnowledgeMainActivity.this, "最近浏览", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(KnowledgeMainActivity.this, RecentViewActivity.class));
+                        break;
+                    case "知识讨论":
+                        Toast.makeText(KnowledgeMainActivity.this, "知识讨论", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(KnowledgeMainActivity.this, KnowledgeArgueActivity.class));
+                        break;
+                    case "更多":
+                        Toast.makeText(KnowledgeMainActivity.this, "更多", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(KnowledgeMainActivity.this, MoreKnowledgeInfoActivity.class));
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void onDismiss() {
+
+            }
+        };
+
         title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
             public void onRightLClick() {
-                PopupWindow popupWindow = PopActionUtil.getInstance(
-                        KnowledgeMainActivity.this,
-                        new String[]{"最近浏览", "知识讨论", "更多"}).getPopActionMenu();
+                PopActionUtil popActionUtil = PopActionUtil.getInstance(KnowledgeMainActivity.this);
+                popActionUtil.setActions(new String[]{"最近浏览", "知识讨论", "更多"});
+                PopupWindow popupWindow = popActionUtil.getPopActionMenu();
                 popupWindow.showAtLocation(title.getRootView(),
                         Gravity.TOP | Gravity.END, 10, 100);
+
+                popActionUtil.setActionListener(actionListener);
+
             }
 
             @Override

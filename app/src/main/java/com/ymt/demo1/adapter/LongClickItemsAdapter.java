@@ -52,7 +52,7 @@ public class LongClickItemsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView textView;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.item_view_common_quest, null);
+            convertView = inflater.inflate(R.layout.item_view_common_quest_high, null);
             textView = (TextView) convertView.findViewById(R.id.common_quest_item_view);
             convertView.setTag(textView);
         } else {

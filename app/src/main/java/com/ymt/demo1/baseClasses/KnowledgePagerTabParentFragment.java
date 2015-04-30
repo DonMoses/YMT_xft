@@ -36,6 +36,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.customKeyBoard.ScreenSizeUtil;
 import com.ymt.demo1.customViews.obsScrollview.CacheFragmentStatePagerAdapter;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollViewCallbacks;
 import com.ymt.demo1.customViews.obsScrollview.ScrollState;
@@ -43,6 +44,7 @@ import com.ymt.demo1.customViews.obsScrollview.ScrollUtils;
 import com.ymt.demo1.customViews.obsScrollview.Scrollable;
 import com.ymt.demo1.customViews.obsScrollview.TouchInterceptionFrameLayout;
 import com.ymt.demo1.customViews.widget.PagerSlidingTabStrip;
+import com.ymt.demo1.plates.knowledge.KnowledgeTabScrollUltraListViewFragment;
 
 /**
  * This fragment manages ViewPager and its child Fragments.
@@ -82,6 +84,13 @@ public class KnowledgePagerTabParentFragment extends BaseFragment implements Obs
         mInterceptionLayout = (TouchInterceptionFrameLayout) view.findViewById(R.id.container);
         mInterceptionLayout.setScrollInterceptionListener(mInterceptionListener);
 
+        /*
+        将pager 视图移到导航栏上方（解决被导航栏遮挡底部的问题）
+         */
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        layoutParams.setMargins(0, 0, 0, ScreenSizeUtil.getNavigationBarHeight());
+        mPager.setLayoutParams(layoutParams);
         return view;
     }
 
@@ -103,7 +112,7 @@ public class KnowledgePagerTabParentFragment extends BaseFragment implements Obs
         final EditText searchInputTxt = (EditText) view.findViewById(R.id.search_input);
         GridView searchGridView = (GridView) view.findViewById(R.id.knowledge_searched_grid_view);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                R.layout.item_view_common_quest,
+                R.layout.item_view_common_quest_low,
                 new String[]{"消防部门", "规范组", "建委", "科研院校", "设计院", "开发商", "设备商", "服务商"});
         searchGridView.setAdapter(adapter);
         searchGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -295,6 +304,7 @@ public class KnowledgePagerTabParentFragment extends BaseFragment implements Obs
 
         @Override
         protected Fragment createItem(int position) {
+            //todo 根据类型返回不同接口的内容。 这里使用KnowledgeTabScrollUltraListViewFragment演示
 //            Fragment f;
 //            final int pattern = position % 5;
 //            switch (pattern) {
@@ -316,7 +326,7 @@ public class KnowledgePagerTabParentFragment extends BaseFragment implements Obs
 //                    break;
 //            }
 //            return new ViewPagerTabFragmentScrollListViewFragment();
-            return new ViewPagerTabFragmentScrollultraListViewFragment();
+            return new KnowledgeTabScrollUltraListViewFragment();
         }
 
         @Override

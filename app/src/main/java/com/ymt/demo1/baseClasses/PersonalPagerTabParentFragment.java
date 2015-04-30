@@ -279,7 +279,7 @@ public class PersonalPagerTabParentFragment extends BaseFragment implements Obse
 //                    break;
 //            }
 //            return new ViewPagerTabFragmentScrollListViewFragment();
-            return new ViewPagerTabFragmentScrollultraListViewFragment();
+            return new SimpleTestTabFragmentScrollUltraListViewFragment();
         }
 
         @Override

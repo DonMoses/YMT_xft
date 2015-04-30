@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
@@ -18,18 +17,19 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.SearchActivity;
 
 /**
  * Created by Dan on 2015/4/17
  */
-public class ConsultActivity extends FragmentActivity {
+public class ConsultActivity extends BaseActivity {
     public EditText mInputText;
     private ImeKeyBoardUtil imeKeyBoardUtil;
     private InputMethodManager inputMethodManager;
     private ImeLayout imeLayout;
-    private ScreenSizeUtil screenSizeUtil;
+    private AScreenSizeUtil AScreenSizeUtil;
     private int tempLess = 0;
     private int tempMuch = 0;
     private int screenHeight;
@@ -39,7 +39,7 @@ public class ConsultActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
+        setContentView(R.layout.activity_consult);
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imeLayout = (ImeLayout) findViewById(R.id.root_ime_layout);
         imeLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -59,8 +59,8 @@ public class ConsultActivity extends FragmentActivity {
                 }
 
                 int screenContentBarHeight = tempLess;
-                screenSizeUtil = ScreenSizeUtil.getInstance(ConsultActivity.this, screenHeight, screenContentBarHeight);
-                screenSizeUtil.initSize();
+                AScreenSizeUtil = AScreenSizeUtil.getInstance(ConsultActivity.this, screenHeight, screenContentBarHeight);
+                AScreenSizeUtil.initSize();
             }
         });
 
@@ -132,9 +132,9 @@ public class ConsultActivity extends FragmentActivity {
     protected void showPopAndSetLayout() {
         imeLayout.setLayoutParams(new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
-                tempMuch - tempLess + screenSizeUtil.getTitleBarHeight()));
+                tempMuch - tempLess + AScreenSizeUtil.getTitleBarHeight()));
         imeKeyBoardUtil.showPopKeyBoard(
-                tempMuch - tempLess, screenSizeUtil.getTitleBarHeight());
+                tempMuch - tempLess, AScreenSizeUtil.getTitleBarHeight());
     }
 
     protected void hidePopAndResetLayout() {
@@ -142,7 +142,7 @@ public class ConsultActivity extends FragmentActivity {
         imeLayout.setLayoutParams(new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT));
-        imeLayout.setBottom(screenSizeUtil.getTitleBarHeight());
+        imeLayout.setBottom(AScreenSizeUtil.getTitleBarHeight());
     }
 
     protected void initEmoJInputView() {
@@ -173,16 +173,16 @@ public class ConsultActivity extends FragmentActivity {
                 ③（输入栏不在底部）当前系统软键盘没有显示（显示的是pop键盘），则点击^_^时
                             【关闭pop键盘 - 打开软键盘 - 设置底层布局到适应父类】
                  */
-                if (imeLayout.getBottom() > screenSizeUtil.getTitleBarHeight() && !isPop) {
+                if (imeLayout.getBottom() > AScreenSizeUtil.getTitleBarHeight() && !isPop) {
                     //
                     showPopAndSetLayout();
                     inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, 0);
 
-                } else if (imeLayout.getBottom() > screenSizeUtil.getTitleBarHeight() && isPop) {
+                } else if (imeLayout.getBottom() > AScreenSizeUtil.getTitleBarHeight() && isPop) {
                     //关闭pop键盘，重新布局
                     inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                     hidePopAndResetLayout();
-                } else if (imeLayout.getBottom() <= screenSizeUtil.getTitleBarHeight() && !isPop) {
+                } else if (imeLayout.getBottom() <= AScreenSizeUtil.getTitleBarHeight() && !isPop) {
                     //显示pop键盘，重新布局
                     showPopAndSetLayout();
                     inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, 0);

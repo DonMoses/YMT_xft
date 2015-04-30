@@ -1,5 +1,4 @@
-include ':app', ':library_ultraPulltoRefesh', ':ptr-lib'
+include ':app', ':library_ptr'
 include ':library_zhy_CircleMenu'
 include ':library_pulltorefresh'
-project(':library_ultraPulltoRefesh').projectDir = new File('app/libs/library_ultraPulltoRefesh')
-project(':ptr-lib').projectDir = new File('app/libs/ptr-lib')
+project(':library_ptr').projectDir = new File('app/libs/library_ptr')

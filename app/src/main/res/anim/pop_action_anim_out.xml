@@ -9,6 +9,7 @@
         android:pivotY="0"
         android:toXScale="0"
         android:toYScale="0" />
+
     <alpha
         android:duration="260"
         android:fromAlpha="1"

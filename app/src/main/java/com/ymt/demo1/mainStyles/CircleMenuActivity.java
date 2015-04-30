@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.customKeyBoard.ConsultActivity;
+import com.ymt.demo1.demos.TestActivity;
 import com.ymt.demo1.plates.eduPlane.EduMainActivity;
 import com.ymt.demo1.plates.hub.FireHubPagerTabActivity;
 import com.ymt.demo1.plates.MoreCatoActivity;
@@ -216,7 +217,7 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
 
 
                 //todo 这里放入一个测试界面，方便开发中测验。 最后修改为收藏界面
-                startActivity(new Intent(this, ConsultActivity.class));
+                startActivity(new Intent(this, TestActivity.class));
 
                 break;
             default:
