@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3">
+    <dataSet config="main">
+        <source path="E:\YMT\demo1\Demo1\app\libs\library_ultraPulltoRefesh\assets" />
+    </dataSet>
+    <dataSet config="debug">
+        <source path="E:\YMT\demo1\Demo1\app\libs\library_ultraPulltoRefesh\src\debug\assets" />
+    </dataSet>
+</merger>
