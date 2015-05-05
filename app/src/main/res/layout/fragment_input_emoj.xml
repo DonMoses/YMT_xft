@@ -9,7 +9,5 @@
         android:layout_height="wrap_content"
         android:horizontalSpacing="2dp"
         android:numColumns="7"
-        android:verticalSpacing="15dp">
-
-    </GridView>
+        android:verticalSpacing="15dp" />
 </FrameLayout>
