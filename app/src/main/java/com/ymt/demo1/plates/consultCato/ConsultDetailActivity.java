@@ -1,14 +1,19 @@
 package com.ymt.demo1.plates.consultCato;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.adapter.SimpleTxtItemAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.customViews.MyTitle;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Dan on 2015/5/4
@@ -24,13 +29,13 @@ public class ConsultDetailActivity extends BaseActivity {
     }
 
     /**
-     * ³õÊ¼»¯title ºÍ actionÊÂ¼ş
+     * åˆå§‹åŒ–title å’Œ actionäº‹ä»¶
      */
     protected void initTitle() {
         final MyTitle title = (MyTitle) findViewById(R.id.my_title);
         title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
 
-        title.updateCenterTitle(getSearchedKeyWord());     //ÉèÖÃtitle
+        title.updateCenterTitle(getSearchedKeyWord());     //è®¾ç½®title
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
             public void onClick() {
@@ -41,20 +46,26 @@ public class ConsultDetailActivity extends BaseActivity {
         title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
             public void onRightLClick() {
-                //µ¯³ö·ÖÏí½çÃæ
+                //å¼¹å‡ºåˆ†äº«ç•Œé¢
                 Toast.makeText(ConsultDetailActivity.this, "do share...", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("*/*");
+                intent.putExtra(Intent.EXTRA_SUBJECT, "æ¶ˆé˜²å’¨è¯¢-" + getIntent().getStringExtra("title"));
+                intent.putExtra(Intent.EXTRA_TEXT, getIntent().getStringExtra("content"));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(Intent.createChooser(intent, getTitle()));
             }
 
             @Override
             public void onRightRClick() {
-                //´ËÊÓÍ¼£¬ÓÒ±ßÖ»°üº¬L°´Å¥
+                //æ­¤è§†å›¾ï¼Œå³è¾¹åªåŒ…å«LæŒ‰é’®
 
             }
         });
     }
 
     /**
-     * »ñÈ¡ËÑË÷¹Ø¼ü×Ö
+     * è·å–æœç´¢å…³é”®å­—
      */
     protected String getSearchedKeyWord() {
         Intent intent = getIntent();
@@ -62,14 +73,26 @@ public class ConsultDetailActivity extends BaseActivity {
     }
 
     /**
-     * »ñµÃÄÚÈİ,³õÊ¼»¯¿Ø¼ş
+     * è·å¾—å†…å®¹,åˆå§‹åŒ–æ§ä»¶
      */
     protected void initView() {
+        //title å’Œå†…å®¹
         TextView title = (TextView) findViewById(R.id.title);
         TextView content = (TextView) findViewById(R.id.content);
 //        GridView hotConsults = (GridView) findViewById(R.id.hot_consult_grid_view);
         Intent intent = getIntent();
         title.setText(intent.getStringExtra("title"));
         content.setText(intent.getStringExtra("content"));
+
+        //çƒ­é—¨è¯é¢˜
+        GridView hotGrid = (GridView) findViewById(R.id.hot_consult_grid_view);
+        ArrayList<String> list = new ArrayList<>();
+        String[] hotArray = new String[]{"æ¶ˆé˜²éƒ¨é—¨", "è§„èŒƒç»„", "å»ºå§”",
+                "ç§‘ç ”æœºæ„", "è®¾è®¡é™¢", "å¼€å‘å•†", "è®¾å¤‡å•†", "æœåŠ¡å•†"};
+        Collections.addAll(list, hotArray);
+        SimpleTxtItemAdapter adapter = new SimpleTxtItemAdapter(this);
+        hotGrid.setAdapter(adapter);
+        adapter.setColor(Color.WHITE, getResources().getColor(R.color.bg_view_blue));
+        adapter.setList(list);
     }
 }
