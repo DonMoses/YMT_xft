@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.ymt.demo1.R;
 import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.plates.MoreCatoActivity;
+import com.ymt.demo1.plates.consultCato.ConsultCatoMainActivity;
 import com.ymt.demo1.plates.eduPlane.EduMainActivity;
 import com.ymt.demo1.plates.hub.FireHubPagerTabActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
@@ -92,6 +93,11 @@ public class FloatMenuActivity extends Activity {
                         startActivity(
                                 new Intent(FloatMenuActivity.this, KnowledgeMainActivity.class));    //知识平台
                         break;
+                    case 3:
+                        MyWindowManager.removeBigWindow();
+                        startActivity(
+                                new Intent(FloatMenuActivity.this, ConsultCatoMainActivity.class));  //咨询分类
+                        break;
                     case 4:
                         MyWindowManager.removeBigWindow();
                         startActivity(
@@ -102,7 +108,7 @@ public class FloatMenuActivity extends Activity {
                         startActivity(
                                 new Intent(FloatMenuActivity.this, PersonalPagerTabActivity.class));          //个人中心;
                         break;
-//                    case 8:
+//                    case 7:
 //                        // 点击关闭悬浮窗的时候，移除所有悬浮窗，并停止Service
 //                        MyWindowManager.removeBigWindow();
 //                        MyWindowManager.removeSmallWindow(AppContext.getContext());

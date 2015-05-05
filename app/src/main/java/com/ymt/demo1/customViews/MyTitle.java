@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -28,6 +29,10 @@ public class MyTitle extends LinearLayout {
      */
     private LinearLayout leftBackLayout;
     private LinearLayout rightActionLayout;
+    /*
+    title
+     */
+    private TextView centerTitleTxt;
 
     /*
      参数
@@ -58,8 +63,8 @@ public class MyTitle extends LinearLayout {
         rightActIconL = a.getDrawable(R.styleable.MyTitle_setRightIconL);
         rightActIconR = a.getDrawable(R.styleable.MyTitle_setRightActIconR);
 
-        a.recycle();
         init(context);
+        a.recycle();
     }
 
     /**
@@ -154,7 +159,7 @@ public class MyTitle extends LinearLayout {
         /**
          * 初始化中间title文字
          */
-        TextView centerTitleTxt = new TextView(context);
+        centerTitleTxt = new TextView(context);
         centerTitleTxt.setLayoutParams(
                 new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT, 8));
         centerTitleTxt.setText(centerTitle);
@@ -252,6 +257,11 @@ public class MyTitle extends LinearLayout {
 
     public void setCenterTitle(String centerTitle) {
         this.centerTitle = centerTitle;
+    }
+
+    public void updateCenterTitle(String centerTitle) {
+        centerTitleTxt.setText(centerTitle);
+        invalidate();
     }
 
     public Drawable getRightActIconL() {

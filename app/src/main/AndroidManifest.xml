@@ -186,10 +186,22 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".plates.knowledge.KnowledgeContextDetailActivity"
+            android:name=".plates.knowledge.KnowledgeDownloadDetailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".plates.consultCato.ConsultCatoMainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".plates.consultCato.SearchedConsultActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.consultCato.ConsultDetailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
 
         <service android:name=".main.floatWindow.FloatWindowService" />
 

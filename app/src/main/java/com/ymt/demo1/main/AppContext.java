@@ -74,4 +74,11 @@ public class AppContext extends LitePalApplication {
     public static void setFloatActivity(Activity activity) {
         floatActivity = activity;
     }
+
+    /**
+     * 清空所有Activity
+     */
+    public static void clearAllActivities() {
+        yActivities.clear();
+    }
 }

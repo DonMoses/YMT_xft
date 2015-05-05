@@ -15,10 +15,13 @@
             android:id="@+id/search_edit_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@null"
             android:gravity="center_vertical"
             android:hint="请输入关键字"
             android:maxLength="20"
-            android:textColorHint="@android:color/darker_gray" />
+            android:textColor="@color/material_blue_grey_800"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="14dp" />
 
         <ImageButton
             android:id="@+id/search_btn"
@@ -58,10 +61,7 @@
             android:id="@+id/search_history_gridView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:numColumns="2">
-
-
-        </GridView>
+            android:numColumns="3" />
 
     </LinearLayout>
 
@@ -93,10 +93,7 @@
             android:id="@+id/search_hot_listView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:numColumns="2">
-
-
-        </ListView>
+            android:numColumns="2" />
 
     </LinearLayout>
 

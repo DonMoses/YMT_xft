@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mytitle="http://schemas.android.com/apk/res-auto"
+    xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.ymt.demo1.customViews.MyTitle
+        android:id="@id/my_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@android:color/holo_blue_dark"
+        mytitle:setLeftActionIcon="@drawable/back_normal"
+        mytitle:setRightIconL="@drawable/icon_search"
+        mytitle:setTitleTxt="咨询分类" />
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/searched_consult_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ptr:ptrMode="both"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:smoothScrollbar="true"
+        android:dividerHeight="1dp"
+        android:background="@android:color/white"
+        android:divider="@android:color/holo_blue_dark"
+        android:dividerPadding="0.2dp" />
+</LinearLayout>

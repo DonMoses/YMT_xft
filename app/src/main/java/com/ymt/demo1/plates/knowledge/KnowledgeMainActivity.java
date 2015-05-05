@@ -29,7 +29,7 @@ import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.baseClasses.KnowledgePagerTabParentFragment;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.PopActionListener;
-import com.ymt.demo1.plates.PopActionUtil;
+import com.ymt.demo1.main.PopActionUtil;
 
 /**
  * This activity just provides a toolbar.
@@ -99,7 +99,7 @@ public class KnowledgeMainActivity extends BaseActivity {
             public void onRightLClick() {
                 PopActionUtil popActionUtil = PopActionUtil.getInstance(KnowledgeMainActivity.this);
                 popActionUtil.setActions(new String[]{"最近浏览", "知识讨论", "更多"});
-                PopupWindow popupWindow = popActionUtil.getPopActionMenu();
+                PopupWindow popupWindow = popActionUtil.getSimpleTxtPopActionMenu();
                 popupWindow.showAtLocation(title.getRootView(),
                         Gravity.TOP | Gravity.END, 10, 100);
 

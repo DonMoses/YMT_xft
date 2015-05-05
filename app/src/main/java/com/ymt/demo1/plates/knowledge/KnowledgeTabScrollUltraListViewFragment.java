@@ -37,7 +37,7 @@ import com.ymt.demo1.beams.KnowledgeItem;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollView;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollViewCallbacks;
 import com.ymt.demo1.main.PopActionListener;
-import com.ymt.demo1.plates.PopActionUtil;
+import com.ymt.demo1.main.PopActionUtil;
 
 import java.util.ArrayList;
 
@@ -181,7 +181,7 @@ public class KnowledgeTabScrollUltraListViewFragment extends BaseFragment {
 
                 popActionUtil.setActionListener(actionListener);
                 popActionUtil.setActions(actionList);
-                final PopupWindow itemPopMenu = popActionUtil.getPopActionMenu();
+                final PopupWindow itemPopMenu = popActionUtil.getSimpleTxtPopActionMenu();
 
                 itemPopMenu.showAsDropDown(view, view.getWidth() - 20, -view.getHeight());
                 itemPopMenu.update();
@@ -197,7 +197,7 @@ public class KnowledgeTabScrollUltraListViewFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //传入内容
-                startActivity(new Intent(getActivity(), KnowledgeContextDetailActivity.class));
+                startActivity(new Intent(getActivity(), KnowledgeDownloadDetailActivity.class));
             }
         });
 

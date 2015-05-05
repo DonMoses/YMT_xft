@@ -1,4 +1,4 @@
-package com.ymt.demo1.plates;
+package com.ymt.demo1.main;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
@@ -6,12 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.main.PopActionListener;
 
 /**
  * Created by Dan on 2015/4/27
@@ -40,9 +40,12 @@ public class PopActionUtil {
         this.actionTexts = actions;
     }
 
-    public PopupWindow getPopActionMenu() {
+    /**
+     * 显示普通列表选项的POP
+     */
+    public PopupWindow getSimpleTxtPopActionMenu() {
         inflater = LayoutInflater.from(context);
-        View popContent = inflater.inflate(R.layout.layout_hub_pop_action, null);
+        View popContent = inflater.inflate(R.layout.layout_simple_text_pop_action, null);
         final ListView actionList = (ListView) popContent.findViewById(R.id.pop_action_list_view);
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
                 R.layout.item_text_pop_action, actionTexts);
@@ -64,6 +67,53 @@ public class PopActionUtil {
                 popupWindow.dismiss();
             }
         });
+        return popupWindow;
+
+    }
+
+    /**
+     * 显示下载提示的POP
+     */
+    public PopupWindow getDownloadPopActionMenu() {
+        inflater = LayoutInflater.from(context);
+        View popContent = inflater.inflate(R.layout.layout_download_pop_action, null);
+        final Button yBtn = (Button) popContent.findViewById(R.id.do_download_btn);
+        final Button nBtn = (Button) popContent.findViewById(R.id.not_download_btn);
+
+        final PopupWindow popupWindow = new PopupWindow(popContent,
+                FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x90000000));
+        //设置弹出菜单的动画
+        popupWindow.setAnimationStyle(R.style.MyDownloadPopAnimation);
+        popupWindow.setOnDismissListener(actionListener);
+
+        View.OnClickListener downloadListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo 下载菜单监听
+                switch (v.getId()) {
+                    case R.id.do_download_btn:
+                        //todo 下载
+                        actionListener.onAction("确定");
+                        popupWindow.dismiss();
+                        break;
+                    case R.id.not_download_btn:
+                        //todo 关闭
+                        actionListener.onAction("取消");
+                        popupWindow.dismiss();
+                        //关闭pop
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+        };
+        yBtn.setOnClickListener(downloadListener);
+        nBtn.setOnClickListener(downloadListener);
+
         return popupWindow;
 
     }

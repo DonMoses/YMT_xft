@@ -28,7 +28,7 @@ import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.baseClasses.FireHubPagerTabParentFragment;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.SearchActivity;
-import com.ymt.demo1.plates.PopActionUtil;
+import com.ymt.demo1.main.PopActionUtil;
 
 /**
  * This activity just provides a toolbar.
@@ -76,7 +76,7 @@ public class FireHubPagerTabActivity extends BaseActivity {
                 // 设置按钮Action
                 PopActionUtil popActionUtil = PopActionUtil.getInstance(FireHubPagerTabActivity.this);
                 popActionUtil.setActions(new String[]{"我的收藏", "最近浏览", "问题申诉"});
-                PopupWindow popupWindow = popActionUtil.getPopActionMenu();
+                PopupWindow popupWindow = popActionUtil.getSimpleTxtPopActionMenu();
                 popupWindow.showAtLocation(title.getRootView(), Gravity.END | Gravity.TOP, 10, 100);
 
             }

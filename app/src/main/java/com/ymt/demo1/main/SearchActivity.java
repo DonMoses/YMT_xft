@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -52,8 +51,8 @@ public class SearchActivity extends BaseFloatActivity {
         }
 
         String[] hotArray = new String[]{"超高层建筑防火", "中国消防通", "消防设备", "中国消防安全", "电影院疏散宽度", "第三方复核"};
-        final ArrayAdapter<String> historyAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, searched);
-        final ArrayAdapter<String> hotAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, hotArray);
+        final ArrayAdapter<String> historyAdapter = new ArrayAdapter<>(this, R.layout.item_text_pop_action, searched);
+        final ArrayAdapter<String> hotAdapter = new ArrayAdapter<>(this, R.layout.item_text_pop_action, hotArray);
 
         historyView.setAdapter(historyAdapter);
         hotView.setAdapter(hotAdapter);

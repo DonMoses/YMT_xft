@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.ymt.demo1.R;
 import com.ymt.demo1.customKeyBoard.ConsultActivity;
 import com.ymt.demo1.demos.TestActivity;
+import com.ymt.demo1.plates.consultCato.ConsultCatoMainActivity;
 import com.ymt.demo1.plates.eduPlane.EduMainActivity;
 import com.ymt.demo1.plates.hub.FireHubPagerTabActivity;
 import com.ymt.demo1.plates.MoreCatoActivity;
@@ -74,6 +75,7 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
                         startActivity(new Intent(CircleMenuActivity.this, KnowledgeMainActivity.class));      //知识平台
                         break;
                     case 4:
+                        startActivity(new Intent(CircleMenuActivity.this, ConsultCatoMainActivity.class));     //咨询分类
                         break;
                     case 5:
                         startActivity(new Intent(CircleMenuActivity.this, EduMainActivity.class));          //教育平台
