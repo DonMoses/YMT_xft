@@ -35,7 +35,7 @@ public class EmoJFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_emoj, container, false);
+        View view = inflater.inflate(R.layout.fragment_input_emoj, container, false);
         initImeList();
         initView(view);
         return view;
