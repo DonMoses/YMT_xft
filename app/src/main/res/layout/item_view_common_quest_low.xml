@@ -6,7 +6,8 @@
     android:layout_margin="2dp"
     android:gravity="center_vertical|start"
     android:maxLines="2"
-    android:minHeight="28dp"
+    android:singleLine="true"
+    android:minHeight="24dp"
     android:textAppearance="?android:attr/textAppearanceListItemSmall"
     android:textColor="@android:color/darker_gray"
-    android:textSize="14sp" />
+    android:textSize="13sp" />

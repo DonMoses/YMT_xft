@@ -13,6 +13,7 @@ import com.ymt.demo1.plates.consultCato.ConsultCatoMainActivity;
 import com.ymt.demo1.plates.eduPlane.EduMainActivity;
 import com.ymt.demo1.plates.hub.FireHubPagerTabActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
+import com.ymt.demo1.plates.news.NewsMainActivity;
 import com.ymt.demo1.plates.personal.PersonalPagerTabActivity;
 import com.zhy.view.CircleMenuLayout;
 
@@ -106,7 +107,12 @@ public class FloatMenuActivity extends Activity {
                     case 5:
                         MyWindowManager.removeBigWindow();
                         startActivity(
-                                new Intent(FloatMenuActivity.this, PersonalPagerTabActivity.class));          //个人中心;
+                                new Intent(FloatMenuActivity.this, PersonalPagerTabActivity.class)); //个人中心;
+                        break;
+                    case 6:
+                        MyWindowManager.removeBigWindow();
+                        startActivity(
+                                new Intent(FloatMenuActivity.this, NewsMainActivity.class)); //资讯平台;
                         break;
 //                    case 7:
 //                        // 点击关闭悬浮窗的时候，移除所有悬浮窗，并停止Service

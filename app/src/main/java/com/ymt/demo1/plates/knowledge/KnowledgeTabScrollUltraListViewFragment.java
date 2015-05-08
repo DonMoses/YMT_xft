@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Soichiro Kashima
+ * Copyright 2014 DonMoses
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -105,6 +105,12 @@ public class KnowledgeTabScrollUltraListViewFragment extends BaseFragment {
                 default:
                     break;
             }
+            item.setCollectedCount((i + 1) * 258 + i * 2 - 119);      //todo 测试，随意输入的数字
+            item.setCommentedCount(i * 1024 - 520);
+            //设置是否被收藏(每3个一次)
+            if (i % 3 == 0) {
+                item.setIsCollected(true);
+            }
             testArray.add(item);
         }
 
@@ -197,11 +203,12 @@ public class KnowledgeTabScrollUltraListViewFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //传入内容
-                startActivity(new Intent(getActivity(), KnowledgeDownloadDetailActivity.class));
+                Intent intent = new Intent(getActivity(), KnowledgeDownloadDetailActivity.class);
+                intent.putExtra("title", ((KnowledgeItem) parent.getAdapter().getItem(position)).getTitle());
+                intent.putExtra("content", ((KnowledgeItem) parent.getAdapter().getItem(position)).getContentTxt());
+                startActivity(intent);
             }
         });
 
     }
-
-
 }

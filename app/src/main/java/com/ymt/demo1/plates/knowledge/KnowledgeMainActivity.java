@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Soichiro Kashima
+ * Copyright 2015 DonMoses
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,15 +73,15 @@ public class KnowledgeMainActivity extends BaseActivity {
                 switch (action) {
                     case "最近浏览":
                         Toast.makeText(KnowledgeMainActivity.this, "最近浏览", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(KnowledgeMainActivity.this, RecentViewActivity.class));
+                        startActivity(new Intent(KnowledgeMainActivity.this, RecentViewKnowledgeActivity.class));
                         break;
-                    case "知识讨论":
-                        Toast.makeText(KnowledgeMainActivity.this, "知识讨论", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(KnowledgeMainActivity.this, KnowledgeArgueActivity.class));
+                    case "最新上传":
+                        Toast.makeText(KnowledgeMainActivity.this, "最新上传", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(KnowledgeMainActivity.this, RecentUploadActivity.class));
                         break;
-                    case "更多":
-                        Toast.makeText(KnowledgeMainActivity.this, "更多", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(KnowledgeMainActivity.this, MoreKnowledgeInfoActivity.class));
+                    case "下载排行":
+                        Toast.makeText(KnowledgeMainActivity.this, "下载排行", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(KnowledgeMainActivity.this, DownloadRankActivity.class));
                         break;
                     default:
                         break;
@@ -98,7 +98,7 @@ public class KnowledgeMainActivity extends BaseActivity {
             @Override
             public void onRightLClick() {
                 PopActionUtil popActionUtil = PopActionUtil.getInstance(KnowledgeMainActivity.this);
-                popActionUtil.setActions(new String[]{"最近浏览", "知识讨论", "更多"});
+                popActionUtil.setActions(new String[]{"最近浏览", "最新上传", "下载排行"});
                 PopupWindow popupWindow = popActionUtil.getSimpleTxtPopActionMenu();
                 popupWindow.showAtLocation(title.getRootView(),
                         Gravity.TOP | Gravity.END, 10, 100);

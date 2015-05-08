@@ -3,6 +3,8 @@ package com.ymt.demo1.plates.consultCato;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,7 +49,7 @@ public class ConsultDetailActivity extends BaseActivity {
             @Override
             public void onRightLClick() {
                 //弹出分享界面
-                Toast.makeText(ConsultDetailActivity.this, "do share...", Toast.LENGTH_SHORT).show();
+                //todo 分享内容
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("*/*");
                 intent.putExtra(Intent.EXTRA_SUBJECT, "消防咨询-" + getIntent().getStringExtra("title"));
@@ -94,5 +96,14 @@ public class ConsultDetailActivity extends BaseActivity {
         hotGrid.setAdapter(adapter);
         adapter.setColor(Color.WHITE, getResources().getColor(R.color.bg_view_blue));
         adapter.setList(list);
+
+        hotGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String str = parent.getAdapter().getItem(position).toString();
+                //todo
+                Toast.makeText(ConsultDetailActivity.this, str, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

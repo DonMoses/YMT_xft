@@ -8,9 +8,8 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.adapter.SimpleTextGridViewAdapter;
+import com.ymt.demo1.adapter.SimpleTextDragGridViewAdapter;
 import com.ymt.demo1.customViews.DragGridView;
-import com.ymt.demo1.main.AppContext;
 
 import java.util.ArrayList;
 
@@ -28,7 +27,7 @@ public class ListOverYearsTestsActivity extends Activity {
 
     protected void initView() {
         DragGridView gridView = (DragGridView) findViewById(R.id.list_tests_gridView);
-        SimpleTextGridViewAdapter adapter = new SimpleTextGridViewAdapter(this, 6, 2);
+        SimpleTextDragGridViewAdapter adapter = new SimpleTextDragGridViewAdapter(this, 6, 2);
         gridView.setAdapter(adapter);
 
         Intent intent = getIntent();

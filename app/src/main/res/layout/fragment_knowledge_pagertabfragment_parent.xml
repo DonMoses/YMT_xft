@@ -88,8 +88,9 @@
 
         <com.ymt.demo1.customViews.widget.PagerSlidingTabStrip
             android:id="@+id/sliding_tabs"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/tab_height"
+            android:layout_gravity="center_horizontal"
             android:background="@null" />
 
         <FrameLayout

@@ -45,12 +45,13 @@ import com.ymt.demo1.customViews.obsScrollview.Scrollable;
 import com.ymt.demo1.customViews.obsScrollview.TouchInterceptionFrameLayout;
 import com.ymt.demo1.customViews.widget.PagerSlidingTabStrip;
 import com.ymt.demo1.plates.knowledge.KnowledgeTabScrollUltraListViewFragment;
+import com.ymt.demo1.plates.news.NewsTabScrollUltraListViewFragment;
 
 /**
  * This fragment manages ViewPager and its child Fragments.
  * Scrolling techniques are basically the same as ViewPagerTab2Activity.
  */
-public class KnowledgePagerTabParentFragment extends BaseFragment implements ObservableScrollViewCallbacks {
+public class NewsPagerTabParentFragment extends BaseFragment implements ObservableScrollViewCallbacks {
     public static final String FRAGMENT_TAG = "fragment";
 
     private TouchInterceptionFrameLayout mInterceptionLayout;
@@ -296,7 +297,7 @@ public class KnowledgePagerTabParentFragment extends BaseFragment implements Obs
      */
     private static class NavigationAdapter extends CacheFragmentStatePagerAdapter {
 
-        private static final String[] TITLES = new String[]{"机构", "行业", "系统", "科研", "标准", "视频"};
+        private static final String[] TITLES = new String[]{"消防新闻", "消防公告", "教育资讯"};
 
         public NavigationAdapter(FragmentManager fm) {
             super(fm);
@@ -326,7 +327,7 @@ public class KnowledgePagerTabParentFragment extends BaseFragment implements Obs
 //                    break;
 //            }
 //            return new ViewPagerTabFragmentScrollListViewFragment();
-            return new KnowledgeTabScrollUltraListViewFragment();
+            return new NewsTabScrollUltraListViewFragment();
         }
 
         @Override

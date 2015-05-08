@@ -15,7 +15,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.ymt.demo1.adapter.AppGuideGridViewAdapter;
-import com.ymt.demo1.adapter.SimpleTextGridViewAdapter;
+import com.ymt.demo1.adapter.SimpleTextDragGridViewAdapter;
 
 public class DragGridView extends GridView {
     private static final int DRAG_IMG_SHOW = 1;
@@ -91,8 +91,8 @@ public class DragGridView extends GridView {
              */
             if (getAdapter() instanceof AppGuideGridViewAdapter) {
                 ((AppGuideGridViewAdapter) getAdapter()).hideView(position);
-            } else if (getAdapter() instanceof SimpleTextGridViewAdapter) {
-                ((SimpleTextGridViewAdapter) getAdapter()).hideView(position);
+            } else if (getAdapter() instanceof SimpleTextDragGridViewAdapter) {
+                ((SimpleTextDragGridViewAdapter) getAdapter()).hideView(position);
             }
             return true;
         }
@@ -153,8 +153,8 @@ public class DragGridView extends GridView {
                  */
                 if (getAdapter() instanceof AppGuideGridViewAdapter) {
                     ((AppGuideGridViewAdapter) getAdapter()).swapView(preDraggedOverPosition, currDraggedPosition);
-                } else if (getAdapter() instanceof SimpleTextGridViewAdapter) {
-                    ((SimpleTextGridViewAdapter) getAdapter()).swapView(preDraggedOverPosition, currDraggedPosition);
+                } else if (getAdapter() instanceof SimpleTextDragGridViewAdapter) {
+                    ((SimpleTextDragGridViewAdapter) getAdapter()).swapView(preDraggedOverPosition, currDraggedPosition);
                 }
 
                 preDraggedOverPosition = currDraggedPosition;
@@ -168,8 +168,8 @@ public class DragGridView extends GridView {
              */
             if (getAdapter() instanceof AppGuideGridViewAdapter) {
                 ((AppGuideGridViewAdapter) getAdapter()).showHideView();
-            } else if (getAdapter() instanceof SimpleTextGridViewAdapter) {
-                ((SimpleTextGridViewAdapter) getAdapter()).showHideView();
+            } else if (getAdapter() instanceof SimpleTextDragGridViewAdapter) {
+                ((SimpleTextDragGridViewAdapter) getAdapter()).showHideView();
             }
 
             if ((int) dragImageView.getTag() == DRAG_IMG_SHOW) {

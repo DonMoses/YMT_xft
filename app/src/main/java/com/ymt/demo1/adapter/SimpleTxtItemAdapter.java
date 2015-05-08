@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.ymt.demo1.R;
+
 import java.util.ArrayList;
 
 /**
@@ -15,9 +17,17 @@ import java.util.ArrayList;
 public class SimpleTxtItemAdapter extends BaseAdapter {
     ArrayList<String> list = new ArrayList<>();
     LayoutInflater inflater;
+    private int itemBgColor;
+    private int itemTxtColor;
 
     public SimpleTxtItemAdapter(Context context) {
         this.inflater = LayoutInflater.from(context);
+
+    }
+
+    public void setColor(int itemBgColor, int itemTxtColor) {
+        this.itemBgColor = itemBgColor;
+        this.itemTxtColor = itemTxtColor;
     }
 
     @Override
@@ -39,11 +49,15 @@ public class SimpleTxtItemAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView textView;
         if (convertView == null) {
-            convertView = inflater.inflate(android.R.layout.simple_list_item_1, null);
-            textView = (TextView) convertView.findViewById(android.R.id.text1);
+            convertView = inflater.inflate(R.layout.item_view_common_quest_low, null);
+            textView = (TextView) convertView.findViewById(R.id.common_quest_item_view);
             convertView.setTag(textView);
         } else {
             textView = (TextView) convertView.getTag();
+        }
+        if (itemBgColor != 0 && itemTxtColor != 0) {
+            textView.setBackgroundColor(itemBgColor);
+            textView.setTextColor(itemTxtColor);
         }
         textView.setText(list.get(position));
         return convertView;

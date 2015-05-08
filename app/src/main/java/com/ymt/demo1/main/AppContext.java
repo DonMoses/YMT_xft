@@ -79,6 +79,9 @@ public class AppContext extends LitePalApplication {
      * 清空所有Activity
      */
     public static void clearAllActivities() {
+        for (Activity activity : yActivities) {
+            activity.finish();
+        }
         yActivities.clear();
     }
 }

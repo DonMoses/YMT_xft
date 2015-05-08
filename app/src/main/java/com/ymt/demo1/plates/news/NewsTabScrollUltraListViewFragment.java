@@ -32,8 +32,10 @@ import android.widget.Toast;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.KnowledgeItemAdapter;
+import com.ymt.demo1.adapter.NewsItemAdapter;
 import com.ymt.demo1.baseClasses.BaseFragment;
 import com.ymt.demo1.beams.KnowledgeItem;
+import com.ymt.demo1.beams.NewsItem;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollView;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollViewCallbacks;
 import com.ymt.demo1.main.PopActionListener;
@@ -52,8 +54,8 @@ public class NewsTabScrollUltraListViewFragment extends BaseFragment {
     private ObservableScrollView scrollView;
     PullToRefreshListView listView;
     ListView theListView;
-    ArrayList<KnowledgeItem> testArray;
-    KnowledgeItemAdapter adapter;
+    ArrayList<NewsItem> testArray;
+    NewsItemAdapter adapter;
     private PopActionListener actionListener;
 
     @Override
@@ -83,42 +85,21 @@ public class NewsTabScrollUltraListViewFragment extends BaseFragment {
         theListView = listView.getRefreshableView();
         testArray = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            KnowledgeItem item = new KnowledgeItem();
+            NewsItem item = new NewsItem();
             item.setTitle(i + 1 + "深圳市出台《消防产品监督管理工作考核办法》");
             item.setContentTxt("笔者近日获悉，为切实消除因产品质量问题造成的火灾隐患，整治和规范消防产品市场秩序，全面推进全市消防产品监督执法工作规范化建设，提高执法质量，广东省深圳市公安局消防监督管理局今天出台《深圳市消防产品监督管理工作考核办法》。\n" +
                     "\n" +
                     "考核内容包括消防产品使用领域监督、部门联合执法整治、消防产品地方监督抽查、开展消防产品监督宣传报道、消防产品身份证管理制度实施、公共场所阻燃制品标识管理制度实施、消防产品监督管理工作创新举措等七种不同情况。\n" +
                     "\n" +
                     "考核办法主要对消防产品使用领域监督及处罚情况、部门联合执法查处制售假冒伪劣消防产品案件、消防产品地方监督抽查情况、消防产品监督宣传报道情况、消防产品身份证管理制度实施情况、生产企业申请阻燃制品标识情况、工作落实及创新情况七种情况进行确认后实行量化考核。");
-            switch (i / 4) {
-                case 0:
-                    item.setKnowledgeItemType(NewsItemType.TXT);
-                    break;
-                case 1:
-                    item.setKnowledgeItemType(com.ymt.demo1.plates.knowledge.KnowledgeItemType.PPT);
-                    break;
-                case 2:
-                    item.setKnowledgeItemType(com.ymt.demo1.plates.knowledge.KnowledgeItemType.PDF);
-                    break;
-                case 3:
-                    item.setKnowledgeItemType(KnowledgeItemType.MP3);
-                    break;
-                default:
-                    break;
-            }
-            item.setCollectedCount((i + 1) * 258 + i * 2 - 119);      //todo 测试，随意输入的数字
-            item.setCommentedCount(i * 1024 - 520);
-            //设置是否被收藏(每3个一次)
-            if (i % 3 == 0) {
-                item.setIsCollected(true);
-            }
+
             testArray.add(item);
         }
 
         /*
         设置数据源
          */
-        adapter = new KnowledgeItemAdapter(getActivity());
+        adapter = new NewsItemAdapter(getActivity());
         listView.setAdapter(adapter);
         adapter.setList(testArray);
         scrollView.setListView(listView);            //测量、监听listView的变化
@@ -205,8 +186,8 @@ public class NewsTabScrollUltraListViewFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //传入内容
                 Intent intent = new Intent(getActivity(), NewsDownloadDetailActivity.class);
-                intent.putExtra("title", ((KnowledgeItem) parent.getAdapter().getItem(position)).getTitle());
-                intent.putExtra("content", ((KnowledgeItem) parent.getAdapter().getItem(position)).getContentTxt());
+                intent.putExtra("title", ((NewsItem) parent.getAdapter().getItem(position)).getTitle());
+                intent.putExtra("content", ((NewsItem) parent.getAdapter().getItem(position)).getContentTxt());
                 startActivity(intent);
             }
         });

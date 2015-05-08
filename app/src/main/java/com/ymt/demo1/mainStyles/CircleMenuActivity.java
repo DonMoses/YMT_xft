@@ -10,8 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.customKeyBoard.ConsultActivity;
-import com.ymt.demo1.demos.TestActivity;
+
+import com.ymt.demo1.main.setting.ManageAppearanceActivity;
 import com.ymt.demo1.plates.consultCato.ConsultCatoMainActivity;
 import com.ymt.demo1.plates.eduPlane.EduMainActivity;
 import com.ymt.demo1.plates.hub.FireHubPagerTabActivity;
@@ -21,16 +21,18 @@ import com.ymt.demo1.main.help.HelpActivity;
 import com.ymt.demo1.main.setting.SettingActivity;
 import com.ymt.demo1.main.sign.SignUpActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
+import com.ymt.demo1.plates.news.NewsMainActivity;
 import com.ymt.demo1.plates.personal.PersonalPagerTabActivity;
 import com.zhy.view.CircleMenuLayout;
 
 /**
  * Created by Moses on 2015
  */
-public class CircleMenuActivity extends Activity implements View.OnTouchListener, View.OnClickListener {
+public class CircleMenuActivity extends Activity implements View.OnTouchListener, View.OnClickListener, ManageAppearanceActivity.StyleChangeListener {
 
     private ImageView signIcon, adviceIcon, helpIcon, settingIcon, collectionIcon;
     private TextView signText, adviceText, helpText, settingText, collectionText;
+    public static ManageAppearanceActivity.StyleChangeListener styleChangeListener;
 
     private String[] titles = new String[]{"个人中心", "更多", "论坛", "知识平台", "咨询分类", "教育平台", "专家咨询", "资讯平台"};
     private int[] titleIcons = new int[]{R.drawable.icon_personal_center,
@@ -42,6 +44,7 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        styleChangeListener = this;
         setContentView(R.layout.activity_circle_menu);
         initViews();
     }
@@ -84,7 +87,7 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
 
                         break;
                     case 7:
-
+                        startActivity(new Intent(CircleMenuActivity.this, NewsMainActivity.class));          //资讯平台
                         break;
                     default:
                         break;
@@ -219,11 +222,16 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
 
 
                 //todo 这里放入一个测试界面，方便开发中测验。 最后修改为收藏界面
-                startActivity(new Intent(this, TestActivity.class));
+
 
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onStyleChanged() {
+        finish();
     }
 }

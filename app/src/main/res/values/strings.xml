@@ -73,6 +73,11 @@
     <string name="authority">主官方：公安部四川消防研究所</string>
     <string name="sponsor">主办方：四川法斯特安全性能评估有限公司</string>
     <string name="operator">运营方：四川开新科技有限公司</string>
+    <string name="title_activity_navigation_menu">NavigationMenuActivity</string>
+
+
+    <string name="drawer_open_content_desc">菜单</string>
+    <string name="drawer_close_content_desc">新消防</string>
 
 
 </resources>

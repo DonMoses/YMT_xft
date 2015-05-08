@@ -4,7 +4,7 @@
     android:id="@+id/knowledge_detail_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E6EFFF"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
     <com.ymt.demo1.customViews.MyTitle
@@ -13,80 +13,43 @@
         android:layout_height="48dp"
         android:background="@android:color/holo_blue_dark"
         mytitle:setLeftActionIcon="@drawable/back_normal"
-        mytitle:setRightIconL="@drawable/icon_search_more"
-        mytitle:setTitleTxt="知识平台" />
+        mytitle:setRightIconL="@drawable/icon_share" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:minHeight="24dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/curr_page"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="18dp"
-            android:layout_marginStart="18dp"
-            android:hint="2"
-            android:textColor="@color/material_blue_grey_800"
-            android:textColorHint="@android:color/darker_gray"
-            android:textSize="12sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginStart="2dp"
-            android:text="/"
-            android:textColor="@color/material_blue_grey_800"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/total_page"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginStart="2dp"
-            android:hint="3"
-            android:textColor="@color/material_blue_grey_800"
-            android:textColorHint="@android:color/darker_gray"
-            android:textSize="12sp" />
-    </LinearLayout>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/content_pager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:padding="8dp"
+            android:textColor="@color/material_blue_grey_900"
+            android:lineSpacingExtra="5dp"
+            android:textSize="13sp"
+            android:layout_height="wrap_content" />
+    </ScrollView>
 
-        <Button
-            android:id="@+id/download_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:background="@android:color/holo_blue_dark"
-            android:paddingBottom="8dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="8dp"
-            android:text="下载" />
+    <Button
+        android:id="@+id/download_btn"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/holo_blue_dark"
+        android:text="下载" />
+
+    <RelativeLayout
+        android:layout_marginTop="6dp"
+        android:layout_width="match_parent"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/download_instruction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_toEndOf="@id/download_btn"
-            android:layout_toRightOf="@id/download_btn"
             android:text="下载说明:"
             android:textColor="@android:color/holo_blue_light"
             android:textSize="16sp" />
@@ -96,11 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/download_instruction"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
             android:layout_marginTop="3dp"
-            android:layout_toEndOf="@id/download_btn"
-            android:layout_toRightOf="@id/download_btn"
             android:text="下载本文档需要登录，并获取相应的积分。点击如何获取积分？"
             android:textColor="@color/material_blue_grey_800"
             android:textSize="12sp" />
@@ -110,11 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/download_explain"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
             android:layout_marginTop="1dp"
-            android:layout_toEndOf="@id/download_btn"
-            android:layout_toRightOf="@id/download_btn"
             android:text="大小："
             android:textColor="@color/material_blue_grey_800"
             android:textSize="12sp" />
@@ -124,8 +79,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/download_explain"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
             android:layout_marginTop="1dp"
             android:layout_toEndOf="@id/download_file_text"
             android:layout_toRightOf="@id/download_file_text"
@@ -139,11 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/download_file_size"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
             android:layout_marginTop="1dp"
-            android:layout_toEndOf="@id/download_btn"
-            android:layout_toRightOf="@id/download_btn"
             android:text="所需积分："
             android:textColor="@color/material_blue_grey_800"
             android:textSize="12sp" />
@@ -153,8 +102,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/download_file_size"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
             android:layout_marginTop="1dp"
             android:layout_toEndOf="@id/download_file_text1"
             android:layout_toRightOf="@id/download_file_text1"
@@ -163,54 +110,59 @@
             android:textColorHint="@android:color/darker_gray"
             android:textSize="12sp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@id/download_file_score_needed"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/submit_your_comment"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="3"
-                android:background="@drawable/bg_input_box"
-                android:gravity="top"
-                android:hint="请发表评论"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:paddingTop="5dp"
-                android:textColor="@color/material_blue_grey_800"
-                android:textColorHint="@android:color/darker_gray"
-                android:textSize="14sp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:paddingTop="5dp">
-
-                <TextView
-                    android:id="@+id/hot_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="热门话题"
-                    android:textColor="@color/material_blue_grey_800"
-                    android:textSize="14sp" />
-
-                <GridView
-                    android:id="@+id/hot_comment_grid_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/hot_comment" />
-            </RelativeLayout>
-        </LinearLayout>
     </RelativeLayout>
+
+    <View
+        android:layout_marginTop="6dp"
+        android:layout_width="match_parent"
+        android:background="@android:color/holo_blue_bright"
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        android:id="@+id/write_comment_layout"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@drawable/icon_write_comment"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/write_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="写点评"
+            android:textColor="@color/material_blue_grey_800"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@android:color/holo_blue_bright"
+        android:layout_height="1dp" />
+
+    <TextView
+        android:layout_marginTop="6dp"
+        android:id="@+id/hot_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="热门话题"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:textColor="@color/material_blue_grey_800"
+        android:textSize="14sp" />
+
+    <GridView
+        android:paddingLeft="20dp"
+        android:numColumns="5"
+        android:paddingRight="20dp"
+        android:horizontalSpacing="2dp"
+        android:id="@+id/hot_comment_grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="48dp" />
 </LinearLayout>

@@ -22,10 +22,12 @@ import com.zhy.ccbCricleMenu.R;
  */
 public class CircleMenuLayout extends ViewGroup {
     private int mRadius;
+
     /**
      * 该容器内child item的默认尺寸
      */
     private static final float RADIO_DEFAULT_CHILD_DIMENSION = 1 / 4f;
+
     /**
      * 菜单的中心child的默认尺寸
      */

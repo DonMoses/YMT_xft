@@ -8,7 +8,7 @@ import com.ymt.demo1.baseClasses.BaseActivity;
 /**
  * Created by Dan on 2015/4/29
  */
-public class RecentViewActivity extends BaseActivity {
+public class DownloadRankActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

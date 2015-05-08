@@ -164,6 +164,9 @@ public class MyTitle extends LinearLayout {
                 new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT, 8));
         centerTitleTxt.setText(centerTitle);
         centerTitleTxt.setTextColor(Color.WHITE);
+        centerTitleTxt.setSingleLine(true);
+        centerTitleTxt.setMaxEms(6);
+        centerTitleTxt.setEllipsize(TextUtils.TruncateAt.END);
         centerTitleTxt.setGravity(Gravity.CENTER);
         addView(centerTitleTxt);
 

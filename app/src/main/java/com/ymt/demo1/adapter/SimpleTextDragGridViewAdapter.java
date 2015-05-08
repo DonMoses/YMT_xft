@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * 2.提供swapView方法用于拖动过程中更新GridView中item显示
  */
 
-public class SimpleTextGridViewAdapter extends BaseAdapter {
+public class SimpleTextDragGridViewAdapter extends BaseAdapter {
     ArrayList<String> mList = new ArrayList<>();
     Context context;
     LayoutInflater inflater;
@@ -38,7 +38,7 @@ public class SimpleTextGridViewAdapter extends BaseAdapter {
      * @param numColumns : 列数
      * @param spacing    ：间隔
      */
-    public SimpleTextGridViewAdapter(Context context, int numColumns, int spacing) {
+    public SimpleTextDragGridViewAdapter(Context context, int numColumns, int spacing) {
         this.context = context;
         WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = manager.getDefaultDisplay();

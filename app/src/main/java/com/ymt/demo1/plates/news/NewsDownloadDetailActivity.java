@@ -90,12 +90,12 @@ public class NewsDownloadDetailActivity extends BaseActivity {
 
                 //设置背景颜色变暗
                 final WindowManager.LayoutParams lp =
-                        com.ymt.demo1.plates.knowledge.KnowledgeDownloadDetailActivity.this.getWindow().getAttributes();
+                        NewsDownloadDetailActivity.this.getWindow().getAttributes();
                 lp.alpha = 0.3f;
-                com.ymt.demo1.plates.knowledge.KnowledgeDownloadDetailActivity.this.getWindow().setAttributes(lp);
+                NewsDownloadDetailActivity.this.getWindow().setAttributes(lp);
 
                 //todo 弹出下载提示框
-                PopActionUtil popActionUtil = PopActionUtil.getInstance(com.ymt.demo1.plates.knowledge.KnowledgeDownloadDetailActivity.this);
+                PopActionUtil popActionUtil = PopActionUtil.getInstance(NewsDownloadDetailActivity.this);
                 PopupWindow popupWindow = popActionUtil.getDownloadPopActionMenu();
                 popupWindow.showAtLocation(downBtn.getRootView(), Gravity.CENTER, 0, 0);
 
@@ -104,16 +104,16 @@ public class NewsDownloadDetailActivity extends BaseActivity {
                     public void onAction(String action) {
                         switch (action) {
                             case "确定":
-                                Toast.makeText(com.ymt.demo1.plates.knowledge.KnowledgeDownloadDetailActivity.this, "确定", Toast.LENGTH_LONG).show();
+                                Toast.makeText(NewsDownloadDetailActivity.this, "确定", Toast.LENGTH_LONG).show();
                                 break;
                             case "取消":
-                                Toast.makeText(com.ymt.demo1.plates.knowledge.KnowledgeDownloadDetailActivity.this, "取消", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(NewsDownloadDetailActivity.this, "取消", Toast.LENGTH_SHORT).show();
                                 break;
                             default:
                                 break;
                         }
                         lp.alpha = 1f;
-                        com.ymt.demo1.plates.knowledge.KnowledgeDownloadDetailActivity.this.getWindow().setAttributes(lp);
+                        NewsDownloadDetailActivity.this.getWindow().setAttributes(lp);
                     }
 
                     @Override
@@ -144,7 +144,7 @@ public class NewsDownloadDetailActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String str = parent.getAdapter().getItem(position).toString();
                 //todo
-                Toast.makeText(com.ymt.demo1.plates.knowledge.KnowledgeDownloadDetailActivity.this, str, Toast.LENGTH_SHORT).show();
+                Toast.makeText(NewsDownloadDetailActivity.this, str, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -156,7 +156,7 @@ public class NewsDownloadDetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //todo 写点评
-                Toast.makeText(com.ymt.demo1.plates.knowledge.KnowledgeDownloadDetailActivity.this, "写点评...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(NewsDownloadDetailActivity.this, "写点评...", Toast.LENGTH_SHORT).show();
             }
         });
     }

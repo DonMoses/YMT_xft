@@ -18,6 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingTop="8dp"
+        android:scrollbarFadeDuration="0"
+        android:fadeScrollbars="false"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:layout_weight="1">
@@ -64,6 +66,8 @@
     <GridView
         android:id="@+id/hot_consult_grid_view"
         android:layout_width="match_parent"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:layout_height="62dp"
-        android:numColumns="6" />
+        android:numColumns="5" />
 </LinearLayout>

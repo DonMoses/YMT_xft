@@ -26,11 +26,11 @@ import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
-import com.ymt.demo1.baseClasses.KnowledgePagerTabParentFragment;
+import com.ymt.demo1.baseClasses.NewsPagerTabParentFragment;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.PopActionListener;
 import com.ymt.demo1.main.PopActionUtil;
-import com.ymt.demo1.plates.knowledge.RecentUploadActivity;
+
 
 /**
  * This activity just provides a toolbar.
@@ -43,19 +43,18 @@ public class NewsMainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_knowledge_main);
+        setContentView(R.layout.activity_news_main);
 
         FragmentManager fm = getSupportFragmentManager();
-        if (fm.findFragmentByTag(KnowledgePagerTabParentFragment.FRAGMENT_TAG) == null) {
+        if (fm.findFragmentByTag(NewsPagerTabParentFragment.FRAGMENT_TAG) == null) {
             FragmentTransaction ft = fm.beginTransaction();
-            ft.add(R.id.fragment, new KnowledgePagerTabParentFragment(),
-                    KnowledgePagerTabParentFragment.FRAGMENT_TAG);
+            ft.add(R.id.fragment, new NewsPagerTabParentFragment(),
+                    NewsPagerTabParentFragment.FRAGMENT_TAG);
             ft.commit();
             fm.executePendingTransactions();
         }
         initTitle();
         initView();
-
     }
 
     protected void initTitle() {
@@ -73,16 +72,12 @@ public class NewsMainActivity extends BaseActivity {
             public void onAction(String action) {
                 switch (action) {
                     case "最近浏览":
-                        Toast.makeText(com.ymt.demo1.plates.knowledge.KnowledgeMainActivity.this, "最近浏览", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(com.ymt.demo1.plates.knowledge.KnowledgeMainActivity.this, NewsRecentViewActivity.class));
+                        Toast.makeText(NewsMainActivity.this, "最近浏览", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(NewsMainActivity.this, NewsRecentViewActivity.class));
                         break;
-                    case "最新上传":
-                        Toast.makeText(com.ymt.demo1.plates.knowledge.KnowledgeMainActivity.this, "最新上传", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(com.ymt.demo1.plates.knowledge.KnowledgeMainActivity.this, RecentUploadActivity.class));
-                        break;
-                    case "下载排行":
-                        Toast.makeText(com.ymt.demo1.plates.knowledge.KnowledgeMainActivity.this, "下载排行", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(com.ymt.demo1.plates.knowledge.KnowledgeMainActivity.this, DownloadRkActivity.class));
+                    case "历史记录":
+                        Toast.makeText(NewsMainActivity.this, "历史记录", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(NewsMainActivity.this, NewsHistoryActivity.class));
                         break;
                     default:
                         break;
@@ -98,8 +93,8 @@ public class NewsMainActivity extends BaseActivity {
         title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
             public void onRightLClick() {
-                PopActionUtil popActionUtil = PopActionUtil.getInstance(com.ymt.demo1.plates.knowledge.KnowledgeMainActivity.this);
-                popActionUtil.setActions(new String[]{"最近浏览", "最新上传", "下载排行"});
+                PopActionUtil popActionUtil = PopActionUtil.getInstance(NewsMainActivity.this);
+                popActionUtil.setActions(new String[]{"最近浏览", "历史记录"});
                 PopupWindow popupWindow = popActionUtil.getSimpleTxtPopActionMenu();
                 popupWindow.showAtLocation(title.getRootView(),
                         Gravity.TOP | Gravity.END, 10, 100);
