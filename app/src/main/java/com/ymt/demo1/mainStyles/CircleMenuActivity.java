@@ -220,10 +220,9 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
             case R.id.collection_layout:
                 //跳转到收藏
 
-
                 //todo 这里放入一个测试界面，方便开发中测验。 最后修改为收藏界面
 
-
+                
                 break;
             default:
                 break;

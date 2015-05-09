@@ -216,6 +216,9 @@
             android:name=".plates.news.NewsRecentViewActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".mainStyles.NavigationMenuActivity"
+            android:theme="@style/ToolbarBaseTheme" />
 
         <service
             android:name=".main.floatWindow.FloatWindowService"

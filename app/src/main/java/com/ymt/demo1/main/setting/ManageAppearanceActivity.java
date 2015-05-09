@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.mainStyles.CircleMenuActivity;
+import com.ymt.demo1.mainStyles.NavigationMenuActivity;
 
 /**
  * Created by Dan on 2015/4/3
@@ -27,12 +28,12 @@ public class ManageAppearanceActivity extends Activity {
         selectSlide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent();
-//                intent.setClass(ManageAppearanceActivity.this, SlidingMenuActivity.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivity(intent);
-//                finish();
-//                CircleMenuActivity.styleChangeListener.onStyleChanged();
+                Intent intent = new Intent();
+                intent.setClass(ManageAppearanceActivity.this, NavigationMenuActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+                CircleMenuActivity.styleChangeListener.onStyleChanged();
             }
         });
 

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myIndicator="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg1"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/pager_layout"
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/ad_viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/holo_red_light" />
+
+        <com.ymt.demo1.customViews.IndicatorView
+            android:id="@+id/myPointIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="8dp"
+            myIndicator:active="@drawable/indicator_red"
+            myIndicator:space="5dp"
+            myIndicator:unActive="@drawable/indicator_white" />
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:background="@android:color/white">
+
+        <TextView
+            android:id="@+id/consult_title_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minHeight="38dp"
+            android:text="咨询分类"
+            android:textColor="@color/material_blue_grey_900"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/all_consult_cato_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:minHeight="38dp"
+            android:text="显示全部"
+            android:textColor="@color/material_blue_grey_900"
+            android:textSize="12sp" />
+
+        <GridView
+            android:id="@+id/consult_cato_grid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/consult_title_txt"
+            android:horizontalSpacing="3dp"
+            android:numColumns="5"
+            android:verticalSpacing="2dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/img_news"
+                android:layout_width="0dp"
+                android:layout_margin="1dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/img_news" />
+
+            <ImageView
+                android:id="@+id/img_export"
+                android:layout_margin="1dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/img_export" />
+
+            <ImageView
+                android:id="@+id/img_news1"
+                android:layout_margin="1dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:src="@drawable/bg_edu_over_years_tests" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/img_news2"
+                android:layout_margin="1dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:src="@drawable/bg_edu_over_years_tests" />
+
+            <ImageView
+                android:id="@+id/img_edu"
+                android:layout_margin="1dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/img_edu" />
+
+            <ImageView
+                android:id="@+id/img_knowledge"
+                android:layout_margin="1dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/img_knowledge" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/img_news3"
+                android:layout_margin="1dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:src="@drawable/bg_edu_over_years_tests" />
+
+            <ImageView
+                android:id="@+id/img_hub"
+                android:layout_margin="1dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/img_hub" />
+
+            <ImageView
+                android:id="@+id/img_more"
+                android:layout_margin="1dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/img_more" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
