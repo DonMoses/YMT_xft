@@ -24,6 +24,10 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -56,7 +60,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_knowledge_main);
+        setContentView(R.layout.activity_export_consult_main);
 
         initTitle();
         initView();
@@ -146,6 +150,8 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
 
         initNearlyHotConsult();
 
+        initSearch();
+
     }
 
     /**
@@ -201,7 +207,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         consultItem1.setTitle("天安门、故宫配备新型消防摩托");
         //todo 热门咨询info
         ConsultItem consultItem2 = new ConsultItem();
-        consultItem2.setBitmapIcon(BitmapFactory.decodeResource(getResources(), R.drawable.img_consult_item_1));
+        consultItem2.setBitmapIcon(BitmapFactory.decodeResource(getResources(), R.drawable.img_consult_item_2));
         consultItem2.setContentTxt("事发地点位于沙坪坝区康居西城附近，消防赶到现场时，跌落下水道的牛已经钻进了下水道中，放牛的老汉不敢贸然下去，守在下水道口束手无策。");
         consultItem2.setTitle("三百斤大牛被困下水道消防用抢险救援车将其吊出");
 
@@ -225,6 +231,39 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         nearlyConsultView.setOnClickListener(this);
         hotConsultView.setOnClickListener(this);
 
+    }
+
+    /**
+     * 搜索栏初始化
+     */
+    /**
+     * 初始化知识平台搜索控件
+     */
+    protected void initSearch() {
+        final ImageView searchBtn = (ImageView) findViewById(R.id.knowledge_search_btn);
+        final EditText searchInputTxt = (EditText) findViewById(R.id.search_input);
+        GridView searchGridView = (GridView) findViewById(R.id.knowledge_searched_grid_view);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                R.layout.item_view_common_quest_low,
+                new String[]{"消防部门", "规范组", "建委", "科研院校", "设计院", "开发商", "设备商", "服务商"});
+        searchGridView.setAdapter(adapter);
+        searchGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //todo 搜索关键字
+                String searchStr = parent.getAdapter().getItem(position).toString();
+                searchInputTxt.setText(searchStr);
+                Toast.makeText(ExportConsultMainActivity.this, searchStr, Toast.LENGTH_SHORT).show();
+            }
+        });
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo 搜索关键字
+                String searchStr = searchInputTxt.getText().toString();
+                Toast.makeText(ExportConsultMainActivity.this, searchStr, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**

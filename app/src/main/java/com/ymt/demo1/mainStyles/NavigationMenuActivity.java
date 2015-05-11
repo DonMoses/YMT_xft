@@ -29,9 +29,12 @@ import com.ymt.demo1.main.setting.SettingActivity;
 import com.ymt.demo1.main.sign.SignInActivity;
 import com.ymt.demo1.main.sign.SignUpActivity;
 import com.ymt.demo1.plates.MoreCatoActivity;
+import com.ymt.demo1.plates.consultCato.ConsultCatoMainActivity;
 import com.ymt.demo1.plates.eduPlane.EduMainActivity;
+import com.ymt.demo1.plates.exportConsult.ExportConsultMainActivity;
 import com.ymt.demo1.plates.hub.FireHubPagerTabActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
+import com.ymt.demo1.plates.news.NewsMainActivity;
 import com.ymt.demo1.plates.personal.PersonalPagerTabActivity;
 
 import java.lang.ref.WeakReference;
@@ -279,28 +282,25 @@ public class NavigationMenuActivity extends ActionBarActivity {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.all_consult_cato_text:
-                        //todo 显示全部 咨询分类
-                        Toast.makeText(NavigationMenuActivity.this, "全部咨询分类", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(NavigationMenuActivity.this, ConsultCatoMainActivity.class));      //咨询分类
                         break;
                     case R.id.img_news:
-                        //todo 显示全部 咨询分类
-                        Toast.makeText(NavigationMenuActivity.this, "资讯平台", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(NavigationMenuActivity.this, NewsMainActivity.class));             //资讯平台
                         break;
                     case R.id.img_export:
-                        //todo 显示全部 咨询分类
-                        Toast.makeText(NavigationMenuActivity.this, "专家咨询", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(NavigationMenuActivity.this, ExportConsultMainActivity.class));    //专家咨询
                         break;
                     case R.id.img_edu:
                         startActivity(new Intent(NavigationMenuActivity.this, EduMainActivity.class));              //教育平台
                         break;
                     case R.id.img_knowledge:
-                        startActivity(new Intent(NavigationMenuActivity.this, KnowledgeMainActivity.class));              //知识平台
+                        startActivity(new Intent(NavigationMenuActivity.this, KnowledgeMainActivity.class));        //知识平台
                         break;
                     case R.id.img_hub:
-                        startActivity(new Intent(NavigationMenuActivity.this, FireHubPagerTabActivity.class));              //论坛
+                        startActivity(new Intent(NavigationMenuActivity.this, FireHubPagerTabActivity.class));      //论坛
                         break;
                     case R.id.img_more:
-                        startActivity(new Intent(NavigationMenuActivity.this, MoreCatoActivity.class));              //更多
+                        startActivity(new Intent(NavigationMenuActivity.this, MoreCatoActivity.class));             //更多
                         break;
                     default:
                         break;

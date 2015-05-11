@@ -220,6 +220,7 @@
         <activity
             android:name=".plates.exportConsult.ExportConsultMainActivity"
             android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
 
         <!--滑动风格主机面-->
