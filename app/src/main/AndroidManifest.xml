@@ -216,8 +216,17 @@
             android:name=".plates.news.NewsRecentViewActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".plates.exportConsult.ExportConsultMainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <!--滑动风格主机面-->
         <activity
             android:name=".mainStyles.NavigationMenuActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/ToolbarBaseTheme" />
 
         <service

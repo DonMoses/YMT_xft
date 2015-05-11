@@ -14,6 +14,7 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.main.setting.ManageAppearanceActivity;
 import com.ymt.demo1.plates.consultCato.ConsultCatoMainActivity;
 import com.ymt.demo1.plates.eduPlane.EduMainActivity;
+import com.ymt.demo1.plates.exportConsult.ExportConsultMainActivity;
 import com.ymt.demo1.plates.hub.FireHubPagerTabActivity;
 import com.ymt.demo1.plates.MoreCatoActivity;
 import com.ymt.demo1.main.advice.AdviceActivity;
@@ -84,7 +85,7 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
                         startActivity(new Intent(CircleMenuActivity.this, EduMainActivity.class));          //教育平台
                         break;
                     case 6:
-
+                        startActivity(new Intent(CircleMenuActivity.this, ExportConsultMainActivity.class));     //专家咨询
                         break;
                     case 7:
                         startActivity(new Intent(CircleMenuActivity.this, NewsMainActivity.class));          //资讯平台

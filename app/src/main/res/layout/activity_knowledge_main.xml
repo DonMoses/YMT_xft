@@ -13,10 +13,12 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mytitle="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#E0DED9"
+    android:orientation="vertical">
 
     <com.ymt.demo1.customViews.MyTitle
         android:id="@id/my_title"
@@ -24,14 +26,377 @@
         android:layout_height="48dp"
         android:background="@android:color/holo_blue_dark"
         mytitle:setLeftActionIcon="@drawable/back_normal"
-        mytitle:setRightIconL="@drawable/icon_circle_more"
-        mytitle:setTitleTxt="知识平台" />
+        mytitle:setRightIconL="@drawable/icon_search_more"
+        mytitle:setTitleTxt="专家咨询" />
 
-    <FrameLayout
-        android:id="@+id/fragment"
+    <LinearLayout
+        android:id="@+id/knowledge_search_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="100dp"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp">
 
-    </FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_input_box"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-</FrameLayout>
+            <ImageView
+                android:id="@+id/knowledge_search_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@drawable/icon_search_normal" />
+
+            <EditText
+                android:id="@+id/search_input"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="输入关键字"
+                android:maxLength="30"
+                android:singleLine="true"
+                android:textColor="@color/material_blue_grey_800"
+                android:textColorHint="@android:color/darker_gray"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <GridView
+            android:id="@+id/knowledge_searched_grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:horizontalSpacing="2dp"
+            android:numColumns="5"
+            android:verticalSpacing="2dp" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
+        android:layout_weight="1.2"
+        android:background="@android:color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/nearly_export"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="最近一周值守专家表"
+            android:textColor="@color/material_blue_grey_800"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/more_export"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/nearly_export"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center_vertical"
+            android:text="更多专家"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp" />
+
+        <HorizontalScrollView
+            android:id="@+id/export_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/nearly_export"
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="3dp"
+            android:scrollbarSize="2dp"
+            android:scrollbarThumbHorizontal="@android:color/black">
+
+            <LinearLayout
+                android:id="@+id/export_linear_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+    </RelativeLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
+        android:layout_weight="1.2"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:stretchColumns="0,2">
+
+        <TableRow>
+
+            <RelativeLayout
+                android:id="@+id/today_export_layout"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/today_export"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="今日值守专家"
+                    android:textColor="@color/material_blue_grey_800"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/today_export_icon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_below="@id/today_export"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/moses" />
+
+                <TextView
+                    android:id="@+id/today_export_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/today_export"
+                    android:layout_toEndOf="@id/today_export_icon"
+                    android:layout_toRightOf="@id/today_export_icon"
+                    android:hint="姓名：贺东凛"
+                    android:singleLine="true"
+                    android:textColor="@color/material_blue_grey_800"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/today_export_birth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/today_export_name"
+                    android:layout_toEndOf="@id/today_export_icon"
+                    android:layout_toRightOf="@id/today_export_icon"
+                    android:hint="生日：1964年8月"
+                    android:singleLine="true"
+                    android:textColor="@android:color/darker_gray"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/today_export_major"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/today_export_birth"
+                    android:layout_toEndOf="@id/today_export_icon"
+                    android:layout_toRightOf="@id/today_export_icon"
+                    android:ellipsize="end"
+                    android:hint="职业：你是我的小苹果，小苹果"
+                    android:minLines="2"
+                    android:textColor="@android:color/darker_gray"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray" />
+
+            <RelativeLayout
+                android:id="@+id/tomorrow_export_layout"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tomorrow_export"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="明日值守专家"
+                    android:textColor="@color/material_blue_grey_800"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/tomorrow_export_icon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_below="@id/tomorrow_export"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/moses" />
+
+                <TextView
+                    android:id="@+id/tomorrow_export_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tomorrow_export"
+                    android:layout_toEndOf="@id/tomorrow_export_icon"
+                    android:layout_toRightOf="@id/tomorrow_export_icon"
+                    android:hint="姓名：李徵"
+                    android:singleLine="true"
+                    android:textColor="@color/material_blue_grey_800"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tomorrow_export_birth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tomorrow_export_name"
+                    android:layout_toEndOf="@id/tomorrow_export_icon"
+                    android:layout_toRightOf="@id/tomorrow_export_icon"
+                    android:hint="生日：1975年4月"
+                    android:singleLine="true"
+                    android:textColor="@android:color/darker_gray"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tomorrow_export_major"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tomorrow_export_birth"
+                    android:layout_toEndOf="@id/tomorrow_export_icon"
+                    android:layout_toRightOf="@id/tomorrow_export_icon"
+                    android:ellipsize="end"
+                    android:hint="职业：你是我的小苹果，小苹果"
+                    android:maxLines="2"
+                    android:textColor="@android:color/darker_gray"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+        </TableRow>
+
+    </TableLayout>
+
+    <RelativeLayout
+        android:id="@+id/nearly_consult_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
+        android:layout_weight="1"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/nearly_consult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="最近咨询"
+            android:textColor="@color/material_blue_grey_800"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/nearly_consult_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nearly_consult"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/moses" />
+
+        <TextView
+            android:id="@+id/nearly_consult_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nearly_consult"
+            android:layout_toEndOf="@id/nearly_consult_icon"
+            android:layout_toRightOf="@id/nearly_consult_icon"
+            android:ellipsize="end"
+            android:hint="最近咨询 title"
+            android:singleLine="true"
+            android:textColor="@color/material_blue_grey_800"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/nearly_consult_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nearly_consult_title"
+            android:layout_toEndOf="@id/nearly_consult_icon"
+            android:layout_toRightOf="@id/nearly_consult_icon"
+            android:ellipsize="middle"
+            android:hint="最近咨询 content"
+            android:maxLines="2"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="13sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/hot_consult_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
+        android:layout_weight="1"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/hot_consult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="热点咨询"
+            android:textColor="@color/material_blue_grey_800"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/hot_consult_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hot_consult"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/moses" />
+
+        <TextView
+            android:id="@+id/hot_consult_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hot_consult"
+            android:layout_toEndOf="@id/hot_consult_icon"
+            android:layout_toRightOf="@id/hot_consult_icon"
+            android:ellipsize="end"
+            android:hint="热点咨询 title"
+            android:singleLine="true"
+            android:textColor="@color/material_blue_grey_800"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/hot_consult_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hot_consult_title"
+            android:layout_toEndOf="@id/hot_consult_icon"
+            android:layout_toRightOf="@id/hot_consult_icon"
+            android:ellipsize="middle"
+            android:hint="热点咨询 content"
+            android:maxLines="2"
+            android:textColor="@android:color/darker_gray"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="13sp" />
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -23,12 +23,4 @@
         android:id="@+id/drawer_view"
         layout="@layout/layout_draw_menu" />
 
-    <RelativeLayout
-        android:id="@+id/main_right_drawer_layout"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:background="#00A1D6"
-        android:paddingTop="50dp"></RelativeLayout>
-
 </android.support.v4.widget.DrawerLayout>
