@@ -19,9 +19,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="2dp"
         android:gravity="center_vertical"
         android:minHeight="32dp"
-        android:padding="18dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
         android:text="向千万专家提问！"
         android:textColor="@color/material_blue_grey_800"
         android:textSize="18sp" />
@@ -32,12 +35,19 @@
         android:background="@android:color/holo_blue_light" />
 
     <EditText
+        android:id="@+id/input_consult_title"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@drawable/skyblue_editpage_bg"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="2dp"
+        android:background="@null"
         android:hint="输入咨询标题..."
-        android:padding="18dp"
-        android:textColor="@color/material_blue_grey_800"
+        android:maxLength="50"
+        android:minHeight="48dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:singleLine="true"
+        android:textColor="@android:color/darker_gray"
         android:textColorHint="@android:color/darker_gray"
         android:textSize="16sp" />
 
@@ -47,18 +57,28 @@
         android:background="@android:color/holo_blue_light" />
 
     <ScrollView
+        android:id="@+id/input_consult_content_parent"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:background="@drawable/skyblue_editpage_bg">
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scrollbarSize="3dp"
+        android:scrollbarThumbVertical="@android:color/holo_blue_dark">
 
         <EditText
+            android:id="@+id/input_consult_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="2dp"
             android:background="@null"
+            android:gravity="top"
             android:hint="输入咨询内容..."
             android:maxLines="100"
-            android:padding="18dp"
-            android:textColor="@color/material_blue_grey_800"
+            android:minHeight="120dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:textColor="@android:color/darker_gray"
             android:textColorHint="@android:color/darker_gray"
             android:textSize="16sp" />
     </ScrollView>
@@ -68,26 +88,51 @@
         android:layout_height="0.2dp"
         android:background="@android:color/holo_blue_light" />
 
-    <Button
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="+上传附件" />
-
-    <Button
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="18dp"
-        android:layout_marginRight="18dp"
-        android:background="@android:color/holo_blue_dark"
-        android:text="下载" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="18dp">
+
+        <Button
+            android:id="@+id/upload_btn"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="+上传附件" />
+
+        <Button
+            android:id="@+id/submit_btn"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:background="@android:color/holo_blue_dark"
+            android:text="提交咨询" />
+    </FrameLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@android:color/holo_blue_light" />
 
+    <TextView
+        android:id="@+id/hot_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="热门话题"
+        android:textColor="@color/material_blue_grey_800"
+        android:textSize="14sp" />
+
+    <GridView
+        android:id="@+id/hot_comment_grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:horizontalSpacing="2dp"
+        android:numColumns="5"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" />
 
 </LinearLayout>

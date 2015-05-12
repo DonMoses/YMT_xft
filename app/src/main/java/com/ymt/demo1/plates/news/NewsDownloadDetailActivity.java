@@ -129,24 +129,8 @@ public class NewsDownloadDetailActivity extends BaseActivity {
          */
         final TextView contentView = (TextView) findViewById(R.id.content);
         contentView.setText(getIntent().getStringExtra("content"));
-
-        ArrayList<String> list = new ArrayList<>();
-        String[] hotArray = new String[]{"消防部门", "规范组", "建委",
-                "科研机构", "设计院", "开发商", "设备商", "服务商"};
-        Collections.addAll(list, hotArray);
-        SimpleTxtItemAdapter adapter = new SimpleTxtItemAdapter(this);
-        hotCommentGrid.setAdapter(adapter);
-        adapter.setColor(Color.WHITE, getResources().getColor(R.color.bg_view_blue));
-        adapter.setList(list);
-
-        hotCommentGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String str = parent.getAdapter().getItem(position).toString();
-                //todo
-                Toast.makeText(NewsDownloadDetailActivity.this, str, Toast.LENGTH_SHORT).show();
-            }
-        });
+        //设置底部热点话题内容
+        setDataToHotGird(hotCommentGrid);
 
         /*
         点击 “写点评”
@@ -157,6 +141,29 @@ public class NewsDownloadDetailActivity extends BaseActivity {
             public void onClick(View v) {
                 //todo 写点评
                 Toast.makeText(NewsDownloadDetailActivity.this, "写点评...", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 为底部热点话题设置数据
+     */
+    protected void setDataToHotGird(GridView gridView) {
+        ArrayList<String> list = new ArrayList<>();
+        String[] hotArray = new String[]{"消防部门", "规范组", "建委",
+                "科研机构", "设计院", "开发商", "设备商", "服务商"};
+        Collections.addAll(list, hotArray);
+        SimpleTxtItemAdapter adapter = new SimpleTxtItemAdapter(this);
+        gridView.setAdapter(adapter);
+        adapter.setColor(Color.WHITE, getResources().getColor(R.color.bg_view_blue));
+        adapter.setList(list);
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String str = parent.getAdapter().getItem(position).toString();
+                //todo
+                Toast.makeText(NewsDownloadDetailActivity.this, str, Toast.LENGTH_SHORT).show();
             }
         });
     }

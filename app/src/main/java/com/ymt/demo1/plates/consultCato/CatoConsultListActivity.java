@@ -2,7 +2,6 @@ package com.ymt.demo1.plates.consultCato;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ProgressBar;
@@ -20,11 +19,11 @@ import java.util.ArrayList;
 /**
  * Created by Dan on 2015/5/4
  */
-public class SearchedConsultActivity extends BaseActivity {
+public class CatoConsultListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_searched_consult);
+        setContentView(R.layout.activity_cato_consult_list);
         initTitle();
         initView();
     }
@@ -56,7 +55,7 @@ public class SearchedConsultActivity extends BaseActivity {
             @Override
             public void onRightLClick() {
                 //打开搜索界面
-                startActivity(new Intent(SearchedConsultActivity.this, SearchActivity.class));
+                startActivity(new Intent(CatoConsultListActivity.this, SearchActivity.class));
             }
 
             @Override
@@ -147,7 +146,7 @@ public class SearchedConsultActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                Log.e("TAG", ">>>>>>>>>>>>>>search_item>>>>" + position);
                 //todo 跳转到具体内容界面
-                Intent intent = new Intent(SearchedConsultActivity.this, ConsultDetailActivity.class);
+                Intent intent = new Intent(CatoConsultListActivity.this, ConsultDetailActivity.class);
                 intent.putExtra("search_key_word", getSearchedKeyWord());
                 intent.putExtra("title", ((SearchedConsultInfo) parent.getAdapter().getItem(position)).getConsultTitle());
                 intent.putExtra("content", ((SearchedConsultInfo) parent.getAdapter().getItem(position)).getConsultAnswer());

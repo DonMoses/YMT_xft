@@ -21,7 +21,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +45,6 @@ import com.ymt.demo1.main.PopActionListener;
 import com.ymt.demo1.main.PopActionUtil;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 
 /**
  * 专家咨询界面
@@ -82,11 +80,10 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
             public void onAction(String action) {
                 switch (action) {
                     case "立即咨询":
-                        startActivity(new Intent(ExportConsultMainActivity.this, ConsultNowActivity.class));
+                        startActivity(new Intent(ExportConsultMainActivity.this, ExportConsultNowActivity.class));
                         break;
                     case "我的咨询":
-                        Toast.makeText(ExportConsultMainActivity.this, "我的咨询", Toast.LENGTH_SHORT).show();
-
+                        startActivity(new Intent(ExportConsultMainActivity.this, MyConsultActivity.class));
                         break;
                     case "咨询历史":
                         Toast.makeText(ExportConsultMainActivity.this, "咨询历史", Toast.LENGTH_SHORT).show();

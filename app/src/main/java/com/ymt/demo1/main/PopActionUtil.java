@@ -1,17 +1,26 @@
 package com.ymt.demo1.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.main.setting.ManagePswActivity;
 
 /**
  * Created by Dan on 2015/4/27
@@ -118,6 +127,110 @@ public class PopActionUtil {
 
     }
 
+    /**
+     * 显示成功提交咨询的注册用户POP
+     */
+    public PopupWindow getSubmitConsultSignedPop() {
+        inflater = LayoutInflater.from(context);
+        View popContent = inflater.inflate(R.layout.layout_submit_consult_signed_pop, null);
+        final Button confirmBtn = (Button) popContent.findViewById(R.id.confirm_btn);
+
+        final PopupWindow popupWindow = new PopupWindow(popContent,
+                WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x90000000));
+        //设置弹出菜单的动画
+        popupWindow.setAnimationStyle(R.style.MyDownloadPopAnimation);
+        popupWindow.setOnDismissListener(actionListener);
+
+        View.OnClickListener downloadListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo 下载菜单监听
+                switch (v.getId()) {
+                    case R.id.confirm_btn:
+                        //todo 下载
+                        actionListener.onAction("确定");
+                        popupWindow.dismiss();
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+        };
+        confirmBtn.setOnClickListener(downloadListener);
+
+        return popupWindow;
+
+    }
+
+    /**
+     * 显示成功提交咨询的游客用户POP
+     */
+    public PopupWindow getSubmitConsultUnsignedPop(String accountTxt, String pswTxt) {
+        inflater = LayoutInflater.from(context);
+        View popContent = inflater.inflate(R.layout.layout_submit_consult_unsigned_pop, null);
+        final TextView account = (TextView) popContent.findViewById(R.id.account_txt);
+        final TextView psw = (TextView) popContent.findViewById(R.id.psw_txt);
+        final TextView editPsw = (TextView) popContent.findViewById(R.id.edit_psw_txt);
+        final Button confirmBtn = (Button) popContent.findViewById(R.id.confirm_btn);
+        account.setText(account.getText().toString() + accountTxt);
+        psw.setText(psw.getText().toString() + pswTxt);
+
+        //对修改账号密码的view 使用富文本，点击“修改“则跳转到密码修改界面
+        StringBuilder builder = new StringBuilder(editPsw.getText());   // "建议您修改账号密码"
+        SpannableString spannableString = new SpannableString(builder);
+        ForegroundColorSpan colorSpan =
+                new ForegroundColorSpan(context.getResources().getColor(android.R.color.holo_blue_dark));
+        spannableString.setSpan(colorSpan, 3, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                context.startActivity(new Intent(context, ManagePswActivity.class));
+            }
+        }, 3, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //这只spannableString
+        editPsw.setText(spannableString);
+        //凡是要有点击事件的textView ，都必须设置下面属性
+        editPsw.setMovementMethod(LinkMovementMethod.getInstance());
+
+        //弹出窗背景焦点等逻辑
+        final PopupWindow popupWindow = new PopupWindow(popContent,
+                FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x90000000));
+        //设置弹出菜单的动画
+        popupWindow.setAnimationStyle(R.style.MyDownloadPopAnimation);
+        popupWindow.setOnDismissListener(actionListener);
+
+        View.OnClickListener downloadListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo 下载菜单监听
+                switch (v.getId()) {
+                    case R.id.confirm_btn:
+                        //todo 下载
+                        actionListener.onAction("确定");
+                        popupWindow.dismiss();
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+        };
+        confirmBtn.setOnClickListener(downloadListener);
+
+        return popupWindow;
+
+    }
+
+    /**
+     * pop事件点选监听
+     */
     public void setActionListener(PopActionListener actionListener) {
         this.actionListener = actionListener;
     }

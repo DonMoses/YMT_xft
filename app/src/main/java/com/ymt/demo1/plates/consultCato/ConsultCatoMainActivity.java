@@ -7,7 +7,6 @@ import android.os.Message;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.SimpleExpandListAdapter;
@@ -122,7 +121,7 @@ public class ConsultCatoMainActivity extends BaseActivity {
                 //todo 根据关键字搜索，跳转到咨询搜索界面
                 SimpleExpandListAdapter adapter = (SimpleExpandListAdapter) parent.getExpandableListAdapter();
                 String txt = adapter.getChild(groupPosition, childPosition).toString();
-                Intent intent = new Intent(ConsultCatoMainActivity.this, SearchedConsultActivity.class);
+                Intent intent = new Intent(ConsultCatoMainActivity.this, CatoConsultListActivity.class);
                 intent.putExtra("search_key_word", txt);
                 startActivity(intent);
 //                Toast.makeText(ConsultCatoMainActivity.this, txt, Toast.LENGTH_SHORT).show();

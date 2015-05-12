@@ -22,6 +22,7 @@
 
     <color name="background_tab_pressed">#6633B5E5</color>
     <color name="bg_view_blue">#00A1D6</color>
+    <color name="bg_like_white">#F0F0F0</color>
 
     <color name="guide_bksj">#FF2C8A</color>
     <color name="guide_bmtj">#217EE8</color>
