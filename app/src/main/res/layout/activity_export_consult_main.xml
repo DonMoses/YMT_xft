@@ -23,7 +23,7 @@
     <com.ymt.demo1.customViews.MyTitle
         android:id="@id/my_title"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="58dp"
         android:background="@android:color/holo_blue_dark"
         mytitle:setLeftActionIcon="@drawable/back_normal"
         mytitle:setRightIconL="@drawable/icon_search_more"

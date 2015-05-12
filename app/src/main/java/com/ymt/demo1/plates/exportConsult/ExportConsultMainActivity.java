@@ -16,6 +16,7 @@
 
 package com.ymt.demo1.plates.exportConsult;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
@@ -81,8 +82,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
             public void onAction(String action) {
                 switch (action) {
                     case "立即咨询":
-                        Toast.makeText(ExportConsultMainActivity.this, "立即咨询", Toast.LENGTH_SHORT).show();
-
+                        startActivity(new Intent(ExportConsultMainActivity.this, ConsultNowActivity.class));
                         break;
                     case "我的咨询":
                         Toast.makeText(ExportConsultMainActivity.this, "我的咨询", Toast.LENGTH_SHORT).show();
