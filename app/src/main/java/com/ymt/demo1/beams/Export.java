@@ -1,8 +1,15 @@
 package com.ymt.demo1.beams;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.litepal.crud.DataSupport;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Dan on 2015/5/11
@@ -44,4 +51,6 @@ public class Export extends DataSupport {
     public void setName(String name) {
         this.name = name;
     }
+
+
 }

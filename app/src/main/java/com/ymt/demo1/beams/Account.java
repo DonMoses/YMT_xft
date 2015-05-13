@@ -1,4 +1,4 @@
-package com.ymt.demo1.dbTables;
+package com.ymt.demo1.beams;
 
 import org.litepal.crud.DataSupport;
 

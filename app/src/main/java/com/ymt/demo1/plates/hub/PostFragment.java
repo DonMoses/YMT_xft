@@ -16,6 +16,7 @@ import com.ymt.demo1.R;
  * Created by Dan on 2015/4/8
  */
 public class PostFragment extends Fragment {
+    public static final String FRAGMENT_TAG = "PostFragment";
 
     public static PostFragment newInstance() {
 

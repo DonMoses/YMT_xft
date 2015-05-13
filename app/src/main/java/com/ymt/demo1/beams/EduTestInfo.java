@@ -1,5 +1,6 @@
 package com.ymt.demo1.beams;
 
+
 /**
  * Created by Dan on 2015/4/9
  */
@@ -68,4 +69,6 @@ public class EduTestInfo {
     public void setCollectedCount(String collectedCount) {
         this.collectedCount = collectedCount;
     }
+
+
 }

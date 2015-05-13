@@ -3,12 +3,9 @@ package com.ymt.demo1.main.sign;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,12 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.beams.Account;
+import com.ymt.demo1.beams.EduTestInfo;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.dbTables.Account;
 
 import org.litepal.crud.DataSupport;
 
-import java.util.Dictionary;
 import java.util.List;
 
 /**

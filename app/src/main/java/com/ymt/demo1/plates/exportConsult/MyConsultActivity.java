@@ -2,6 +2,9 @@ package com.ymt.demo1.plates.exportConsult;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
 
@@ -37,7 +40,6 @@ public class MyConsultActivity extends BaseFloatActivity {
                 finish();
             }
         });
-
 
         title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
@@ -89,6 +91,8 @@ public class MyConsultActivity extends BaseFloatActivity {
      * 设置tab选中状态
      */
     protected void setTabSelection(int tabIndex) {
+        FragmentManager fm = getSupportFragmentManager();
+
         switch (tabIndex) {
             case 0:
                 chatTxt.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.icon_chat_on), null, null);
@@ -97,6 +101,23 @@ public class MyConsultActivity extends BaseFloatActivity {
                 chatTxt.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
                 followTxt.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
                 bookingTxt.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
+                /*
+                会话fragment
+                 */
+                FragmentTransaction ft1 = fm.beginTransaction();
+                if (fm.findFragmentByTag(ExportFollowFragment.FRAGMENT_TAG) != null) {
+                    ft1.hide(fm.findFragmentByTag(ExportFollowFragment.FRAGMENT_TAG));
+                }
+
+                if (fm.findFragmentByTag(ExportChatFragment.FRAGMENT_TAG) == null) {
+                    ft1.add(R.id.my_consult_content, ExportChatFragment.newInstance(""),
+                            ExportChatFragment.FRAGMENT_TAG);
+                    ft1.commit();
+                    fm.executePendingTransactions();
+                } else {
+                    ft1.show(fm.findFragmentByTag(ExportChatFragment.FRAGMENT_TAG));
+                    ft1.commit();
+                }
                 break;
             case 1:
                 chatTxt.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.icon_chat_off), null, null);
@@ -105,6 +126,23 @@ public class MyConsultActivity extends BaseFloatActivity {
                 chatTxt.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
                 followTxt.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
                 bookingTxt.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
+                 /*
+                关注fragment
+                 */
+                FragmentTransaction ft2 = fm.beginTransaction();
+                if (fm.findFragmentByTag(ExportChatFragment.FRAGMENT_TAG) != null) {
+                    ft2.hide(fm.findFragmentByTag(ExportChatFragment.FRAGMENT_TAG));
+                }
+
+                if (fm.findFragmentByTag(ExportFollowFragment.FRAGMENT_TAG) == null) {
+                    ft2.add(R.id.my_consult_content, ExportFollowFragment.newInstance(""),
+                            ExportFollowFragment.FRAGMENT_TAG);
+                    ft2.commit();
+                    fm.executePendingTransactions();
+                } else {
+                    ft2.show(fm.findFragmentByTag(ExportFollowFragment.FRAGMENT_TAG));
+                    ft2.commit();
+                }
                 break;
             case 2:
                 chatTxt.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.icon_chat_off), null, null);

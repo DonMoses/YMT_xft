@@ -7,8 +7,8 @@
 
     </version>
     <list>
-        <mapping class="com.ymt.demo1.dbTables.SearchString" />
-        <mapping class="com.ymt.demo1.dbTables.Account" />
+        <mapping class="com.ymt.demo1.beams.EduTestInfo.SearchString" />
+        <mapping class="com.ymt.demo1.beams.EduTestInfo.Account" />
     </list>
 </litepal>
 
