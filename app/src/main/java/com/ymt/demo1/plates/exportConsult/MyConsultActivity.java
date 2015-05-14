@@ -2,7 +2,6 @@ package com.ymt.demo1.plates.exportConsult;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -108,6 +107,9 @@ public class MyConsultActivity extends BaseFloatActivity {
                 if (fm.findFragmentByTag(ExportFollowFragment.FRAGMENT_TAG) != null) {
                     ft1.hide(fm.findFragmentByTag(ExportFollowFragment.FRAGMENT_TAG));
                 }
+                if (fm.findFragmentByTag(ExportBookingFragment.FRAGMENT_TAG) != null) {
+                    ft1.hide(fm.findFragmentByTag(ExportBookingFragment.FRAGMENT_TAG));
+                }
 
                 if (fm.findFragmentByTag(ExportChatFragment.FRAGMENT_TAG) == null) {
                     ft1.add(R.id.my_consult_content, ExportChatFragment.newInstance(""),
@@ -133,6 +135,9 @@ public class MyConsultActivity extends BaseFloatActivity {
                 if (fm.findFragmentByTag(ExportChatFragment.FRAGMENT_TAG) != null) {
                     ft2.hide(fm.findFragmentByTag(ExportChatFragment.FRAGMENT_TAG));
                 }
+                if (fm.findFragmentByTag(ExportBookingFragment.FRAGMENT_TAG) != null) {
+                    ft2.hide(fm.findFragmentByTag(ExportBookingFragment.FRAGMENT_TAG));
+                }
 
                 if (fm.findFragmentByTag(ExportFollowFragment.FRAGMENT_TAG) == null) {
                     ft2.add(R.id.my_consult_content, ExportFollowFragment.newInstance(""),
@@ -151,6 +156,26 @@ public class MyConsultActivity extends BaseFloatActivity {
                 chatTxt.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
                 followTxt.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
                 bookingTxt.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
+                  /*
+                预约fragment
+                 */
+                FragmentTransaction ft3 = fm.beginTransaction();
+                if (fm.findFragmentByTag(ExportChatFragment.FRAGMENT_TAG) != null) {
+                    ft3.hide(fm.findFragmentByTag(ExportChatFragment.FRAGMENT_TAG));
+                }
+                if (fm.findFragmentByTag(ExportFollowFragment.FRAGMENT_TAG) != null) {
+                    ft3.hide(fm.findFragmentByTag(ExportFollowFragment.FRAGMENT_TAG));
+                }
+
+                if (fm.findFragmentByTag(ExportBookingFragment.FRAGMENT_TAG) == null) {
+                    ft3.add(R.id.my_consult_content, ExportBookingFragment.newInstance(""),
+                            ExportBookingFragment.FRAGMENT_TAG);
+                    ft3.commit();
+                    fm.executePendingTransactions();
+                } else {
+                    ft3.show(fm.findFragmentByTag(ExportBookingFragment.FRAGMENT_TAG));
+                    ft3.commit();
+                }
                 break;
             default:
                 break;

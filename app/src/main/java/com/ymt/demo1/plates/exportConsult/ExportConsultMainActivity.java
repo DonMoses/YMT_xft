@@ -55,6 +55,8 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
     private Handler mHandler = new MyHandler(this);
     private HorizontalScrollView scrollView;
     private LinearLayout linearLayout;
+    private OnDutyExport todayExport;
+    private OnDutyExport tomorrowExport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,12 +159,12 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
     protected void initTodTomExport() {
 
         //todo 今日、明日专家（从最近一周值守专家中获取）
-        OnDutyExport todayExport = new OnDutyExport();
+        todayExport = new OnDutyExport();
         todayExport.setName("李国栋");
         todayExport.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.moses));
         todayExport.setBirthDay("1964年8月");
         todayExport.setMajor("成都消防大队指导员");
-        OnDutyExport tomorrowExport = new OnDutyExport();
+        tomorrowExport = new OnDutyExport();
         tomorrowExport.setName("汪知武");
         tomorrowExport.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.moses));
         tomorrowExport.setBirthDay("1973年2月");
@@ -267,7 +269,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
      * 初始化专家值守列表
      */
     protected void initExportTable() {
-        LayoutInflater inflater = LayoutInflater.from(this);
+        final LayoutInflater inflater = LayoutInflater.from(this);
         //获取滑动控件宽度，设置item 宽度（默认显示前4个）
         int screenW = scrollView.getWidth();
 
@@ -329,7 +331,11 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
             exportItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(ExportConsultMainActivity.this, "专家：" + export.getName(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ExportConsultMainActivity.this, ExportInfoActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("export_info", export);
+                    intent.putExtra("export_info", bundle);
+                    startActivity(intent);
                 }
             });
         }
@@ -340,11 +346,19 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         switch (v.getId()) {
             case R.id.today_export_layout:
                 //todo 点击跳转到专家详情界面
-                Toast.makeText(ExportConsultMainActivity.this, "专家详情", Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(ExportConsultMainActivity.this, ExportInfoActivity.class);
+                Bundle bundle1 = new Bundle();
+                bundle1.putParcelable("export_info", todayExport);
+                intent1.putExtra("export_info", bundle1);
+                startActivity(intent1);
                 break;
             case R.id.tomorrow_export_layout:
                 //todo 点击跳转到专家详情界面
-                Toast.makeText(ExportConsultMainActivity.this, "专家详情", Toast.LENGTH_SHORT).show();
+                Intent intent2 = new Intent(ExportConsultMainActivity.this, ExportInfoActivity.class);
+                Bundle bundle2 = new Bundle();
+                bundle2.putParcelable("export_info", tomorrowExport);
+                intent2.putExtra("export_info", bundle2);
+                startActivity(intent2);
                 break;
             case R.id.nearly_consult_view:
                 //todo 点击进入咨询详细内容界面

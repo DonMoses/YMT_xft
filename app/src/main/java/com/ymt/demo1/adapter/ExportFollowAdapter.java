@@ -1,6 +1,8 @@
 package com.ymt.demo1.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import com.ymt.demo1.beams.ChatBeam;
 import com.ymt.demo1.beams.ChatMessage;
 import com.ymt.demo1.beams.Export;
 import com.ymt.demo1.customViews.CircleImageView;
+import com.ymt.demo1.plates.exportConsult.ExportInfoActivity;
 
 import java.util.ArrayList;
 
@@ -49,7 +52,7 @@ public class ExportFollowAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_export_follow, null);
@@ -64,6 +67,16 @@ public class ExportFollowAdapter extends BaseAdapter {
 
         viewHolder.exportHeader.setImageBitmap(mList.get(position).getIcon());
         viewHolder.exportName.setText(mList.get(position).getName());
+        viewHolder.exportHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ExportInfoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("export_info", mList.get(position));
+                intent.putExtra("export_info", bundle);
+                context.startActivity(intent);
+            }
+        });
         return convertView;
     }
 

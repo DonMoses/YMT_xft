@@ -215,32 +215,32 @@ public class NavigationMenuActivity extends ActionBarActivity {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.personal_icon_btn:
-                        mDrawerLayout.closeDrawers();                             //个人中心
                         startActivity(new Intent(NavigationMenuActivity.this, PersonalPagerTabActivity.class));
+                        mDrawerLayout.closeDrawers();                             //个人中心
                         break;
                     case R.id.sign_up:
-                        mDrawerLayout.closeDrawers();
                         startActivity(new Intent(NavigationMenuActivity.this, SignUpActivity.class));       //注册
+                        mDrawerLayout.closeDrawers();
                         break;
                     case R.id.help:
-                        mDrawerLayout.closeDrawers();
                         startActivity(new Intent(NavigationMenuActivity.this, HelpActivity.class));         //帮助
+                        mDrawerLayout.closeDrawers();
                         break;
                     case R.id.advice:
-                        mDrawerLayout.closeDrawers();
                         startActivity(new Intent(NavigationMenuActivity.this, AdviceActivity.class));       //建议
+                        mDrawerLayout.closeDrawers();
                         break;
                     case R.id.setting:
-                        mDrawerLayout.closeDrawers();
                         startActivity(new Intent(NavigationMenuActivity.this, SettingActivity.class));      //设置
+                        mDrawerLayout.closeDrawers();
                         break;
                     case R.id.collect:
                         //todo 收藏
                         mDrawerLayout.closeDrawers();
                         break;
                     case R.id.sign_in:
-                        mDrawerLayout.closeDrawers();
                         startActivity(new Intent(NavigationMenuActivity.this, SignInActivity.class));       //登录
+                        mDrawerLayout.closeDrawers();
                         break;
                     default:
                         break;
