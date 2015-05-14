@@ -9,7 +9,6 @@ import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.Export;
 import com.ymt.demo1.customViews.MyTitle;
 
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by Dan on 2015/5/14
@@ -23,6 +22,7 @@ public class ConsultChatActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consult_chat);
         initTitle();
+
     }
 
     protected void initTitle() {
