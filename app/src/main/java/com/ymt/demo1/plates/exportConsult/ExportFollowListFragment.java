@@ -19,7 +19,7 @@ import java.util.ArrayList;
 /**
  * Created by Dan on 2015/5/13
  */
-public class ExportFollowFragment extends Fragment {
+public class ExportFollowListFragment extends Fragment {
 
     public static final String FRAGMENT_TAG = "ExportFollowFragment";
 
@@ -30,8 +30,8 @@ public class ExportFollowFragment extends Fragment {
         return view;
     }
 
-    public static ExportFollowFragment newInstance(String emptyInfo) {
-        ExportFollowFragment exportFollowFragment = new ExportFollowFragment();
+    public static ExportFollowListFragment newInstance(String emptyInfo) {
+        ExportFollowListFragment exportFollowFragment = new ExportFollowListFragment();
         Bundle args = new Bundle();
         args.putString("empty_info", emptyInfo);
         exportFollowFragment.setArguments(args);

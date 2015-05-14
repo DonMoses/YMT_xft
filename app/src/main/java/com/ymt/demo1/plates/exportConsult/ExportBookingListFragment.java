@@ -19,7 +19,7 @@ import java.util.ArrayList;
 /**
  * Created by Dan on 2015/5/13
  */
-public class ExportBookingFragment extends Fragment {
+public class ExportBookingListFragment extends Fragment {
     public static final String FRAGMENT_TAG = "ExportBookingFragment";
 
     @Override
@@ -29,8 +29,8 @@ public class ExportBookingFragment extends Fragment {
         return view;
     }
 
-    public static ExportBookingFragment newInstance(String emptyInfo) {
-        ExportBookingFragment exportBookingFragment = new ExportBookingFragment();
+    public static ExportBookingListFragment newInstance(String emptyInfo) {
+        ExportBookingListFragment exportBookingFragment = new ExportBookingListFragment();
         Bundle args = new Bundle();
         args.putString("empty_info", emptyInfo);
         exportBookingFragment.setArguments(args);

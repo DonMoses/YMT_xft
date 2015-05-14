@@ -23,7 +23,7 @@ import java.util.Random;
 /**
  * Created by Dan on 2015/5/13
  */
-public class ExportChatFragment extends Fragment {
+public class ExportChatListFragment extends Fragment {
 
     public static final String FRAGMENT_TAG = "ExportChatFragment";
 
@@ -34,8 +34,8 @@ public class ExportChatFragment extends Fragment {
         return view;
     }
 
-    public static ExportChatFragment newInstance(String emptyInfo) {
-        ExportChatFragment exportChatFragment = new ExportChatFragment();
+    public static ExportChatListFragment newInstance(String emptyInfo) {
+        ExportChatListFragment exportChatFragment = new ExportChatListFragment();
         Bundle args = new Bundle();
         args.putString("empty_info", emptyInfo);
         exportChatFragment.setArguments(args);

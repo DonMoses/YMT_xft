@@ -19,6 +19,7 @@ import com.ymt.demo1.R;
  * 创建自定义title ， 左边为返回按钮， 中间为title文字，右边为search 和action 按钮
  */
 public class MyTitle extends LinearLayout {
+    private Context context;
     /*
     title监听事件
      */
@@ -51,11 +52,13 @@ public class MyTitle extends LinearLayout {
 
     public MyTitle(Context context) {
         super(context);
+        this.context = context;
         init(context);
     }
 
     public MyTitle(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         //从xml 布局文件中读取属性
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MyTitle);
         leftActIcon = a.getDrawable(R.styleable.MyTitle_setLeftActionIcon);
@@ -262,11 +265,6 @@ public class MyTitle extends LinearLayout {
         this.centerTitle = centerTitle;
     }
 
-    public void updateCenterTitle(String centerTitle) {
-        centerTitleTxt.setText(centerTitle);
-        invalidate();
-    }
-
     public Drawable getRightActIconL() {
         return rightActIconL;
     }
@@ -274,4 +272,25 @@ public class MyTitle extends LinearLayout {
     public void setRightActIconL(Drawable rightActIconL) {
         this.rightActIconL = rightActIconL;
     }
+
+    /**
+     * 更新title
+     */
+    public void updateCenterTitle(String centerTitle) {
+        centerTitleTxt.setText(centerTitle);
+        invalidate();
+    }
+
+    /**
+     * 更新右L icon为文字
+     */
+    public void updateLeftLIcon2Txt(String txtL) {
+        rightActionLayout.removeViewAt(0);
+        TextView leftTxt = new TextView(context);
+        leftTxt.setText(txtL);
+        rightActionLayout.addView(leftTxt);
+        invalidate();
+    }
+
+
 }

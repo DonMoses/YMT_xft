@@ -1,5 +1,6 @@
 package com.ymt.demo1.plates.exportConsult;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
@@ -163,7 +164,12 @@ public class ExportInfoActivity extends BaseActivity {
                         break;
                     case R.id.consult_action_layout:
                         //todo 咨询会话界面
-                        Toast.makeText(ExportInfoActivity.this, "consult now...", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(ExportInfoActivity.this, ConsultChatActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("export_info", export);
+                        intent.putExtra("export_info", bundle);
+                        startActivity(intent);
+                        finish();
                         break;
                     case R.id.booking_action_layout:
                         //todo 立即预约界面 【事件选择 。。。等】

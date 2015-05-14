@@ -11,6 +11,7 @@ import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.plates.MoreCatoActivity;
 import com.ymt.demo1.plates.consultCato.ConsultCatoMainActivity;
 import com.ymt.demo1.plates.eduPlane.EduMainActivity;
+import com.ymt.demo1.plates.exportConsult.ExportConsultMainActivity;
 import com.ymt.demo1.plates.hub.FireHubPagerTabActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
 import com.ymt.demo1.plates.news.NewsMainActivity;
@@ -114,13 +115,11 @@ public class FloatMenuActivity extends Activity {
                         startActivity(
                                 new Intent(FloatMenuActivity.this, NewsMainActivity.class)); //资讯平台;
                         break;
-//                    case 7:
-//                        // 点击关闭悬浮窗的时候，移除所有悬浮窗，并停止Service
-//                        MyWindowManager.removeBigWindow();
-//                        MyWindowManager.removeSmallWindow(AppContext.getContext());
-//                        Intent intent = new Intent(FloatMenuActivity.this, FloatWindowService.class);
-//                        AppContext.getContext().stopService(intent);
-//                        break;
+                    case 7:
+                        MyWindowManager.removeBigWindow();
+                        startActivity(
+                                new Intent(FloatMenuActivity.this, ExportConsultMainActivity.class)); //专家咨询;
+                        break;
                     default:
                         Toast.makeText(AppContext.getContext(), titles[pos], Toast.LENGTH_SHORT).show();
                         break;

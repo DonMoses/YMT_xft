@@ -104,20 +104,20 @@ public class MyConsultActivity extends BaseFloatActivity {
                 会话fragment
                  */
                 FragmentTransaction ft1 = fm.beginTransaction();
-                if (fm.findFragmentByTag(ExportFollowFragment.FRAGMENT_TAG) != null) {
-                    ft1.hide(fm.findFragmentByTag(ExportFollowFragment.FRAGMENT_TAG));
+                if (fm.findFragmentByTag(ExportFollowListFragment.FRAGMENT_TAG) != null) {
+                    ft1.hide(fm.findFragmentByTag(ExportFollowListFragment.FRAGMENT_TAG));
                 }
-                if (fm.findFragmentByTag(ExportBookingFragment.FRAGMENT_TAG) != null) {
-                    ft1.hide(fm.findFragmentByTag(ExportBookingFragment.FRAGMENT_TAG));
+                if (fm.findFragmentByTag(ExportBookingListFragment.FRAGMENT_TAG) != null) {
+                    ft1.hide(fm.findFragmentByTag(ExportBookingListFragment.FRAGMENT_TAG));
                 }
 
-                if (fm.findFragmentByTag(ExportChatFragment.FRAGMENT_TAG) == null) {
-                    ft1.add(R.id.my_consult_content, ExportChatFragment.newInstance(""),
-                            ExportChatFragment.FRAGMENT_TAG);
+                if (fm.findFragmentByTag(ExportChatListFragment.FRAGMENT_TAG) == null) {
+                    ft1.add(R.id.my_consult_content, ExportChatListFragment.newInstance(""),
+                            ExportChatListFragment.FRAGMENT_TAG);
                     ft1.commit();
                     fm.executePendingTransactions();
                 } else {
-                    ft1.show(fm.findFragmentByTag(ExportChatFragment.FRAGMENT_TAG));
+                    ft1.show(fm.findFragmentByTag(ExportChatListFragment.FRAGMENT_TAG));
                     ft1.commit();
                 }
                 break;
@@ -132,20 +132,20 @@ public class MyConsultActivity extends BaseFloatActivity {
                 关注fragment
                  */
                 FragmentTransaction ft2 = fm.beginTransaction();
-                if (fm.findFragmentByTag(ExportChatFragment.FRAGMENT_TAG) != null) {
-                    ft2.hide(fm.findFragmentByTag(ExportChatFragment.FRAGMENT_TAG));
+                if (fm.findFragmentByTag(ExportChatListFragment.FRAGMENT_TAG) != null) {
+                    ft2.hide(fm.findFragmentByTag(ExportChatListFragment.FRAGMENT_TAG));
                 }
-                if (fm.findFragmentByTag(ExportBookingFragment.FRAGMENT_TAG) != null) {
-                    ft2.hide(fm.findFragmentByTag(ExportBookingFragment.FRAGMENT_TAG));
+                if (fm.findFragmentByTag(ExportBookingListFragment.FRAGMENT_TAG) != null) {
+                    ft2.hide(fm.findFragmentByTag(ExportBookingListFragment.FRAGMENT_TAG));
                 }
 
-                if (fm.findFragmentByTag(ExportFollowFragment.FRAGMENT_TAG) == null) {
-                    ft2.add(R.id.my_consult_content, ExportFollowFragment.newInstance(""),
-                            ExportFollowFragment.FRAGMENT_TAG);
+                if (fm.findFragmentByTag(ExportFollowListFragment.FRAGMENT_TAG) == null) {
+                    ft2.add(R.id.my_consult_content, ExportFollowListFragment.newInstance(""),
+                            ExportFollowListFragment.FRAGMENT_TAG);
                     ft2.commit();
                     fm.executePendingTransactions();
                 } else {
-                    ft2.show(fm.findFragmentByTag(ExportFollowFragment.FRAGMENT_TAG));
+                    ft2.show(fm.findFragmentByTag(ExportFollowListFragment.FRAGMENT_TAG));
                     ft2.commit();
                 }
                 break;
@@ -160,20 +160,20 @@ public class MyConsultActivity extends BaseFloatActivity {
                 预约fragment
                  */
                 FragmentTransaction ft3 = fm.beginTransaction();
-                if (fm.findFragmentByTag(ExportChatFragment.FRAGMENT_TAG) != null) {
-                    ft3.hide(fm.findFragmentByTag(ExportChatFragment.FRAGMENT_TAG));
+                if (fm.findFragmentByTag(ExportChatListFragment.FRAGMENT_TAG) != null) {
+                    ft3.hide(fm.findFragmentByTag(ExportChatListFragment.FRAGMENT_TAG));
                 }
-                if (fm.findFragmentByTag(ExportFollowFragment.FRAGMENT_TAG) != null) {
-                    ft3.hide(fm.findFragmentByTag(ExportFollowFragment.FRAGMENT_TAG));
+                if (fm.findFragmentByTag(ExportFollowListFragment.FRAGMENT_TAG) != null) {
+                    ft3.hide(fm.findFragmentByTag(ExportFollowListFragment.FRAGMENT_TAG));
                 }
 
-                if (fm.findFragmentByTag(ExportBookingFragment.FRAGMENT_TAG) == null) {
-                    ft3.add(R.id.my_consult_content, ExportBookingFragment.newInstance(""),
-                            ExportBookingFragment.FRAGMENT_TAG);
+                if (fm.findFragmentByTag(ExportBookingListFragment.FRAGMENT_TAG) == null) {
+                    ft3.add(R.id.my_consult_content, ExportBookingListFragment.newInstance(""),
+                            ExportBookingListFragment.FRAGMENT_TAG);
                     ft3.commit();
                     fm.executePendingTransactions();
                 } else {
-                    ft3.show(fm.findFragmentByTag(ExportBookingFragment.FRAGMENT_TAG));
+                    ft3.show(fm.findFragmentByTag(ExportBookingListFragment.FRAGMENT_TAG));
                     ft3.commit();
                 }
                 break;

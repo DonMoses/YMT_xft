@@ -235,7 +235,10 @@
             android:name=".plates.exportConsult.ExportInfoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".plates.exportConsult.ConsultChatActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <!--滑动风格主机面-->
         <activity
             android:name=".mainStyles.NavigationMenuActivity"
