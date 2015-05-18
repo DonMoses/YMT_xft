@@ -22,11 +22,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.baseClasses.FireHubPagerTabParentFragment;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.PopActionListener;
 import com.ymt.demo1.main.SearchActivity;
 import com.ymt.demo1.main.PopActionUtil;
 
@@ -58,6 +60,31 @@ public class FireHubPagerTabActivity extends BaseActivity {
     protected void initTitle() {
         final MyTitle title = (MyTitle) findViewById(R.id.my_title);
         title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L_R);
+
+        final PopActionListener actionListener = new PopActionListener() {
+            @Override
+            public void onAction(String action) {
+                switch (action) {
+                    case "我的收藏":
+                        Toast.makeText(FireHubPagerTabActivity.this, action, Toast.LENGTH_SHORT).show();
+                        break;
+                    case "最近浏览":
+                        Toast.makeText(FireHubPagerTabActivity.this, action, Toast.LENGTH_SHORT).show();
+                        break;
+                    case "问题申诉":
+                        Toast.makeText(FireHubPagerTabActivity.this, action, Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onDismiss() {
+
+            }
+        };
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
             public void onClick() {
@@ -76,6 +103,7 @@ public class FireHubPagerTabActivity extends BaseActivity {
                 // 设置按钮Action
                 PopActionUtil popActionUtil = PopActionUtil.getInstance(FireHubPagerTabActivity.this);
                 popActionUtil.setActions(new String[]{"我的收藏", "最近浏览", "问题申诉"});
+                popActionUtil.setActionListener(actionListener);
                 PopupWindow popupWindow = popActionUtil.getSimpleTxtPopActionMenu();
                 popupWindow.showAtLocation(title.getRootView(), Gravity.END | Gravity.TOP, 10, 100);
 
