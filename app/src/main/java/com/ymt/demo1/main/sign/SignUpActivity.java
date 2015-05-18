@@ -13,11 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.Account;
-import com.ymt.demo1.beams.EduTestInfo;
+import com.ymt.demo1.dbBeams.Account;
 import com.ymt.demo1.customViews.MyTitle;
 
 import org.litepal.crud.DataSupport;
+import org.litepal.tablemanager.Connector;
 
 import java.util.List;
 
@@ -29,6 +29,7 @@ public class SignUpActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Connector.getDatabase();
         setContentView(R.layout.activity_sign_up);
         initTitle();
         initAccount();

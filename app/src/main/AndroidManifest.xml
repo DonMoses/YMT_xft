@@ -55,14 +55,22 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
-            android:name=".guidepages.GuideActivity"
-            android:screenOrientation="portrait">
+        <activity android:name=".launchpages.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".launchpages.LoadingPageActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".launchpages.GuideActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
         </activity>
         <activity
             android:name=".customKeyBoard.ConsultActivity"

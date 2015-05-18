@@ -3,12 +3,15 @@
     <dbname value="xft">
 
     </dbname>
-    <version value="3">
+    <version value="6">
 
     </version>
     <list>
-        <mapping class="com.ymt.demo1.beams.EduTestInfo.SearchString" />
-        <mapping class="com.ymt.demo1.beams.EduTestInfo.Account" />
+        <mapping class="com.ymt.demo1.dbBeams.SearchString" />
+        <mapping class="com.ymt.demo1.dbBeams.Account" />
+        <mapping class="com.ymt.demo1.dbBeams.Chat" />
+        <mapping class="com.ymt.demo1.dbBeams.SimpleMessage" />
+
     </list>
 </litepal>
 

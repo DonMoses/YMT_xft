@@ -16,6 +16,23 @@ public class ChatMessage {
     private String msgAudioFilePath;
     private Bitmap msgImg;
     private boolean isRead;
+    private boolean isIn;
+
+    public String getMsgAudioFilePath() {
+        return msgAudioFilePath;
+    }
+
+    public void setMsgAudioFilePath(String msgAudioFilePath) {
+        this.msgAudioFilePath = msgAudioFilePath;
+    }
+
+    public boolean isIn() {
+        return isIn;
+    }
+
+    public void setIsIn(boolean isIn) {
+        this.isIn = isIn;
+    }
 
     public ChatMsgType getMsgType() {
         return msgType;

@@ -10,8 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.ChatBeam;
-import com.ymt.demo1.beams.ChatMessage;
 import com.ymt.demo1.beams.Export;
 import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.plates.exportConsult.ExportInfoActivity;

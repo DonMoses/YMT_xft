@@ -25,6 +25,7 @@ import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.customViews.IndicatorView;
 import com.ymt.demo1.main.advice.AdviceActivity;
 import com.ymt.demo1.main.help.HelpActivity;
+import com.ymt.demo1.main.setting.ManageAppearanceActivity;
 import com.ymt.demo1.main.setting.SettingActivity;
 import com.ymt.demo1.main.sign.SignInActivity;
 import com.ymt.demo1.main.sign.SignUpActivity;
@@ -37,23 +38,28 @@ import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
 import com.ymt.demo1.plates.news.NewsMainActivity;
 import com.ymt.demo1.plates.personal.PersonalPagerTabActivity;
 
+import org.litepal.tablemanager.Connector;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
  * Created by Dan on 2015/5/8
  */
-public class NavigationMenuActivity extends ActionBarActivity {
+public class NavigationMenuActivity extends ActionBarActivity implements ManageAppearanceActivity.StyleChangeListener {
 
     private DrawerLayout mDrawerLayout;
     private static boolean ALWAYS_ON = true;
     private static final int SHOW_NEXT_PAGE = 0;
     private ViewPager adViewPager;
     private final MyHandler myHandler = new MyHandler(this);
+    public static ManageAppearanceActivity.StyleChangeListener styleChangeListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Connector.getDatabase();
+        styleChangeListener = this;
         setContentView(R.layout.activity_navigation_menu);
         initView();
     }
@@ -372,6 +378,12 @@ public class NavigationMenuActivity extends ActionBarActivity {
 
             }
         }
+    }
+
+
+    @Override
+    public void onStyleChanged() {
+        finish();
     }
 
 }

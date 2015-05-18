@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/bg_chat_left3" android:state_long_pressable="false" android:state_pressed="false" />
+    <item android:drawable="@drawable/bg_chat_left1" android:state_long_pressable="false" android:state_pressed="true" />
+    <item android:drawable="@drawable/bg_chat_left2" android:state_long_pressable="true" android:state_pressed="false" />
+</selector>

@@ -24,4 +24,13 @@
         android:textSize="16sp"
         android:gravity="center_vertical"
         android:textColor="@android:color/holo_purple" />
+
+    <TextView
+        android:id="@+id/select_circle"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:text="转盘风格"
+        android:textSize="16sp"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/holo_purple" />
 </LinearLayout>

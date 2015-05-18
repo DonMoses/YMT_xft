@@ -1,4 +1,4 @@
-package com.ymt.demo1.guidepages;
+package com.ymt.demo1.launchpages;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +11,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.main.floatWindow.FloatWindowService;
-import com.ymt.demo1.mainStyles.CircleMenuActivity;
 import com.ymt.demo1.main.sign.SignInActivity;
 import com.ymt.demo1.main.sign.SignUpActivity;
 
@@ -68,8 +66,7 @@ public class GuidePageFragment3 extends Fragment {
                         getActivity().finish();
                         break;
                     case R.id.guide_try_now:
-                        startActivity(new Intent(getActivity(), CircleMenuActivity.class));
-                        getActivity().startService(new Intent(getActivity(), FloatWindowService.class));
+                        startActivity(new Intent(getActivity(), LoadingPageActivity.class));
                         getActivity().finish();
                         break;
                     default:

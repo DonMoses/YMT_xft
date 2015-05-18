@@ -1,5 +1,6 @@
-package com.ymt.demo1.guidepages;
+package com.ymt.demo1.launchpages;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -20,6 +21,10 @@ public class GuideActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edu_guide);
         initViews();
+        SharedPreferences mSharedPreferences = getSharedPreferences(MainActivity.SETTING_PREFERENCES, MODE_PRIVATE);
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putBoolean(MainActivity.FIRST_LAUNCH_KEY, false);
+        editor.apply();
     }
 
     protected void initViews() {

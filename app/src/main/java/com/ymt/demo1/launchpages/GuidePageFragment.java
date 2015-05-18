@@ -1,4 +1,4 @@
-package com.ymt.demo1.guidepages;
+package com.ymt.demo1.launchpages;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

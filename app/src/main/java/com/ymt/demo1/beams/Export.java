@@ -13,6 +13,7 @@ import java.util.ArrayList;
  * Created by Dan on 2015/5/11
  */
 public class Export extends DataSupport implements Serializable, Parcelable {
+    private String id;
     private Bitmap icon;
     private String birthDay;
     private String name;
@@ -30,6 +31,14 @@ public class Export extends DataSupport implements Serializable, Parcelable {
      * 最近问题
      */
     private ArrayList<String> recentQuests;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public boolean isFollowed() {
         return isFollowed;
@@ -113,6 +122,7 @@ public class Export extends DataSupport implements Serializable, Parcelable {
         dest.writeString(this.selfResume);
         dest.writeString(this.teamResume);
         dest.writeSerializable(this.recentQuests);
+        dest.writeString(this.id);
     }
 
     private Export(Parcel in) {
@@ -124,6 +134,7 @@ public class Export extends DataSupport implements Serializable, Parcelable {
         this.selfResume = in.readString();
         this.teamResume = in.readString();
         this.recentQuests = (ArrayList<String>) in.readSerializable();
+        this.id = in.readString();
     }
 
     public static final Creator<Export> CREATOR = new Creator<Export>() {

@@ -12,11 +12,12 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.Account;
+import com.ymt.demo1.dbBeams.Account;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.mainStyles.CircleMenuActivity;
 
 import org.litepal.crud.DataSupport;
+import org.litepal.tablemanager.Connector;
 
 import java.util.List;
 

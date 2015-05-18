@@ -11,8 +11,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.EduTestInfo;
-import com.ymt.demo1.beams.SearchString;
+import com.ymt.demo1.dbBeams.SearchString;
 
 import org.litepal.crud.DataSupport;
 import org.litepal.tablemanager.Connector;
@@ -28,7 +27,6 @@ public class SearchActivity extends BaseFloatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Connector.getDatabase();
         setContentView(R.layout.activity_search);
         initView();
 

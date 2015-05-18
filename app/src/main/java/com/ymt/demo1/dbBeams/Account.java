@@ -1,4 +1,6 @@
-package com.ymt.demo1.beams;
+package com.ymt.demo1.dbBeams;
+
+import android.graphics.Bitmap;
 
 import org.litepal.crud.DataSupport;
 
@@ -9,8 +11,33 @@ public class Account extends DataSupport {
     private String phoneNum;
     private String accountName;
     private String password;
+    private Bitmap header;
     String email;
     String qqID;
+
+    public Bitmap getHeader() {
+        return header;
+    }
+
+    public void setHeader(Bitmap header) {
+        this.header = header;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getQqID() {
+        return qqID;
+    }
+
+    public void setQqID(String qqID) {
+        this.qqID = qqID;
+    }
 
     public String getAccountName() {
         return accountName;

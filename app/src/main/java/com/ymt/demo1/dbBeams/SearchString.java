@@ -1,4 +1,4 @@
-package com.ymt.demo1.beams;
+package com.ymt.demo1.dbBeams;
 
 import org.litepal.crud.DataSupport;
 

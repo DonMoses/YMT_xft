@@ -26,6 +26,8 @@ import com.ymt.demo1.plates.news.NewsMainActivity;
 import com.ymt.demo1.plates.personal.PersonalPagerTabActivity;
 import com.zhy.view.CircleMenuLayout;
 
+import org.litepal.tablemanager.Connector;
+
 /**
  * Created by Moses on 2015
  */
@@ -45,6 +47,7 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Connector.getDatabase();
         styleChangeListener = this;
         setContentView(R.layout.activity_circle_menu);
         initViews();
@@ -223,7 +226,7 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
 
                 //todo 这里放入一个测试界面，方便开发中测验。 最后修改为收藏界面
 
-                
+
                 break;
             default:
                 break;
