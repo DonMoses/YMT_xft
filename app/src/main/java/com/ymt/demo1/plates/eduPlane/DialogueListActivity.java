@@ -3,18 +3,24 @@
  */
 package com.ymt.demo1.plates.eduPlane;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
+import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,29 +28,39 @@ import android.widget.Toast;
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.EduDialogueInfo;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.dbBeams.SearchString;
 import com.ymt.demo1.main.BaseFloatActivity;
 import com.ymt.demo1.main.SearchActivity;
 
+import org.litepal.crud.DataSupport;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Dan on 2015/4/9
+ * 答疑界面
  */
 public class DialogueListActivity extends BaseFloatActivity {
     final int SIMPLE_TYPE = 0;
+    private EditText inputView;
+    private int updateIndex;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edu_dialogue_list);
+        sharedPreferences = getSharedPreferences(SearchActivity.SEARCH_PREFERENCES, MODE_PRIVATE);
+        updateIndex = sharedPreferences.getInt(SearchActivity.UPDATE_SEARCH_INDEX, 0);
         initTitle();
         initView();
     }
 
     protected void initTitle() {
         MyTitle title = (MyTitle) findViewById(R.id.my_title);
-        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
+        title.setTitleStyle(MyTitle.TitleStyle.LEFT_ICON);
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
             public void onClick() {
@@ -52,20 +68,21 @@ public class DialogueListActivity extends BaseFloatActivity {
             }
         });
 
-        title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
-            @Override
-            public void onRightLClick() {
-                startActivity(new Intent(DialogueListActivity.this, SearchActivity.class));
-            }
-
-            @Override
-            public void onRightRClick() {
-                //todo 设置按钮Action
-            }
-        });
+//        title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
+//            @Override
+//            public void onRightLClick() {
+//                startActivity(new Intent(DialogueListActivity.this, SearchActivity.class));
+//            }
+//
+//            @Override
+//            public void onRightRClick() {
+//                //todo 设置按钮Action
+//            }
+//        });
     }
 
     protected void initView() {
+        initSearchView();
 
         /*
         问答列表
@@ -85,7 +102,7 @@ public class DialogueListActivity extends BaseFloatActivity {
                         break;
                     case SCROLL_STATE_FLING:                //滚动中
                     case SCROLL_STATE_TOUCH_SCROLL:         //触摸中
-
+                        inputView.clearFocus();
                         break;
                     default:
                         break;
@@ -106,7 +123,12 @@ public class DialogueListActivity extends BaseFloatActivity {
         dialogueList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(DialogueListActivity.this, ((EduDialogueInfo) parent.getItemAtPosition(position)).getQuestion(), Toast.LENGTH_SHORT).show();
+                EduDialogueInfo eduDialogueInfo = ((EduDialogueInfo) parent.getItemAtPosition(position));
+                Intent intent = new Intent(DialogueListActivity.this, DialogueDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("eduDialogueInfo", eduDialogueInfo);
+                intent.putExtra("eduDialogueInfo", bundle);
+                startActivity(intent);
             }
         });
 
@@ -130,6 +152,114 @@ public class DialogueListActivity extends BaseFloatActivity {
         }
         adapter.setList(mData);
 
+    }
+
+    /**
+     * 数据库大小
+     */
+    private int size;
+
+    /**
+     * 搜索栏
+     */
+    protected void initSearchView() {
+        //输入框
+        inputView = (EditText) findViewById(R.id.search_edit_text);
+        //搜索按钮
+        final ImageView searchBtn = (ImageView) findViewById(R.id.search_btn);
+        /*
+        * 初始化适配器控件
+        * */
+
+        final GridView historyView = (GridView) findViewById(R.id.search_history_gridView);
+
+        //从数据库获得已搜索的关键字
+        final List<SearchString> searchedStrs = DataSupport.findAll(SearchString.class);
+        size = searchedStrs.size();
+        final ArrayList<String> searched = new ArrayList<>();
+        for (int i = 0; i < searchedStrs.size(); i++) {
+            searched.add(searchedStrs.get(i).getSearchedString());
+        }
+
+        //todo 为热门话题创建数据
+        final ArrayAdapter<String> historyAdapter = new ArrayAdapter<>(this, R.layout.item_view_common_quest_low, searched);
+        historyView.setAdapter(historyAdapter);
+
+        inputView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    historyView.setVisibility(View.VISIBLE);
+                } else {
+                    historyView.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        /*
+        searchBtn 事件
+         */
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //更新数据
+                String str = inputView.getText().toString();
+                if (TextUtils.isEmpty(str)) {
+                    Toast.makeText(DialogueListActivity.this, "请输入关键字...", Toast.LENGTH_SHORT).show();
+                } else if (!searched.contains(inputView.getText().toString())) {
+                    //获取输入框内容，搜索内容，加入搜索数据库表. 只保存之多20条历史记录
+                    //获取输入框内容，搜索内容，加入搜索数据库表
+                    if (size >= 10) {
+                        ContentValues values = new ContentValues();
+                        values.put("searchedstring", inputView.getText().toString());
+
+                        //更新index，则下次输入后更新到上一次的下一个坐标
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        DataSupport.update(SearchString.class, values, updateIndex + 1);
+                        updateIndex++;
+                        if (updateIndex > 10) {
+                            updateIndex = 1;
+                        }
+                        editor.putInt(SearchActivity.UPDATE_SEARCH_INDEX, updateIndex);
+                        editor.apply();
+                    } else {
+                        saveString(inputView.getText().toString());
+                    }
+
+                    searched.add(inputView.getText().toString());
+                    //刷新适配器
+                    historyAdapter.notifyDataSetChanged();
+                    Toast.makeText(DialogueListActivity.this, "搜索：" + inputView.getText().toString(), Toast.LENGTH_SHORT).show();
+                }
+
+                //清空输入内容， 输入框改变为不聚焦
+                inputView.setText("");
+                inputView.clearFocus();
+            }
+        });
+
+        /*
+        最近搜索gridView 单击事件
+         */
+        historyView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String str = parent.getAdapter().getItem(position).toString();
+                inputView.setText(str);
+                inputView.setSelection(inputView.getText().toString().length());        //移动光标到最后
+            }
+        });
+
+    }
+
+    /**
+     * 保存搜索记录到数据库
+     */
+    public void saveString(String str) {
+        SearchString searchString = new SearchString();
+        searchString.setSearchedString(str);
+        searchString.save();            //加入数据库
+        size++;
     }
 
     /*
@@ -259,6 +389,5 @@ public class DialogueListActivity extends BaseFloatActivity {
             }
         }
     }
-
 
 }

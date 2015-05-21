@@ -79,5 +79,30 @@
     <string name="drawer_open_content_desc">菜单</string>
     <string name="drawer_close_content_desc">新消防</string>
 
+    <string name="style_circle">转盘风格</string>
+    <string name="style_slide">侧滑风格</string>
+    <string name="style_tab">选项卡风格</string>
+
+
+    <string-array name="cato_array_part">
+
+        <item>建筑</item>
+        <item>高层</item>
+        <item>超高层</item>
+        <item>商业综合</item>
+        <item>文体</item>
+        <item>专业</item>
+        <item>建筑定性</item>
+        <item>防火区分</item>
+        <item>平面布置</item>
+        <item>疏散避难</item>
+        <item>关键词</item>
+        <item>防火分隔</item>
+        <item>防烟分区</item>
+        <item>疏散距离</item>
+        <item>疏散宽度</item>
+
+    </string-array>
+
 
 </resources>

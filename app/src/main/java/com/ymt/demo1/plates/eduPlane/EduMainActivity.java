@@ -4,16 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.adapter.CyclePagerAdapter;
-import com.ymt.demo1.customViews.IndicatorView;
-import com.ymt.demo1.customViews.MyScaleImageView;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;
 import com.ymt.demo1.main.SearchActivity;
@@ -21,7 +16,6 @@ import com.ymt.demo1.main.SearchActivity;
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -40,7 +34,7 @@ public class EduMainActivity extends BaseFloatActivity {
     private TextView timeSecond;
     private static boolean ALWAYS_ON = true;
     //顶部ViewPager
-    private ViewPager adViewPager;
+//    private ViewPager adViewPager;
     /*
     假设在2015年7月3日上午的8：30考试
      */
@@ -82,125 +76,124 @@ public class EduMainActivity extends BaseFloatActivity {
     }
 
     protected void initView() {
-        initAdViewPager();
+//        initAdViewPager();
         initNextExamView();
         initEduItem();
-        initTab();
     }
 
-    /**
-     * 初始化顶部广告ViewPager
-     */
-    protected void initAdViewPager() {
-        adViewPager = (ViewPager) findViewById(R.id.ad_viewPager);
-        /*
-        设置适配器
-         */
-        final CyclePagerAdapter adPagerAdapter = new CyclePagerAdapter();
-        adViewPager.setAdapter(adPagerAdapter);
-        /*
-        更新数据源（Views）
-         */
-        LayoutInflater inflater = LayoutInflater.from(this);
-        ArrayList<View> views = new ArrayList<>();
-        views.add(inflater.inflate(R.layout.edu_pager1, null));
-        views.add(inflater.inflate(R.layout.edu_pager2, null));
-        views.add(inflater.inflate(R.layout.edu_pager3, null));
-        adPagerAdapter.setViews(views);
-        //指示器Indicator
-        final IndicatorView indicator = (IndicatorView) findViewById(R.id.myPointIndicator);
-        indicator.updateTotal(adPagerAdapter.getCount());   //设置指示器显示item个数（适配adapter中元素个数）
-        indicator.setCurr(0);
-        /*
-        pager 滑动事件
-         */
-        adViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                indicator.setCurr(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                switch (state) {
-                    case ViewPager.SCROLL_STATE_DRAGGING:
-
-                        break;
-                    case ViewPager.SCROLL_STATE_IDLE:
-
-                        break;
-                    default:
-                        break;
-
-                }
-            }
-        });
-
-        /*
-        开启线程，让使Viewpager轮播
-         */
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (ALWAYS_ON) {
-
-                    if (adPagerAdapter.getCount() == 0) {
-                        Toast.makeText(EduMainActivity.this, "这里应加入view", Toast.LENGTH_SHORT).show();
-                        continue;
-                    }
-
-                    int toPosition;
-                    int curPosition = adViewPager.getCurrentItem();
-                    if (curPosition < adViewPager.getChildCount() - 1) {
-                        toPosition = curPosition + 1;
-                    } else {
-                        toPosition = 0;             //从page尾跳到page头
-                    }
-
-                    Message msg = Message.obtain();
-                    msg.what = SHOW_NEXT_PAGE;
-                    msg.arg1 = toPosition;
-                    myHandler.sendMessage(msg);
-
-                    try {
-                        Thread.sleep(6000);         //每6 s切换到下一page
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        }).start();
-
-    }
+//    /**
+//     * 初始化顶部广告ViewPager
+//     */
+//    protected void initAdViewPager() {
+//        adViewPager = (ViewPager) findViewById(R.id.ad_viewPager);
+//        /*
+//        设置适配器
+//         */
+//        final CyclePagerAdapter adPagerAdapter = new CyclePagerAdapter();
+//        adViewPager.setAdapter(adPagerAdapter);
+//        /*
+//        更新数据源（Views）
+//         */
+//        LayoutInflater inflater = LayoutInflater.from(this);
+//        ArrayList<View> views = new ArrayList<>();
+//        views.add(inflater.inflate(R.layout.edu_pager1, null));
+//        views.add(inflater.inflate(R.layout.edu_pager2, null));
+//        views.add(inflater.inflate(R.layout.edu_pager3, null));
+//        adPagerAdapter.setViews(views);
+//        //指示器Indicator
+//        final IndicatorView indicator = (IndicatorView) findViewById(R.id.myPointIndicator);
+//        indicator.updateTotal(adPagerAdapter.getCount());   //设置指示器显示item个数（适配adapter中元素个数）
+//        indicator.setCurr(0);
+//        /*
+//        pager 滑动事件
+//         */
+//        adViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                indicator.setCurr(position);
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//                switch (state) {
+//                    case ViewPager.SCROLL_STATE_DRAGGING:
+//
+//                        break;
+//                    case ViewPager.SCROLL_STATE_IDLE:
+//
+//                        break;
+//                    default:
+//                        break;
+//
+//                }
+//            }
+//        });
+//
+//        /*
+//        开启线程，让使Viewpager轮播
+//         */
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (ALWAYS_ON) {
+//
+//                    if (adPagerAdapter.getCount() == 0) {
+//                        Toast.makeText(EduMainActivity.this, "这里应加入view", Toast.LENGTH_SHORT).show();
+//                        continue;
+//                    }
+//
+//                    int toPosition;
+//                    int curPosition = adViewPager.getCurrentItem();
+//                    if (curPosition < adViewPager.getChildCount() - 1) {
+//                        toPosition = curPosition + 1;
+//                    } else {
+//                        toPosition = 0;             //从page尾跳到page头
+//                    }
+//
+//                    Message msg = Message.obtain();
+//                    msg.what = SHOW_NEXT_PAGE;
+//                    msg.arg1 = toPosition;
+//                    myHandler.sendMessage(msg);
+//
+//                    try {
+//                        Thread.sleep(6000);         //每6 s切换到下一page
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+//            }
+//        }).start();
+//
+//    }
 
     /**
      * 初始化平台内容item   。 ”我的学习“，”历年真题“，”报考指南“等
      */
     protected void initEduItem() {
 
-        MyScaleImageView overYearsTest = (MyScaleImageView) findViewById(R.id.overYearsTest);
-        MyScaleImageView practiceTest = (MyScaleImageView) findViewById(R.id.practiceTest);
-        MyScaleImageView myStudy = (MyScaleImageView) findViewById(R.id.myStudy);
-        MyScaleImageView studyDatum = (MyScaleImageView) findViewById(R.id.studyDatum);
-        MyScaleImageView appGuide = (MyScaleImageView) findViewById(R.id.appGuide);
-        MyScaleImageView trainVideo = (MyScaleImageView) findViewById(R.id.trainVideo);
-        MyScaleImageView dialogue = (MyScaleImageView) findViewById(R.id.dialogue);
-        MyScaleImageView practicePaper = (MyScaleImageView) findViewById(R.id.practicePaper);
-        MyScaleImageView eduMore = (MyScaleImageView) findViewById(R.id.eduMore);
-        MyScaleImageView.OnViewClickListener eduItemClickListener = new MyScaleImageView.OnViewClickListener() {
+        TextView overYearsTest = (TextView) findViewById(R.id.pastExams);
+        TextView practiceTest = (TextView) findViewById(R.id.anologExams);
+        TextView myStudy = (TextView) findViewById(R.id.myStudy);
+        TextView studyDatum = (TextView) findViewById(R.id.studyDatum);
+        TextView appGuide = (TextView) findViewById(R.id.appGuide);
+        TextView trainVideo = (TextView) findViewById(R.id.trainVideo);
+        TextView dialogue = (TextView) findViewById(R.id.dialogue);
+        TextView practicePaper = (TextView) findViewById(R.id.examInterpret);
+        TextView eduMore = (TextView) findViewById(R.id.eduMore);
+        View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
-            public void onViewClick(MyScaleImageView view) {
+            public void onClick(View view) {
                 switch (view.getId()) {
-                    case R.id.overYearsTest:
-                        startActivity(new Intent(EduMainActivity.this, OverYearsTestActivity.class));    //历年真题
+                    case R.id.pastExams:
+                        startActivity(new Intent(EduMainActivity.this, OverYearsExamsActivity.class));    //历年真题
                         break;
-                    case R.id.practiceTest:
+                    case R.id.anologExams:
                         Toast.makeText(EduMainActivity.this, "模拟考试", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.myStudy:
@@ -218,8 +211,8 @@ public class EduMainActivity extends BaseFloatActivity {
                     case R.id.dialogue:
                         startActivity(new Intent(EduMainActivity.this, DialogueListActivity.class));         //问答
                         break;
-                    case R.id.practicePaper:
-                        Toast.makeText(EduMainActivity.this, "模拟试题", Toast.LENGTH_SHORT).show();
+                    case R.id.examInterpret:
+                        Toast.makeText(EduMainActivity.this, "试题解析", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.eduMore:
                         Toast.makeText(EduMainActivity.this, "更多", Toast.LENGTH_SHORT).show();
@@ -231,15 +224,15 @@ public class EduMainActivity extends BaseFloatActivity {
             }
         };
 
-        myStudy.setOnClickIntent(eduItemClickListener);
-        practicePaper.setOnClickIntent(eduItemClickListener);
-        practiceTest.setOnClickIntent(eduItemClickListener);
-        dialogue.setOnClickIntent(eduItemClickListener);
-        appGuide.setOnClickIntent(eduItemClickListener);
-        eduMore.setOnClickIntent(eduItemClickListener);
-        overYearsTest.setOnClickIntent(eduItemClickListener);
-        studyDatum.setOnClickIntent(eduItemClickListener);
-        trainVideo.setOnClickIntent(eduItemClickListener);
+        myStudy.setOnClickListener(onClickListener);
+        practicePaper.setOnClickListener(onClickListener);
+        practiceTest.setOnClickListener(onClickListener);
+        dialogue.setOnClickListener(onClickListener);
+        appGuide.setOnClickListener(onClickListener);
+        eduMore.setOnClickListener(onClickListener);
+        overYearsTest.setOnClickListener(onClickListener);
+        studyDatum.setOnClickListener(onClickListener);
+        trainVideo.setOnClickListener(onClickListener);
     }
 
     /**
@@ -302,38 +295,6 @@ public class EduMainActivity extends BaseFloatActivity {
     }
 
     /**
-     * 初始化底部Tab。 ”我的收藏“，”切换题库“，”练习设置“等
-     */
-    protected void initTab() {
-        View tabCollect = findViewById(R.id.edu_tab_my_collect);
-        View tabChangeTest = findViewById(R.id.edu_tab_change_tests);
-        View tabSetting = findViewById(R.id.edu_tab_practice_setting);
-        View.OnClickListener tabClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.edu_tab_my_collect:
-                        Toast.makeText(EduMainActivity.this, "edu_tab_my_collect", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.edu_tab_change_tests:
-                        Toast.makeText(EduMainActivity.this, "edu_tab_change_tests", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.edu_tab_practice_setting:
-                        Toast.makeText(EduMainActivity.this, "edu_tab_practice_setting", Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        break;
-
-                }
-            }
-        };
-        tabCollect.setOnClickListener(tabClickListener);
-        tabChangeTest.setOnClickListener(tabClickListener);
-        tabSetting.setOnClickListener(tabClickListener);
-
-    }
-
-    /**
      * 刷新考试时间提示
      */
     protected void freshTimer() {
@@ -342,13 +303,13 @@ public class EduMainActivity extends BaseFloatActivity {
         timeMinute.setText(String.valueOf(showMin));
         timeSecond.setText(String.valueOf(showSec));
     }
-
-    /**
-     * ViewPager轮播
-     */
-    protected void autoNextPage(int toPosition) {
-        adViewPager.setCurrentItem(toPosition);
-    }
+//
+//    /**
+//     * ViewPager轮播
+//     */
+//    protected void autoNextPage(int toPosition) {
+//        adViewPager.setCurrentItem(toPosition);
+//    }
 
     /*
     Handler
@@ -370,7 +331,7 @@ public class EduMainActivity extends BaseFloatActivity {
                         eduMainActivity.freshTimer();
                         break;
                     case SHOW_NEXT_PAGE:
-                        eduMainActivity.autoNextPage(msg.arg1);
+//                        eduMainActivity.autoNextPage(msg.arg1);
                         break;
                     default:
                         break;

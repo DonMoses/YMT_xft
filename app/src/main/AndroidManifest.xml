@@ -147,7 +147,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".plates.eduPlane.OverYearsTestActivity"
+            android:name=".plates.eduPlane.OverYearsExamsActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
@@ -169,6 +169,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".plates.eduPlane.DialogueListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.eduPlane.DialogueDetailActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity

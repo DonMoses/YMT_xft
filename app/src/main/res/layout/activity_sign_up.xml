@@ -28,8 +28,8 @@
         android:stretchColumns="2">
 
         <TableRow
-            android:layout_height="28dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:minHeight="38dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -55,10 +55,17 @@
                 android:inputType="phone"
                 android:textColor="@color/material_blue_grey_800"
                 android:textColorHint="#008080"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </TableRow>
 
-        <TableRow android:gravity="center_vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/holo_blue_light" />
+
+        <TableRow
+            android:gravity="center_vertical"
+            android:minHeight="38dp">
 
             <ImageView
                 android:layout_width="19dp"
@@ -82,12 +89,17 @@
                 android:inputType="textPersonName"
                 android:textColor="@color/material_blue_grey_800"
                 android:textColorHint="#008080"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </TableRow>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/holo_blue_light" />
+
         <TableRow
-            android:layout_height="28dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:minHeight="38dp">
 
             <ImageView
                 android:layout_width="19dp"
@@ -111,10 +123,17 @@
                 android:inputType="textPassword"
                 android:textColor="@color/material_blue_grey_800"
                 android:textColorHint="#008080"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </TableRow>
 
-        <TableRow android:gravity="center_vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/holo_blue_light" />
+
+        <TableRow
+            android:gravity="center_vertical"
+            android:minHeight="38dp">
 
             <ImageView
                 android:layout_width="19dp"
@@ -138,7 +157,7 @@
                 android:inputType="textPassword"
                 android:textColor="@color/material_blue_grey_800"
                 android:textColorHint="#008080"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </TableRow>
 
     </TableLayout>
@@ -190,5 +209,52 @@
         android:layout_margin="25dp"
         android:background="#06A1D9"
         android:text="注 册" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:gravity="bottom">
+
+        <TextView
+            android:id="@+id/supervisor_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/supervisor"
+            android:textColor="@color/material_blue_grey_800"
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/authority_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="@string/authority"
+            android:textColor="@color/material_blue_grey_800"
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/sponsor_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/supervisor_txt"
+            android:text="@string/sponsor"
+            android:textColor="@color/material_blue_grey_800"
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/operator_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/authority_txt"
+            android:text="@string/operator"
+            android:textColor="@color/material_blue_grey_800"
+            android:textSize="9sp" />
+
+    </RelativeLayout>
 
 </LinearLayout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mytitle="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <com.ymt.demo1.customViews.MyTitle
+        android:id="@id/my_title"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@android:color/holo_blue_dark"
+        mytitle:setLeftActionIcon="@drawable/back_normal"
+        mytitle:setRightActIconR="@drawable/icon_search"
+        mytitle:setRightIconL="@drawable/icon_all_exams"
+        mytitle:setTitleTxt="历年真题" />
+
+    <ListView
+        android:id="@+id/content_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/my_title"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="0.309dp">
+
+    </ListView>
+
+</RelativeLayout>

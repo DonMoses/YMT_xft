@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.main.setting.ManageAppearanceActivity;
 import com.ymt.demo1.mainStyles.CircleMenuActivity;
 import com.ymt.demo1.mainStyles.NavigationMenuActivity;
 

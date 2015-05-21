@@ -28,11 +28,14 @@ public class ConsultCatoMainActivity extends BaseActivity {
     private List<String> parentList;
     private List<List<String>> childList;
     private ExpandableListView expandableListView;
+    private int expandIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consult_cato_main);
+
+        expandIndex = getIntent().getIntExtra("expand_index", 0);
         myHandler = new MyHandler(this);
         initTitle();
         initView();
@@ -73,24 +76,28 @@ public class ConsultCatoMainActivity extends BaseActivity {
         parentList = new ArrayList<>();
         parentList.add("建筑");
         parentList.add("专业");
+        parentList.add("关键词");
         //二级列表
         childList = new ArrayList<>();
         List<String> constList = new ArrayList<>();
         List<String> profList = new ArrayList<>();
+        List<String> keyWordList = new ArrayList<>();
         String[] constArray = new String[]{
                 "高层", "超高层", "商业综合", "文体", "交通枢纽", "轨道交通",
-                "地铁", "仓储厂房", "化工", "隧道", "古建筑", "区域类", "结构类", "其他"
-        };
+                "地铁", "仓储厂房", "化工", "隧道", "古建筑", "区域类", "结构类", "其他"};
         String[] profArray = new String[]{
                 "建筑定性", "防火分区", "平面布置", "疏散避难", "建筑构造",
                 "救援", "电梯", "停机坪", "灭火", "报警", "防排烟", "暖通",
-                "电气", "其他"
-        };
+                "电气", "其他"};
+        String[] keyWordArray = new String[]{
+                "防火分隔", "防烟分区", "疏散距离", "疏散宽度"};
 
         Collections.addAll(constList, constArray);
         Collections.addAll(profList, profArray);
+        Collections.addAll(keyWordList, keyWordArray);
         childList.add(constList);
         childList.add(profList);
+        childList.add(keyWordList);
         //todo 模拟取数据，设置1.2s 延时
         new Thread(new Runnable() {
             @Override
@@ -134,7 +141,7 @@ public class ConsultCatoMainActivity extends BaseActivity {
     protected void updateList() {
         simpleExpandListAdapter.setList(parentList, childList);
         //默认选中第一栏
-        expandableListView.expandGroup(0);
+        expandableListView.expandGroup(expandIndex);
 
     }
 

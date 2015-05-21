@@ -27,17 +27,19 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="12dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:background="@drawable/bg_input_box"
         android:stretchColumns="2">
 
-        <TableRow android:gravity="center_vertical">
+        <TableRow
+            android:gravity="center_vertical"
+            android:minHeight="38dp">
 
             <ImageView
-                android:layout_width="19dp"
-                android:layout_height="19dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/icon_account" />
 
             <View
@@ -56,16 +58,21 @@
                 android:hint="请输入账号"
                 android:textColor="@color/material_blue_grey_800"
                 android:textColorHint="#008080"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </TableRow>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/holo_blue_light" />
+
         <TableRow
-            android:layout_marginTop="6dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:minHeight="38dp">
 
             <ImageView
-                android:layout_width="19dp"
-                android:layout_height="19dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/icon_psw" />
 
             <View
@@ -85,7 +92,7 @@
                 android:inputType="textPassword"
                 android:textColor="@color/material_blue_grey_800"
                 android:textColorHint="#008080"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </TableRow>
 
     </TableLayout>
@@ -131,35 +138,27 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="bottom"
+        android:layout_weight="2"
         android:layout_marginLeft="33dp"
         android:layout_marginStart="33dp"
-        android:layout_marginTop="80dp"
         android:text="选择其他账号登陆："
         android:textColor="@color/material_blue_grey_800"
         android:textSize="16sp" />
 
     <LinearLayout
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_height="0dp"
+        android:gravity="center"
         android:orientation="horizontal">
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical">
-
             <ImageButton
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
                 android:id="@+id/sign_in_wechat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -167,6 +166,10 @@
                 android:src="@drawable/share_we_chat" />
 
             <ImageButton
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
                 android:id="@+id/sign_in_qq"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -175,25 +178,25 @@
                 android:src="@drawable/share_qq" />
 
             <ImageButton
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
                 android:id="@+id/sign_in_sina"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:background="@null"
                 android:src="@drawable/share_sina" />
-        </FrameLayout>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
 
     </LinearLayout>
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
         android:layout_marginLeft="25dp"
+        android:gravity="bottom"
         android:layout_marginRight="25dp">
 
         <TextView

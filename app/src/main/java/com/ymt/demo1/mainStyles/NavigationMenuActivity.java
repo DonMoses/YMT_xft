@@ -17,9 +17,9 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.adapter.ConsultCatoAdapter;
 import com.ymt.demo1.adapter.CyclePagerAdapter;
 import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.customViews.IndicatorView;
@@ -30,6 +30,7 @@ import com.ymt.demo1.main.setting.SettingActivity;
 import com.ymt.demo1.main.sign.SignInActivity;
 import com.ymt.demo1.main.sign.SignUpActivity;
 import com.ymt.demo1.plates.MoreCatoActivity;
+import com.ymt.demo1.plates.consultCato.CatoConsultListActivity;
 import com.ymt.demo1.plates.consultCato.ConsultCatoMainActivity;
 import com.ymt.demo1.plates.eduPlane.EduMainActivity;
 import com.ymt.demo1.plates.exportConsult.ExportConsultMainActivity;
@@ -42,6 +43,7 @@ import org.litepal.tablemanager.Connector;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Dan on 2015/5/8
@@ -168,7 +170,6 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                 while (ALWAYS_ON) {
 
                     if (adPagerAdapter.getCount() == 0) {
-                        Toast.makeText(NavigationMenuActivity.this, "这里应加入view", Toast.LENGTH_SHORT).show();
                         continue;
                     }
 
@@ -323,16 +324,47 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         hubBtn.setOnClickListener(onClickListener);
 
         /*
+        咨询分类列表数据
+         */
+        ConsultCatoAdapter catoAdapter = new ConsultCatoAdapter(this);
+        consultGrid.setAdapter(catoAdapter);
+        String[] catos = getResources().getStringArray(R.array.cato_array_part);
+        ArrayList<String> catoList = new ArrayList<>();
+        Collections.addAll(catoList, catos);
+        catoAdapter.setList(catoList);
+
+        /*
         咨询分类表格item 点击事件
          */
         consultGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                switch (position) {
+                    case 0:                         //建筑
+                        Intent intent1 = new Intent(NavigationMenuActivity.this, ConsultCatoMainActivity.class);
+                        intent1.putExtra("expand_index", 0);
+                        startActivity(intent1);
+                        break;
+                    case 5:                         //专业
+                        Intent intent2 = new Intent(NavigationMenuActivity.this, ConsultCatoMainActivity.class);
+                        intent2.putExtra("expand_index", 1);
+                        startActivity(intent2);
+                        break;
+                    case 10:                        //关键词
+                        Intent intent3 = new Intent(NavigationMenuActivity.this, ConsultCatoMainActivity.class);
+                        intent3.putExtra("expand_index", 2);
+                        startActivity(intent3);
+                        break;
+                    default:
+                        String txt = parent.getAdapter().getItem(position).toString();
+                        Intent intent = new Intent(NavigationMenuActivity.this, CatoConsultListActivity.class);
+                        intent.putExtra("search_key_word", txt);
+                        startActivity(intent);
+                        break;
+                }
             }
         });
 
-        //todo 咨询分类 适配器
     }
 
     /**

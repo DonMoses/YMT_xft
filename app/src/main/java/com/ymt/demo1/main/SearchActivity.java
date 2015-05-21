@@ -1,5 +1,7 @@
 package com.ymt.demo1.main;
 
+import android.content.ContentValues;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,7 +16,6 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.dbBeams.SearchString;
 
 import org.litepal.crud.DataSupport;
-import org.litepal.tablemanager.Connector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,14 +24,21 @@ import java.util.List;
  * Created by Dan on 2015/4/9
  */
 public class SearchActivity extends BaseFloatActivity {
+    public static final String SEARCH_PREFERENCES = "update_search_index_preferences";
+    public static final String UPDATE_SEARCH_INDEX = "index";
+    private int updateIndex;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        sharedPreferences = getSharedPreferences(SearchActivity.SEARCH_PREFERENCES, MODE_PRIVATE);
+        updateIndex = sharedPreferences.getInt(SearchActivity.UPDATE_SEARCH_INDEX, 0);
         initView();
-
     }
+
+    private int size;
 
     protected void initView() {
         final EditText searchTxt = (EditText) findViewById(R.id.search_edit_text);
@@ -43,7 +51,8 @@ public class SearchActivity extends BaseFloatActivity {
         GridView historyView = (GridView) findViewById(R.id.search_history_gridView);
         ListView hotView = (ListView) findViewById(R.id.search_hot_listView);
 
-        List<SearchString> searchedStrs = DataSupport.findAll(SearchString.class);
+        final List<SearchString> searchedStrs = DataSupport.findAll(SearchString.class);
+        size = searchedStrs.size();
         final ArrayList<String> searched = new ArrayList<>();
         for (int i = 0; i < searchedStrs.size(); i++) {
             searched.add(searchedStrs.get(i).getSearchedString());
@@ -65,7 +74,22 @@ public class SearchActivity extends BaseFloatActivity {
                 //更新数据
                 if (!searched.contains(searchTxt.getText().toString())) {
                     //获取输入框内容，搜索内容，加入搜索数据库表
-                    saveString(searchTxt.getText().toString());
+                    if (size >= 10) {
+                        ContentValues values = new ContentValues();
+                        values.put("searchedstring", searchTxt.getText().toString());
+
+                        //更新index，则下次输入后更新到上一次的下一个坐标
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        DataSupport.update(SearchString.class, values, updateIndex + 1);
+                        updateIndex++;
+                        if (updateIndex > 10) {
+                            updateIndex = 1;
+                        }
+                        editor.putInt(SearchActivity.UPDATE_SEARCH_INDEX, updateIndex);
+                        editor.apply();
+                    } else {
+                        saveString(searchTxt.getText().toString());
+                    }
 
                     searched.add(searchTxt.getText().toString());
                     //刷新适配器
@@ -107,7 +131,7 @@ public class SearchActivity extends BaseFloatActivity {
             SearchString searchString = new SearchString();
             searchString.setSearchedString(str);
             searchString.save();            //加入数据库
-
+            size++;
         }
 
     }
