@@ -17,7 +17,7 @@
     xmlns:mytitle="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E0DED9"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
     <com.ymt.demo1.customViews.MyTitle
@@ -29,55 +29,49 @@
         mytitle:setRightIconL="@drawable/icon_search_more"
         mytitle:setTitleTxt="专家咨询" />
 
-    <LinearLayout
-        android:id="@+id/knowledge_search_layout"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@android:color/white"
-        android:orientation="vertical"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp">
+        android:layout_height="36dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="26dp"
+        android:layout_marginRight="26dp"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/shape_search_input"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/search_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/bg_input_box"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:layout_height="match_parent"
+            android:background="@null"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:hint="请输入关键字"
+            android:maxLength="20"
+            android:singleLine="true"
+            android:textColor="@color/material_blue_grey_800"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="14dp" />
 
-            <ImageView
-                android:id="@+id/knowledge_search_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:src="@drawable/icon_search_normal" />
-
-            <EditText
-                android:id="@+id/search_input"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@null"
-                android:hint="输入关键字"
-                android:maxLength="30"
-                android:singleLine="true"
-                android:textColor="@color/material_blue_grey_800"
-                android:textColorHint="@android:color/darker_gray"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <GridView
-            android:id="@+id/knowledge_searched_grid_view"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/search_btn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:horizontalSpacing="2dp"
-            android:numColumns="5"
-            android:verticalSpacing="2dp" />
+            android:layout_gravity="end|center_vertical"
+            android:padding="10dp"
+            android:src="@drawable/icon_search_normal" />
 
-    </LinearLayout>
+    </FrameLayout>
+
+    <GridView
+        android:id="@+id/search_history_gridView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="26dp"
+        android:layout_marginRight="26dp"
+        android:background="#FFFFFF"
+        android:numColumns="3"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:layout_width="match_parent"

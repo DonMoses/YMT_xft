@@ -16,13 +16,17 @@
 
 package com.ymt.demo1.plates.exportConsult;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -41,10 +45,16 @@ import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.ConsultItem;
 import com.ymt.demo1.beams.OnDutyExport;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.dbBeams.SearchString;
 import com.ymt.demo1.main.PopActionListener;
 import com.ymt.demo1.main.PopActionUtil;
+import com.ymt.demo1.main.SearchActivity;
+
+import org.litepal.crud.DataSupport;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 专家咨询界面
@@ -57,12 +67,16 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
     private LinearLayout linearLayout;
     private OnDutyExport todayExport;
     private OnDutyExport tomorrowExport;
+    private EditText inputView;
+    private int updateIndex;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_export_consult_main);
-
+        sharedPreferences = getSharedPreferences(SearchActivity.SEARCH_PREFERENCES, MODE_PRIVATE);
+        updateIndex = sharedPreferences.getInt(SearchActivity.UPDATE_SEARCH_INDEX, 0);
         initTitle();
         initView();
     }
@@ -149,7 +163,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
 
         initNearlyHotConsult();
 
-        initSearch();
+        initSearchView();
 
     }
 
@@ -232,37 +246,108 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
 
     }
 
+    private int size;
+
     /**
-     * 搜索栏初始化
+     * 搜索栏
      */
-    /**
-     * 初始化知识平台搜索控件
-     */
-    protected void initSearch() {
-        final ImageView searchBtn = (ImageView) findViewById(R.id.knowledge_search_btn);
-        final EditText searchInputTxt = (EditText) findViewById(R.id.search_input);
-        GridView searchGridView = (GridView) findViewById(R.id.knowledge_searched_grid_view);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                R.layout.item_view_common_quest_low,
-                new String[]{"消防部门", "规范组", "建委", "科研院校", "设计院", "开发商", "设备商", "服务商"});
-        searchGridView.setAdapter(adapter);
-        searchGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    protected void initSearchView() {
+        //输入框
+        inputView = (EditText) findViewById(R.id.search_edit_text);
+        //搜索按钮
+        final ImageView searchBtn = (ImageView) findViewById(R.id.search_btn);
+        /*
+        * 初始化适配器控件
+        * */
+        final GridView historyView = (GridView) findViewById(R.id.search_history_gridView);
+
+        //从数据库获得已搜索的关键字
+        final List<SearchString> searchedStrs = DataSupport.findAll(SearchString.class);
+        size = searchedStrs.size();
+        final ArrayList<String> searched = new ArrayList<>();
+        for (int i = 0; i < searchedStrs.size(); i++) {
+            searched.add(searchedStrs.get(i).getSearchedString());
+        }
+
+        //todo 为热门话题创建数据
+        final ArrayAdapter<String> historyAdapter = new ArrayAdapter<>(this, R.layout.item_view_common_quest_low, searched);
+        historyView.setAdapter(historyAdapter);
+
+        inputView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //todo 搜索关键字
-                String searchStr = parent.getAdapter().getItem(position).toString();
-                searchInputTxt.setText(searchStr);
-                Toast.makeText(ExportConsultMainActivity.this, searchStr, Toast.LENGTH_SHORT).show();
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    historyView.setVisibility(View.VISIBLE);
+                } else {
+                    historyView.setVisibility(View.GONE);
+                }
             }
         });
+
+        /*
+        searchBtn 事件
+         */
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo 搜索关键字
-                String searchStr = searchInputTxt.getText().toString();
-                Toast.makeText(ExportConsultMainActivity.this, searchStr, Toast.LENGTH_SHORT).show();
+                //更新数据
+                String str = inputView.getText().toString();
+                if (TextUtils.isEmpty(str)) {
+                    Toast.makeText(ExportConsultMainActivity.this, "请输入关键字...", Toast.LENGTH_SHORT).show();
+                } else if (!searched.contains(inputView.getText().toString())) {
+                    //获取输入框内容，搜索内容，加入搜索数据库表. 只保存之多20条历史记录
+                    //获取输入框内容，搜索内容，加入搜索数据库表
+                    if (size >= 10) {
+                        ContentValues values = new ContentValues();
+                        values.put("searchedstring", inputView.getText().toString());
+
+                        //更新index，则下次输入后更新到上一次的下一个坐标
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        DataSupport.update(SearchString.class, values, updateIndex + 1);
+                        updateIndex++;
+                        if (updateIndex > 10) {
+                            updateIndex = 1;
+                        }
+                        editor.putInt(SearchActivity.UPDATE_SEARCH_INDEX, updateIndex);
+                        editor.apply();
+                    } else {
+                        saveString(inputView.getText().toString());
+                    }
+
+                    searched.add(inputView.getText().toString());
+                    //刷新适配器
+                    historyAdapter.notifyDataSetChanged();
+                    Toast.makeText(ExportConsultMainActivity.this, "搜索：" + inputView.getText().toString(), Toast.LENGTH_SHORT).show();
+                }
+
+                //清空输入内容， 输入框改变为不聚焦
+                inputView.setText("");
+                inputView.clearFocus();
             }
         });
+
+        /*
+        最近搜索gridView 单击事件
+         */
+        historyView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String str = parent.getAdapter().getItem(position).toString();
+                inputView.setText(str);
+                inputView.setSelection(inputView.getText().toString().length());        //移动光标到最后
+            }
+        });
+
+    }
+
+    /**
+     * 保存搜索记录到数据库
+     */
+    public void saveString(String str) {
+        SearchString searchString = new SearchString();
+        searchString.setSearchedString(str);
+        searchString.save();            //加入数据库
+        size++;
     }
 
     /**
@@ -371,6 +456,30 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
             default:
                 break;
         }
+    }
+
+    /**
+     * @param view：被测量的view
+     */
+    public static boolean checkDownPointerInView(View view, float x, float y) {
+        int[] location2 = new int[2];
+        view.getLocationOnScreen(location2);
+        return x >= location2[0] && x <= location2[0] + view.getWidth() && y >= location2[1] && y <= location2[1] + view.getHeight();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int action = event.getAction();
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                float x = event.getRawX();
+                float y = event.getRawY();
+                if (!checkDownPointerInView(inputView, x, y)) {
+                    inputView.clearFocus();
+                    return true;
+                }
+        }
+        return false;
     }
 
     static class MyHandler extends Handler {

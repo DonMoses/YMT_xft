@@ -17,11 +17,15 @@
 package com.ymt.demo1.baseClasses;
 
 import android.animation.ValueAnimator;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,8 +48,15 @@ import com.ymt.demo1.customViews.obsScrollview.ScrollUtils;
 import com.ymt.demo1.customViews.obsScrollview.Scrollable;
 import com.ymt.demo1.customViews.obsScrollview.TouchInterceptionFrameLayout;
 import com.ymt.demo1.customViews.widget.PagerSlidingTabStrip;
+import com.ymt.demo1.dbBeams.SearchString;
+import com.ymt.demo1.main.SearchActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeTabScrollUltraListViewFragment;
 import com.ymt.demo1.plates.news.NewsTabScrollUltraListViewFragment;
+
+import org.litepal.crud.DataSupport;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This fragment manages ViewPager and its child Fragments.
@@ -61,11 +72,19 @@ public class NewsPagerTabParentFragment extends BaseFragment implements Observab
     private boolean mScrolled;
     private ScrollState mLastScrollState;
 
+    private EditText inputView;
+    private int updateIndex;
+    SharedPreferences sharedPreferences;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_knowledge_pagertabfragment_parent, container, false);
         //初始化搜索界面
-        initSearch(view);
+
+        sharedPreferences = getActivity().getSharedPreferences(SearchActivity.SEARCH_PREFERENCES, Context.MODE_PRIVATE);
+        updateIndex = sharedPreferences.getInt(SearchActivity.UPDATE_SEARCH_INDEX, 0);
+
+        initSearchView(view);
         ActionBarActivity parentActivity = (ActionBarActivity) getActivity();
         mPagerAdapter = new NavigationAdapter(getChildFragmentManager());
         mPager = (ViewPager) view.findViewById(R.id.pager);
@@ -97,7 +116,7 @@ public class NewsPagerTabParentFragment extends BaseFragment implements Observab
 
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-
+        inputView.clearFocus();
     }
 
     @Override
@@ -105,34 +124,117 @@ public class NewsPagerTabParentFragment extends BaseFragment implements Observab
 
     }
 
+    private int size;
+
     /**
-     * 初始化知识平台搜索控件
+     * 搜索栏
      */
-    protected void initSearch(View view) {
-        final ImageView searchBtn = (ImageView) view.findViewById(R.id.knowledge_search_btn);
-        final EditText searchInputTxt = (EditText) view.findViewById(R.id.search_input);
-        GridView searchGridView = (GridView) view.findViewById(R.id.knowledge_searched_grid_view);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                R.layout.item_view_common_quest_low,
-                new String[]{"消防部门", "规范组", "建委", "科研院校", "设计院", "开发商", "设备商", "服务商"});
-        searchGridView.setAdapter(adapter);
-        searchGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    protected void initSearchView(View view) {
+        //输入框
+        inputView = (EditText) view.findViewById(R.id.search_edit_text);
+        //搜索按钮
+        final ImageView searchBtn = (ImageView) view.findViewById(R.id.search_btn);
+        /*
+        * 初始化适配器控件
+        * */
+        final GridView historyView = (GridView) view.findViewById(R.id.search_history_gridView);
+
+        //从数据库获得已搜索的关键字
+        final List<SearchString> searchedStrs = DataSupport.findAll(SearchString.class);
+        size = searchedStrs.size();
+        final ArrayList<String> searched = new ArrayList<>();
+        for (int i = 0; i < searchedStrs.size(); i++) {
+            searched.add(searchedStrs.get(i).getSearchedString());
+        }
+
+        //todo 为热门话题创建数据
+        final ArrayAdapter<String> historyAdapter = new ArrayAdapter<>(getActivity(), R.layout.item_view_common_quest_low, searched);
+        historyView.setAdapter(historyAdapter);
+
+        inputView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //todo 搜索关键字
-                String searchStr = parent.getAdapter().getItem(position).toString();
-                searchInputTxt.setText(searchStr);
-                Toast.makeText(getActivity(), searchStr, Toast.LENGTH_SHORT).show();
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    historyView.setVisibility(View.VISIBLE);
+                } else {
+                    historyView.setVisibility(View.GONE);
+                }
             }
         });
+
+        /*
+        searchBtn 事件
+         */
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo 搜索关键字
-                String searchStr = searchInputTxt.getText().toString();
-                Toast.makeText(getActivity(), searchStr, Toast.LENGTH_SHORT).show();
+                //更新数据
+                String str = inputView.getText().toString();
+                if (TextUtils.isEmpty(str)) {
+                    Toast.makeText(getActivity(), "请输入关键字...", Toast.LENGTH_SHORT).show();
+                } else if (!searched.contains(inputView.getText().toString())) {
+                    //获取输入框内容，搜索内容，加入搜索数据库表. 只保存之多20条历史记录
+                    //获取输入框内容，搜索内容，加入搜索数据库表
+                    if (size >= 10) {
+                        ContentValues values = new ContentValues();
+                        values.put("searchedstring", inputView.getText().toString());
+
+                        //更新index，则下次输入后更新到上一次的下一个坐标
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        DataSupport.update(SearchString.class, values, updateIndex + 1);
+                        updateIndex++;
+                        if (updateIndex > 10) {
+                            updateIndex = 1;
+                        }
+                        editor.putInt(SearchActivity.UPDATE_SEARCH_INDEX, updateIndex);
+                        editor.apply();
+                    } else {
+                        saveString(inputView.getText().toString());
+                    }
+
+                    searched.add(inputView.getText().toString());
+                    //刷新适配器
+                    historyAdapter.notifyDataSetChanged();
+                    Toast.makeText(getActivity(), "搜索：" + inputView.getText().toString(), Toast.LENGTH_SHORT).show();
+                }
+
+                //清空输入内容， 输入框改变为不聚焦
+                inputView.setText("");
+                inputView.clearFocus();
             }
         });
+
+        /*
+        最近搜索gridView 单击事件
+         */
+        historyView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String str = parent.getAdapter().getItem(position).toString();
+                inputView.setText(str);
+                inputView.setSelection(inputView.getText().toString().length());        //移动光标到最后
+            }
+        });
+
+    }
+
+    /**
+     * @param view：被测量的view
+     */
+    public static boolean checkDownPointerInView(View view, float x, float y) {
+        int[] location2 = new int[2];
+        view.getLocationOnScreen(location2);
+        return x >= location2[0] && x <= location2[0] + view.getWidth() && y >= location2[1] && y <= location2[1] + view.getHeight();
+    }
+
+    /**
+     * 保存搜索记录到数据库
+     */
+    public void saveString(String str) {
+        SearchString searchString = new SearchString();
+        searchString.setSearchedString(str);
+        searchString.save();            //加入数据库
+        size++;
     }
 
     @Override
@@ -184,7 +286,15 @@ public class NewsPagerTabParentFragment extends BaseFragment implements Observab
 
         @Override
         public void onDownMotionEvent(MotionEvent ev) {
-
+            int action = ev.getAction();
+            switch (action) {
+                case MotionEvent.ACTION_DOWN:
+                    float x = ev.getRawX();
+                    float y = ev.getRawY();
+                    if (!checkDownPointerInView(inputView, x, y)) {
+                        inputView.clearFocus();
+                    }
+            }
         }
 
         @Override

@@ -117,8 +117,7 @@ public class DialogueListActivity extends BaseFloatActivity {
         });
 
          /*
-        历年真题列表item 点击事件
-            打开对应试题
+        todo 历年真题列表item 点击事件。打开对应试题
          */
         dialogueList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
