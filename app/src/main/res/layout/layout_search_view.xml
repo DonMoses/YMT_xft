@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:mytitle="http://schemas.android.com/apk/res-auto"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:orientation="vertical">
-
-    <com.ymt.demo1.customViews.MyTitle
-        android:id="@id/my_title"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:background="@android:color/holo_blue_dark"
-        mytitle:setLeftActionIcon="@drawable/back_normal"
-        mytitle:setRightActIconR="@drawable/icon_search_more"
-        mytitle:setRightIconL="@drawable/icon_search"
-        mytitle:setTitleTxt="答疑" />
+    android:layout_height="wrap_content">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -59,31 +46,4 @@
         android:background="#FFFFFF"
         android:numColumns="3"
         android:visibility="gone" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="6.18dp"
-        android:background="@android:color/darker_gray" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <ListView
-            android:id="@+id/dialogue_list_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#FFFFFF"
-            android:divider="@android:color/holo_blue_dark"
-            android:dividerHeight="0.3dp" />
-
-        <ProgressBar
-            android:id="@+id/empty_pro_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
-    </FrameLayout>
-
-</LinearLayout>
+</merge>

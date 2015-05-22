@@ -23,7 +23,6 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
-import com.ymt.demo1.baseClasses.PersonalPagerTabParentFragment;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.SearchActivity;
 

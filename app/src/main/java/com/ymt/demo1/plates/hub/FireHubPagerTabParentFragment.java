@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ymt.demo1.baseClasses;
+package com.ymt.demo1.plates.hub;
 
 import android.animation.ValueAnimator;
 import android.content.Intent;
@@ -31,6 +31,9 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.baseClasses.BaseFragment;
+import com.ymt.demo1.baseClasses.ViewHelper;
+import com.ymt.demo1.baseClasses.ViewPagerTabFragmentScrollListViewFragment;
 import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.customViews.obsScrollview.CacheFragmentStatePagerAdapter;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollViewCallbacks;

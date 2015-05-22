@@ -4,4 +4,9 @@
     <item name="cf_guide_view_pager" type="id" />
 
     <item name="my_title" type="id" />
+
+
+    <item name="search_edit_text" type="id" />
+    <item name="search_btn" type="id" />
+    <item name="search_history_gridView" type="id" />
 </resources>

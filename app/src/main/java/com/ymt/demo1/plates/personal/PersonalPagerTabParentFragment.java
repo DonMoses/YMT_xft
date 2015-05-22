@@ -14,33 +14,25 @@
  * limitations under the License.
  */
 
-package com.ymt.demo1.baseClasses;
+package com.ymt.demo1.plates.personal;
 
 import android.animation.ValueAnimator;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.customKeyBoard.ScreenSizeUtil;
+import com.ymt.demo1.baseClasses.BaseFragment;
+import com.ymt.demo1.baseClasses.SimpleTestTabFragmentScrollUltraListViewFragment;
+import com.ymt.demo1.baseClasses.ViewHelper;
 import com.ymt.demo1.customViews.obsScrollview.CacheFragmentStatePagerAdapter;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollViewCallbacks;
 import com.ymt.demo1.customViews.obsScrollview.ScrollState;
@@ -48,21 +40,12 @@ import com.ymt.demo1.customViews.obsScrollview.ScrollUtils;
 import com.ymt.demo1.customViews.obsScrollview.Scrollable;
 import com.ymt.demo1.customViews.obsScrollview.TouchInterceptionFrameLayout;
 import com.ymt.demo1.customViews.widget.PagerSlidingTabStrip;
-import com.ymt.demo1.dbBeams.SearchString;
-import com.ymt.demo1.main.SearchActivity;
-import com.ymt.demo1.plates.knowledge.KnowledgeTabScrollUltraListViewFragment;
-import com.ymt.demo1.plates.news.NewsTabScrollUltraListViewFragment;
-
-import org.litepal.crud.DataSupport;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This fragment manages ViewPager and its child Fragments.
  * Scrolling techniques are basically the same as ViewPagerTab2Activity.
  */
-public class NewsPagerTabParentFragment extends BaseFragment implements ObservableScrollViewCallbacks {
+public class PersonalPagerTabParentFragment extends BaseFragment implements ObservableScrollViewCallbacks {
     public static final String FRAGMENT_TAG = "fragment";
 
     private TouchInterceptionFrameLayout mInterceptionLayout;
@@ -72,19 +55,10 @@ public class NewsPagerTabParentFragment extends BaseFragment implements Observab
     private boolean mScrolled;
     private ScrollState mLastScrollState;
 
-    private EditText inputView;
-    private int updateIndex;
-    SharedPreferences sharedPreferences;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_knowledge_pagertabfragment_parent, container, false);
-        //初始化搜索界面
+        View view = inflater.inflate(R.layout.fragment_personal_center_pagertabfragment_parent, container, false);
 
-        sharedPreferences = getActivity().getSharedPreferences(SearchActivity.SEARCH_PREFERENCES, Context.MODE_PRIVATE);
-        updateIndex = sharedPreferences.getInt(SearchActivity.UPDATE_SEARCH_INDEX, 0);
-
-        initSearchView(view);
         ActionBarActivity parentActivity = (ActionBarActivity) getActivity();
         mPagerAdapter = new NavigationAdapter(getChildFragmentManager());
         mPager = (ViewPager) view.findViewById(R.id.pager);
@@ -104,137 +78,17 @@ public class NewsPagerTabParentFragment extends BaseFragment implements Observab
         mInterceptionLayout = (TouchInterceptionFrameLayout) view.findViewById(R.id.container);
         mInterceptionLayout.setScrollInterceptionListener(mInterceptionListener);
 
-        /*
-        将pager 视图移到导航栏上方（解决被导航栏遮挡底部的问题）
-         */
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        layoutParams.setMargins(0, 0, 0, ScreenSizeUtil.getNavigationBarHeight());
-        mPager.setLayoutParams(layoutParams);
         return view;
     }
 
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        inputView.clearFocus();
+
     }
 
     @Override
     public void onDownMotionEvent() {
 
-    }
-
-    private int size;
-
-    /**
-     * 搜索栏
-     */
-    protected void initSearchView(View view) {
-        //输入框
-        inputView = (EditText) view.findViewById(R.id.search_edit_text);
-        //搜索按钮
-        final ImageView searchBtn = (ImageView) view.findViewById(R.id.search_btn);
-        /*
-        * 初始化适配器控件
-        * */
-        final GridView historyView = (GridView) view.findViewById(R.id.search_history_gridView);
-
-        //从数据库获得已搜索的关键字
-        final List<SearchString> searchedStrs = DataSupport.findAll(SearchString.class);
-        size = searchedStrs.size();
-        final ArrayList<String> searched = new ArrayList<>();
-        for (int i = 0; i < searchedStrs.size(); i++) {
-            searched.add(searchedStrs.get(i).getSearchedString());
-        }
-
-        //todo 为热门话题创建数据
-        final ArrayAdapter<String> historyAdapter = new ArrayAdapter<>(getActivity(), R.layout.item_view_common_quest_low, searched);
-        historyView.setAdapter(historyAdapter);
-
-        inputView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    historyView.setVisibility(View.VISIBLE);
-                } else {
-                    historyView.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        /*
-        searchBtn 事件
-         */
-        searchBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //更新数据
-                String str = inputView.getText().toString();
-                if (TextUtils.isEmpty(str)) {
-                    Toast.makeText(getActivity(), "请输入关键字...", Toast.LENGTH_SHORT).show();
-                } else if (!searched.contains(inputView.getText().toString())) {
-                    //获取输入框内容，搜索内容，加入搜索数据库表. 只保存之多20条历史记录
-                    //获取输入框内容，搜索内容，加入搜索数据库表
-                    if (size >= 10) {
-                        ContentValues values = new ContentValues();
-                        values.put("searchedstring", inputView.getText().toString());
-
-                        //更新index，则下次输入后更新到上一次的下一个坐标
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        DataSupport.update(SearchString.class, values, updateIndex + 1);
-                        updateIndex++;
-                        if (updateIndex > 10) {
-                            updateIndex = 1;
-                        }
-                        editor.putInt(SearchActivity.UPDATE_SEARCH_INDEX, updateIndex);
-                        editor.apply();
-                    } else {
-                        saveString(inputView.getText().toString());
-                    }
-
-                    searched.add(inputView.getText().toString());
-                    //刷新适配器
-                    historyAdapter.notifyDataSetChanged();
-                    Toast.makeText(getActivity(), "搜索：" + inputView.getText().toString(), Toast.LENGTH_SHORT).show();
-                }
-
-                //清空输入内容， 输入框改变为不聚焦
-                inputView.setText("");
-                inputView.clearFocus();
-            }
-        });
-
-        /*
-        最近搜索gridView 单击事件
-         */
-        historyView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String str = parent.getAdapter().getItem(position).toString();
-                inputView.setText(str);
-                inputView.setSelection(inputView.getText().toString().length());        //移动光标到最后
-            }
-        });
-
-    }
-
-    /**
-     * @param view：被测量的view
-     */
-    public static boolean checkDownPointerInView(View view, float x, float y) {
-        int[] location2 = new int[2];
-        view.getLocationOnScreen(location2);
-        return x >= location2[0] && x <= location2[0] + view.getWidth() && y >= location2[1] && y <= location2[1] + view.getHeight();
-    }
-
-    /**
-     * 保存搜索记录到数据库
-     */
-    public void saveString(String str) {
-        SearchString searchString = new SearchString();
-        searchString.setSearchedString(str);
-        searchString.save();            //加入数据库
-        size++;
     }
 
     @Override
@@ -262,7 +116,7 @@ public class NewsPagerTabParentFragment extends BaseFragment implements Observab
 
             // If interceptionLayout can move, it should intercept.
             // And once it begins to move, horizontal scroll shouldn't work any longer.
-            View infoView = getActivity().findViewById(R.id.knowledge_search_layout);
+            View infoView = getActivity().findViewById(R.id.personal_info_layout);
             int infoViewHeight = infoView.getHeight();
             int translationY = (int) ViewHelper.getTranslationY(mInterceptionLayout);
             boolean scrollingUp = 0 < diffY;
@@ -286,20 +140,12 @@ public class NewsPagerTabParentFragment extends BaseFragment implements Observab
 
         @Override
         public void onDownMotionEvent(MotionEvent ev) {
-            int action = ev.getAction();
-            switch (action) {
-                case MotionEvent.ACTION_DOWN:
-                    float x = ev.getRawX();
-                    float y = ev.getRawY();
-                    if (!checkDownPointerInView(inputView, x, y)) {
-                        inputView.clearFocus();
-                    }
-            }
+
         }
 
         @Override
         public void onMoveMotionEvent(MotionEvent ev, float diffX, float diffY) {
-            View infoView = getActivity().findViewById(R.id.knowledge_search_layout);
+            View infoView = getActivity().findViewById(R.id.personal_info_layout);
             float translationY = ScrollUtils.getFloat(
                     ViewHelper.getTranslationY(mInterceptionLayout) + diffY, -infoView.getHeight(), 0);
             ViewHelper.setTranslationY(mInterceptionLayout, translationY);
@@ -331,7 +177,7 @@ public class NewsPagerTabParentFragment extends BaseFragment implements Observab
     }
 
     private void adjustToolbar(ScrollState scrollState) {
-        View infoView = getActivity().findViewById(R.id.knowledge_search_layout);
+        View infoView = getActivity().findViewById(R.id.personal_info_layout);
         int toolbarHeight = infoView.getHeight();
         final Scrollable scrollable = getCurrentScrollable();
         if (scrollable == null) {
@@ -366,7 +212,7 @@ public class NewsPagerTabParentFragment extends BaseFragment implements Observab
         if (view == null) {
             return false;
         }
-        View infoView = getActivity().findViewById(R.id.knowledge_search_layout);
+        View infoView = getActivity().findViewById(R.id.personal_info_layout);
         return ViewHelper.getTranslationY(mInterceptionLayout) == -infoView.getHeight();
     }
 
@@ -375,7 +221,7 @@ public class NewsPagerTabParentFragment extends BaseFragment implements Observab
     }
 
     private void hideToolbar() {
-        View infoView = getActivity().findViewById(R.id.knowledge_search_layout);
+        View infoView = getActivity().findViewById(R.id.personal_info_layout);
         animateToolbar(-infoView.getHeight());
     }
 
@@ -387,7 +233,7 @@ public class NewsPagerTabParentFragment extends BaseFragment implements Observab
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     float translationY = (float) animation.getAnimatedValue();
-                    View infoView = getActivity().findViewById(R.id.knowledge_search_layout);
+                    View infoView = getActivity().findViewById(R.id.personal_info_layout);
                     ViewHelper.setTranslationY(mInterceptionLayout, translationY);
                     ViewHelper.setTranslationY(infoView, translationY);
                     if (translationY < 0) {
@@ -407,7 +253,7 @@ public class NewsPagerTabParentFragment extends BaseFragment implements Observab
      */
     private static class NavigationAdapter extends CacheFragmentStatePagerAdapter {
 
-        private static final String[] TITLES = new String[]{"消防新闻", "消防公告", "教育资讯"};
+        private static final String[] TITLES = new String[]{"我的消息", "与我相关", "我的提问", "我的信息", "我的收藏", "签到"};
 
         public NavigationAdapter(FragmentManager fm) {
             super(fm);
@@ -415,7 +261,6 @@ public class NewsPagerTabParentFragment extends BaseFragment implements Observab
 
         @Override
         protected Fragment createItem(int position) {
-            //todo 根据类型返回不同接口的内容。 这里使用KnowledgeTabScrollUltraListViewFragment演示
 //            Fragment f;
 //            final int pattern = position % 5;
 //            switch (pattern) {
@@ -437,7 +282,7 @@ public class NewsPagerTabParentFragment extends BaseFragment implements Observab
 //                    break;
 //            }
 //            return new ViewPagerTabFragmentScrollListViewFragment();
-            return new NewsTabScrollUltraListViewFragment();
+            return new SimpleTestTabFragmentScrollUltraListViewFragment();
         }
 
         @Override

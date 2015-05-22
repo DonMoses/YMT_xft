@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mytitle="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <com.ymt.demo1.customViews.MyTitle
+        android:id="@id/my_title"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@android:color/holo_blue_dark"
+        mytitle:setLeftActionIcon="@drawable/back_normal"
+        mytitle:setRightActIconR="@drawable/icon_search_more"
+        mytitle:setRightIconL="@drawable/icon_share" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="168dp">
+
+    </FrameLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#00DDCF"
+        android:shrinkColumns="1,3"
+        android:stretchColumns="0,2,4">
+
+        <TableRow>
+
+            <TextView
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:text="简介"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <View
+                android:layout_width="0.618dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="6dp"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:text="目录"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <View
+                android:layout_width="0.618dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="6dp"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:text="相关推荐"
+                android:textColor="@color/material_blue_grey_800" />
+        </TableRow>
+    </TableLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.618dp"
+        android:background="@android:color/darker_gray" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/video_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:hint="小区发生火灾消防车被堵消防通道外 延迟扑救时间"
+            android:maxLength="2"
+            android:minHeight="32dp"
+            android:textColor="@color/material_blue_grey_800"
+            android:textColorHint="@color/material_blue_grey_800"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/video_cato"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/video_title"
+            android:gravity="center_vertical"
+            android:hint="类型：社区新闻"
+            android:minHeight="32dp"
+            android:singleLine="true"
+            android:textColor="@color/material_blue_grey_800"
+            android:textColorHint="@color/material_blue_grey_800"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/video_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/video_cato"
+            android:gravity="center_vertical"
+            android:hint="作者：中国吉林网讯"
+            android:minHeight="32dp"
+            android:singleLine="true"
+            android:textColor="@color/material_blue_grey_800"
+            android:textColorHint="@color/material_blue_grey_800"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/video_introduction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/video_author"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:hint="简介：20日晚上7点50分，长春市汽开区支农大街一汽家园B区一栋一楼插间房屋突然失火，火源是卫生间正在烧水的热水壶，连同洗衣机被烧，进而殃及整个房屋。由于小区门口停了多辆私家车，延迟了消防车扑救时间。"
+            android:lineSpacingExtra="3dp"
+            android:maxLength="10"
+            android:minHeight="32dp"
+            android:textColor="@color/material_blue_grey_800"
+            android:textColorHint="@color/material_blue_grey_800"
+            android:textSize="13sp" />
+
+    </RelativeLayout>
+</LinearLayout>

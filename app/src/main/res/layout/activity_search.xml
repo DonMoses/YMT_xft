@@ -12,7 +12,7 @@
         android:background="@drawable/bg_input_box">
 
         <EditText
-            android:id="@+id/search_edit_text"
+            android:id="@id/search_edit_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
@@ -24,7 +24,7 @@
             android:textSize="14dp" />
 
         <ImageButton
-            android:id="@+id/search_btn"
+            android:id="@id/search_btn"
             android:layout_width="23dip"
             android:layout_height="23dip"
             android:layout_gravity="end|center_vertical"

@@ -184,6 +184,9 @@ public class MyTitle extends LinearLayout {
         rightActionLayout.setGravity(Gravity.CENTER);
         if (rightActIconL != null) {
             ImageView rightIconL = new ImageView(context);
+            LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins((int) (6.18 * 4), 0, (int) (6.18 * 4), 0);
+            rightIconL.setLayoutParams(layoutParams);
             rightIconL.setImageDrawable(rightActIconL);
             rightActionLayout.addView(rightIconL);
             rightIconL.setOnClickListener(new OnClickListener() {

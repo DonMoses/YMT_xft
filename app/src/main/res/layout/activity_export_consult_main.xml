@@ -41,7 +41,7 @@
         android:focusableInTouchMode="true">
 
         <EditText
-            android:id="@+id/search_edit_text"
+            android:id="@id/search_edit_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
@@ -54,7 +54,7 @@
             android:textSize="14dp" />
 
         <ImageView
-            android:id="@+id/search_btn"
+            android:id="@id/search_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
@@ -64,7 +64,7 @@
     </FrameLayout>
 
     <GridView
-        android:id="@+id/search_history_gridView"
+        android:id="@id/search_history_gridView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="26dp"
