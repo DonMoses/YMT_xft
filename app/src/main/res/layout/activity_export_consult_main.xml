@@ -127,10 +127,15 @@
 
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.618dp"
+        android:layout_marginTop="3dp"
+        android:background="@android:color/darker_gray" />
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="3dp"
         android:layout_weight="1.2"
         android:background="@android:color/white"
         android:orientation="vertical"
@@ -276,6 +281,11 @@
         </TableRow>
 
     </TableLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.618dp"
+        android:background="@android:color/darker_gray" />
 
     <RelativeLayout
         android:id="@+id/nearly_consult_view"

@@ -8,6 +8,7 @@ import org.litepal.crud.DataSupport;
  * Created by Dan on 2015/4/20
  */
 public class Account extends DataSupport {
+    private String sId;
     private String phoneNum;
     private String accountName;
     private String password;

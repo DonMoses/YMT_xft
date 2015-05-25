@@ -61,8 +61,6 @@ public class KnowledgePagerTabParentFragment extends BaseFragment implements Obs
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_knowledge_pagertabfragment_parent, container, false);
         searchViewUtil = new SearchViewUtil();
-        //初始化搜索界面
-        searchViewUtil.initSearchView(getActivity());
         ActionBarActivity parentActivity = (ActionBarActivity) getActivity();
         mPagerAdapter = new NavigationAdapter(getChildFragmentManager());
         mPager = (ViewPager) view.findViewById(R.id.pager);
@@ -89,7 +87,15 @@ public class KnowledgePagerTabParentFragment extends BaseFragment implements Obs
                 FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         layoutParams.setMargins(0, 0, 0, ScreenSizeUtil.getNavigationBarHeight());
         mPager.setLayoutParams(layoutParams);
+
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //初始化搜索界面
+        searchViewUtil.initSearchView(getActivity());
     }
 
     @Override

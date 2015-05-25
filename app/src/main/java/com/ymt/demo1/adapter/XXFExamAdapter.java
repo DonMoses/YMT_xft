@@ -15,14 +15,14 @@ import java.util.ArrayList;
 /**
  * 历年真题列表
  */
-public class TestsItemAdapter extends BaseAdapter {
+public class XXFExamAdapter extends BaseAdapter {
     public static final int SIMPLE_TYPE = 0;
 
     ArrayList<XXFExam> mList = new ArrayList<>();
     Context context;
     LayoutInflater inflater;
 
-    public TestsItemAdapter(Context context) {
+    public XXFExamAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
     }

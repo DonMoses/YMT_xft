@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mytitle="http://schemas.android.com/apk/res-auto"
+    xmlns:ptr="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -12,8 +13,6 @@
         android:layout_height="52dp"
         android:background="@android:color/holo_blue_dark"
         mytitle:setLeftActionIcon="@drawable/back_normal"
-        mytitle:setRightActIconR="@drawable/icon_search_more"
-        mytitle:setRightIconL="@drawable/icon_search"
         mytitle:setTitleTxt="学习资料" />
 
     <include layout="@layout/layout_search_view" />
@@ -24,11 +23,19 @@
         android:background="@android:color/darker_gray" />
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/studyDatum_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp">
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="0.618dp"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:smoothScrollbar="true"
+        ptr:ptrMode="both">
 
     </com.handmark.pulltorefresh.library.PullToRefreshListView>
 </LinearLayout>

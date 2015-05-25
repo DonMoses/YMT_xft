@@ -66,7 +66,7 @@
         <item>推荐给好友</item>
         <item>关于我们</item>
         <item>软件卸载</item>
-        
+
     </string-array>
 
     <string name="supervisor">监管方：公安部消防局</string>
@@ -103,6 +103,9 @@
         <item>疏散宽度</item>
 
     </string-array>
+
+    <string name="study_datum_title_for_test">二O一四年一级消防工程师考试真题与解析</string>
+    <string name="study_datum_content_for_test">消防工作贯彻预防为主、防消结合的方针，按照政府统一领导、部门依法监管、单位全面负责、公民积极参与的原则，实行消防安全责任制，建立健全社会化的消防工作网络。</string>
 
 
 </resources>

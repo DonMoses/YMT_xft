@@ -3,27 +3,7 @@
  */
 package com.ymt.demo1.plates.eduPlane;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
-
-import com.ymt.demo1.R;
-import com.ymt.demo1.adapter.TestsItemAdapter;
-import com.ymt.demo1.beams.XXFExam;
-import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;
-import com.ymt.demo1.main.SearchActivity;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 
 /**
  * Created by Dan on 2015/4/9

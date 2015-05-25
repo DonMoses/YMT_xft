@@ -1,6 +1,5 @@
 package com.ymt.demo1.plates.eduPlane;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -78,7 +77,6 @@ public class ApplicationGuideActivity extends BaseFloatActivity {
         mData.add(addAppGuide(getResources().getColor(R.color.guide_zyfw), "执业范围"));
         adapter.setList(mData);
         mData.add(addAppGuide(getResources().getColor(R.color.guide_khrd), "考核认定"));
-
 
     }
 

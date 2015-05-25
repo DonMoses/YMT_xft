@@ -6,10 +6,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.customViews.obsScrollview.CacheFragmentStatePagerAdapter;
 import com.ymt.demo1.customViews.widget.GuideTabStrip;
 import com.ymt.demo1.R;
+import com.ymt.demo1.main.AppContext;
 
 /**
  * Created by Moses on 2015
@@ -81,5 +88,6 @@ public class GuideActivity extends FragmentActivity {
             return "";
         }
     }
+
 
 }

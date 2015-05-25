@@ -31,16 +31,13 @@ import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
-import com.ymt.demo1.adapter.KnowledgeItemAdapter;
 import com.ymt.demo1.adapter.NewsItemAdapter;
 import com.ymt.demo1.baseClasses.BaseFragment;
-import com.ymt.demo1.beams.KnowledgeItem;
 import com.ymt.demo1.beams.NewsItem;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollView;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollViewCallbacks;
 import com.ymt.demo1.main.PopActionListener;
 import com.ymt.demo1.main.PopActionUtil;
-import com.ymt.demo1.plates.knowledge.KnowledgeItemType;
 
 import java.util.ArrayList;
 
@@ -49,7 +46,7 @@ import java.util.ArrayList;
  * Fragment for ViewPagerTabFragmentActivity.
  * ScrollView callbacks are handled by its parent fragment, not its parent activity.
  */
-public class NewsTabScrollUltraListViewFragment extends BaseFragment {
+public class NewsFragment1 extends BaseFragment {
 
     private ObservableScrollView scrollView;
     PullToRefreshListView listView;

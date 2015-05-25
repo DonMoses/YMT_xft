@@ -1,5 +1,6 @@
 package com.ymt.demo1.plates.exportConsult;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -21,6 +22,7 @@ import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;
 import com.ymt.demo1.main.PopActionListener;
 import com.ymt.demo1.main.PopActionUtil;
+import com.ymt.demo1.main.file.SearchFileActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -127,8 +129,9 @@ public class ExportConsultNowActivity extends BaseFloatActivity {
                 switch (v.getId()) {
                     case R.id.upload_btn:
                         //todo 上传文件【文件管理器界面】
-                        Toast.makeText(ExportConsultNowActivity.this,
-                                "todo 打开文件管理器 - 选择文件", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(ExportConsultNowActivity.this,
+//                                "todo 打开文件管理器 - 选择文件", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(ExportConsultNowActivity.this, SearchFileActivity.class));
                         break;
                     case R.id.submit_btn:
                         final String title = titleTxt.getText().toString();

@@ -5,28 +5,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.EduDialogueInfo;
+import com.ymt.demo1.beams.StudyDatumItem;
 
 import java.util.ArrayList;
 
 /*
    定义listView 中item 的适配器
     */
-public class DialogueAdapter extends BaseAdapter {
+public class StudyDatumAdapter extends BaseAdapter {
     final int SIMPLE_TYPE = 0;
-    ArrayList<EduDialogueInfo> mList = new ArrayList<>();
+    ArrayList<StudyDatumItem> mList = new ArrayList<>();
     Context context;
     LayoutInflater inflater;
 
-    public DialogueAdapter(Context context) {
+    public StudyDatumAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
     }
 
-    public void setList(ArrayList<EduDialogueInfo> list) {
+    public void setList(ArrayList<StudyDatumItem> list) {
         this.mList = list;
         notifyDataSetChanged();
     }
@@ -63,12 +65,11 @@ public class DialogueAdapter extends BaseAdapter {
         if (convertView == null) {
             switch (type) {
                 case SIMPLE_TYPE:
-                    convertView = inflater.inflate(R.layout.item_dialogue, parent, false);
+                    convertView = inflater.inflate(R.layout.item_study_datum, parent, false);
                     viewHolder = new ViewHolder();
-                    viewHolder.question = (TextView) convertView.findViewById(R.id.dialogue_qust_txt);
-                    viewHolder.answer = (TextView) convertView.findViewById(R.id.dialogue_answer_view);
-                    viewHolder.watchedCount = (TextView) convertView.findViewById(R.id.dialogue_watched_count);
-                    viewHolder.collectedCount = (TextView) convertView.findViewById(R.id.dialogue_collected_count);
+                    viewHolder.title = (TextView) convertView.findViewById(R.id.datum_title);
+                    viewHolder.fileIcon = (ImageView) convertView.findViewById(R.id.file_icon);
+                    viewHolder.content = (TextView) convertView.findViewById(R.id.datum_content);
                     convertView.setTag(viewHolder);
                     break;
                 default:
@@ -90,11 +91,28 @@ public class DialogueAdapter extends BaseAdapter {
              */
         switch (type) {
             case SIMPLE_TYPE:
-                EduDialogueInfo dialogue = (EduDialogueInfo) getItem(position);
-                viewHolder.question.setText(dialogue.getQuestion());
-                viewHolder.answer.setText(dialogue.getAnswer());
-                viewHolder.watchedCount.setText(String.valueOf(dialogue.getWatchedCount()));
-                viewHolder.collectedCount.setText(String.valueOf(dialogue.getCollectedCount()));
+                StudyDatumItem studyDatum = (StudyDatumItem) getItem(position);
+                viewHolder.title.setText(studyDatum.getTitle());
+                StudyDatumItem.TypeO typeO = studyDatum.getTypeO();
+                switch (typeO) {
+                    case WORD:
+                        Picasso.with(context).load(R.drawable.icon_file_txt).into(viewHolder.fileIcon);
+                        break;
+                    case PPT:
+                        Picasso.with(context).load(R.drawable.icon_file_ppt).into(viewHolder.fileIcon);
+                        break;
+                    case PDF:
+                        Picasso.with(context).load(R.drawable.icon_file_pdf).into(viewHolder.fileIcon);
+                        break;
+                    case MP3:
+                        Picasso.with(context).load(R.drawable.icon_file_mp3).into(viewHolder.fileIcon);
+                        break;
+                    default:
+                        break;
+
+                }
+
+                viewHolder.content.setText(String.valueOf(studyDatum.getContent()));
                 break;
 
             default:
@@ -108,9 +126,8 @@ public class DialogueAdapter extends BaseAdapter {
     包含EduDialogueInfo中内容字段的ViewHolder
      */
     class ViewHolder {
-        TextView question;
-        TextView answer;
-        TextView watchedCount;
-        TextView collectedCount;
+        TextView title;
+        ImageView fileIcon;
+        TextView content;
     }
 }

@@ -17,27 +17,17 @@
 package com.ymt.demo1.plates.news;
 
 import android.animation.ValueAnimator;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseFragment;
@@ -50,16 +40,7 @@ import com.ymt.demo1.customViews.obsScrollview.ScrollUtils;
 import com.ymt.demo1.customViews.obsScrollview.Scrollable;
 import com.ymt.demo1.customViews.obsScrollview.TouchInterceptionFrameLayout;
 import com.ymt.demo1.customViews.widget.PagerSlidingTabStrip;
-import com.ymt.demo1.dbBeams.SearchString;
-import com.ymt.demo1.main.SearchActivity;
 import com.ymt.demo1.main.SearchViewUtil;
-import com.ymt.demo1.plates.knowledge.KnowledgeTabScrollUltraListViewFragment;
-import com.ymt.demo1.plates.news.NewsTabScrollUltraListViewFragment;
-
-import org.litepal.crud.DataSupport;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This fragment manages ViewPager and its child Fragments.
@@ -80,9 +61,7 @@ public class NewsPagerTabParentFragment extends BaseFragment implements Observab
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_knowledge_pagertabfragment_parent, container, false);
         //初始化搜索界面
-
         searchViewUtil = new SearchViewUtil();
-        searchViewUtil.initSearchView(getActivity());
         ActionBarActivity parentActivity = (ActionBarActivity) getActivity();
         mPagerAdapter = new NavigationAdapter(getChildFragmentManager());
         mPager = (ViewPager) view.findViewById(R.id.pager);
@@ -122,6 +101,12 @@ public class NewsPagerTabParentFragment extends BaseFragment implements Observab
 
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //初始化搜索界面
+        searchViewUtil.initSearchView(getActivity());
+    }
 
     /**
      * @param view：被测量的view
@@ -332,7 +317,7 @@ public class NewsPagerTabParentFragment extends BaseFragment implements Observab
 //                    break;
 //            }
 //            return new ViewPagerTabFragmentScrollListViewFragment();
-            return new NewsTabScrollUltraListViewFragment();
+            return NewsFragment.newInstance("xf_article_h_news");
         }
 
         @Override

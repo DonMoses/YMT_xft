@@ -2,6 +2,8 @@ package com.ymt.demo1.main;
 
 import android.app.Activity;
 
+import com.ymt.demo1.launchpages.LoadingPageActivity;
+
 import org.litepal.LitePalApplication;
 
 import java.util.ArrayList;
@@ -13,12 +15,18 @@ import java.util.List;
 public class AppContext extends LitePalApplication {
     private static List<Activity> yActivities;
     private static Activity floatActivity;
+    private static AppContext appContext;
+
+    public static AppContext getInstance() {
+        return appContext;
+    }
 
     @Override
-    public void onCreate() {
+    public final void onCreate() {
         if (yActivities == null) {
             yActivities = new ArrayList<>();
         }
+        appContext = this;
     }
 
     /**
