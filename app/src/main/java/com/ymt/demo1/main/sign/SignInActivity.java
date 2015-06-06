@@ -11,15 +11,17 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
-import com.ymt.demo1.dbBeams.Account;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.mainStyles.CircleMenuActivity;
 
-import org.litepal.crud.DataSupport;
-import org.litepal.tablemanager.Connector;
-
-import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by Dan on 2015/4/2
@@ -30,10 +32,12 @@ public class SignInActivity extends Activity {
     private EditText accountETxt;
     private EditText pswETxt;
     private SharedPreferences sharedPreferences;
+    private RequestQueue queue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        queue = Volley.newRequestQueue(this);
         setContentView(R.layout.activity_sign_in);
         initTitle();
         initView();
@@ -76,8 +80,6 @@ public class SignInActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //todo 获取网络账号密码信息
-                //获取本地储存的账号信息
-                List<Account> accountList = DataSupport.findAll(Account.class);
                 switch (v.getId()) {
                     case R.id.jump_sign_up:
                         //跳转到注册界面
@@ -93,25 +95,7 @@ public class SignInActivity extends Activity {
                         /*获取用户名和密码，匹配则登录（跳转到个人界面），不匹配弹出提示框*/
                         account = accountETxt.getText().toString();
                         psw = pswETxt.getText().toString();
-                        Account account1 = new Account();
-                        account1.setAccountName(account);
-                        account1.setPassword(psw);
-
-                        if (accountList == null || accountList.size() == 0) {
-                            Toast.makeText(SignInActivity.this, R.string.should_sign_up_1st, Toast.LENGTH_SHORT).show();
-                        } else {
-                            for (int i = 0; i < accountList.size(); i++) {
-                                if (accountList.get(i).getAccountName().equals(account) &&
-                                        accountList.get(i).getPassword().equals(psw)) {
-                                    Toast.makeText(SignInActivity.this, R.string.sign_in_ok, Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(SignInActivity.this, CircleMenuActivity.class));
-                                    finish();
-                                    return;
-                                }
-                            }
-                            Toast.makeText(SignInActivity.this, R.string.account_psw_wrong, Toast.LENGTH_SHORT).show();
-
-                        }
+                        queue.add(signInRequest(account, psw));
                         break;
                     case R.id.sign_in_wechat:
                         //使用微信账号登录
@@ -139,6 +123,35 @@ public class SignInActivity extends Activity {
         qqBtn.setOnClickListener(onClickListener);
         sinaBtn.setOnClickListener(onClickListener);
 
+    }
+
+    protected StringRequest signInRequest(final String account, final String psw) {
+        String loginBaseUrl = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.LoginAction";
+        String url = loginBaseUrl + "&loginname=" + account + "&pwd=" + psw + "&t=app";
+
+        return new StringRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (jsonObject.getString("result").equals("Y")) {
+                        //登录成功
+                        Toast.makeText(SignInActivity.this, R.string.sign_in_ok, Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(SignInActivity.this, CircleMenuActivity.class));
+                        finish();
+                    } else {
+                        Toast.makeText(SignInActivity.this, jsonObject.getString("result"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
     }
 
     @Override

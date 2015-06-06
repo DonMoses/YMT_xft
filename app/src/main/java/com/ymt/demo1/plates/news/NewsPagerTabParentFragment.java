@@ -295,29 +295,22 @@ public class NewsPagerTabParentFragment extends BaseFragment implements Observab
 
         @Override
         protected Fragment createItem(int position) {
+            Fragment fragment = null;
             //todo 根据类型返回不同接口的内容。 这里使用KnowledgeTabScrollUltraListViewFragment演示
-//            Fragment f;
-//            final int pattern = position % 5;
-//            switch (pattern) {
-//                case 0:
-//                    f = new ViewPagerTabFragmentScrollViewFragment();
-//                    break;
-//                case 1:
-//                    f = new ViewPagerTabFragmentListViewFragment();
-//                    break;
-//                case 2:
-//                    f = new ViewPagerTabFragmentRecyclerViewFragment();
-//                    break;
-//                case 3:
-//                    f = new ViewPagerTabFragmentGridViewFragment();
-//                    break;
-//                case 4:
-//                default:
-//                    f = new ViewPagerTabFragmentWebViewFragment();
-//                    break;
-//            }
-//            return new ViewPagerTabFragmentScrollListViewFragment();
-            return NewsFragment.newInstance("xf_article_h_news");
+            switch (getPageTitle(position).toString()) {
+                case "消防新闻":
+                    fragment = NewsFragment.newInstance("xf_article_h_news");
+                    break;
+                case "消防公告":
+                    fragment = NewsFragment.newInstance("xf_article_h_notice");
+                    break;
+                case "教育资讯":
+                    fragment = NewsFragment.newInstance("xf_article_h_edu");
+                    break;
+                default:
+                    break;
+            }
+            return fragment;
         }
 
         @Override

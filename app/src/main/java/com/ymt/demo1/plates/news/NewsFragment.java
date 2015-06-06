@@ -23,13 +23,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -41,7 +41,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.NewsSummaryAdapter;
 import com.ymt.demo1.baseClasses.BaseFragment;
-import com.ymt.demo1.beams.NewsItem;
 import com.ymt.demo1.beams.NewsSummary;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollView;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollViewCallbacks;
@@ -54,7 +53,6 @@ import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 /**
@@ -69,13 +67,10 @@ public class NewsFragment extends BaseFragment {
     private NewsSummaryAdapter summaryAdapter;
     private PopActionListener actionListener;
     private ArrayList<NewsSummary> mNews = new ArrayList<>();       //获取新闻到集合
-    private String news_type_id = "xf_article_h_news";  //新闻类型标识, 此处表示普通新闻
-    private final Handler mHandler = new MyHandler(this);
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_scrollview_ultra_list_view, container, false);
-        mQueue = Volley.newRequestQueue(getActivity());
         scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
         Fragment parentFragment = getParentFragment();
         ViewGroup viewGroup = (ViewGroup) parentFragment.getView();
@@ -98,13 +93,10 @@ public class NewsFragment extends BaseFragment {
         listView = (PullToRefreshListView) view.findViewById(R.id.pull_to_refresh_list_view);
         ListView theListView = listView.getRefreshableView();
         testArray = new ArrayList<>();
-//        //todo data
-//        for (int i = 0; i < 20; i++) {
-//            NewsSummary item = new NewsSummary();
-//            item.setArticle_title(i + 1 + "深圳市出台《消防产品监督管理工作考核办法》");
-//            item.setCreate_time("2015.05.23 11:23:08");
-//            testArray.add(item);
-//        }
+        ProgressBar progressBar = new ProgressBar(getActivity());
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        progressBar.setLayoutParams(params);
+        listView.setEmptyView(progressBar);
 
         /*
         设置数据源
@@ -195,9 +187,11 @@ public class NewsFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //传入内容
-                Intent intent = new Intent(getActivity(), NewsDownloadDetailActivity.class);
-                intent.putExtra("title", ((NewsItem) parent.getAdapter().getItem(position)).getTitle());
-                intent.putExtra("content", ((NewsItem) parent.getAdapter().getItem(position)).getContentTxt());
+                //todo bug
+                Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+                intent.putExtra("news_id", ((NewsSummary) parent.getAdapter().getItem(position)).getId());
+                intent.putExtra("news_time", ((NewsSummary) parent.getAdapter().getItem(position)).getCreate_time());
+                intent.putExtra("news_title", ((NewsSummary) parent.getAdapter().getItem(position)).getArticle_title());
                 startActivity(intent);
             }
         });
@@ -227,10 +221,10 @@ public class NewsFragment extends BaseFragment {
     }
 
     private StringRequest summaryRequest(String urlStr) {
-        StringRequest stringRequest = new StringRequest(urlStr, new Response.Listener<String>() {
+
+        return new StringRequest(urlStr, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("TAG", "content info>>>>>>>>>>>>>>" + s);
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     JSONArray summaryArray = jsonObject.getJSONObject("datas").getJSONArray("listData");
@@ -260,11 +254,7 @@ public class NewsFragment extends BaseFragment {
             }
         });
 
-        return stringRequest;
-
     }
-
-    private static final String loginUrl = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.LoginAction&loginname=admin&pwd=admin&t=app";
 
     /**
      * get instance
@@ -282,30 +272,11 @@ public class NewsFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        news_type_id = bundle.getString("news_type_id");
+        String news_type_id = bundle.getString("news_type_id");
+        mQueue = Volley.newRequestQueue(getActivity());
+
+        mQueue.add(summaryRequest("http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + news_type_id + "&order=new&start=1"));
 
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mQueue.add(new StringRequest(loginUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                Log.e("TAG", "login info>>>>>>>>>>>>>>" + s);
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    String sId = jsonObject.getString("sId");
-                    mQueue.add(summaryRequest("http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&" + sId + "&m=list&type=" + news_type_id + "&order=new&start=1"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
-        }));
-    }
 }

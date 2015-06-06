@@ -170,7 +170,7 @@
         android:layout_marginTop="20dp"
         android:gravity="center_vertical"
         android:lineSpacingExtra="8dp"
-        android:text="注:本平台为消防安全平台，所有内容均为国家发行的合规规定，请认真阅读《消防通安全协议》再进行下一步注册操作。"
+        android:text="注:本平台为消防安全平台，所有内容均为国家发行的合规规定，请认真阅读《新消防安全协议》再进行下一步注册操作。"
         android:textColor="#4169E1"
         android:textSize="12sp" />
 
@@ -183,10 +183,12 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <Button
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:background="@drawable/agreement_normal" />
+        <ImageView
+            android:id="@+id/switch_liscense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/corner_text_shape1o4"
+            android:src="@drawable/bg_switch_check" />
 
         <TextView
             android:id="@+id/licence_txt"

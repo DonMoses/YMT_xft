@@ -3,22 +3,25 @@ package com.ymt.demo1.plates.news;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.SimpleTxtItemAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.PopActionListener;
-import com.ymt.demo1.main.PopActionUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,15 +29,24 @@ import java.util.Collections;
 /**
  * Created by Dan on 2015/4/29
  */
-public class NewsDownloadDetailActivity extends BaseActivity {
-    private PopActionListener actionListener;
+public class NewsDetailActivity extends BaseActivity {
+    private WebView contentView;
+    private String title;
+    private String time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_knowledge_content_detail);
+        RequestQueue mQueue = Volley.newRequestQueue(this);
+        String id = getIntent().getStringExtra("news_id");
+        title = getIntent().getStringExtra("news_title");
+        String fullTime = getIntent().getStringExtra("news_time");
+        time = (String) fullTime.subSequence(0, fullTime.length() - 2);
+        setContentView(R.layout.activity_news_detail);
         initTitle();
         initView();
+        String baseContentUrl = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&m=show&id=";
+        mQueue.add(newsContentRequest(baseContentUrl + id));
     }
 
     /**
@@ -74,61 +86,17 @@ public class NewsDownloadDetailActivity extends BaseActivity {
     }
 
     protected void initView() {
-        //文档大小
-        final TextView fileSize = (TextView) findViewById(R.id.download_file_size);
-        //所需积分
-        final TextView scoreNeed = (TextView) findViewById(R.id.download_file_score_needed);
-        //下载文档按钮
-        final Button downBtn = (Button) findViewById(R.id.download_btn);
         //热门话题GridView
         final GridView hotCommentGrid = (GridView) findViewById(R.id.hot_comment_grid_view);
-
-        //下载按钮监听
-        downBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //设置背景颜色变暗
-                final WindowManager.LayoutParams lp =
-                        NewsDownloadDetailActivity.this.getWindow().getAttributes();
-                lp.alpha = 0.3f;
-                NewsDownloadDetailActivity.this.getWindow().setAttributes(lp);
-
-                //todo 弹出下载提示框
-                PopActionUtil popActionUtil = PopActionUtil.getInstance(NewsDownloadDetailActivity.this);
-                PopupWindow popupWindow = popActionUtil.getDownloadPopActionMenu();
-                popupWindow.showAtLocation(downBtn.getRootView(), Gravity.CENTER, 0, 0);
-
-                popActionUtil.setActionListener(new PopActionListener() {
-                    @Override
-                    public void onAction(String action) {
-                        switch (action) {
-                            case "确定":
-                                Toast.makeText(NewsDownloadDetailActivity.this, "确定", Toast.LENGTH_LONG).show();
-                                break;
-                            case "取消":
-                                Toast.makeText(NewsDownloadDetailActivity.this, "取消", Toast.LENGTH_SHORT).show();
-                                break;
-                            default:
-                                break;
-                        }
-                        lp.alpha = 1f;
-                        NewsDownloadDetailActivity.this.getWindow().setAttributes(lp);
-                    }
-
-                    @Override
-                    public void onDismiss() {
-
-                    }
-                });
-            }
-        });
+        final TextView newsTitle = (TextView) findViewById(R.id.news_title);
+        final TextView newsTime = (TextView) findViewById(R.id.news_time);
+        newsTitle.setText(title);
+        newsTime.setText(time);
 
         /*
         内容textView
          */
-        final TextView contentView = (TextView) findViewById(R.id.content);
-        contentView.setText(getIntent().getStringExtra("content"));
+        contentView = (WebView) findViewById(R.id.content);
         //设置底部热点话题内容
         setDataToHotGird(hotCommentGrid);
 
@@ -140,7 +108,7 @@ public class NewsDownloadDetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //todo 写点评
-                Toast.makeText(NewsDownloadDetailActivity.this, "写点评...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(NewsDetailActivity.this, "写点评...", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -163,9 +131,36 @@ public class NewsDownloadDetailActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String str = parent.getAdapter().getItem(position).toString();
                 //todo
-                Toast.makeText(NewsDownloadDetailActivity.this, str, Toast.LENGTH_SHORT).show();
+                Toast.makeText(NewsDetailActivity.this, str, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private StringRequest newsContentRequest(String urlStr) {
+        return new StringRequest(urlStr, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    String result = jsonObject.getString("result");
+                    if (result.equals("Y")) {
+                        //TODO 显示内容
+                        contentView.loadDataWithBaseURL(null, jsonObject.getString("centent"), "text/html", "utf-8", null);
+                    } else {
+                        Toast.makeText(NewsDetailActivity.this, result, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(NewsDetailActivity.this, "网络错误，请稍后重试！", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
 }

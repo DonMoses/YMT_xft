@@ -35,9 +35,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
+                android:drawableLeft="@drawable/icon_timer"
+                android:drawableStart="@drawable/icon_timer"
                 android:text="距"
                 android:textColor="@color/material_blue_grey_800"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/next_exam_year"
@@ -55,7 +57,7 @@
                 android:layout_marginBottom="15dp"
                 android:text="年"
                 android:textColor="@color/material_blue_grey_800"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/next_exam_month"
@@ -73,7 +75,7 @@
                 android:layout_marginBottom="15dp"
                 android:text="月"
                 android:textColor="@color/material_blue_grey_800"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/next_exam_day"
@@ -92,7 +94,7 @@
                 android:hint="日一级消防工程师考试还有"
                 android:textColor="@color/material_blue_grey_800"
                 android:textColorHint="@color/material_blue_grey_800"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -109,7 +111,7 @@
                 android:hint="n"
                 android:textColor="@color/material_blue_grey_800"
                 android:textColorHint="@color/material_blue_grey_800"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -127,7 +129,7 @@
                 android:hint="n"
                 android:textColor="@color/material_blue_grey_800"
                 android:textColorHint="@color/material_blue_grey_800"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -145,7 +147,7 @@
                 android:hint="n"
                 android:textColor="@color/material_blue_grey_800"
                 android:textColorHint="@color/material_blue_grey_800"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -163,7 +165,7 @@
                 android:hint="n"
                 android:textColor="@color/material_blue_grey_800"
                 android:textColorHint="@color/material_blue_grey_800"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="wrap_content"

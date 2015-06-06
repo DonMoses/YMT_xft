@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Demo1</string>
+    <string name="app_name">新消防</string>
 
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
@@ -59,7 +59,7 @@
 
     <string-array name="setting_array">
 
-        <item>账号登陆</item>
+        <item>账号登录</item>
         <item>修改登录密码</item>
         <item>自定义皮肤</item>
         <item>存储设置</item>
