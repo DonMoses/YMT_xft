@@ -38,9 +38,9 @@ public class MainActivity extends Activity {
         SharedPreferences sharedPreferences = getSharedPreferences(SETTING_PREFERENCES, MODE_PRIVATE);
         boolean isFirstLaunch = sharedPreferences.getBoolean(MainActivity.FIRST_LAUNCH_KEY, true);
         if (isFirstLaunch) {
-            startActivity(new Intent(this, GuideActivity.class));
+            startActivity(new Intent(this, GuideActivity.class));       //第一次启动
         } else {
-            startActivity(new Intent(this, LoadingPageActivity.class));
+            startActivity(new Intent(this, LoadingPageActivity.class)); //常规启动
         }
         finish();
     }

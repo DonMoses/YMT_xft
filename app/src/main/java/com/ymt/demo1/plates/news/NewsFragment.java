@@ -16,8 +16,6 @@
 
 package com.ymt.demo1.plates.news;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,6 +35,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.NewsSummaryAdapter;
@@ -67,6 +66,8 @@ public class NewsFragment extends BaseFragment {
     private NewsSummaryAdapter summaryAdapter;
     private PopActionListener actionListener;
     private ArrayList<NewsSummary> mNews = new ArrayList<>();       //获取新闻到集合
+    private String news_type_id;
+    private int startPosition;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -116,7 +117,7 @@ public class NewsFragment extends BaseFragment {
             /*
             *初始化弹出菜单
             */
-                String[] actionList = new String[]{"分享", "收藏", "删除"};
+                String[] actionList = new String[]{"分享", "收藏"};
                 PopActionUtil popActionUtil = PopActionUtil.getInstance(getActivity());
                 actionListener = new PopActionListener() {
                     @Override
@@ -128,36 +129,7 @@ public class NewsFragment extends BaseFragment {
                             case "收藏":
                                 Toast.makeText(getActivity(), "收藏", Toast.LENGTH_SHORT).show();
                                 break;
-                            case "删除":
-                                Toast.makeText(getActivity(), "删除", Toast.LENGTH_SHORT).show();
-//                              //属性动画
-                                ObjectAnimator animator = ObjectAnimator
-                                        .ofFloat(view, "rotationX", 0.0F, 360.0F)//
-                                        .setDuration(1000);
-                                animator.start();
-                                animator.addListener(new Animator.AnimatorListener() {
-                                    @Override
-                                    public void onAnimationStart(Animator animation) {
 
-                                    }
-
-                                    @Override
-                                    public void onAnimationEnd(Animator animation) {
-                                        testArray.remove(position - 1);     //因为此listView包含header，所以 -1
-                                        summaryAdapter.setList(testArray);
-                                    }
-
-                                    @Override
-                                    public void onAnimationCancel(Animator animation) {
-
-                                    }
-
-                                    @Override
-                                    public void onAnimationRepeat(Animator animation) {
-
-                                    }
-                                });
-                                break;
                             default:
                                 break;
                         }
@@ -193,6 +165,24 @@ public class NewsFragment extends BaseFragment {
                 intent.putExtra("news_time", ((NewsSummary) parent.getAdapter().getItem(position)).getCreate_time());
                 intent.putExtra("news_title", ((NewsSummary) parent.getAdapter().getItem(position)).getArticle_title());
                 startActivity(intent);
+            }
+        });
+
+        /*
+         * 上拉加载更多，下拉刷新更多
+         */
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                mNews.clear();
+                startPosition = 1;
+                mQueue.add(summaryRequest("http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + news_type_id + "&order=new&start=" + String.valueOf(startPosition)));
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                startPosition++;
+                mQueue.add(summaryRequest("http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + news_type_id + "&order=new&start=" + String.valueOf(startPosition)));
             }
         });
 
@@ -245,12 +235,14 @@ public class NewsFragment extends BaseFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                listView.onRefreshComplete();
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Toast.makeText(getActivity(), "网络错误，请稍后重试！", Toast.LENGTH_SHORT).show();
+                listView.onRefreshComplete();
             }
         });
 
@@ -272,10 +264,10 @@ public class NewsFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        String news_type_id = bundle.getString("news_type_id");
+        news_type_id = bundle.getString("news_type_id");
         mQueue = Volley.newRequestQueue(getActivity());
-
-        mQueue.add(summaryRequest("http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + news_type_id + "&order=new&start=1"));
+        startPosition = 1;
+        mQueue.add(summaryRequest("http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + news_type_id + "&order=new&start=" + String.valueOf(startPosition)));
 
     }
 

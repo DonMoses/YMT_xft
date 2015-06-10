@@ -46,7 +46,7 @@ import com.ymt.demo1.main.SearchViewUtil;
  * This fragment manages ViewPager and its child Fragments.
  * Scrolling techniques are basically the same as ViewPagerTab2Activity.
  */
-public class NewsPagerTabParentFragment extends BaseFragment implements ObservableScrollViewCallbacks {
+public class NewsPagerTabParentFragmentCopy extends BaseFragment implements ObservableScrollViewCallbacks {
     public static final String FRAGMENT_TAG = "fragment";
 
     private TouchInterceptionFrameLayout mInterceptionLayout;
@@ -59,7 +59,7 @@ public class NewsPagerTabParentFragment extends BaseFragment implements Observab
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_knowledge_pagertabfragment_parent, container, false);
+        View view = inflater.inflate(R.layout.fragment_news_parent, container, false);
         //初始化搜索界面
         searchViewUtil = new SearchViewUtil();
         ActionBarActivity parentActivity = (ActionBarActivity) getActivity();

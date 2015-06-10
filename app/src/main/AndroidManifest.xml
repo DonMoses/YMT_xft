@@ -229,7 +229,15 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".plates.news.NewsPicsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".plates.news.NewsRecentViewActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.news.NewsTabActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 

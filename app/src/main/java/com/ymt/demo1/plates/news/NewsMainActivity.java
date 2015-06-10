@@ -45,10 +45,10 @@ public class NewsMainActivity extends BaseActivity {
         setContentView(R.layout.activity_news_main);
 
         FragmentManager fm = getSupportFragmentManager();
-        if (fm.findFragmentByTag(NewsPagerTabParentFragment.FRAGMENT_TAG) == null) {
+        if (fm.findFragmentByTag(NewsMainFragment.FRAGMENT_TAG) == null) {
             FragmentTransaction ft = fm.beginTransaction();
-            ft.add(R.id.fragment, new NewsPagerTabParentFragment(),
-                    NewsPagerTabParentFragment.FRAGMENT_TAG);
+            ft.add(R.id.fragment, new NewsMainFragment(),
+                    NewsMainFragment.FRAGMENT_TAG);
             ft.commit();
             fm.executePendingTransactions();
         }

@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package com.ymt.demo1.plates.hub;
+package com.ymt.demo1.plates.news;
 
 import android.animation.ValueAnimator;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -33,20 +32,21 @@ import android.widget.FrameLayout;
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseFragment;
 import com.ymt.demo1.baseClasses.ViewHelper;
-import com.ymt.demo1.customViews.CircleImageView;
+import com.ymt.demo1.customKeyBoard.ScreenSizeUtil;
 import com.ymt.demo1.customViews.obsScrollview.CacheFragmentStatePagerAdapter;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollViewCallbacks;
 import com.ymt.demo1.customViews.obsScrollview.ScrollState;
 import com.ymt.demo1.customViews.obsScrollview.ScrollUtils;
 import com.ymt.demo1.customViews.obsScrollview.Scrollable;
 import com.ymt.demo1.customViews.obsScrollview.TouchInterceptionFrameLayout;
-import com.ymt.demo1.plates.personal.PersonalPagerTabActivity;
+import com.ymt.demo1.customViews.widget.PagerSlidingTabStrip;
+import com.ymt.demo1.main.SearchViewUtil;
 
 /**
  * This fragment manages ViewPager and its child Fragments.
  * Scrolling techniques are basically the same as ViewPagerTab2Activity.
  */
-public class FireHubPagerTabParentFragment extends BaseFragment implements ObservableScrollViewCallbacks {
+public class PagerTabParentFragment extends BaseFragment implements ObservableScrollViewCallbacks {
     public static final String FRAGMENT_TAG = "fragment";
 
     private TouchInterceptionFrameLayout mInterceptionLayout;
@@ -55,33 +55,63 @@ public class FireHubPagerTabParentFragment extends BaseFragment implements Obser
     private int mSlop;
     private boolean mScrolled;
     private ScrollState mLastScrollState;
+    private SearchViewUtil searchViewUtil;
+    private int tabPosition;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_fire_hub_pagertabfragment_parent, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_knowledge_pagertabfragment_parent, container, false);
+        searchViewUtil = new SearchViewUtil();
         ActionBarActivity parentActivity = (ActionBarActivity) getActivity();
         mPagerAdapter = new NavigationAdapter(getChildFragmentManager());
         mPager = (ViewPager) view.findViewById(R.id.pager);
         mPager.setAdapter(mPagerAdapter);
 
+        PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) view.findViewById(R.id.sliding_tabs);
+        tabStrip.setIndicatorColor(getResources().getColor(android.R.color.holo_blue_light));
+        tabStrip.setIndicatorHeight(5);
+        tabStrip.setDividerColor(getResources().getColor(android.R.color.holo_blue_bright));
+
         mPager.setAdapter(mPagerAdapter);
         mPager.setOffscreenPageLimit(4);
+        tabStrip.setViewPager(mPager);         //////////////////
 
         ViewConfiguration vc = ViewConfiguration.get(parentActivity);
         mSlop = vc.getScaledTouchSlop();
         mInterceptionLayout = (TouchInterceptionFrameLayout) view.findViewById(R.id.container);
         mInterceptionLayout.setScrollInterceptionListener(mInterceptionListener);
 
-        CircleImageView header = (CircleImageView) view.findViewById(R.id.personal_icon_btn);
-        header.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), PersonalPagerTabActivity.class));
-            }
-        });
+        /*
+        将pager 视图移到导航栏上方（解决被导航栏遮挡底部的问题）
+         */
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        layoutParams.setMargins(0, 0, 0, ScreenSizeUtil.getNavigationBarHeight());
+        mPager.setLayoutParams(layoutParams);
 
+        mPager.setCurrentItem(tabPosition);
         return view;
+    }
+
+    public static PagerTabParentFragment newInstanceWithPosition(int position) {
+        PagerTabParentFragment pagerTabParentFragment = new PagerTabParentFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("position", position);
+        pagerTabParentFragment.setArguments(bundle);
+        return pagerTabParentFragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        tabPosition = getArguments().getInt("position");
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //初始化搜索界面
+        searchViewUtil.initSearchView(getActivity());
     }
 
     @Override
@@ -90,15 +120,17 @@ public class FireHubPagerTabParentFragment extends BaseFragment implements Obser
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        View infoView = getActivity().findViewById(R.id.personal_info_layout);
-        infoView.setVisibility(View.GONE);             //6月10日修改为不显示个人信息， 直接简单地显示论坛板块和主题列表
-    }
-
-    @Override
     public void onDownMotionEvent() {
 
+    }
+
+    /**
+     * @param view：被测量的view
+     */
+    public static boolean checkDownPointerInView(View view, float x, float y) {
+        int[] location2 = new int[2];
+        view.getLocationOnScreen(location2);
+        return x >= location2[0] && x <= location2[0] + view.getWidth() && y >= location2[1] && y <= location2[1] + view.getHeight();
     }
 
     @Override
@@ -126,7 +158,7 @@ public class FireHubPagerTabParentFragment extends BaseFragment implements Obser
 
             // If interceptionLayout can move, it should intercept.
             // And once it begins to move, horizontal scroll shouldn't work any longer.
-            View infoView = getActivity().findViewById(R.id.personal_info_layout);
+            View infoView = getActivity().findViewById(R.id.knowledge_search_layout);
             int infoViewHeight = infoView.getHeight();
             int translationY = (int) ViewHelper.getTranslationY(mInterceptionLayout);
             boolean scrollingUp = 0 < diffY;
@@ -150,12 +182,20 @@ public class FireHubPagerTabParentFragment extends BaseFragment implements Obser
 
         @Override
         public void onDownMotionEvent(MotionEvent ev) {
-
+            int action = ev.getAction();
+            switch (action) {
+                case MotionEvent.ACTION_DOWN:
+                    float x = ev.getRawX();
+                    float y = ev.getRawY();
+                    if (!checkDownPointerInView(getActivity().findViewById(R.id.search_edit_text), x, y)) {
+                        searchViewUtil.clearInputFocus();
+                    }
+            }
         }
 
         @Override
         public void onMoveMotionEvent(MotionEvent ev, float diffX, float diffY) {
-            View infoView = getActivity().findViewById(R.id.personal_info_layout);
+            View infoView = getActivity().findViewById(R.id.knowledge_search_layout);
             float translationY = ScrollUtils.getFloat(
                     ViewHelper.getTranslationY(mInterceptionLayout) + diffY, -infoView.getHeight(), 0);
             ViewHelper.setTranslationY(mInterceptionLayout, translationY);
@@ -187,7 +227,7 @@ public class FireHubPagerTabParentFragment extends BaseFragment implements Obser
     }
 
     private void adjustToolbar(ScrollState scrollState) {
-        View infoView = getActivity().findViewById(R.id.personal_info_layout);
+        View infoView = getActivity().findViewById(R.id.knowledge_search_layout);
         int toolbarHeight = infoView.getHeight();
         final Scrollable scrollable = getCurrentScrollable();
         if (scrollable == null) {
@@ -222,7 +262,7 @@ public class FireHubPagerTabParentFragment extends BaseFragment implements Obser
         if (view == null) {
             return false;
         }
-        View infoView = getActivity().findViewById(R.id.personal_info_layout);
+        View infoView = getActivity().findViewById(R.id.knowledge_search_layout);
         return ViewHelper.getTranslationY(mInterceptionLayout) == -infoView.getHeight();
     }
 
@@ -231,7 +271,7 @@ public class FireHubPagerTabParentFragment extends BaseFragment implements Obser
     }
 
     private void hideToolbar() {
-        View infoView = getActivity().findViewById(R.id.personal_info_layout);
+        View infoView = getActivity().findViewById(R.id.knowledge_search_layout);
         animateToolbar(-infoView.getHeight());
     }
 
@@ -243,7 +283,7 @@ public class FireHubPagerTabParentFragment extends BaseFragment implements Obser
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     float translationY = (float) animation.getAnimatedValue();
-                    View infoView = getActivity().findViewById(R.id.personal_info_layout);
+                    View infoView = getActivity().findViewById(R.id.knowledge_search_layout);
                     ViewHelper.setTranslationY(mInterceptionLayout, translationY);
                     ViewHelper.setTranslationY(infoView, translationY);
                     if (translationY < 0) {
@@ -263,7 +303,7 @@ public class FireHubPagerTabParentFragment extends BaseFragment implements Obser
      */
     private static class NavigationAdapter extends CacheFragmentStatePagerAdapter {
 
-        private static final String[] TITLES = new String[]{""};
+        private static final String[] TITLES = new String[]{"消防新闻", "消防公告", "教育资讯"};
 
         public NavigationAdapter(FragmentManager fm) {
             super(fm);
@@ -271,7 +311,22 @@ public class FireHubPagerTabParentFragment extends BaseFragment implements Obser
 
         @Override
         protected Fragment createItem(int position) {
-            return new FireHubMainFragment();
+            Fragment fragment = null;
+            //todo 根据类型返回不同接口的内容。 这里使用KnowledgeTabScrollUltraListViewFragment演示
+            switch (getPageTitle(position).toString()) {
+                case "消防新闻":
+                    fragment = NewsFragment.newInstance("xf_article_h_news");
+                    break;
+                case "消防公告":
+                    fragment = NewsFragment.newInstance("xf_article_h_notice");
+                    break;
+                case "教育资讯":
+                    fragment = NewsFragment.newInstance("xf_article_h_edu");
+                    break;
+                default:
+                    break;
+            }
+            return fragment;
         }
 
         @Override

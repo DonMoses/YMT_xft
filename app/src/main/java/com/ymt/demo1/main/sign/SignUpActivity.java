@@ -2,7 +2,6 @@ package com.ymt.demo1.main.sign;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -126,10 +125,10 @@ public class SignUpActivity extends Activity {
     protected void jumpToSignIn(String phone, String account, String userId, String psw, String userType) {
         Account account1 = new Account();
         account1.setPhoneNum(phone);
-        account1.setAccountName(account);
+        account1.setLoginname(account);
         account1.setPassword(psw);
-        account1.setUserId(userId);
-        account1.setUserType(userType);
+        account1.setId(userId);
+        account1.setRole(userType);
         account1.save();
         Toast.makeText(SignUpActivity.this, "注册成功！", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent();

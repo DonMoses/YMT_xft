@@ -19,6 +19,8 @@ public class NewsSummary extends DataSupport implements Parcelable {
     private String hitnum;
     //状态
     private String status;
+    //图片
+    private String pic;
 
     public String getId() {
         return id;
@@ -60,6 +62,17 @@ public class NewsSummary extends DataSupport implements Parcelable {
         this.status = status;
     }
 
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
+
+    public NewsSummary() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -72,20 +85,19 @@ public class NewsSummary extends DataSupport implements Parcelable {
         dest.writeString(this.create_time);
         dest.writeString(this.hitnum);
         dest.writeString(this.status);
+        dest.writeString(this.pic);
     }
 
-    public NewsSummary() {
-    }
-
-    private NewsSummary(Parcel in) {
+    protected NewsSummary(Parcel in) {
         this.id = in.readString();
         this.article_title = in.readString();
         this.create_time = in.readString();
         this.hitnum = in.readString();
         this.status = in.readString();
+        this.pic = in.readString();
     }
 
-    public static final Parcelable.Creator<NewsSummary> CREATOR = new Parcelable.Creator<NewsSummary>() {
+    public static final Creator<NewsSummary> CREATOR = new Creator<NewsSummary>() {
         public NewsSummary createFromParcel(Parcel source) {
             return new NewsSummary(source);
         }

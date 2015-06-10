@@ -98,12 +98,12 @@ public class ConsultCatoMainActivity extends BaseActivity {
         childList.add(constList);
         childList.add(profList);
         childList.add(keyWordList);
-        //todo 模拟取数据，设置1.2s 延时
+        //todo 模拟取数据，设置0.2s 延时
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(1200);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

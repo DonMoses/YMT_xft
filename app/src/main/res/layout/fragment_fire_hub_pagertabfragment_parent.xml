@@ -129,12 +129,6 @@
 
         </FrameLayout>
 
-        <com.ymt.demo1.customViews.widget.PagerSlidingTabStrip
-            android:id="@+id/sliding_tabs"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/tab_height"
-            android:background="#FFFFFF" />
-
         <FrameLayout
             android:id="@+id/pager_wrapper"
             android:layout_width="match_parent"
