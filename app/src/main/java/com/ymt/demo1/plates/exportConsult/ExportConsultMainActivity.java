@@ -16,7 +16,6 @@
 
 package com.ymt.demo1.plates.exportConsult;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
@@ -28,10 +27,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,17 +40,13 @@ import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.ConsultItem;
 import com.ymt.demo1.beams.OnDutyExport;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.dbBeams.SearchString;
+import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.PopActionListener;
 import com.ymt.demo1.main.PopActionUtil;
-import com.ymt.demo1.main.SearchActivity;
 import com.ymt.demo1.main.SearchViewUtil;
-
-import org.litepal.crud.DataSupport;
+import com.ymt.demo1.main.sign.SignInActivity;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 专家咨询界面
@@ -69,14 +60,18 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
     private OnDutyExport todayExport;
     private OnDutyExport tomorrowExport;
     private SearchViewUtil searchViewUtil;
+    private SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_export_consult_main);
         searchViewUtil = new SearchViewUtil();
+        mSharedPreferences = AppContext.getSaveAccountPrefecences(this);
         initTitle();
         initView();
+//        Log.e("TAG", "id>>>>>>>>>>>" + AppContext.now_user_id);
+//        Log.e("TAG", "sId>>>>>>>>>>>" + AppContext.now_session_id);
     }
 
     protected void initTitle() {
@@ -93,16 +88,23 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
             @Override
             public void onAction(String action) {
                 switch (action) {
-                    case "立即咨询":
-                        startActivity(new Intent(ExportConsultMainActivity.this, ExportConsultNowActivity.class));
-                        break;
+//                    case "立即咨询":
+//                        startActivity(new Intent(ExportConsultMainActivity.this, ExportConsultNowActivity.class));
+//                        break;
                     case "我的咨询":
-                        startActivity(new Intent(ExportConsultMainActivity.this, MyConsultActivity.class));
-                        break;
-                    case "咨询历史":
-                        Toast.makeText(ExportConsultMainActivity.this, "咨询历史", Toast.LENGTH_SHORT).show();
+                        if (TextUtils.isEmpty(mSharedPreferences.getString("now_session_id", ""))) {
+                            //先登录
+                            startActivity(new Intent(ExportConsultMainActivity.this, SignInActivity.class));
+                        } else {
+                            //我的咨询
+                            startActivity(new Intent(ExportConsultMainActivity.this, MyConsultActivity.class));
 
+                        }
                         break;
+//                    case "咨询历史":
+//                        Toast.makeText(ExportConsultMainActivity.this, "咨询历史", Toast.LENGTH_SHORT).show();
+//
+//                        break;
                     default:
                         break;
                 }
@@ -118,7 +120,8 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
             @Override
             public void onRightLClick() {
                 PopActionUtil popActionUtil = PopActionUtil.getInstance(ExportConsultMainActivity.this);
-                popActionUtil.setActions(new String[]{"立即咨询", "我的咨询", "咨询历史"});
+//                popActionUtil.setActions(new String[]{"立即咨询", "我的咨询", "咨询历史"});
+                popActionUtil.setActions(new String[]{"我的咨询"});
                 PopupWindow popupWindow = popActionUtil.getSimpleTxtPopActionMenu();
                 popupWindow.showAtLocation(title.getRootView(),
                         Gravity.TOP | Gravity.END, 10, 100);

@@ -74,18 +74,18 @@
                         android:textSize="12sp" />
                 </LinearLayout>
 
-                <LinearLayout android:gravity="center">
+                <!--<LinearLayout android:gravity="center">-->
 
-                    <TextView
-                        android:id="@+id/tab_booking"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:drawableTop="@drawable/icon_booking_off"
-                        android:gravity="center"
-                        android:text="预约"
-                        android:textColor="@color/material_blue_grey_800"
-                        android:textSize="12sp" />
-                </LinearLayout>
+                <!--<TextView-->
+                <!--android:id="@+id/tab_booking"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:drawableTop="@drawable/icon_booking_off"-->
+                <!--android:gravity="center"-->
+                <!--android:text="预约"-->
+                <!--android:textColor="@color/material_blue_grey_800"-->
+                <!--android:textSize="12sp" />-->
+                <!--</LinearLayout>-->
 
             </TableRow>
         </TableLayout>

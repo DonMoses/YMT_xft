@@ -1,6 +1,8 @@
 package com.ymt.demo1.main;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 
 import com.ymt.demo1.dbBeams.Account;
@@ -17,8 +19,14 @@ public class AppContext extends LitePalApplication {
     private static List<Activity> yActivities;
     private static Activity floatActivity;
     private static AppContext appContext;
-    public static String SERVICE_BASE_URL = "http://120.24.172.105:8000";
+    public static final String SERVICE_BASE_URL = "http://120.24.172.105:8000";
     public static Account myAccount;
+    public static String now_user_id;
+    public static String now_session_id;
+
+    public static SharedPreferences getSaveAccountPrefecences(Context context) {
+        return context.getSharedPreferences("saved_account", MODE_PRIVATE);
+    }
 
     public static AppContext getInstance() {
         return appContext;

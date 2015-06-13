@@ -1,5 +1,6 @@
 package com.ymt.demo1.plates.exportConsult;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -69,6 +70,7 @@ public class ExportFollowListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //进入关注详情界面
                 Toast.makeText(getActivity(), "export " + String.valueOf(position), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), ConsultChatActivity.class));
             }
         });
 

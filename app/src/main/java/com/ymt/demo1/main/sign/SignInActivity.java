@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,11 +18,17 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
+import com.ymt.demo1.beams.expert_consult.QQChatInfo;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.launchpages.MainActivity;
+import com.ymt.demo1.main.AppContext;
+import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.mainStyles.CircleMenuActivity;
+import com.ymt.demo1.mainStyles.NavigationMenuActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
 
 /**
  * Created by Dan on 2015/4/2
@@ -29,6 +36,7 @@ import org.json.JSONObject;
 public class SignInActivity extends Activity {
     String account;
     String psw;
+
     private EditText accountETxt;
     private EditText pswETxt;
     private SharedPreferences sharedPreferences;
@@ -64,7 +72,7 @@ public class SignInActivity extends Activity {
           /*
         从sharedPreference获取保存到本地的账号信息
          */
-        sharedPreferences = getSharedPreferences("saved_account", MODE_PRIVATE);
+        sharedPreferences = AppContext.getSaveAccountPrefecences(this);
         String savedAccount = sharedPreferences.getString("account", "");
         String savedPsw = sharedPreferences.getString("password", "");
         accountETxt.setText(savedAccount);
@@ -126,8 +134,7 @@ public class SignInActivity extends Activity {
     }
 
     protected StringRequest signInRequest(final String account, final String psw) {
-        String loginBaseUrl = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.LoginAction";
-        String url = loginBaseUrl + "&loginname=" + account + "&pwd=" + psw + "&t=app";
+        String url = BaseURLUtil.doSignIn(account, psw);
 
         return new StringRequest(url, new Response.Listener<String>() {
             @Override
@@ -137,8 +144,26 @@ public class SignInActivity extends Activity {
                     if (jsonObject.getString("result").equals("Y")) {
                         //登录成功
                         Toast.makeText(SignInActivity.this, R.string.sign_in_ok, Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(SignInActivity.this, CircleMenuActivity.class));
-                        finish();
+
+                        /*
+                        如果更改账号登录，则删除前一账号的QQ信息
+                         */
+                        String savedUserId = sharedPreferences.getString("now_user_id", "");
+                        if ((!TextUtils.isEmpty(savedUserId)) && (!savedUserId.equals(jsonObject.getString("id")))) {
+                            DataSupport.deleteAll(QQChatInfo.class);
+                        }
+
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("account", account);
+                        editor.putString("password", psw);
+                        editor.putString("now_user_id", jsonObject.getString("id"));
+                        editor.putString("now_session_id", jsonObject.getString("sId"));
+                        editor.apply();
+
+                        AppContext.now_session_id = jsonObject.getString("sId");
+                        AppContext.now_user_id = jsonObject.getString("id");
+
+                        chooseLaunchStyle();
                     } else {
                         Toast.makeText(SignInActivity.this, jsonObject.getString("result"), Toast.LENGTH_SHORT).show();
                     }
@@ -179,5 +204,23 @@ public class SignInActivity extends Activity {
         editor.putString("password", psw);
         editor.apply();
         super.onPause();
+    }
+
+    protected void chooseLaunchStyle() {
+        SharedPreferences sharedPreferences =
+                getSharedPreferences(MainActivity.SETTING_PREFERENCES, MODE_PRIVATE);
+        int style = sharedPreferences.getInt(MainActivity.LAUNCH_STYLE_KEY, 0);
+        switch (style) {
+            case MainActivity.LAUNCH_STYLE_CIRCLE_MODE:
+                startActivity(new Intent(this, CircleMenuActivity.class));
+                finish();
+                break;
+            case MainActivity.LAUNCH_STYLE_SLIDE_MODE:
+                startActivity(new Intent(this, NavigationMenuActivity.class));
+                finish();
+                break;
+            default:
+                break;
+        }
     }
 }

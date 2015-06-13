@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;
@@ -19,12 +21,14 @@ public class MyConsultActivity extends BaseFloatActivity {
 
     private TextView chatTxt;
     private TextView followTxt;
-    private TextView bookingTxt;
+    //    private TextView bookingTxt;
+    public RequestQueue mQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_consult);
+        mQueue = Volley.newRequestQueue(this);
         initTitle();
         initTab();
 
@@ -57,7 +61,7 @@ public class MyConsultActivity extends BaseFloatActivity {
     protected void initTab() {
         chatTxt = (TextView) findViewById(R.id.tab_chat);
         followTxt = (TextView) findViewById(R.id.tab_follow);
-        bookingTxt = (TextView) findViewById(R.id.tab_booking);
+//        bookingTxt = (TextView) findViewById(R.id.tab_booking);
         setTabSelection(0);
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -71,10 +75,10 @@ public class MyConsultActivity extends BaseFloatActivity {
                         //todo 切换到 “关注”
                         setTabSelection(1);
                         break;
-                    case R.id.tab_booking:
-                        //todo 切换到 “预约”
-                        setTabSelection(2);
-                        break;
+//                    case R.id.tab_booking:
+//                        //todo 切换到 “预约”
+//                        setTabSelection(2);
+//                        break;
                     default:
                         break;
                 }
@@ -82,7 +86,8 @@ public class MyConsultActivity extends BaseFloatActivity {
         };
         chatTxt.setOnClickListener(onClickListener);
         followTxt.setOnClickListener(onClickListener);
-        bookingTxt.setOnClickListener(onClickListener);
+//        bookingTxt.setOnClickListener(onClickListener);
+
 
     }
 
@@ -96,10 +101,11 @@ public class MyConsultActivity extends BaseFloatActivity {
             case 0:
                 chatTxt.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.icon_chat_on), null, null);
                 followTxt.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.icon_follow_off), null, null);
-                bookingTxt.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.icon_booking_off), null, null);
+//                bookingTxt.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.icon_booking_off), null, null);
                 chatTxt.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
                 followTxt.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
-                bookingTxt.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
+//                bookingTxt.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
+
                 /*
                 会话fragment
                  */
@@ -107,9 +113,9 @@ public class MyConsultActivity extends BaseFloatActivity {
                 if (fm.findFragmentByTag(ExportFollowListFragment.FRAGMENT_TAG) != null) {
                     ft1.hide(fm.findFragmentByTag(ExportFollowListFragment.FRAGMENT_TAG));
                 }
-                if (fm.findFragmentByTag(ExportBookingListFragment.FRAGMENT_TAG) != null) {
-                    ft1.hide(fm.findFragmentByTag(ExportBookingListFragment.FRAGMENT_TAG));
-                }
+//                if (fm.findFragmentByTag(ExportBookingListFragment.FRAGMENT_TAG) != null) {
+//                    ft1.hide(fm.findFragmentByTag(ExportBookingListFragment.FRAGMENT_TAG));
+//                }
 
                 if (fm.findFragmentByTag(ExportChatListFragment.FRAGMENT_TAG) == null) {
                     ft1.add(R.id.my_consult_content, ExportChatListFragment.newInstance(""),
@@ -124,10 +130,10 @@ public class MyConsultActivity extends BaseFloatActivity {
             case 1:
                 chatTxt.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.icon_chat_off), null, null);
                 followTxt.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.icon_follow_on), null, null);
-                bookingTxt.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.icon_booking_off), null, null);
+//                bookingTxt.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.icon_booking_off), null, null);
                 chatTxt.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
                 followTxt.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
-                bookingTxt.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
+//                bookingTxt.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
                  /*
                 关注fragment
                  */
@@ -135,9 +141,9 @@ public class MyConsultActivity extends BaseFloatActivity {
                 if (fm.findFragmentByTag(ExportChatListFragment.FRAGMENT_TAG) != null) {
                     ft2.hide(fm.findFragmentByTag(ExportChatListFragment.FRAGMENT_TAG));
                 }
-                if (fm.findFragmentByTag(ExportBookingListFragment.FRAGMENT_TAG) != null) {
-                    ft2.hide(fm.findFragmentByTag(ExportBookingListFragment.FRAGMENT_TAG));
-                }
+//                if (fm.findFragmentByTag(ExportBookingListFragment.FRAGMENT_TAG) != null) {
+//                    ft2.hide(fm.findFragmentByTag(ExportBookingListFragment.FRAGMENT_TAG));
+//                }
 
                 if (fm.findFragmentByTag(ExportFollowListFragment.FRAGMENT_TAG) == null) {
                     ft2.add(R.id.my_consult_content, ExportFollowListFragment.newInstance(""),
@@ -149,34 +155,34 @@ public class MyConsultActivity extends BaseFloatActivity {
                     ft2.commit();
                 }
                 break;
-            case 2:
-                chatTxt.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.icon_chat_off), null, null);
-                followTxt.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.icon_follow_off), null, null);
-                bookingTxt.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.icon_booking_on), null, null);
-                chatTxt.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
-                followTxt.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
-                bookingTxt.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
-                  /*
-                预约fragment
-                 */
-                FragmentTransaction ft3 = fm.beginTransaction();
-                if (fm.findFragmentByTag(ExportChatListFragment.FRAGMENT_TAG) != null) {
-                    ft3.hide(fm.findFragmentByTag(ExportChatListFragment.FRAGMENT_TAG));
-                }
-                if (fm.findFragmentByTag(ExportFollowListFragment.FRAGMENT_TAG) != null) {
-                    ft3.hide(fm.findFragmentByTag(ExportFollowListFragment.FRAGMENT_TAG));
-                }
-
-                if (fm.findFragmentByTag(ExportBookingListFragment.FRAGMENT_TAG) == null) {
-                    ft3.add(R.id.my_consult_content, ExportBookingListFragment.newInstance(""),
-                            ExportBookingListFragment.FRAGMENT_TAG);
-                    ft3.commit();
-                    fm.executePendingTransactions();
-                } else {
-                    ft3.show(fm.findFragmentByTag(ExportBookingListFragment.FRAGMENT_TAG));
-                    ft3.commit();
-                }
-                break;
+//            case 2:
+//                chatTxt.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.icon_chat_off), null, null);
+//                followTxt.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.icon_follow_off), null, null);
+////                bookingTxt.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.icon_booking_on), null, null);
+//                chatTxt.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
+//                followTxt.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
+////                bookingTxt.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
+//                  /*
+//                预约fragment
+//                 */
+//                FragmentTransaction ft3 = fm.beginTransaction();
+//                if (fm.findFragmentByTag(ExportChatListFragment.FRAGMENT_TAG) != null) {
+//                    ft3.hide(fm.findFragmentByTag(ExportChatListFragment.FRAGMENT_TAG));
+//                }
+//                if (fm.findFragmentByTag(ExportFollowListFragment.FRAGMENT_TAG) != null) {
+//                    ft3.hide(fm.findFragmentByTag(ExportFollowListFragment.FRAGMENT_TAG));
+//                }
+//
+//                if (fm.findFragmentByTag(ExportBookingListFragment.FRAGMENT_TAG) == null) {
+//                    ft3.add(R.id.my_consult_content, ExportBookingListFragment.newInstance(""),
+//                            ExportBookingListFragment.FRAGMENT_TAG);
+//                    ft3.commit();
+//                    fm.executePendingTransactions();
+//                } else {
+//                    ft3.show(fm.findFragmentByTag(ExportBookingListFragment.FRAGMENT_TAG));
+//                    ft3.commit();
+//                }
+//                break;
             default:
                 break;
         }

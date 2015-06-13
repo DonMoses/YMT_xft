@@ -60,7 +60,6 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Connector.getDatabase();
         styleChangeListener = this;
         setContentView(R.layout.activity_navigation_menu);
         initView();

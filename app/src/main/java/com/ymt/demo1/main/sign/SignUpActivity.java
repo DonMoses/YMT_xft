@@ -22,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.dbBeams.Account;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.AppContext;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -160,6 +161,7 @@ public class SignUpActivity extends Activity {
                     if (jsonObject.getString("result").equals("Y")) {
                         //sign successfully
                         jumpToSignIn(phone, account, jsonObject.getString("user_id"), psw, user_type);
+
                     } else {
                         //sign unsuccessfully
                         Toast.makeText(SignUpActivity.this, jsonObject.getString("result"), Toast.LENGTH_SHORT).show();

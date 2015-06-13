@@ -3,7 +3,7 @@
     <dbname value="xft">
 
     </dbname>
-    <version value="2">
+    <version value="1">
 
     </version>
     <list>
@@ -12,6 +12,8 @@
         <mapping class="com.ymt.demo1.dbBeams.Chat" />
         <mapping class="com.ymt.demo1.dbBeams.SimpleMessage" />
         <mapping class="com.ymt.demo1.beams.NewsSummary" />
+        <mapping class="com.ymt.demo1.beams.expert_consult.QQChatInfo" />
+        <mapping class="com.ymt.demo1.beams.expert_consult.QQMsg" />
 
     </list>
 </litepal>

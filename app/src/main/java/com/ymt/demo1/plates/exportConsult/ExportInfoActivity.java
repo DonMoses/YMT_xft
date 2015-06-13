@@ -3,12 +3,10 @@ package com.ymt.demo1.plates.exportConsult;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
@@ -140,8 +138,8 @@ public class ExportInfoActivity extends BaseActivity {
         View consultLayout = findViewById(R.id.consult_action_layout);
         final ImageButton consultImg = (ImageButton) findViewById(R.id.consult_img);
         //预约layout、icon
-        View bookingLayout = findViewById(R.id.booking_action_layout);
-        final ImageButton bookingImg = (ImageButton) findViewById(R.id.booking_img);
+//        View bookingLayout = findViewById(R.id.booking_action_layout);
+//        final ImageButton bookingImg = (ImageButton) findViewById(R.id.booking_img);
         /*
         点击事件监听
          */
@@ -164,17 +162,17 @@ public class ExportInfoActivity extends BaseActivity {
                         break;
                     case R.id.consult_action_layout:
                         //todo 咨询会话界面
-                        Intent intent = new Intent(ExportInfoActivity.this, ConsultChatActivity.class);
+                        Intent intent = new Intent(ExportInfoActivity.this, ExportConsultNowActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putParcelable("export_info", export);
                         intent.putExtra("export_info", bundle);
                         startActivity(intent);
                         finish();
                         break;
-                    case R.id.booking_action_layout:
-                        //todo 立即预约界面 【事件选择 。。。等】
-                        Toast.makeText(ExportInfoActivity.this, "booking now...", Toast.LENGTH_SHORT).show();
-                        break;
+//                    case R.id.booking_action_layout:
+//                        //todo 立即预约界面 【事件选择 。。。等】
+//                        Toast.makeText(ExportInfoActivity.this, "booking now...", Toast.LENGTH_SHORT).show();
+//                        break;
                     default:
                         break;
 
@@ -184,7 +182,7 @@ public class ExportInfoActivity extends BaseActivity {
 
         follow.setOnClickListener(onClickListener);
         consultLayout.setOnClickListener(onClickListener);
-        bookingLayout.setOnClickListener(onClickListener);
+//        bookingLayout.setOnClickListener(onClickListener);
 
         View.OnTouchListener onTouchListener = new View.OnTouchListener() {
             @Override
@@ -199,15 +197,15 @@ public class ExportInfoActivity extends BaseActivity {
                                     BitmapFactory.decodeResource(getResources(), R.drawable.icon_consult_normal));
                         }
                         break;
-                    case R.id.booking_action_layout:
-                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                            bookingImg.setImageBitmap(
-                                    BitmapFactory.decodeResource(getResources(), R.drawable.icon_booking_on));
-                        } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                            bookingImg.setImageBitmap(
-                                    BitmapFactory.decodeResource(getResources(), R.drawable.icon_booking_off));
-                        }
-                        break;
+//                    case R.id.booking_action_layout:
+//                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                            bookingImg.setImageBitmap(
+//                                    BitmapFactory.decodeResource(getResources(), R.drawable.icon_booking_on));
+//                        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+//                            bookingImg.setImageBitmap(
+//                                    BitmapFactory.decodeResource(getResources(), R.drawable.icon_booking_off));
+//                        }
+//                        break;
                     default:
                         break;
                 }
@@ -215,7 +213,7 @@ public class ExportInfoActivity extends BaseActivity {
             }
         };
         consultLayout.setOnTouchListener(onTouchListener);
-        bookingLayout.setOnTouchListener(onTouchListener);
+//        bookingLayout.setOnTouchListener(onTouchListener);
     }
 
 

@@ -1,8 +1,8 @@
 package com.ymt.demo1.plates.exportConsult;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,9 +18,8 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.ChatMessageListAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.Export;
-import com.ymt.demo1.dbBeams.SimpleMessage;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.dbBeams.Chat;
+import com.ymt.demo1.main.BaseURLUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,7 +28,6 @@ import org.litepal.crud.DataSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Created by Dan on 2015/5/14
  */
@@ -37,56 +35,44 @@ public class ConsultChatActivity extends BaseActivity {
 
     Export export;
     private RequestQueue requestQueue;
-
-    //todo 这里使用图灵机器人模拟聊天
-    String apiUrl = "http://www.tuling123.com/openapi/api";
-    String apiKey = "efa2c6f33c546dddec1fb917c8980a68";
-    String baseUrl = apiUrl + "?key=" + apiKey + "&info=";      //请求格式 ： baseUrl+"info"
-    private List<SimpleMessage> messages;
     private ChatMessageListAdapter messageListAdapter;
-    private Chat chat;
     private PullToRefreshListView infoListView;
+
+    private String sessionId;
+    private String qq_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consult_chat);
+        Intent intent = getIntent();
+        sessionId = intent.getStringExtra("session_id");
+        qq_id = intent.getStringExtra("qq_id");
+//        Log.e("TAG",">>>>>>>>>>>qq_id>>>>>>>>>>"+qq_id);
         requestQueue = Volley.newRequestQueue(this);
         messageListAdapter = new ChatMessageListAdapter(this);
         initTitle();
         initView();
-        //todo 从数据库读取chat
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                List<Chat> chatList = DataSupport.findAll(Chat.class);
-                if (chatList.size() > 0) {
-                    chat = chatList.get(0);
-                    messages = chat.getMessages(1);
-                    messageListAdapter.setChat(chat);
-                } else {
-                    //todo 模拟数据
-                    chat = new Chat();
-                    messages = new ArrayList<>();
-                }
-            }
-        }).start();
+
 
     }
 
     protected void initTitle() {
         //todo 调用网络接口，获取聊天记录
-        export = getIntent().getBundleExtra("export_info").getParcelable("export_info");
         final MyTitle title = (MyTitle) findViewById(R.id.my_title);
         title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
-        title.updateLeftLIcon2Txt("预约");
-        title.updateCenterTitle(export.getName());
+        if (getIntent().getBundleExtra("export_info") != null) {
+            export = getIntent().getBundleExtra("export_info").getParcelable("export_info");
+            title.updateCenterTitle(export.getName());
+        }
+
+        title.updateLeftLIcon2Txt("关注");
         if (title.getChildCount() == 3) {
             title.getChildAt(2).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //todo 跳转到预约界面
-                    Toast.makeText(ConsultChatActivity.this, "预约...", Toast.LENGTH_SHORT).show(); //打开预约界面
+                    Toast.makeText(ConsultChatActivity.this, "关注...", Toast.LENGTH_SHORT).show(); //打开预约界面
                 }
             });
         }
@@ -94,6 +80,7 @@ public class ConsultChatActivity extends BaseActivity {
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
             public void onClick() {
+                startActivity(new Intent(ConsultChatActivity.this, MyConsultActivity.class));
                 finish();
             }
         });
@@ -125,18 +112,13 @@ public class ConsultChatActivity extends BaseActivity {
             public void onClick(View v) {
                 String sendInfo = inputView.getText().toString();
                 if (!TextUtils.isEmpty(sendInfo)) {
-                    SimpleMessage message = new SimpleMessage();
-                    message.setMsgTxt(sendInfo);
-                    message.setType("OUT");
-                    message.save();
-                    messages.add(message);
-                    //todo 这里没有设置exportID 和userId
-                    chat.setMessages(messages);
-                    messageListAdapter.setChat(chat);
+
+                    //todo exportID 和userId
+
                     volleyGet(sendInfo);
 
                     //todo 保存chat 到数据库
-                    chat.save();
+
                     infoListView.getRefreshableView().setSelection(infoListView.getBottom());
 
                 }
@@ -154,7 +136,7 @@ public class ConsultChatActivity extends BaseActivity {
      * volley队列
      */
     protected void volleyGet(String sendTxt) {
-        requestQueue.add(doRequest(baseUrl + sendTxt));
+        requestQueue.add(doRequest(BaseURLUtil.sendQQMsgUrl(sessionId, "", sendTxt, qq_id)));
     }
 
     /**
@@ -168,17 +150,12 @@ public class ConsultChatActivity extends BaseActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     String inInfo = jsonObject.getString("text");
-                    SimpleMessage message = new SimpleMessage();
-                    message.setMsgTxt(inInfo);
-                    message.setType("IN");
-                    message.save();
-                    messages.add(message);
-                    //todo 这里没有设置exportID 和userId
-                    chat.setMessages(messages);
-                    messageListAdapter.setChat(chat);
+
+                    //todo 设置exportID 和userId
+
 
                     //todo 保存chat 到数据库
-                    chat.save();
+
                     infoListView.getRefreshableView().setSelection(infoListView.getBottom());
 
                 } catch (JSONException e) {
@@ -193,5 +170,11 @@ public class ConsultChatActivity extends BaseActivity {
             }
         });
         return stringRequest;
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(ConsultChatActivity.this, MyConsultActivity.class));
+        super.onBackPressed();
     }
 }

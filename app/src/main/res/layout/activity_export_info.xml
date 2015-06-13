@@ -48,30 +48,30 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/booking_action_layout"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
+        <!--<LinearLayout-->
+        <!--android:id="@+id/booking_action_layout"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal">-->
 
-            <ImageButton
-                android:id="@+id/booking_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_export_booking" />
+        <!--<ImageButton-->
+        <!--android:id="@+id/booking_img"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@drawable/bg_export_booking" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:gravity="center"
-                android:text="预约"
-                android:textColor="@color/material_blue_grey_800"
-                android:textSize="16sp" />
-        </LinearLayout>
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginLeft="8dp"-->
+        <!--android:layout_marginRight="8dp"-->
+        <!--android:gravity="center"-->
+        <!--android:text="预约"-->
+        <!--android:textColor="@color/material_blue_grey_800"-->
+        <!--android:textSize="16sp" />-->
+        <!--</LinearLayout>-->
 
 
     </LinearLayout>
