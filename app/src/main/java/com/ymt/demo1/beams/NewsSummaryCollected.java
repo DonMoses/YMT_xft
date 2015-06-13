@@ -1,4 +1,4 @@
-package com.ymt.demo1.dbBeams;
+package com.ymt.demo1.beams;
 
 import com.ymt.demo1.beams.NewsSummary;
 

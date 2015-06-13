@@ -20,9 +20,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
-import com.ymt.demo1.dbBeams.Account;
+import com.ymt.demo1.beams.Account;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.AppContext;
 
 import org.json.JSONException;
 import org.json.JSONObject;

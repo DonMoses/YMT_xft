@@ -8,15 +8,17 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.beams.consult_cato.ConsultCato;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Dan on 2015/5/19
  */
 public class ConsultCatoAdapter extends BaseAdapter {
 
-    ArrayList<String> list = new ArrayList<>();
+    List<ConsultCato> list = new ArrayList<>();
     LayoutInflater inflater;
     Context context;
 
@@ -25,7 +27,7 @@ public class ConsultCatoAdapter extends BaseAdapter {
         this.context = context;
     }
 
-    public void setList(ArrayList<String> list) {
+    public void setList(List<ConsultCato> list) {
         this.list = list;
     }
 
@@ -50,6 +52,7 @@ public class ConsultCatoAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_view_common_quest_high, null);
             textView = (TextView) convertView.findViewById(R.id.common_quest_item_view);
+            textView.setTextColor(context.getResources().getColor(android.R.color.white));
             convertView.setTag(textView);
         } else {
             textView = (TextView) convertView.getTag();
@@ -68,7 +71,7 @@ public class ConsultCatoAdapter extends BaseAdapter {
                 textView.setBackgroundResource(R.drawable.bg_cato_parent);
                 break;
             default:
-                textView.setText(list.get(position));
+                textView.setText(list.get(position).getNote());
                 textView.setBackgroundResource(R.drawable.bg_cato_child);
                 break;
         }

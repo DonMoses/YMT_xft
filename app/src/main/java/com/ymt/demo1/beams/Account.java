@@ -1,6 +1,5 @@
-package com.ymt.demo1.dbBeams;
+package com.ymt.demo1.beams;
 
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 

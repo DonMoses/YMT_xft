@@ -7,13 +7,15 @@
 
     </version>
     <list>
-        <mapping class="com.ymt.demo1.dbBeams.SearchString" />
-        <mapping class="com.ymt.demo1.dbBeams.Account" />
-        <mapping class="com.ymt.demo1.dbBeams.Chat" />
-        <mapping class="com.ymt.demo1.dbBeams.SimpleMessage" />
+        <mapping class="com.ymt.demo1.beams.SearchString" />
+        <mapping class="com.ymt.demo1.beams.Account" />
+        <mapping class="com.ymt.demo1.beams.expert_consult.Chat" />
+        <mapping class="com.ymt.demo1.beams.SimpleMessage" />
         <mapping class="com.ymt.demo1.beams.NewsSummary" />
         <mapping class="com.ymt.demo1.beams.expert_consult.QQChatInfo" />
         <mapping class="com.ymt.demo1.beams.expert_consult.QQMsg" />
+        <mapping class="com.ymt.demo1.beams.consult_cato.ConsultCato" />
+        <mapping class="com.ymt.demo1.beams.consult_cato.SearchedConsult" />
 
     </list>
 </litepal>

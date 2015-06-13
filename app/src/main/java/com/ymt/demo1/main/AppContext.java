@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 
-import com.ymt.demo1.dbBeams.Account;
+import com.ymt.demo1.beams.Account;
 
 import org.litepal.LitePalApplication;
 

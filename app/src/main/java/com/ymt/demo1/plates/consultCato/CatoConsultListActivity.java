@@ -2,38 +2,58 @@ package com.ymt.demo1.plates.consultCato;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.SearchedConsultAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
-import com.ymt.demo1.beams.SearchedConsultInfo;
+import com.ymt.demo1.beams.consult_cato.SearchedConsult;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.main.SearchActivity;
 
-import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
+
+import java.util.List;
 
 /**
  * Created by Dan on 2015/5/4
  */
 public class CatoConsultListActivity extends BaseActivity {
+    private String consult_key_word;
+    private int startIndex;
+    private SearchedConsultAdapter adapter;
+    private RequestQueue mQueue;
+    private String typeCode;
+    private PullToRefreshListView listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        mQueue = Volley.newRequestQueue(this);
+        consult_key_word = intent.getStringExtra("search_key_word");
+        typeCode = intent.getStringExtra("code");
+        mQueue.add(getConsultRequest(5, startIndex, typeCode, ""));
+//        Log.e("TAG", ">>>>>>>>>>>>>>>>>" + typeCode);
+        startIndex = 1;
         setContentView(R.layout.activity_cato_consult_list);
         initTitle();
         initView();
-    }
-
-    /**
-     * 获取搜索关键字
-     */
-    protected String getSearchedKeyWord() {
-        Intent intent = getIntent();
-        return intent.getStringExtra("search_key_word");
     }
 
     /**
@@ -43,7 +63,7 @@ public class CatoConsultListActivity extends BaseActivity {
         final MyTitle title = (MyTitle) findViewById(R.id.my_title);
         title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
 
-        title.updateCenterTitle(getSearchedKeyWord());     //设置title
+        title.updateCenterTitle(consult_key_word);     //设置title
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
             public void onClick() {
@@ -70,75 +90,18 @@ public class CatoConsultListActivity extends BaseActivity {
      * 初始化控件（ListView）【关键字搜索结果列表】
      */
     protected void initView() {
-        PullToRefreshListView listView = (PullToRefreshListView) findViewById(R.id.searched_consult_list_view);
+        listView = (PullToRefreshListView) findViewById(R.id.searched_consult_list_view);
 
         //延时进度条
         ProgressBar progressBar = new ProgressBar(this);
         progressBar.setIndeterminate(false);
         listView.setEmptyView(progressBar);
-        SearchedConsultAdapter adapter = new SearchedConsultAdapter(this);
+        adapter = new SearchedConsultAdapter(this);
         listView.setAdapter(adapter);
 
-        //todo 模拟咨询搜索数据
-        ArrayList<SearchedConsultInfo> list = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            SearchedConsultInfo info = new SearchedConsultInfo();
-            info.setConsultTitle(i + "（test）" + getSearchedKeyWord() + "消防安全知识");
-            info.setConsultAnswer("答: 消防安全20条。1．父母、师长要教育儿童养成不玩火的好习惯。任何单位不得组织未成年人扑救火灾。\n" +
-                    "\n" +
-                    "2．切莫乱扔烟头和火种。\n" +
-                    "\n" +
-                    "3．室内装修装饰不宜采用易燃可燃材料。\n" +
-                    "\n" +
-                    "4．消火栓关系公共安全，切勿损坏、圈占或埋压。\n" +
-                    "\n" +
-                    "5．爱护消防器材，掌握常用消防器材的使用方法。\n" +
-                    "\n" +
-                    "6．切勿携带易燃易爆物品进入公共场所、乘坐公共交通工具。\n" +
-                    "\n" +
-                    "7．进入公共场所要注意观察消防标志，记住疏散方向。\n" +
-                    "\n" +
-                    "8．在任何情况下都要保持疏散通道畅通。\n" +
-                    "\n" +
-                    "9．任何人发现危及公共消防安全的行为，都可向公安消防部门或值勤公安人员举报。\n" +
-                    "\n" +
-                    "10．生活用火要特别小心，火源附近不要放置可燃、易燃物品。\n" +
-                    "\n" +
-                    "l1．发现煤气泄漏，速关阀门，打开门窗，切勿触动电器开关和使用明火。\n" +
-                    "\n" +
-                    "12．电器线路破旧老化要及时修理更换。\n" +
-                    "\n" +
-                    "13．电路保险丝(片)熔断，切勿用铜线铁线代替。\n" +
-                    "\n" +
-                    "14．不能超负荷用电。\n" +
-                    "\n" +
-                    "15．发现火灾速打报警电话 l19，消防队救火不收费。\n" +
-                    "\n" +
-                    "16．了解火场情况的人，应及时将火场内被围人员及易燃易爆物品情况告诉消防人员。\n" +
-                    "\n" +
-                    "17．火灾袭来时要迅速疏散逃生，不要贪恋财物。\n" +
-                    "\n" +
-                    "18．必须穿过浓烟逃生时，应尽量用浸湿的衣物被裹身体，捂住口鼻，贴近地面。\n" +
-                    "\n" +
-                    "19．身上着火，可就地打滚，或用厚重衣物覆盖压灭火苗。\n" +
-                    "\n" +
-                    "20．大火封门无法逃生时，可用浸湿的被褥、衣物等堵塞门缝、泼水降温，呼救待援。");
-            info.setCollectedCount((i + 10) % 5 * 1024 - i);
-            info.setCommentCount((i + 5) % 3 * 1024 + i);
-            if (i % 4 == 0) {
-                info.setHasCollected(true);
-            } else {
-                info.setHasCollected(false);
-            }
-            if (i % 5 == 0) {
-                info.setHasCommented(true);
-            } else {
-                info.setHasCommented(false);
-            }
-            list.add(info);
-        }
-
-        adapter.setList(list);
+        //todo 从数据库获取已保存的咨询
+        List<SearchedConsult> mConsultList = DataSupport.where("consult_key_word = ?", consult_key_word).find(SearchedConsult.class);
+        adapter.setList(mConsultList);
 
         //设置listView点击事件
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -147,10 +110,80 @@ public class CatoConsultListActivity extends BaseActivity {
 //                Log.e("TAG", ">>>>>>>>>>>>>>search_item>>>>" + position);
                 //todo 跳转到具体内容界面
                 Intent intent = new Intent(CatoConsultListActivity.this, ConsultDetailActivity.class);
-                intent.putExtra("search_key_word", getSearchedKeyWord());
-                intent.putExtra("title", ((SearchedConsultInfo) parent.getAdapter().getItem(position)).getConsultTitle());
-                intent.putExtra("content", ((SearchedConsultInfo) parent.getAdapter().getItem(position)).getConsultAnswer());
+                intent.putExtra("search_key_word", consult_key_word);
+                intent.putExtra("title", ((SearchedConsult) parent.getAdapter().getItem(position)).getArticle_title());
+                intent.putExtra("content", ((SearchedConsult) parent.getAdapter().getItem(position)).getArticle_content());
                 startActivity(intent);
+            }
+        });
+
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                //下拉刷新
+                startIndex = 1;
+                DataSupport.deleteAll(SearchedConsult.class);
+                mQueue.add(getConsultRequest(5, startIndex, typeCode, ""));
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                //上拉加载更多
+                startIndex++;
+                mQueue.add(getConsultRequest(5, startIndex, typeCode, ""));
+            }
+        });
+    }
+
+    /**
+     * 根据关键字从网络获取咨询、并保存到数据库
+     */
+    protected StringRequest getConsultRequest(int pageSize, int start, String typeCode, String searchWhat) {
+//        Log.e("TAG", ">>>>>>>>url>>>>>>>>>" + BaseURLUtil.doTypeContentListAction(pageSize, start, typeCode, searchWhat));
+        return new StringRequest(BaseURLUtil.doTypeContentListAction(pageSize, start, typeCode, searchWhat), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+//                Log.e("TAG", ">>>>>>>>>>>>>>>>>" + s);
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (jsonObject.getString("result").equals("Y")) {
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("datas");
+                        JSONArray jsonArray = jsonObject1.getJSONArray("listData");
+                        int length = jsonArray.length();
+
+                        for (int i = 0; i < length; i++) {
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            SearchedConsult consult = new SearchedConsult();
+                            String id = object.getString("id");
+                            consult.setArticle_id(id);
+                            consult.setCreate_time(object.optString("create_time"));
+                            consult.setArticle_content(object.optString("content"));
+                            consult.setArticle_title(object.optString("article_title"));
+                            consult.setConsult_key_word(consult_key_word);
+                            consult.setFk_expert_id(object.optString("fk_expert_id"));
+                            consult.setHitnum(object.optString("hitnum"));
+                            int savedSize = DataSupport.where("article_id = ?", id).find(SearchedConsult.class).size();
+//                            Log.e("TAG", ">>>>>>>>>savedSize>>>>>>>" + savedSize);
+                            if (savedSize == 0) {
+                                consult.save();
+                            } else {
+                                consult.updateAll("article_id = ?", id);
+                            }
+                        }
+                        //todo 从数据库获取已保存的咨询
+                        List<SearchedConsult> mConsultList = DataSupport.where("consult_key_word = ?", consult_key_word).find(SearchedConsult.class);
+                        adapter.setList(mConsultList);
+                        listView.onRefreshComplete();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
             }
         });
     }

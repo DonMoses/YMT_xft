@@ -8,6 +8,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.beams.consult_cato.ConsultCato;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
 public class SimpleExpandListAdapter extends BaseExpandableListAdapter {
 
     List<String> parentList = new ArrayList<>();
-    List<List<String>> childList = new ArrayList<>();
+    List<List<ConsultCato>> childList = new ArrayList<>();
     LayoutInflater inflater;
     Context context;
 
@@ -27,7 +28,7 @@ public class SimpleExpandListAdapter extends BaseExpandableListAdapter {
         inflater = LayoutInflater.from(context);
     }
 
-    public void setList(List<String> parentList, List<List<String>> childList) {
+    public void setList(List<String> parentList, List<List<ConsultCato>> childList) {
         this.parentList = parentList;
         this.childList = childList;
         notifyDataSetChanged();
@@ -97,7 +98,7 @@ public class SimpleExpandListAdapter extends BaseExpandableListAdapter {
         } else {
             textView = (TextView) convertView.getTag();
         }
-        String txt = childList.get(groupPosition).get(childPosition);
+        String txt = childList.get(groupPosition).get(childPosition).getNote();
         textView.setText(txt);
         switch (txt.length() % 4) {
             case 0:

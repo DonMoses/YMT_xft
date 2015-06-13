@@ -37,7 +37,7 @@ import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
-import com.ymt.demo1.beams.ConsultItem;
+import com.ymt.demo1.beams.expert_consult.ConsultItem;
 import com.ymt.demo1.beams.OnDutyExport;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.AppContext;

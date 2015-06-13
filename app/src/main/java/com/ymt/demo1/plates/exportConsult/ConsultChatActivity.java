@@ -23,10 +23,6 @@ import com.ymt.demo1.main.BaseURLUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.litepal.crud.DataSupport;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Dan on 2015/5/14

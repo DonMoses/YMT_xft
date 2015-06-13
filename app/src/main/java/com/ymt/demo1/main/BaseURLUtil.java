@@ -7,6 +7,9 @@ public class BaseURLUtil {
     public static final String EXPORT_ID = "export_id";
     public static final String NOW_USER_ID = "now_user_id";
     public static final String NOW_SESSION_ID = "now_session_id";
+    public static final String XF_PUB_JZXF = "XF_PUB_JZXF";
+    public static final String PUB_ZX_GJC = "PUB_ZX_GJC";
+    public static final String PUB_ZX_ZY = "PUB_ZX_ZY";
     //登录
     private static final String SIGN_IN_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.LoginAction&loginname=";
     //注册
@@ -15,7 +18,25 @@ public class BaseURLUtil {
     private static final String ATT_FANS_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.UserAction&t=app&SESSIONID=";
     //消息
     private static final String QQ_MSG_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ChatAction&SESSIONID=";
+    //分类
+    private static final String TYPE_ACTION_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.TypeAction&t=app&m=st&type=";
+    //分类内容列表
+    private static final String TYPE_CONTENT_LIST_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&t=app&m=chat&pagesize=";
 
+
+    /**
+     * 分类
+     */
+    public static String doTypeAction(String type) {
+        return TYPE_ACTION_BASE + type;
+    }
+
+    /**
+     * 分类内容列表
+     */
+    public static String doTypeContentListAction(int pageSize, int start, String typeCode, String searchWhat) {
+        return TYPE_CONTENT_LIST_BASE + String.valueOf(pageSize) + "&start=" + String.valueOf(start) + "&jl=" + typeCode + "&kw=" + searchWhat;
+    }
 
     /**
      * 登录

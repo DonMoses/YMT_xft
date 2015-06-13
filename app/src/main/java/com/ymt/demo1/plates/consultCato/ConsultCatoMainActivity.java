@@ -11,12 +11,14 @@ import android.widget.ProgressBar;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.SimpleExpandListAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
+import com.ymt.demo1.beams.consult_cato.ConsultCato;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.SearchActivity;
 
+import org.litepal.crud.DataSupport;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,7 +28,7 @@ public class ConsultCatoMainActivity extends BaseActivity {
     private MyHandler myHandler;
     private SimpleExpandListAdapter simpleExpandListAdapter;
     private List<String> parentList;
-    private List<List<String>> childList;
+    private List<List<ConsultCato>> childList;
     private ExpandableListView expandableListView;
     private int expandIndex;
 
@@ -71,6 +73,7 @@ public class ConsultCatoMainActivity extends BaseActivity {
     }
 
     protected void initView() {
+
         //todo 从网络接口获取列表信息
         //一级列表
         parentList = new ArrayList<>();
@@ -79,22 +82,10 @@ public class ConsultCatoMainActivity extends BaseActivity {
         parentList.add("关键词");
         //二级列表
         childList = new ArrayList<>();
-        List<String> constList = new ArrayList<>();
-        List<String> profList = new ArrayList<>();
-        List<String> keyWordList = new ArrayList<>();
-        String[] constArray = new String[]{
-                "高层", "超高层", "商业综合", "文体", "交通枢纽", "轨道交通",
-                "地铁", "仓储厂房", "化工", "隧道", "古建筑", "区域类", "结构类", "其他"};
-        String[] profArray = new String[]{
-                "建筑定性", "防火分区", "平面布置", "疏散避难", "建筑构造",
-                "救援", "电梯", "停机坪", "灭火", "报警", "防排烟", "暖通",
-                "电气", "其他"};
-        String[] keyWordArray = new String[]{
-                "防火分隔", "防烟分区", "疏散距离", "疏散宽度"};
+        List<ConsultCato> constList = DataSupport.where("code like ?", "jz%").find(ConsultCato.class);
+        List<ConsultCato> profList = DataSupport.where("code like ?", "z%").find(ConsultCato.class);
+        List<ConsultCato> keyWordList = DataSupport.where("code like ?", "g%").find(ConsultCato.class);
 
-        Collections.addAll(constList, constArray);
-        Collections.addAll(profList, profArray);
-        Collections.addAll(keyWordList, keyWordArray);
         childList.add(constList);
         childList.add(profList);
         childList.add(keyWordList);
@@ -103,7 +94,7 @@ public class ConsultCatoMainActivity extends BaseActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(200);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -127,9 +118,10 @@ public class ConsultCatoMainActivity extends BaseActivity {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 //todo 根据关键字搜索，跳转到咨询搜索界面
                 SimpleExpandListAdapter adapter = (SimpleExpandListAdapter) parent.getExpandableListAdapter();
-                String txt = adapter.getChild(groupPosition, childPosition).toString();
+                ConsultCato consultCato = (ConsultCato) adapter.getChild(groupPosition, childPosition);
                 Intent intent = new Intent(ConsultCatoMainActivity.this, CatoConsultListActivity.class);
-                intent.putExtra("search_key_word", txt);
+                intent.putExtra("search_key_word", consultCato.getNote());
+                intent.putExtra("code", consultCato.getCode());
                 startActivity(intent);
 //                Toast.makeText(ConsultCatoMainActivity.this, txt, Toast.LENGTH_SHORT).show();
                 return true;

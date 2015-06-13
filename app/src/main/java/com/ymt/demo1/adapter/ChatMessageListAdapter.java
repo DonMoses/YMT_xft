@@ -9,9 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.dbBeams.SimpleMessage;
+import com.ymt.demo1.beams.SimpleMessage;
 import com.ymt.demo1.customViews.CircleImageView;
-import com.ymt.demo1.dbBeams.Chat;
+import com.ymt.demo1.beams.expert_consult.Chat;
 
 import java.util.ArrayList;
 import java.util.List;

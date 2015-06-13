@@ -1,5 +1,6 @@
 package com.ymt.demo1.mainStyles;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,11 +19,18 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.ConsultCatoAdapter;
 import com.ymt.demo1.adapter.CyclePagerAdapter;
+import com.ymt.demo1.beams.consult_cato.ConsultCato;
 import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.customViews.IndicatorView;
+import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.main.advice.AdviceActivity;
 import com.ymt.demo1.main.help.HelpActivity;
 import com.ymt.demo1.main.setting.ManageAppearanceActivity;
@@ -39,11 +47,14 @@ import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
 import com.ymt.demo1.plates.news.NewsMainActivity;
 import com.ymt.demo1.plates.personal.PersonalPagerTabActivity;
 
-import org.litepal.tablemanager.Connector;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Dan on 2015/5/8
@@ -56,10 +67,17 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
     private ViewPager adViewPager;
     private final MyHandler myHandler = new MyHandler(this);
     public static ManageAppearanceActivity.StyleChangeListener styleChangeListener;
+    private List<ConsultCato> catoList;
+    private ConsultCatoAdapter catoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        catoList = new ArrayList<>();
+        RequestQueue mQueue = Volley.newRequestQueue(this);
+        mQueue.add(getCatoRequest(BaseURLUtil.XF_PUB_JZXF));
+        mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_ZY));
+        mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_GJC));
         styleChangeListener = this;
         setContentView(R.layout.activity_navigation_menu);
         initView();
@@ -325,11 +343,14 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         /*
         咨询分类列表数据
          */
-        ConsultCatoAdapter catoAdapter = new ConsultCatoAdapter(this);
+        catoAdapter = new ConsultCatoAdapter(this);
         consultGrid.setAdapter(catoAdapter);
-        String[] catos = getResources().getStringArray(R.array.cato_array_part);
-        ArrayList<String> catoList = new ArrayList<>();
-        Collections.addAll(catoList, catos);
+        List<ConsultCato> allCatoDQ = DataSupport.where("code like ?", "jz%").limit(5).find(ConsultCato.class);
+        List<ConsultCato> allCatoZY = DataSupport.where("code like ?", "z%").limit(5).find(ConsultCato.class);
+        List<ConsultCato> allCatoGJC = DataSupport.where("code like ?", "g%").limit(5).find(ConsultCato.class);
+        catoList.addAll(allCatoDQ);
+        catoList.addAll(allCatoZY);
+        catoList.addAll(allCatoGJC);
         catoAdapter.setList(catoList);
 
         /*
@@ -355,9 +376,10 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                         startActivity(intent3);
                         break;
                     default:
-                        String txt = parent.getAdapter().getItem(position).toString();
+                        ConsultCato consultCato = (ConsultCato) parent.getAdapter().getItem(position);
                         Intent intent = new Intent(NavigationMenuActivity.this, CatoConsultListActivity.class);
-                        intent.putExtra("search_key_word", txt);
+                        intent.putExtra("search_key_word", consultCato.getNote());
+                        intent.putExtra("code", consultCato.getCode());
                         startActivity(intent);
                         break;
                 }
@@ -415,6 +437,54 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
     @Override
     public void onStyleChanged() {
         finish();
+    }
+
+    /**
+     * 获取分类列表
+     */
+    protected StringRequest getCatoRequest(String type) {
+        return new StringRequest(BaseURLUtil.doTypeAction(type), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject object = new JSONObject(s);
+                    if (object.getString("result").equals("Y")) {
+                        JSONArray jsonArray = object.getJSONArray("listData");
+                        int length = jsonArray.length();
+                        for (int i = 0; i < length; i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            ConsultCato consultCato = new ConsultCato();
+                            consultCato.setCode(jsonObject.getString("code"));
+                            consultCato.setNote(jsonObject.getString("note"));
+                            int savedSize = DataSupport.where("code = ?", jsonObject.getString("code")).find(ConsultCato.class).size();
+                            if (savedSize == 0) {
+                                consultCato.save();
+                            } else {
+                                ContentValues contentValues = new ContentValues();
+                                contentValues.put("note", jsonObject.getString("note"));
+                                DataSupport.updateAll(ConsultCato.class, contentValues, "code = ?", jsonObject.getString("code"));
+                            }
+                        }
+                        List<ConsultCato> cList = new ArrayList<>();
+                        List<ConsultCato> allCatoDQ = DataSupport.where("code like ?", "jz%").limit(5).find(ConsultCato.class);
+                        List<ConsultCato> allCatoZY = DataSupport.where("code like ?", "z%").limit(5).find(ConsultCato.class);
+                        List<ConsultCato> allCatoGJC = DataSupport.where("code like ?", "g%").limit(5).find(ConsultCato.class);
+                        cList.addAll(allCatoDQ);
+                        cList.addAll(allCatoZY);
+                        cList.addAll(allCatoGJC);
+                        catoAdapter.setList(cList);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
     }
 
 }

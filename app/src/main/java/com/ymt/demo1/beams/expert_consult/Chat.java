@@ -1,15 +1,15 @@
-package com.ymt.demo1.dbBeams;
+package com.ymt.demo1.beams.expert_consult;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.ymt.demo1.beams.SimpleMessage;
 
 import org.litepal.crud.DataSupport;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by Dan on 2015/5/15
