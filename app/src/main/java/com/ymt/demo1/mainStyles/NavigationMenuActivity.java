@@ -143,6 +143,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         views.add(inflater.inflate(R.layout.edu_pager1, null));
         views.add(inflater.inflate(R.layout.edu_pager2, null));
         views.add(inflater.inflate(R.layout.edu_pager3, null));
+        views.add(inflater.inflate(R.layout.edu_pager4, null));
         adPagerAdapter.setViews(views);
         //指示器Indicator
         final IndicatorView indicator = (IndicatorView) findViewById(R.id.myPointIndicator);

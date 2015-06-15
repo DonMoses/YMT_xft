@@ -25,6 +25,24 @@ public class BaseURLUtil {
     private static final String TYPE_CONTENT_LIST_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&t=app&m=chat&pagesize=";
     //知识平台（视频、标准规范、科研文献）
     private static final String KNOWLEDGE_ITEM_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.KnowAction&t=app&m=";
+    //最近咨询
+    private static final String RECENT_CONSULT = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&t=app&m=hot&start";
+    //热点咨询
+    private static final String HOT_CONSULT = "http://120.24.172.105:8000/xfsm/fw?controller=com.xfsm.action.ArticleAction&t=app&m=lastest&start=";
+
+    /**
+     * 最近咨询
+     */
+    public static String doGetRecentConsult(int start, int pageSize) {
+        return RECENT_CONSULT + String.valueOf(start) + "&pagesize=" + String.valueOf(pageSize);
+    }
+
+    /**
+     * 热点咨询
+     */
+    public static String doGetHotConsult(int start, int pageSize) {
+        return HOT_CONSULT + String.valueOf(start) + "&pagesize=" + String.valueOf(pageSize);
+    }
 
     /**
      * 知识平台（视频、标准规范、科研文献）

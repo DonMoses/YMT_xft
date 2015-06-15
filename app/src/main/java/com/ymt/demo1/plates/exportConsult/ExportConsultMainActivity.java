@@ -35,16 +35,25 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.expert_consult.ConsultItem;
 import com.ymt.demo1.beams.OnDutyExport;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.AppContext;
+import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.main.PopActionListener;
 import com.ymt.demo1.main.PopActionUtil;
 import com.ymt.demo1.main.SearchViewUtil;
 import com.ymt.demo1.main.sign.SignInActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 
@@ -61,10 +70,12 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
     private OnDutyExport tomorrowExport;
     private SearchViewUtil searchViewUtil;
     private SharedPreferences mSharedPreferences;
+    private RequestQueue mQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mQueue = Volley.newRequestQueue(this);
         setContentView(R.layout.activity_export_consult_main);
         searchViewUtil = new SearchViewUtil();
         mSharedPreferences = AppContext.getSaveAccountPrefecences(this);
@@ -393,6 +404,25 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
                 activity.initExportTable();
             }
         }
+    }
+
+    protected StringRequest recentConsultRequest(int start,int pageSize){
+        return new StringRequest(BaseURLUtil.PUB_ZX_ZY, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
     }
 
 }
