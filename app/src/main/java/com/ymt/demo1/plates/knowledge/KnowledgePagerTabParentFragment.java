@@ -296,28 +296,22 @@ public class KnowledgePagerTabParentFragment extends BaseFragment implements Obs
         @Override
         protected Fragment createItem(int position) {
             //todo 根据类型返回不同接口的内容。 这里使用KnowledgeTabScrollUltraListViewFragment演示
-//            Fragment f;
-//            final int pattern = position % 5;
-//            switch (pattern) {
-//                case 0:
-//                    f = new ViewPagerTabFragmentScrollViewFragment();
+            Fragment f;
+            switch (position) {
+                case 3:
+                    f = KnowledgeItemListViewFragment.getNewInstance(KnowledgeItemListViewFragment.KNOWLEDGE_KYWX);
+                    break;
+                case 4:
+                    f = KnowledgeItemListViewFragment.getNewInstance(KnowledgeItemListViewFragment.KNOWLEDGE_BZGF);
+                    break;
+//                case 5:
+//                    f = KnowledgeBZGFListViewFragment.getNewInstance(KnowledgeBZGFListViewFragment.KNOWLEDGE_SPZL);
 //                    break;
-//                case 1:
-//                    f = new ViewPagerTabFragmentListViewFragment();
-//                    break;
-//                case 2:
-//                    f = new ViewPagerTabFragmentRecyclerViewFragment();
-//                    break;
-//                case 3:
-//                    f = new ViewPagerTabFragmentGridViewFragment();
-//                    break;
-//                case 4:
-//                default:
-//                    f = new ViewPagerTabFragmentWebViewFragment();
-//                    break;
-//            }
-//            return new ViewPagerTabFragmentScrollListViewFragment();
-            return new KnowledgeTabScrollUltraListViewFragment();
+                default:
+                    f = new Fragment();
+                    break;
+            }
+            return f;
         }
 
         @Override

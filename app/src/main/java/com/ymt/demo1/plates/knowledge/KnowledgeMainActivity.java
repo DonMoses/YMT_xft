@@ -24,6 +24,8 @@ import android.view.Gravity;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.customViews.MyTitle;
@@ -37,10 +39,12 @@ import com.ymt.demo1.main.PopActionUtil;
 public class KnowledgeMainActivity extends BaseActivity {
 
     private PopActionListener actionListener;
+    public RequestQueue mQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mQueue = Volley.newRequestQueue(this);
         setContentView(R.layout.activity_knowledge_main);
 
         FragmentManager fm = getSupportFragmentManager();

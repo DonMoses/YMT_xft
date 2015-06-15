@@ -16,6 +16,8 @@
         <mapping class="com.ymt.demo1.beams.expert_consult.QQMsg" />
         <mapping class="com.ymt.demo1.beams.consult_cato.ConsultCato" />
         <mapping class="com.ymt.demo1.beams.consult_cato.SearchedConsult" />
+        <mapping class="com.ymt.demo1.beams.knowledge.KnowledgeItemBZGF" />
+        <mapping class="com.ymt.demo1.beams.knowledge.KnowledgeItemKYWX" />
 
     </list>
 </litepal>

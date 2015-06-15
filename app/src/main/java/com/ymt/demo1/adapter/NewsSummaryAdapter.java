@@ -52,14 +52,11 @@ public class NewsSummaryAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.layout_knowledge_item, null);
+            convertView = inflater.inflate(R.layout.layout_news_item, null);
             viewHolder = new ViewHolder();
             viewHolder.titleView = (TextView) convertView.findViewById(R.id.title);
-            viewHolder.iconView = (ImageView) convertView.findViewById(R.id.icon_label);
             viewHolder.contentView = (TextView) convertView.findViewById(R.id.content_text);
-            viewHolder.collectBtn = (ImageButton) convertView.findViewById(R.id.collect_btn);
             viewHolder.commentBtn = (ImageButton) convertView.findViewById(R.id.comment_btn);
-            viewHolder.collectedCount = (TextView) convertView.findViewById(R.id.collected_count);
             viewHolder.commentedCount = (TextView) convertView.findViewById(R.id.comment_count);
             convertView.setTag(viewHolder);
 
@@ -76,11 +73,8 @@ public class NewsSummaryAdapter extends BaseAdapter {
 
     class ViewHolder {
         TextView titleView;
-        ImageView iconView;
         TextView contentView;
-        ImageButton collectBtn;
         ImageButton commentBtn;
-        TextView collectedCount;
         TextView commentedCount;
 
     }

@@ -10,6 +10,7 @@ public class BaseURLUtil {
     public static final String XF_PUB_JZXF = "XF_PUB_JZXF";
     public static final String PUB_ZX_GJC = "PUB_ZX_GJC";
     public static final String PUB_ZX_ZY = "PUB_ZX_ZY";
+
     //登录
     private static final String SIGN_IN_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.LoginAction&loginname=";
     //注册
@@ -22,7 +23,15 @@ public class BaseURLUtil {
     private static final String TYPE_ACTION_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.TypeAction&t=app&m=st&type=";
     //分类内容列表
     private static final String TYPE_CONTENT_LIST_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&t=app&m=chat&pagesize=";
+    //知识平台（视频、标准规范、科研文献）
+    private static final String KNOWLEDGE_ITEM_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.KnowAction&t=app&m=";
 
+    /**
+     * 知识平台（视频、标准规范、科研文献）
+     */
+    public static String doGetKnowledgeAction(String knowledgeType, int pageSize, int start, String searchWhat) {
+        return KNOWLEDGE_ITEM_BASE + knowledgeType + "&pagesize=" + String.valueOf(pageSize) + "&start=" + String.valueOf(start) + "&jl=" + "&kw=" + searchWhat;
+    }
 
     /**
      * 分类

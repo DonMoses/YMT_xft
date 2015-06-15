@@ -1,7 +1,6 @@
 package com.ymt.demo1.adapter;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +9,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.KnowledgeItem;
 import com.ymt.demo1.beams.NewsItem;
-import com.ymt.demo1.plates.knowledge.KnowledgeItemType;
 
 import java.util.ArrayList;
 
@@ -55,14 +51,11 @@ public class NewsItemAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.layout_knowledge_item, null);
+            convertView = inflater.inflate(R.layout.layout_news_item, null);
             viewHolder = new ViewHolder();
             viewHolder.titleView = (TextView) convertView.findViewById(R.id.title);
-            viewHolder.iconView = (ImageView) convertView.findViewById(R.id.icon_label);
             viewHolder.contentView = (TextView) convertView.findViewById(R.id.content_text);
-            viewHolder.collectBtn = (ImageButton) convertView.findViewById(R.id.collect_btn);
             viewHolder.commentBtn = (ImageButton) convertView.findViewById(R.id.comment_btn);
-            viewHolder.collectedCount = (TextView) convertView.findViewById(R.id.collected_count);
             viewHolder.commentedCount = (TextView) convertView.findViewById(R.id.comment_count);
             convertView.setTag(viewHolder);
 
@@ -78,11 +71,8 @@ public class NewsItemAdapter extends BaseAdapter {
 
     class ViewHolder {
         TextView titleView;
-        ImageView iconView;
         TextView contentView;
-        ImageButton collectBtn;
         ImageButton commentBtn;
-        TextView collectedCount;
         TextView commentedCount;
 
     }
