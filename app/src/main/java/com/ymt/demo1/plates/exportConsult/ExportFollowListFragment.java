@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.ExportFollowAdapter;
-import com.ymt.demo1.beams.Export;
+import com.ymt.demo1.beams.ExportTest;
 
 import java.util.ArrayList;
 
@@ -53,14 +53,14 @@ public class ExportFollowListFragment extends Fragment {
         ListView chatListView = (ListView) view.findViewById(R.id.export_follow_list_view);
         ExportFollowAdapter followAdapter = new ExportFollowAdapter(getActivity());
         chatListView.setAdapter(followAdapter);
-        ArrayList<Export> exports = new ArrayList<>();
+        ArrayList<ExportTest> exportTests = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
-            Export export = new Export();
-            export.setIcon(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.moses));
-            export.setToDefault("export No." + String.valueOf(i));
-            exports.add(export);
+            ExportTest exportTest = new ExportTest();
+            exportTest.setIcon(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.moses));
+            exportTest.setToDefault("export No." + String.valueOf(i));
+            exportTests.add(exportTest);
         }
-        followAdapter.setList(exports);
+        followAdapter.setList(exportTests);
 
         /*
         todo 关注列表 点击事件

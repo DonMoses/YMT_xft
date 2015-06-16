@@ -3,7 +3,7 @@ package com.ymt.demo1.beams;
 /**
  * Created by Dan on 2015/5/11
  */
-public class OnDutyExport extends Export {
+public class OnDutyExportTest extends ExportTest {
     private String onDutyDate;
 
     public String getOnDutyDate() {

@@ -304,9 +304,9 @@ public class KnowledgePagerTabParentFragment extends BaseFragment implements Obs
                 case 4:
                     f = KnowledgeItemListViewFragment.getNewInstance(KnowledgeItemListViewFragment.KNOWLEDGE_BZGF);
                     break;
-//                case 5:
-//                    f = KnowledgeBZGFListViewFragment.getNewInstance(KnowledgeBZGFListViewFragment.KNOWLEDGE_SPZL);
-//                    break;
+                case 5:
+                    f = new KnowledgeVideoFragment();
+                    break;
                 default:
                     f = new Fragment();
                     break;

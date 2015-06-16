@@ -150,15 +150,15 @@ public class ExportBookingListAdapter extends BaseExpandableListAdapter {
 
         switch (bookingType) {
             case PAST_BOOKING:
-                pastHolder.exportHeader.setImageBitmap(childList.get(groupPosition).get(childPosition).getExport().getIcon());
-                pastHolder.exportName.setText(childList.get(groupPosition).get(childPosition).getExport().getName());
+                pastHolder.exportHeader.setImageBitmap(childList.get(groupPosition).get(childPosition).getExportTest().getIcon());
+                pastHolder.exportName.setText(childList.get(groupPosition).get(childPosition).getExportTest().getName());
                 pastHolder.bookingDate.setText(childList.get(groupPosition).get(childPosition).getDate());
                 pastHolder.exportHeader.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, ExportInfoActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putParcelable("export_info", childList.get(groupPosition).get(childPosition).getExport());
+                        bundle.putParcelable("export_info", childList.get(groupPosition).get(childPosition).getExportTest());
                         intent.putExtra("export_info", bundle);
                         context.startActivity(intent);
                     }
@@ -166,9 +166,9 @@ public class ExportBookingListAdapter extends BaseExpandableListAdapter {
                 break;
             case RECENT_BOOKING:
                 recentHolder.exportHeader.setImageBitmap(
-                        childList.get(groupPosition).get(childPosition).getExport().getIcon());
+                        childList.get(groupPosition).get(childPosition).getExportTest().getIcon());
                 recentHolder.exportName.setText(
-                        childList.get(groupPosition).get(childPosition).getExport().getName());
+                        childList.get(groupPosition).get(childPosition).getExportTest().getName());
                 recentHolder.bookingDate.setText(
                         childList.get(groupPosition).get(childPosition).getDate());
                 recentHolder.bookingDateHour.setText(
@@ -178,7 +178,7 @@ public class ExportBookingListAdapter extends BaseExpandableListAdapter {
                     public void onClick(View v) {
                         Intent intent = new Intent(context, ExportInfoActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putParcelable("export_info", childList.get(groupPosition).get(childPosition).getExport());
+                        bundle.putParcelable("export_info", childList.get(groupPosition).get(childPosition).getExportTest());
                         intent.putExtra("export_info", bundle);
                         context.startActivity(intent);
                     }

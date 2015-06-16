@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.Export;
+import com.ymt.demo1.beams.ExportTest;
 import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.plates.exportConsult.ExportInfoActivity;
 
@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Created by Dan on 2015/5/13
  */
 public class ExportFollowAdapter extends BaseAdapter {
-    ArrayList<Export> mList = new ArrayList<>();
+    ArrayList<ExportTest> mList = new ArrayList<>();
     Context context;
     LayoutInflater inflater;
 
@@ -29,7 +29,7 @@ public class ExportFollowAdapter extends BaseAdapter {
         this.inflater = LayoutInflater.from(context);
     }
 
-    public void setList(ArrayList<Export> mList) {
+    public void setList(ArrayList<ExportTest> mList) {
         this.mList = mList;
         notifyDataSetChanged();
     }

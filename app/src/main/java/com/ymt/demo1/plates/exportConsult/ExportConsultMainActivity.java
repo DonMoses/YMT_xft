@@ -17,7 +17,6 @@
 package com.ymt.demo1.plates.exportConsult;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,8 +41,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
-import com.ymt.demo1.beams.expert_consult.ConsultItem;
-import com.ymt.demo1.beams.OnDutyExport;
+import com.ymt.demo1.beams.OnDutyExportTest;
+import com.ymt.demo1.beams.expert_consult.HotConsult;
+import com.ymt.demo1.beams.expert_consult.RecentConsult;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.BaseURLUtil;
@@ -52,8 +52,10 @@ import com.ymt.demo1.main.PopActionUtil;
 import com.ymt.demo1.main.SearchViewUtil;
 import com.ymt.demo1.main.sign.SignInActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
 
 import java.lang.ref.WeakReference;
 
@@ -66,19 +68,25 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
     private Handler mHandler = new MyHandler(this);
     private HorizontalScrollView scrollView;
     private LinearLayout linearLayout;
-    private OnDutyExport todayExport;
-    private OnDutyExport tomorrowExport;
+    private OnDutyExportTest todayExport;
+    private OnDutyExportTest tomorrowExport;
     private SearchViewUtil searchViewUtil;
-    private SharedPreferences mSharedPreferences;
     private RequestQueue mQueue;
+    private TextView nearlyConsultTitle;
+    TextView nearlyConsultContent;
+    TextView hotConsultTitle;
+    TextView hotConsultContent;
+    TextView hotConsultTime;
+    TextView nearlyConsultTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mQueue = Volley.newRequestQueue(this);
+        mQueue.add(hotConsultRequest(1, 5));
+        mQueue.add(recentConsultRequest(1, 20));
         setContentView(R.layout.activity_export_consult_main);
         searchViewUtil = new SearchViewUtil();
-        mSharedPreferences = AppContext.getSaveAccountPrefecences(this);
         initTitle();
         initView();
 //        Log.e("TAG", "id>>>>>>>>>>>" + AppContext.now_user_id);
@@ -103,7 +111,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
 //                        startActivity(new Intent(ExportConsultMainActivity.this, ExportConsultNowActivity.class));
 //                        break;
                     case "我的咨询":
-                        if (TextUtils.isEmpty(mSharedPreferences.getString("now_session_id", ""))) {
+                        if (TextUtils.isEmpty(AppContext.now_session_id)) {
                             //先登录
                             startActivity(new Intent(ExportConsultMainActivity.this, SignInActivity.class));
                         } else {
@@ -157,6 +165,8 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         scrollView = (HorizontalScrollView) findViewById(R.id.export_scroll_view);
         linearLayout = (LinearLayout) findViewById(R.id.export_linear_layout);
 
+        TextView moreExpert = (TextView) findViewById(R.id.more_export);
+        moreExpert.setOnClickListener(this);
         /**
          * 先加载view，然后测量才能获得视图尺寸
          */
@@ -176,6 +186,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
 
         initNearlyHotConsult();
 
+
     }
 
     /**
@@ -184,12 +195,12 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
     protected void initTodTomExport() {
 
         //todo 今日、明日专家（从最近一周值守专家中获取）
-        todayExport = new OnDutyExport();
+        todayExport = new OnDutyExportTest();
         todayExport.setName("李国栋");
         todayExport.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.moses));
         todayExport.setBirthDay("1964年8月");
         todayExport.setMajor("成都消防大队指导员");
-        tomorrowExport = new OnDutyExport();
+        tomorrowExport = new OnDutyExportTest();
         tomorrowExport.setName("汪知武");
         tomorrowExport.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.moses));
         tomorrowExport.setBirthDay("1973年2月");
@@ -225,29 +236,28 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
      */
     protected void initNearlyHotConsult() {
         //todo 最近咨询info
-        ConsultItem consultItem1 = new ConsultItem();
-        consultItem1.setBitmapIcon(BitmapFactory.decodeResource(getResources(), R.drawable.img_consult_item_1));
-        consultItem1.setContentTxt("最新消防摩托车的型号为春风650，从外表上看和普通摩托车区别不大。消防部门的相关负责人介绍说，这两种消防摩托车将作为一个战斗编程。");
-        consultItem1.setTitle("天安门、故宫配备新型消防摩托");
+        RecentConsult recentConsult = DataSupport.findFirst(RecentConsult.class);
         //todo 热门咨询info
-        ConsultItem consultItem2 = new ConsultItem();
-        consultItem2.setBitmapIcon(BitmapFactory.decodeResource(getResources(), R.drawable.img_consult_item_2));
-        consultItem2.setContentTxt("事发地点位于沙坪坝区康居西城附近，消防赶到现场时，跌落下水道的牛已经钻进了下水道中，放牛的老汉不敢贸然下去，守在下水道口束手无策。");
-        consultItem2.setTitle("三百斤大牛被困下水道消防用抢险救援车将其吊出");
+        HotConsult hotConsult = DataSupport.findFirst(HotConsult.class);
 
         //设置info 到控件
-        ImageView nearlyConsultIcon = (ImageView) findViewById(R.id.nearly_consult_icon);
-        TextView nearlyConsultTitle = (TextView) findViewById(R.id.nearly_consult_title);
-        TextView nearlyConsultContent = (TextView) findViewById(R.id.nearly_consult_content);
-        ImageView hotConsultIcon = (ImageView) findViewById(R.id.hot_consult_icon);
-        TextView hotConsultTitle = (TextView) findViewById(R.id.hot_consult_title);
-        TextView hotConsultContent = (TextView) findViewById(R.id.hot_consult_content);
-        nearlyConsultIcon.setImageBitmap(consultItem1.getBitmapIcon());
-        nearlyConsultTitle.setText(consultItem1.getTitle());
-        nearlyConsultContent.setText(consultItem1.getContentTxt());
-        hotConsultIcon.setImageBitmap(consultItem2.getBitmapIcon());
-        hotConsultTitle.setText(consultItem2.getTitle());
-        hotConsultContent.setText(consultItem2.getContentTxt());
+        nearlyConsultTitle = (TextView) findViewById(R.id.nearly_consult_title);
+        nearlyConsultContent = (TextView) findViewById(R.id.nearly_consult_content);
+        hotConsultTitle = (TextView) findViewById(R.id.hot_consult_title);
+        hotConsultContent = (TextView) findViewById(R.id.hot_consult_content);
+        hotConsultTime = (TextView) findViewById(R.id.hot_consult_time);
+        nearlyConsultTime = (TextView) findViewById(R.id.nearly_consult_time);
+
+        if (recentConsult != null) {
+            nearlyConsultTitle.setText(recentConsult.getArticle_title());
+            nearlyConsultContent.setText(recentConsult.getContent());
+            nearlyConsultTime.setText(recentConsult.getCreate_time().substring(0, 10));
+        }
+        if (hotConsult != null) {
+            hotConsultTitle.setText(hotConsult.getArticle_title());
+            hotConsultContent.setText(hotConsult.getContent());
+            hotConsultTime.setText(hotConsult.getCreate_time().substring(0, 10));
+        }
 
         //点击进入咨询详细内容界面
         RelativeLayout nearlyConsultView = (RelativeLayout) findViewById(R.id.nearly_consult_view);
@@ -272,7 +282,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         //todo 网络获取最近值守专家列表
 //        ArrayList<OnDutyExport> onDutyExports = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
-            final OnDutyExport export = new OnDutyExport();
+            final OnDutyExportTest export = new OnDutyExportTest();
             export.setName("徐国斌");
             export.setOnDutyDate("6月" + String.valueOf(12 + i) + "号");
 //            onDutyExports.add(export);
@@ -360,6 +370,10 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
                 //todo 点击进入咨询详细内容界面
                 Toast.makeText(ExportConsultMainActivity.this, "热门咨询", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.more_export:
+                //todo 更多专家
+                startActivity(new Intent(ExportConsultMainActivity.this, MoreExpertActivity.class));
+                break;
             default:
                 break;
         }
@@ -406,13 +420,49 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         }
     }
 
-    protected StringRequest recentConsultRequest(int start,int pageSize){
-        return new StringRequest(BaseURLUtil.PUB_ZX_ZY, new Response.Listener<String>() {
+    protected StringRequest hotConsultRequest(int start, int pageSize) {
+//        Log.e("TAG", ">>>>hot>>>>>>>>.url>>>>>>>>>>>>>" + BaseURLUtil.doGetHotConsult(start, pageSize));
+        return new StringRequest(BaseURLUtil.doGetHotConsult(start, pageSize), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
+                    if (jsonObject.getString("result").equals("Y")) {
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("datas");
+                        JSONArray jsonArray = jsonObject1.getJSONArray("listData");
+                        int length = jsonObject1.getInt("size");
+                        for (int i = 0; i < length; i++) {
+                            JSONObject obj = jsonArray.getJSONObject(i);
+                            HotConsult consult = new HotConsult();
+                            consult.setGjc(obj.optString("gjc"));
+                            consult.setCreate_time(obj.optString("create_time"));
+                            consult.setStatus(obj.optString("status"));
+                            consult.setArticle_title(obj.optString("article_title"));
+                            consult.setContent(obj.optString("content"));
+                            consult.setFk_consult_user_id(obj.optString("fk_consult_user_id"));
+                            consult.setFk_create_user_id(obj.optString("fk_create_user_id"));
+                            consult.setFk_expert_id(obj.optString("fk_expert_id"));
+                            consult.setGg(obj.optString("gg"));
+                            consult.setHitnum(obj.optString("hitnum"));
+                            String id = obj.optString("id");
+                            consult.setThe_id(id);
+                            consult.setJz(obj.optString("jz"));
+                            consult.setZy(obj.optString("zy"));
+                            consult.setIshot(obj.optString("ishot"));
+                            int size = DataSupport.where("the_id = ?", id).find(HotConsult.class).size();
+                            if (size == 0) {
+                                consult.save();
+                            } else {
+                                consult.updateAll("the_id = ?", id);
+                            }
 
+                            if (i == 0) {
+                                nearlyConsultTitle.setText(consult.getArticle_title());
+                                nearlyConsultContent.setText(consult.getContent());
+                                nearlyConsultTime.setText(consult.getCreate_time().substring(0, 10));
+                            }
+                        }
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -425,4 +475,61 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         });
     }
 
+    protected StringRequest recentConsultRequest(int start, int pageSize) {
+//        Log.e("TAG", ">>>>recent>>>>>>>>.url>>>>>>>>>>>>>" + BaseURLUtil.doGetRecentConsult(start, pageSize));
+        return new StringRequest(BaseURLUtil.doGetRecentConsult(start, pageSize), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (jsonObject.getString("result").equals("Y")) {
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("datas");
+                        JSONArray jsonArray = jsonObject1.getJSONArray("listData");
+                        int length = jsonObject1.getInt("size");
+                        for (int i = 0; i < length; i++) {
+                            JSONObject obj = jsonArray.getJSONObject(i);
+                            RecentConsult consult = new RecentConsult();
+                            consult.setGjc(obj.optString("gjc"));
+                            consult.setCreate_time(obj.optString("create_time"));
+                            consult.setStatus(obj.optString("status"));
+                            consult.setArticle_title(obj.optString("article_title"));
+                            consult.setContent(obj.optString("content"));
+                            consult.setFk_consult_user_id(obj.optString("fk_consult_user_id"));
+                            consult.setFk_create_user_id(obj.optString("fk_create_user_id"));
+                            consult.setFk_expert_id(obj.optString("fk_expert_id"));
+                            consult.setGg(obj.optString("gg"));
+                            consult.setHitnum(obj.optString("hitnum"));
+                            String id = obj.optString("id");
+                            consult.setThe_id(id);
+                            consult.setJz(obj.optString("jz"));
+                            consult.setZy(obj.optString("zy"));
+                            consult.setIshot(obj.optString("ishot"));
+                            int size = DataSupport.where("the_id = ?", id).find(RecentConsult.class).size();
+//                            Log.e("TAG", ">>>>>>>>>>recent id>>>>>>>>>>>" + id);
+                            if (size == 0) {
+                                consult.save();
+                            } else {
+                                consult.updateAll("the_id = ?", id);
+                            }
+
+                            if (i == 0) {
+                                nearlyConsultTitle.setText(consult.getArticle_title());
+                                nearlyConsultContent.setText(consult.getContent());
+                                nearlyConsultTime.setText(consult.getCreate_time().substring(0, 10));
+                            }
+                        }
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+    }
 }

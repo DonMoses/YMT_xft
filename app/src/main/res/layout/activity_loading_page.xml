@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_loading_page"
-    android:orientation="vertical">
+    android:background="@drawable/icon_loading_bg">
+    <ImageView
+        android:id="@+id/loading_img"
+        android:layout_marginTop="36dp"
+        android:layout_width="match_parent"
+        android:src="@drawable/icon_loading_img"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:layout_below="@id/loading_img"
+        android:layout_marginTop="28dp"
+        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/icon_loading_txt"
+        android:layout_height="wrap_content" />
 
-    <ProgressBar
+    <TextView
+        android:id="@+id/loading_version_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminate="true" />
+        android:hint="版本号 v0.9.2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:layout_alignParentBottom="true"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:textSize="12.5sp"
+        android:layout_height="wrap_content" />
 
-</FrameLayout>
+
+
+</RelativeLayout>

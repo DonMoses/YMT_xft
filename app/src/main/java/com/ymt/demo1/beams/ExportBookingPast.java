@@ -4,15 +4,15 @@ package com.ymt.demo1.beams;
  * Created by Dan on 2015/5/13
  */
 public class ExportBookingPast {
-    private Export export;
+    private ExportTest exportTest;
     private String date;
 
-    public Export getExport() {
-        return export;
+    public ExportTest getExportTest() {
+        return exportTest;
     }
 
-    public void setExport(Export export) {
-        this.export = export;
+    public void setExportTest(ExportTest exportTest) {
+        this.exportTest = exportTest;
     }
 
     public String getDate() {

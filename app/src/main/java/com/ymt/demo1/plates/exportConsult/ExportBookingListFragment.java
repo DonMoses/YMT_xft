@@ -10,7 +10,7 @@ import android.widget.ExpandableListView;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.ExportBookingListAdapter;
-import com.ymt.demo1.beams.Export;
+import com.ymt.demo1.beams.ExportTest;
 import com.ymt.demo1.beams.ExportBookingPast;
 import com.ymt.demo1.beams.ExportBookingRecent;
 
@@ -66,23 +66,23 @@ public class ExportBookingListFragment extends Fragment {
 
         for (int i = 0; i < 15; i++) {
             ExportBookingPast exportBookingPast = new ExportBookingPast();
-            Export export = new Export();
-            export.setName("export " + i);
-            export.setIcon(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.moses));
-            export.setMajor("消防队指导员");
-            export.setBirthDay("1959年2月");
-            exportBookingPast.setExport(export);
+            ExportTest exportTest = new ExportTest();
+            exportTest.setName("export " + i);
+            exportTest.setIcon(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.moses));
+            exportTest.setMajor("消防队指导员");
+            exportTest.setBirthDay("1959年2月");
+            exportBookingPast.setExportTest(exportTest);
             exportBookingPast.setDate("2015-01-23");
             childA.add(exportBookingPast);
         }
         for (int i = 0; i < 9; i++) {
             ExportBookingRecent exportBookingRecent = new ExportBookingRecent();
-            Export export = new Export();
-            export.setName("export " + i);
-            export.setIcon(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.moses));
-            export.setMajor("消防队指导员");
-            export.setBirthDay("1959年2月");
-            exportBookingRecent.setExport(export);
+            ExportTest exportTest = new ExportTest();
+            exportTest.setName("export " + i);
+            exportTest.setIcon(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.moses));
+            exportTest.setMajor("消防队指导员");
+            exportTest.setBirthDay("1959年2月");
+            exportBookingRecent.setExportTest(exportTest);
             exportBookingRecent.setDate("2015-01-23");
             exportBookingRecent.setDateHour("上午10:00");
             childB.add(exportBookingRecent);

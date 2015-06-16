@@ -42,6 +42,7 @@ import com.ymt.demo1.plates.consultCato.CatoConsultListActivity;
 import com.ymt.demo1.plates.consultCato.ConsultCatoMainActivity;
 import com.ymt.demo1.plates.eduPlane.EduMainActivity;
 import com.ymt.demo1.plates.exportConsult.ExportConsultMainActivity;
+import com.ymt.demo1.plates.exportConsult.MoreExpertActivity;
 import com.ymt.demo1.plates.hub.FireHubPagerTabActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
 import com.ymt.demo1.plates.news.NewsMainActivity;
@@ -143,7 +144,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         views.add(inflater.inflate(R.layout.edu_pager1, null));
         views.add(inflater.inflate(R.layout.edu_pager2, null));
         views.add(inflater.inflate(R.layout.edu_pager3, null));
-        views.add(inflater.inflate(R.layout.edu_pager4, null));
+//        views.add(inflater.inflate(R.layout.edu_pager4, null));
         adPagerAdapter.setViews(views);
         //指示器Indicator
         final IndicatorView indicator = (IndicatorView) findViewById(R.id.myPointIndicator);

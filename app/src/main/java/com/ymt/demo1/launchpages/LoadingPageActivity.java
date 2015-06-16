@@ -1,11 +1,18 @@
 package com.ymt.demo1.launchpages;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -34,6 +41,7 @@ import java.util.TimerTask;
  */
 public class LoadingPageActivity extends Activity {
     private SharedPreferences sharedPreferences;
+    private TextView versionTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +70,28 @@ public class LoadingPageActivity extends Activity {
             }, 2000);
         }
 
+        versionTxt = (TextView) findViewById(R.id.loading_version_text);
+        versionTxt.setText(getVersion());
+
+    }
+
+    protected String getVersion() {
+        PackageManager manager = this.getPackageManager();
+        PackageInfo info;
+        String version = null;
+        try {
+            info = manager.getPackageInfo(this.getPackageName(), 0);
+            version = info.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "版本号" + version;
     }
 
     protected void chooseLaunchStyle() {
+        //屏幕尺寸这这里保存到AppContext供全局使用
+        AppContext.screenWidth = versionTxt.getRootView().getWidth();
+
         SharedPreferences sharedPreferences =
                 getSharedPreferences(MainActivity.SETTING_PREFERENCES, MODE_PRIVATE);
         int style = sharedPreferences.getInt(MainActivity.LAUNCH_STYLE_KEY, 0);
@@ -120,12 +147,32 @@ public class LoadingPageActivity extends Activity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                chooseLaunchStyle();        //成功登录，跳转到主界面
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        chooseLaunchStyle();        //成功登录，跳转到主界面
+                    }
+                }).start();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                chooseLaunchStyle();        //未成功登录，仍调到主界面
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        chooseLaunchStyle();        //未成功登录，仍调到主界面
+                    }
+                }).start();
             }
         });
     }

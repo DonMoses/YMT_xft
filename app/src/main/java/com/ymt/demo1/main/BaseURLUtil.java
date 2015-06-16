@@ -26,9 +26,18 @@ public class BaseURLUtil {
     //知识平台（视频、标准规范、科研文献）
     private static final String KNOWLEDGE_ITEM_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.KnowAction&t=app&m=";
     //最近咨询
-    private static final String RECENT_CONSULT = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&t=app&m=hot&start";
+    private static final String RECENT_CONSULT = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&t=app&m=lastest&start=";
     //热点咨询
-    private static final String HOT_CONSULT = "http://120.24.172.105:8000/xfsm/fw?controller=com.xfsm.action.ArticleAction&t=app&m=lastest&start=";
+    private static final String HOT_CONSULT = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&t=app&m=hot&start=";
+    //专家列表
+    private static final String EXPERT_LIST = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ExpertAction&t=app&m=list&pagesize=";
+
+    /**
+     * 专家列表
+     */
+    public static String doGetExpertList(int pageSize, int start, String searchWho) {
+        return EXPERT_LIST + String.valueOf(pageSize) + "&start=" + String.valueOf(start) + "&jl=&kw=" + searchWho;
+    }
 
     /**
      * 最近咨询

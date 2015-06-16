@@ -8,15 +8,15 @@ import java.util.ArrayList;
  * 每一个chatBeam 包含： 一个专家、过去的会话信息的array（专家in，用户out）、未读的会话信息的array（专家in）
  */
 public class ChatBeam implements Serializable {
-    private Export export;
+    private ExportTest exportTest;
     private ArrayList<ChatMessage> messages;
 
-    public Export getExport() {
-        return export;
+    public ExportTest getExportTest() {
+        return exportTest;
     }
 
-    public void setExport(Export export) {
-        this.export = export;
+    public void setExportTest(ExportTest exportTest) {
+        this.exportTest = exportTest;
     }
 
     public ArrayList<ChatMessage> getMessages() {

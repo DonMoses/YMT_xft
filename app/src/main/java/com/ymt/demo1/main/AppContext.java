@@ -23,6 +23,7 @@ public class AppContext extends LitePalApplication {
     public static Account myAccount;
     public static String now_user_id;
     public static String now_session_id;
+    public static int screenWidth;
 
     public static SharedPreferences getSaveAccountPrefecences(Context context) {
         return context.getSharedPreferences("saved_account", MODE_PRIVATE);

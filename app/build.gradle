@@ -9,7 +9,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
-        versionName "1.0"
+        versionName "0.9.3"
     }
     buildTypes {
         release {
@@ -27,11 +27,10 @@ dependencies {
     compile 'com.google.android.gms:play-services:6.5.87'
     compile 'com.android.support:recyclerview-v7:21.0.3'
     compile project(':library_pulltorefresh')
-    compile files('libs/litepal-1.2.0-src.jar')
     compile files('libs/mframework.jar')
     compile files('libs/ShareSDK-Wechat-2.5.9.jar')
     compile project(':library_ptr')
     compile files('libs/picasso-2.3.1.jar')
-    compile files('libs/fastjson-1.1.20.jar')
     compile files('libs/volley.jar')
+    compile files('libs/litepal-1.2.1.jar')
 }

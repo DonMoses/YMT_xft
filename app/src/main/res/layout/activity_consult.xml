@@ -13,7 +13,7 @@
         android:layout_height="52dp"
         android:background="@android:color/holo_blue_dark"
         mytitle:setLeftActionIcon="@drawable/back_normal"
-        mytitle:setRightActIconR="@drawable/icon_search_more"
+        mytitle:setRightActIconR="@drawable/icon_action_more"
         mytitle:setRightIconL="@drawable/icon_search"
         mytitle:setTitleTxt="test" />
 

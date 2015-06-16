@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * Created by Dan on 2015/5/11
  */
-public class Export extends DataSupport implements Serializable, Parcelable {
+public class ExportTest extends DataSupport implements Serializable, Parcelable {
     private String id;
     private Bitmap icon;
     private String birthDay;
@@ -104,7 +104,7 @@ public class Export extends DataSupport implements Serializable, Parcelable {
         this.recentQuests = recentQuests;
     }
 
-    public Export() {
+    public ExportTest() {
     }
 
     @Override
@@ -125,7 +125,7 @@ public class Export extends DataSupport implements Serializable, Parcelable {
         dest.writeString(this.id);
     }
 
-    private Export(Parcel in) {
+    private ExportTest(Parcel in) {
         this.icon = in.readParcelable(Bitmap.class.getClassLoader());
         this.birthDay = in.readString();
         this.name = in.readString();
@@ -137,13 +137,13 @@ public class Export extends DataSupport implements Serializable, Parcelable {
         this.id = in.readString();
     }
 
-    public static final Creator<Export> CREATOR = new Creator<Export>() {
-        public Export createFromParcel(Parcel source) {
-            return new Export(source);
+    public static final Creator<ExportTest> CREATOR = new Creator<ExportTest>() {
+        public ExportTest createFromParcel(Parcel source) {
+            return new ExportTest(source);
         }
 
-        public Export[] newArray(int size) {
-            return new Export[size];
+        public ExportTest[] newArray(int size) {
+            return new ExportTest[size];
         }
     };
 }
