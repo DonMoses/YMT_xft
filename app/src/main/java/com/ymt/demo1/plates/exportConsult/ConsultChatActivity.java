@@ -17,7 +17,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.ChatMessageListAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
-import com.ymt.demo1.beams.ExportTest;
+import com.ymt.demo1.beams.expert_consult.Expert;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseURLUtil;
 
@@ -29,7 +29,7 @@ import org.json.JSONObject;
  */
 public class ConsultChatActivity extends BaseActivity {
 
-    ExportTest exportTest;
+    Expert expert;
     private RequestQueue requestQueue;
     private ChatMessageListAdapter messageListAdapter;
     private PullToRefreshListView infoListView;
@@ -57,9 +57,9 @@ public class ConsultChatActivity extends BaseActivity {
         //todo 调用网络接口，获取聊天记录
         final MyTitle title = (MyTitle) findViewById(R.id.my_title);
         title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
-        if (getIntent().getBundleExtra("export_info") != null) {
-            exportTest = getIntent().getBundleExtra("export_info").getParcelable("export_info");
-            title.updateCenterTitle(exportTest.getName());
+        expert = getIntent().getParcelableExtra("export_info");
+        if (expert != null) {
+            title.updateCenterTitle(expert.getUser_name());
         }
 
         title.updateLeftLIcon2Txt("关注");

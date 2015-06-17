@@ -1,11 +1,14 @@
-package com.ymt.demo1.beams;
+package com.ymt.demo1.beams.expert_consult;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.litepal.crud.DataSupport;
 
 /**
  * Created by Dan on 2015/6/16
  */
-public class Expert extends DataSupport {
+public class Expert extends DataSupport implements Parcelable {
     private String count;
     private String remark;
     private String head_pic;
@@ -159,4 +162,63 @@ public class Expert extends DataSupport {
     public void setWork_time(String work_time) {
         this.work_time = work_time;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.count);
+        dest.writeString(this.remark);
+        dest.writeString(this.head_pic);
+        dest.writeString(this.fk_user_id);
+        dest.writeString(this.good);
+        dest.writeString(this.social_part_time);
+        dest.writeString(this.user_name);
+        dest.writeString(this.resume);
+        dest.writeString(this.level);
+        dest.writeString(this.bio);
+        dest.writeString(this.major_works);
+        dest.writeString(this.create_time);
+        dest.writeString(this.capacity);
+        dest.writeString(this.experience);
+        dest.writeString(this.note);
+        dest.writeString(this.work_time);
+        dest.writeString(this.the_id);
+    }
+
+    public Expert() {
+    }
+
+    protected Expert(Parcel in) {
+        this.count = in.readString();
+        this.remark = in.readString();
+        this.head_pic = in.readString();
+        this.fk_user_id = in.readString();
+        this.good = in.readString();
+        this.social_part_time = in.readString();
+        this.user_name = in.readString();
+        this.resume = in.readString();
+        this.level = in.readString();
+        this.bio = in.readString();
+        this.major_works = in.readString();
+        this.create_time = in.readString();
+        this.capacity = in.readString();
+        this.experience = in.readString();
+        this.note = in.readString();
+        this.work_time = in.readString();
+        this.the_id = in.readString();
+    }
+
+    public static final Parcelable.Creator<Expert> CREATOR = new Parcelable.Creator<Expert>() {
+        public Expert createFromParcel(Parcel source) {
+            return new Expert(source);
+        }
+
+        public Expert[] newArray(int size) {
+            return new Expert[size];
+        }
+    };
 }

@@ -17,7 +17,6 @@
 package com.ymt.demo1.plates.exportConsult;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -39,9 +38,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
-import com.ymt.demo1.beams.OnDutyExportTest;
+import com.ymt.demo1.beams.expert_consult.OnDutyExportTest;
 import com.ymt.demo1.beams.expert_consult.HotConsult;
 import com.ymt.demo1.beams.expert_consult.RecentConsult;
 import com.ymt.demo1.customViews.MyTitle;
@@ -196,35 +196,29 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
 
         //todo 今日、明日专家（从最近一周值守专家中获取）
         todayExport = new OnDutyExportTest();
-        todayExport.setName("李国栋");
-        todayExport.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.moses));
-        todayExport.setBirthDay("1964年8月");
-        todayExport.setMajor("成都消防大队指导员");
+        todayExport.setUser_name("李国栋");
+        todayExport.setMajor_works("成都消防大队指导员");
         tomorrowExport = new OnDutyExportTest();
-        tomorrowExport.setName("汪知武");
-        tomorrowExport.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.moses));
-        tomorrowExport.setBirthDay("1973年2月");
-        tomorrowExport.setMajor("成都消防大队指导员");
+        tomorrowExport.setUser_name("汪知武");
+        tomorrowExport.setMajor_works("成都消防大队指导员");
         //设置info 到控件
         RelativeLayout todayExportView = (RelativeLayout) findViewById(R.id.today_export_layout);
         RelativeLayout tomorrowExportView = (RelativeLayout) findViewById(R.id.tomorrow_export_layout);
         ImageView todayExportIcon = (ImageView) findViewById(R.id.today_export_icon);
         TextView todayExportName = (TextView) findViewById(R.id.today_export_name);
-        TextView todayExportBirth = (TextView) findViewById(R.id.today_export_birth);
+//        TextView todayExportBirth = (TextView) findViewById(R.id.today_export_birth);
         TextView todayExportMajor = (TextView) findViewById(R.id.today_export_major);
         ImageView tomorrowExportIcon = (ImageView) findViewById(R.id.tomorrow_export_icon);
         TextView tomorrowExportName = (TextView) findViewById(R.id.tomorrow_export_name);
-        TextView tomorrowExportBirth = (TextView) findViewById(R.id.tomorrow_export_birth);
+//        TextView tomorrowExportBirth = (TextView) findViewById(R.id.tomorrow_export_birth);
         TextView tomorrowExportMajor = (TextView) findViewById(R.id.tomorrow_export_major);
 
-        todayExportIcon.setImageBitmap(todayExport.getIcon());
-        todayExportName.setText("姓名：" + todayExport.getName());
-        todayExportBirth.setText("生日：" + todayExport.getBirthDay());
-        todayExportMajor.setText("职业：" + todayExport.getMajor());
-        tomorrowExportIcon.setImageBitmap(tomorrowExport.getIcon());
-        tomorrowExportName.setText("姓名：" + tomorrowExport.getName());
-        tomorrowExportBirth.setText("生日：" + tomorrowExport.getBirthDay());
-        tomorrowExportMajor.setText("职业：" + tomorrowExport.getMajor());
+        Picasso.with(this).load(todayExport.getHead_pic()).into(todayExportIcon);
+        todayExportName.setText("姓名：" + todayExport.getUser_name());
+        todayExportMajor.setText("职业：" + todayExport.getMajor_works());
+        Picasso.with(this).load(todayExport.getHead_pic()).into(tomorrowExportIcon);
+        tomorrowExportName.setText("姓名：" + tomorrowExport.getUser_name());
+        tomorrowExportMajor.setText("职业：" + tomorrowExport.getMajor_works());
 
         //点击跳转到专家详情
         todayExportView.setOnClickListener(this);
@@ -282,9 +276,9 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         //todo 网络获取最近值守专家列表
 //        ArrayList<OnDutyExport> onDutyExports = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
-            final OnDutyExportTest export = new OnDutyExportTest();
-            export.setName("徐国斌");
-            export.setOnDutyDate("6月" + String.valueOf(12 + i) + "号");
+            final OnDutyExportTest expert = new OnDutyExportTest();
+            expert.setUser_name("徐国斌");
+            expert.setOnDutyDate("6月" + String.valueOf(12 + i) + "号");
 //            onDutyExports.add(export);
             final View exportItem = inflater.inflate(R.layout.item_export_scroll, null);
             TextView weekDay = (TextView) exportItem.findViewById(R.id.week_day);
@@ -292,8 +286,8 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
             TextView exportName = (TextView) exportItem.findViewById(R.id.export_name);
             //todo 背景颜色和星期
 
-            date.setText(export.getOnDutyDate());
-            exportName.setText(export.getName());
+            date.setText(expert.getOnDutyDate());
+            exportName.setText(expert.getUser_name());
             switch (i) {
                 case 0:
                     weekDay.setText("周一");
@@ -333,10 +327,8 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
             exportItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(ExportConsultMainActivity.this, ExportInfoActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("export_info", export);
-                    intent.putExtra("export_info", bundle);
+                    Intent intent = new Intent(ExportConsultMainActivity.this, ExpertInfoActivity.class);
+                    intent.putExtra("expert_info", expert);
                     startActivity(intent);
                 }
             });
@@ -348,18 +340,14 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         switch (v.getId()) {
             case R.id.today_export_layout:
                 //todo 点击跳转到专家详情界面
-                Intent intent1 = new Intent(ExportConsultMainActivity.this, ExportInfoActivity.class);
-                Bundle bundle1 = new Bundle();
-                bundle1.putParcelable("export_info", todayExport);
-                intent1.putExtra("export_info", bundle1);
+                Intent intent1 = new Intent(ExportConsultMainActivity.this, ExpertInfoActivity.class);
+                intent1.putExtra("expert_info", todayExport);
                 startActivity(intent1);
                 break;
             case R.id.tomorrow_export_layout:
                 //todo 点击跳转到专家详情界面
-                Intent intent2 = new Intent(ExportConsultMainActivity.this, ExportInfoActivity.class);
-                Bundle bundle2 = new Bundle();
-                bundle2.putParcelable("export_info", tomorrowExport);
-                intent2.putExtra("export_info", bundle2);
+                Intent intent2 = new Intent(ExportConsultMainActivity.this, ExpertInfoActivity.class);
+                intent2.putExtra("expert_info", tomorrowExport);
                 startActivity(intent2);
                 break;
             case R.id.nearly_consult_view:

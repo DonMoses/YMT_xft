@@ -2,18 +2,18 @@ package com.ymt.demo1.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.ExportBookingPast;
-import com.ymt.demo1.beams.ExportBookingRecent;
+import com.ymt.demo1.beams.expert_consult.ExportBookingPast;
+import com.ymt.demo1.beams.expert_consult.ExportBookingRecent;
 import com.ymt.demo1.customViews.CircleImageView;
-import com.ymt.demo1.plates.exportConsult.ExportInfoActivity;
+import com.ymt.demo1.plates.exportConsult.ExpertInfoActivity;
 
 import java.util.ArrayList;
 
@@ -150,25 +150,24 @@ public class ExportBookingListAdapter extends BaseExpandableListAdapter {
 
         switch (bookingType) {
             case PAST_BOOKING:
-                pastHolder.exportHeader.setImageBitmap(childList.get(groupPosition).get(childPosition).getExportTest().getIcon());
-                pastHolder.exportName.setText(childList.get(groupPosition).get(childPosition).getExportTest().getName());
+                Picasso.with(context).load(childList.get(groupPosition).
+                        get(childPosition).getExpert().getHead_pic()).into(pastHolder.exportHeader);
+                pastHolder.exportName.setText(childList.get(groupPosition).get(childPosition).getExpert().getUser_name());
                 pastHolder.bookingDate.setText(childList.get(groupPosition).get(childPosition).getDate());
                 pastHolder.exportHeader.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context, ExportInfoActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable("export_info", childList.get(groupPosition).get(childPosition).getExportTest());
-                        intent.putExtra("export_info", bundle);
+                        Intent intent = new Intent(context, ExpertInfoActivity.class);
+                        intent.putExtra("expert_info", childList.get(groupPosition).get(childPosition).getExpert());
                         context.startActivity(intent);
                     }
                 });
                 break;
             case RECENT_BOOKING:
-                recentHolder.exportHeader.setImageBitmap(
-                        childList.get(groupPosition).get(childPosition).getExportTest().getIcon());
+                Picasso.with(context).load(childList.get(groupPosition).get(childPosition).
+                        getExpert().getHead_pic()).into(recentHolder.exportHeader);
                 recentHolder.exportName.setText(
-                        childList.get(groupPosition).get(childPosition).getExportTest().getName());
+                        childList.get(groupPosition).get(childPosition).getExpert().getUser_name());
                 recentHolder.bookingDate.setText(
                         childList.get(groupPosition).get(childPosition).getDate());
                 recentHolder.bookingDateHour.setText(
@@ -176,10 +175,8 @@ public class ExportBookingListAdapter extends BaseExpandableListAdapter {
                 recentHolder.exportHeader.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context, ExportInfoActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable("export_info", childList.get(groupPosition).get(childPosition).getExportTest());
-                        intent.putExtra("export_info", bundle);
+                        Intent intent = new Intent(context, ExpertInfoActivity.class);
+                        intent.putExtra("expert_info", childList.get(groupPosition).get(childPosition).getExpert());
                         context.startActivity(intent);
                     }
                 });

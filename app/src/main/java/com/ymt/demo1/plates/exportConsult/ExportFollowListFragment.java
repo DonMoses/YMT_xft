@@ -1,7 +1,6 @@
 package com.ymt.demo1.plates.exportConsult;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,7 +12,7 @@ import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.ExportFollowAdapter;
-import com.ymt.demo1.beams.ExportTest;
+import com.ymt.demo1.beams.expert_consult.Expert;
 
 import java.util.ArrayList;
 
@@ -53,11 +52,10 @@ public class ExportFollowListFragment extends Fragment {
         ListView chatListView = (ListView) view.findViewById(R.id.export_follow_list_view);
         ExportFollowAdapter followAdapter = new ExportFollowAdapter(getActivity());
         chatListView.setAdapter(followAdapter);
-        ArrayList<ExportTest> exportTests = new ArrayList<>();
+        ArrayList<Expert> exportTests = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
-            ExportTest exportTest = new ExportTest();
-            exportTest.setIcon(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.moses));
-            exportTest.setToDefault("export No." + String.valueOf(i));
+            Expert exportTest = new Expert();
+            exportTest.setUser_name("export No." + String.valueOf(i));
             exportTests.add(exportTest);
         }
         followAdapter.setList(exportTests);

@@ -8,20 +8,18 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
-import com.ymt.demo1.beams.ExportTest;
+import com.ymt.demo1.beams.expert_consult.Expert;
 import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.customViews.MyTitle;
-
-
-import java.util.ArrayList;
 
 /**
  * Created by Dan on 2015/5/13
  */
-public class ExportInfoActivity extends BaseActivity {
-    private ExportTest exportTest;
+public class ExpertInfoActivity extends BaseActivity {
+    private Expert expert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,29 +33,19 @@ public class ExportInfoActivity extends BaseActivity {
      * 设置顶部title
      */
     protected void initTitle() {
-        //todo 根据专家信息，设置title 标题【专家姓名】
         /*
          * 获取从上一activity 传过来的专家信息
          */
-        Bundle bundle = getIntent().getBundleExtra("export_info");
-        exportTest = bundle.getParcelable("export_info");
+        expert = getIntent().getParcelableExtra("expert_info");
         /*
-        todo 模拟补充专家信息
+        todo 补充专家信息
          */
-        exportTest.setSelfResume("self resume：朱良辉，男，汉族，1942-05-29生于大连市，1960-08毕业于大连市第一高中，" +
-                "1965-07毕业于大连工学院（现为：大连理工大学）化学工程系燃料化学工学专业，大学5年本科毕业学历。");
-        exportTest.setTeamResume("group resume：在全国建筑给水排水委员会的任职和兼职（标委会常委和分会理事长），主要是为全国的设计单位服务，" +
-                "并在建筑给水排水两委会的领导下为全国的设计单位和消防部门搭建跨省的学术/技术交流平台。作为消防部门的代表，" +
-                "应当尽心尽力、尽职尽责、切实地起到密切联络、有机协调的桥梁作用。");
-        //todo 模拟最新问题
-        ArrayList<String> quests = new ArrayList<>();
-        quests.add("quests example for test 1");
-        quests.add("quests example for test 2");
-        exportTest.setRecentQuests(quests);
+
+        //todo 最新问题
 
         final MyTitle title = (MyTitle) findViewById(R.id.my_title);
         title.setTitleStyle(MyTitle.TitleStyle.LEFT_ICON);
-        title.updateCenterTitle(exportTest.getName());          //根据专家名修改title
+        title.updateCenterTitle(expert.getUser_name());          //根据专家名修改title
         title.invalidate();
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
@@ -66,68 +54,67 @@ public class ExportInfoActivity extends BaseActivity {
             }
         });
 
-
     }
 
     protected void initView() {
         //专家头像
         CircleImageView exportHeader = (CircleImageView) findViewById(R.id.export_header);
-        exportHeader.setImageBitmap(exportTest.getIcon());
+        Picasso.with(this).load(expert.getHead_pic()).into(exportHeader);
         //专家名
         TextView exportName = (TextView) findViewById(R.id.export_name);
-        exportName.setText(exportTest.getName());
+        exportName.setText(expert.getUser_name());
         //专家生日
         TextView exportAge = (TextView) findViewById(R.id.export_age);
-        exportAge.setText(exportTest.getBirthDay());
+        exportAge.setText(expert.getBio());
         //专家职业
         TextView exportMajor = (TextView) findViewById(R.id.export_major);
-        exportMajor.setText(exportTest.getMajor());
+        exportMajor.setText(expert.getMajor_works());
         //关注按钮
         final TextView follow = (TextView) findViewById(R.id.follow_export);
-        if (exportTest.isFollowed()) {
-            follow.setText("已关注");
-        } else {
-            follow.setText("+关注");
-        }
+
+        //todo 关注
+
         //专家简介
         TextView selfResume = (TextView) findViewById(R.id.self_resume_content);
-        selfResume.setText(exportTest.getSelfResume());
+        selfResume.setText(expert.getResume());
         //团队简介
         TextView groupResume = (TextView) findViewById(R.id.group_resume_content);
-        groupResume.setText(exportTest.getTeamResume());
+        groupResume.setText(expert.getCapacity());
         //最近问题1，2，3，4
         TextView questA = ((TextView) findViewById(R.id.quest_a));
         TextView questB = ((TextView) findViewById(R.id.quest_b));
         TextView questC = ((TextView) findViewById(R.id.quest_c));
         TextView questD = ((TextView) findViewById(R.id.quest_d));
-        ArrayList<String> quests = exportTest.getRecentQuests();
-        int questsSize = quests.size();
-        switch (questsSize) {
-            case 0:
-                questA.setText("该专家目前没有处理中的问题。");
-                break;
-            case 1:
-                questA.setText(quests.get(0));
-                break;
-            case 2:
-                questA.setText(quests.get(0));
-                questB.setText(quests.get(1));
-                break;
-            case 3:
-                questA.setText(quests.get(0));
-                questB.setText(quests.get(1));
-                questC.setText(quests.get(2));
-                break;
-            case 4:
-                questA.setText(quests.get(0));
-                questB.setText(quests.get(1));
-                questC.setText(quests.get(2));
-                questD.setText(quests.get(3));
-                break;
-            default:
 
-                break;
-        }
+        //todo 最近咨询的问题
+//        ArrayList<String> quests = expert.getRecentQuests();
+//        int questsSize = quests.size();
+//        switch (questsSize) {
+//            case 0:
+//                questA.setText("该专家目前没有处理中的问题。");
+//                break;
+//            case 1:
+//                questA.setText(quests.get(0));
+//                break;
+//            case 2:
+//                questA.setText(quests.get(0));
+//                questB.setText(quests.get(1));
+//                break;
+//            case 3:
+//                questA.setText(quests.get(0));
+//                questB.setText(quests.get(1));
+//                questC.setText(quests.get(2));
+//                break;
+//            case 4:
+//                questA.setText(quests.get(0));
+//                questB.setText(quests.get(1));
+//                questC.setText(quests.get(2));
+//                questD.setText(quests.get(3));
+//                break;
+//            default:
+//
+//                break;
+//        }
 
 //        //成功案例1，2，3，4
 //        TextView caseA = (TextView) findViewById(R.id.case_a);
@@ -149,22 +136,14 @@ public class ExportInfoActivity extends BaseActivity {
                 switch (v.getId()) {
                     case R.id.follow_export:
 
-                        //考虑使用 MyExport extends Export
-                        if (exportTest.isFollowed()) {
-                            follow.setText("+关注");
-                        } else {
-                            follow.setText("已关注");
-                        }
-                        exportTest.setIsFollowed(!exportTest.isFollowed());
-
-                        //todo 同步关注状态
+                        //todo 关注
 
                         break;
                     case R.id.consult_action_layout:
                         //todo 咨询会话界面
-                        Intent intent = new Intent(ExportInfoActivity.this, ExportConsultNowActivity.class);
+                        Intent intent = new Intent(ExpertInfoActivity.this, ExportConsultNowActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putParcelable("export_info", exportTest);
+                        bundle.putParcelable("export_info", expert);
                         intent.putExtra("export_info", bundle);
                         startActivity(intent);
                         finish();

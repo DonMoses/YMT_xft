@@ -20,7 +20,7 @@
         <mapping class="com.ymt.demo1.beams.knowledge.KnowledgeItemKYWX" />
         <mapping class="com.ymt.demo1.beams.expert_consult.HotConsult" />
         <mapping class="com.ymt.demo1.beams.expert_consult.RecentConsult" />
-        <mapping class="com.ymt.demo1.beams.Expert" />
+        <mapping class="com.ymt.demo1.beams.expert_consult.Expert" />
         <mapping class="com.ymt.demo1.beams.knowledge.KnowledgeVideo" />
 
     </list>

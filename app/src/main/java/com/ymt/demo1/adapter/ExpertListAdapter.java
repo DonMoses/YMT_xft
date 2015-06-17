@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.Expert;
+import com.ymt.demo1.beams.expert_consult.Expert;
 
 import java.util.ArrayList;
 import java.util.List;

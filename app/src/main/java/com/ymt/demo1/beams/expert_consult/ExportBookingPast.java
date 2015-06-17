@@ -1,18 +1,18 @@
-package com.ymt.demo1.beams;
+package com.ymt.demo1.beams.expert_consult;
 
 /**
  * Created by Dan on 2015/5/13
  */
 public class ExportBookingPast {
-    private ExportTest exportTest;
+    private Expert expert;
     private String date;
 
-    public ExportTest getExportTest() {
-        return exportTest;
+    public Expert getExpert() {
+        return expert;
     }
 
-    public void setExportTest(ExportTest exportTest) {
-        this.exportTest = exportTest;
+    public void setExpert(Expert expert) {
+        this.expert = expert;
     }
 
     public String getDate() {

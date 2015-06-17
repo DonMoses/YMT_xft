@@ -33,6 +33,13 @@ public class BaseURLUtil {
     private static final String EXPERT_LIST = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ExpertAction&t=app&m=list&pagesize=";
 
     /**
+     * 值日专家表
+     */
+    public static String doGetDutyExpert() {
+        return "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ExpertAction&m=duty";
+    }
+
+    /**
      * 专家列表
      */
     public static String doGetExpertList(int pageSize, int start, String searchWho) {

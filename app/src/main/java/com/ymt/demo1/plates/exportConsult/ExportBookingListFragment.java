@@ -1,6 +1,5 @@
 package com.ymt.demo1.plates.exportConsult;
 
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,9 +9,9 @@ import android.widget.ExpandableListView;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.ExportBookingListAdapter;
-import com.ymt.demo1.beams.ExportTest;
-import com.ymt.demo1.beams.ExportBookingPast;
-import com.ymt.demo1.beams.ExportBookingRecent;
+import com.ymt.demo1.beams.expert_consult.Expert;
+import com.ymt.demo1.beams.expert_consult.ExportBookingPast;
+import com.ymt.demo1.beams.expert_consult.ExportBookingRecent;
 
 import java.util.ArrayList;
 
@@ -66,23 +65,19 @@ public class ExportBookingListFragment extends Fragment {
 
         for (int i = 0; i < 15; i++) {
             ExportBookingPast exportBookingPast = new ExportBookingPast();
-            ExportTest exportTest = new ExportTest();
-            exportTest.setName("export " + i);
-            exportTest.setIcon(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.moses));
-            exportTest.setMajor("消防队指导员");
-            exportTest.setBirthDay("1959年2月");
-            exportBookingPast.setExportTest(exportTest);
+            Expert expert = new Expert();
+            expert.setUser_name("export " + i);
+            expert.setMajor_works("消防队指导员");
+            exportBookingPast.setExpert(expert);
             exportBookingPast.setDate("2015-01-23");
             childA.add(exportBookingPast);
         }
         for (int i = 0; i < 9; i++) {
             ExportBookingRecent exportBookingRecent = new ExportBookingRecent();
-            ExportTest exportTest = new ExportTest();
-            exportTest.setName("export " + i);
-            exportTest.setIcon(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.moses));
-            exportTest.setMajor("消防队指导员");
-            exportTest.setBirthDay("1959年2月");
-            exportBookingRecent.setExportTest(exportTest);
+            Expert exportTest = new Expert();
+            exportTest.setUser_name("export " + i);
+            exportTest.setMajor_works("消防队指导员");
+            exportBookingRecent.setExpert(exportTest);
             exportBookingRecent.setDate("2015-01-23");
             exportBookingRecent.setDateHour("上午10:00");
             childB.add(exportBookingRecent);

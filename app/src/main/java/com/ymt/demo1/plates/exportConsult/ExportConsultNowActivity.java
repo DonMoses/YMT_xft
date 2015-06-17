@@ -24,6 +24,7 @@ import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.QQChatListAdapter;
 import com.ymt.demo1.adapter.SimpleTxtItemAdapter;
+import com.ymt.demo1.beams.expert_consult.Expert;
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.AppContext;
@@ -51,12 +52,14 @@ public class ExportConsultNowActivity extends BaseFloatActivity {
     //    protected boolean isSigned = false;
     private ConsultInputCallBack consultInputCallBack;
     private RequestQueue mQueue;
+    private Expert expert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consult_now);
         mQueue = Volley.newRequestQueue(this);
+        expert = getIntent().getParcelableExtra("expert_info");
 
         initTitle();
         initView();
@@ -166,7 +169,7 @@ public class ExportConsultNowActivity extends BaseFloatActivity {
                                 /*
                                  发起一条QQ会话
                                  */
-                                mQueue.add(requestQQChat(AppContext.now_session_id, title, content, null));
+                                mQueue.add(requestQQChat(AppContext.now_session_id, title, content, expert.getThe_id()));
                                 /*
                                 弹出对话框
                                  */

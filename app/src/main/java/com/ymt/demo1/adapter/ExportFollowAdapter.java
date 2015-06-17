@@ -2,17 +2,17 @@ package com.ymt.demo1.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.ExportTest;
+import com.ymt.demo1.beams.expert_consult.Expert;
 import com.ymt.demo1.customViews.CircleImageView;
-import com.ymt.demo1.plates.exportConsult.ExportInfoActivity;
+import com.ymt.demo1.plates.exportConsult.ExpertInfoActivity;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Created by Dan on 2015/5/13
  */
 public class ExportFollowAdapter extends BaseAdapter {
-    ArrayList<ExportTest> mList = new ArrayList<>();
+    ArrayList<Expert> mList = new ArrayList<>();
     Context context;
     LayoutInflater inflater;
 
@@ -29,7 +29,7 @@ public class ExportFollowAdapter extends BaseAdapter {
         this.inflater = LayoutInflater.from(context);
     }
 
-    public void setList(ArrayList<ExportTest> mList) {
+    public void setList(ArrayList<Expert> mList) {
         this.mList = mList;
         notifyDataSetChanged();
     }
@@ -63,15 +63,13 @@ public class ExportFollowAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.exportHeader.setImageBitmap(mList.get(position).getIcon());
-        viewHolder.exportName.setText(mList.get(position).getName());
+        Picasso.with(context).load(mList.get(position).getHead_pic()).into(viewHolder.exportHeader);
+        viewHolder.exportName.setText(mList.get(position).getUser_name());
         viewHolder.exportHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ExportInfoActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("export_info", mList.get(position));
-                intent.putExtra("export_info", bundle);
+                Intent intent = new Intent(context, ExpertInfoActivity.class);
+                intent.putExtra("expert_info", mList.get(position));
                 context.startActivity(intent);
             }
         });

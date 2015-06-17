@@ -1,6 +1,9 @@
 package com.ymt.demo1.plates.exportConsult;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.android.volley.RequestQueue;
@@ -12,7 +15,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshGridView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.ExpertListAdapter;
-import com.ymt.demo1.beams.Expert;
+import com.ymt.demo1.beams.expert_consult.Expert;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.BaseFloatActivity;
@@ -88,6 +91,16 @@ public class MoreExpertActivity extends BaseFloatActivity {
             public void onPullUpToRefresh(PullToRefreshBase<GridView> refreshView) {
                 startIndex++;
                 mQueue.add(getExperts(pageSize, startIndex, ""));
+            }
+        });
+
+        expertGirdView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Expert expert = (Expert) expertGirdView.getRefreshableView().getAdapter().getItem(position);
+                Intent intent = new Intent(MoreExpertActivity.this, ExpertInfoActivity.class);
+                intent.putExtra("expert_info", expert);
+                startActivity(intent);
             }
         });
     }
