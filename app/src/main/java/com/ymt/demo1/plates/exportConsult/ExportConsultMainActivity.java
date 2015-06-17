@@ -22,12 +22,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.HorizontalScrollView;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -40,8 +39,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
+import com.ymt.demo1.adapter.DutyExpertAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
-import com.ymt.demo1.beams.expert_consult.OnDutyExportTest;
+import com.ymt.demo1.beams.expert_consult.Expert;
 import com.ymt.demo1.beams.expert_consult.HotConsult;
 import com.ymt.demo1.beams.expert_consult.RecentConsult;
 import com.ymt.demo1.customViews.MyTitle;
@@ -58,6 +58,8 @@ import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 专家咨询界面
@@ -66,10 +68,6 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
 
     private PopActionListener actionListener;
     private Handler mHandler = new MyHandler(this);
-    private HorizontalScrollView scrollView;
-    private LinearLayout linearLayout;
-    private OnDutyExportTest todayExport;
-    private OnDutyExportTest tomorrowExport;
     private SearchViewUtil searchViewUtil;
     private RequestQueue mQueue;
     private TextView nearlyConsultTitle;
@@ -78,6 +76,8 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
     TextView hotConsultContent;
     TextView hotConsultTime;
     TextView nearlyConsultTime;
+    private Expert todayExpert;
+    private Expert tomorrowExpert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +89,6 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         searchViewUtil = new SearchViewUtil();
         initTitle();
         initView();
-//        Log.e("TAG", "id>>>>>>>>>>>" + AppContext.now_user_id);
-//        Log.e("TAG", "sId>>>>>>>>>>>" + AppContext.now_session_id);
     }
 
     protected void initTitle() {
@@ -157,14 +155,8 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         });
     }
 
-    /**
-     *
-     */
     protected void initView() {
         searchViewUtil.initSearchView(this);
-        scrollView = (HorizontalScrollView) findViewById(R.id.export_scroll_view);
-        linearLayout = (LinearLayout) findViewById(R.id.export_linear_layout);
-
         TextView moreExpert = (TextView) findViewById(R.id.more_export);
         moreExpert.setOnClickListener(this);
         /**
@@ -190,17 +182,14 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
     }
 
     /**
-     * 今日、明日 值守专家信息
+     * 资深专家信息
      */
     protected void initTodTomExport() {
 
         //todo 今日、明日专家（从最近一周值守专家中获取）
-        todayExport = new OnDutyExportTest();
-        todayExport.setUser_name("李国栋");
-        todayExport.setMajor_works("成都消防大队指导员");
-        tomorrowExport = new OnDutyExportTest();
-        tomorrowExport.setUser_name("汪知武");
-        tomorrowExport.setMajor_works("成都消防大队指导员");
+        todayExpert = DataSupport.findFirst(Expert.class);
+        tomorrowExpert = DataSupport.findLast(Expert.class);
+
         //设置info 到控件
         RelativeLayout todayExportView = (RelativeLayout) findViewById(R.id.today_export_layout);
         RelativeLayout tomorrowExportView = (RelativeLayout) findViewById(R.id.tomorrow_export_layout);
@@ -213,12 +202,14 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
 //        TextView tomorrowExportBirth = (TextView) findViewById(R.id.tomorrow_export_birth);
         TextView tomorrowExportMajor = (TextView) findViewById(R.id.tomorrow_export_major);
 
-        Picasso.with(this).load(todayExport.getHead_pic()).into(todayExportIcon);
-        todayExportName.setText("姓名：" + todayExport.getUser_name());
-        todayExportMajor.setText("职业：" + todayExport.getMajor_works());
-        Picasso.with(this).load(todayExport.getHead_pic()).into(tomorrowExportIcon);
-        tomorrowExportName.setText("姓名：" + tomorrowExport.getUser_name());
-        tomorrowExportMajor.setText("职业：" + tomorrowExport.getMajor_works());
+        if (todayExpert != null && tomorrowExpert != null) {
+            Picasso.with(this).load(todayExpert.getHead_pic()).into(todayExportIcon);
+            todayExportName.setText("姓名：" + todayExpert.getUser_name());
+            todayExportMajor.setText("职业：" + todayExpert.getMajor_works());
+            Picasso.with(this).load(todayExpert.getHead_pic()).into(tomorrowExportIcon);
+            tomorrowExportName.setText("姓名：" + tomorrowExpert.getUser_name());
+            tomorrowExportMajor.setText("职业：" + tomorrowExpert.getMajor_works());
+        }
 
         //点击跳转到专家详情
         todayExportView.setOnClickListener(this);
@@ -265,74 +256,39 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
      * 初始化专家值守列表
      */
     protected void initExportTable() {
-        final LayoutInflater inflater = LayoutInflater.from(this);
-        //获取滑动控件宽度，设置item 宽度（默认显示前4个）
-        int screenW = scrollView.getWidth();
-
-//        Log.e("TAG", "screeW/4 = " + screenW / 4);
-        LinearLayout.LayoutParams layoutParams =
-                new LinearLayout.LayoutParams(screenW / 4, LinearLayout.LayoutParams.MATCH_PARENT);
-
-        //todo 网络获取最近值守专家列表
-//        ArrayList<OnDutyExport> onDutyExports = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            final OnDutyExportTest expert = new OnDutyExportTest();
-            expert.setUser_name("徐国斌");
-            expert.setOnDutyDate("6月" + String.valueOf(12 + i) + "号");
-//            onDutyExports.add(export);
-            final View exportItem = inflater.inflate(R.layout.item_export_scroll, null);
-            TextView weekDay = (TextView) exportItem.findViewById(R.id.week_day);
-            TextView date = (TextView) exportItem.findViewById(R.id.date);
-            TextView exportName = (TextView) exportItem.findViewById(R.id.export_name);
-            //todo 背景颜色和星期
-
-            date.setText(expert.getOnDutyDate());
-            exportName.setText(expert.getUser_name());
-            switch (i) {
-                case 0:
-                    weekDay.setText("周一");
-                    exportItem.setBackgroundColor(getResources().getColor(R.color.guide_cjgl));
-                    break;
-                case 1:
-                    weekDay.setText("周二");
-                    exportItem.setBackgroundColor(getResources().getColor(R.color.guide_khrd));
-                    break;
-                case 2:
-                    weekDay.setText("周三");
-                    exportItem.setBackgroundColor(getResources().getColor(R.color.guide_zyfw));
-                    break;
-                case 3:
-                    weekDay.setText("周四");
-                    exportItem.setBackgroundColor(getResources().getColor(R.color.guide_kssc));
-                    break;
-                case 4:
-                    weekDay.setText("周五");
-                    exportItem.setBackgroundColor(getResources().getColor(R.color.guide_cjgl));
-                    break;
-                case 5:
-                    weekDay.setText("周六");
-                    exportItem.setBackgroundColor(getResources().getColor(R.color.guide_khrd));
-                    break;
-                case 6:
-                    weekDay.setText("周日");
-                    exportItem.setBackgroundColor(getResources().getColor(R.color.guide_kssc));
-                    break;
-                default:
-                    break;
+        GridView amDutyView = (GridView) findViewById(R.id.am_expert_gridView);
+        GridView pmDutyView = (GridView) findViewById(R.id.pm_expert_gridView);
+        DutyExpertAdapter amAdapter = new DutyExpertAdapter(this);
+        DutyExpertAdapter pmAdapter = new DutyExpertAdapter(this);
+        amDutyView.setAdapter(amAdapter);
+        pmDutyView.setAdapter(pmAdapter);
+        List<Expert> experts = DataSupport.findAll(Expert.class);
+        int length = experts.size();
+        List<Expert> pmExperts = new ArrayList<>();
+        List<Expert> amExperts = new ArrayList<>();
+        for (int i = 0; i < length; i++) {
+            if (i < 3) {
+                amExperts.add(experts.get(i));
+            } else if (i < 8) {
+                pmExperts.add(experts.get(i));
             }
-            exportItem.setLayoutParams(layoutParams);
-            linearLayout.addView(exportItem);
-
-            //点击进入专家信息界面
-            exportItem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(ExportConsultMainActivity.this, ExpertInfoActivity.class);
-                    intent.putExtra("expert_info", expert);
-                    startActivity(intent);
-                }
-            });
         }
+
+        amAdapter.setExpertList(amExperts);
+        pmAdapter.setExpertList(pmExperts);
+
+        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Expert expert = (Expert) parent.getAdapter().getItem(position);
+                Intent intent = new Intent(ExportConsultMainActivity.this, ExpertInfoActivity.class);
+                intent.putExtra("expert_info", expert);
+                startActivity(intent);
+            }
+        };
+        amDutyView.setOnItemClickListener(itemClickListener);
+        pmDutyView.setOnItemClickListener(itemClickListener);
+
     }
 
     @Override
@@ -341,13 +297,13 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
             case R.id.today_export_layout:
                 //todo 点击跳转到专家详情界面
                 Intent intent1 = new Intent(ExportConsultMainActivity.this, ExpertInfoActivity.class);
-                intent1.putExtra("expert_info", todayExport);
+                intent1.putExtra("expert_info", todayExpert);
                 startActivity(intent1);
                 break;
             case R.id.tomorrow_export_layout:
                 //todo 点击跳转到专家详情界面
                 Intent intent2 = new Intent(ExportConsultMainActivity.this, ExpertInfoActivity.class);
-                intent2.putExtra("expert_info", tomorrowExport);
+                intent2.putExtra("expert_info", tomorrowExpert);
                 startActivity(intent2);
                 break;
             case R.id.nearly_consult_view:

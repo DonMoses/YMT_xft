@@ -124,9 +124,6 @@ public class ExpertInfoActivity extends BaseActivity {
         //立即咨询layout、icon
         View consultLayout = findViewById(R.id.consult_action_layout);
         final ImageButton consultImg = (ImageButton) findViewById(R.id.consult_img);
-        //预约layout、icon
-//        View bookingLayout = findViewById(R.id.booking_action_layout);
-//        final ImageButton bookingImg = (ImageButton) findViewById(R.id.booking_img);
         /*
         点击事件监听
          */
@@ -142,16 +139,10 @@ public class ExpertInfoActivity extends BaseActivity {
                     case R.id.consult_action_layout:
                         //todo 咨询会话界面
                         Intent intent = new Intent(ExpertInfoActivity.this, ExportConsultNowActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable("export_info", expert);
-                        intent.putExtra("export_info", bundle);
+                        intent.putExtra("expert_info", expert);
                         startActivity(intent);
                         finish();
                         break;
-//                    case R.id.booking_action_layout:
-//                        //todo 立即预约界面 【事件选择 。。。等】
-//                        Toast.makeText(ExportInfoActivity.this, "booking now...", Toast.LENGTH_SHORT).show();
-//                        break;
                     default:
                         break;
 
@@ -161,7 +152,6 @@ public class ExpertInfoActivity extends BaseActivity {
 
         follow.setOnClickListener(onClickListener);
         consultLayout.setOnClickListener(onClickListener);
-//        bookingLayout.setOnClickListener(onClickListener);
 
         View.OnTouchListener onTouchListener = new View.OnTouchListener() {
             @Override
@@ -176,15 +166,6 @@ public class ExpertInfoActivity extends BaseActivity {
                                     BitmapFactory.decodeResource(getResources(), R.drawable.icon_consult_normal));
                         }
                         break;
-//                    case R.id.booking_action_layout:
-//                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                            bookingImg.setImageBitmap(
-//                                    BitmapFactory.decodeResource(getResources(), R.drawable.icon_booking_on));
-//                        } else if (event.getAction() == MotionEvent.ACTION_UP) {
-//                            bookingImg.setImageBitmap(
-//                                    BitmapFactory.decodeResource(getResources(), R.drawable.icon_booking_off));
-//                        }
-//                        break;
                     default:
                         break;
                 }
@@ -192,7 +173,6 @@ public class ExpertInfoActivity extends BaseActivity {
             }
         };
         consultLayout.setOnTouchListener(onTouchListener);
-//        bookingLayout.setOnTouchListener(onTouchListener);
     }
 
 

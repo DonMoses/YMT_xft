@@ -145,9 +145,8 @@ public class BaseURLUtil {
     /**
      * 注册
      */
-    public static String sendQQMsgUrl(String sessionID, String sendMsg, String content, String qq_id) {
-        return QQ_MSG_BASE + sessionID + "&t=app&m=" + sendMsg + "&content=" + content + "&qq_id=" + qq_id;
+    public static String sendQQMsgUrl(String sessionID, String content, String qq_id) {
+        return QQ_MSG_BASE + sessionID + "&t=app&m=sendMsg&content=" + content + "&qq_id=" + qq_id;
     }
-
 
 }

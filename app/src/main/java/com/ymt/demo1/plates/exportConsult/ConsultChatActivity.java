@@ -110,11 +110,9 @@ public class ConsultChatActivity extends BaseActivity {
                 if (!TextUtils.isEmpty(sendInfo)) {
 
                     //todo exportID 和userId
-
-                    volleyGet(sendInfo);
-
+                    sendMsg(sendInfo);
                     //todo 保存chat 到数据库
-
+                    Toast.makeText(ConsultChatActivity.this,"send >>> "+ sendInfo,Toast.LENGTH_SHORT).show();
                     infoListView.getRefreshableView().setSelection(infoListView.getBottom());
 
                 }
@@ -129,10 +127,10 @@ public class ConsultChatActivity extends BaseActivity {
     }
 
     /**
-     * volley队列
+     * 发送消息
      */
-    protected void volleyGet(String sendTxt) {
-        requestQueue.add(doRequest(BaseURLUtil.sendQQMsgUrl(sessionId, "", sendTxt, qq_id)));
+    protected void sendMsg(String sendTxt) {
+        requestQueue.add(doRequest(BaseURLUtil.sendQQMsgUrl(sessionId, sendTxt, qq_id)));
     }
 
     /**

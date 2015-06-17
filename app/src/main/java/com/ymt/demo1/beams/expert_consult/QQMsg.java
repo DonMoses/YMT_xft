@@ -17,12 +17,12 @@ public class QQMsg extends DataSupport {
     private String reply_user_name;
     private String fk_qq_id;
 
-    public String getId() {
+    public String getMsg_id() {
         return msg_id;
     }
 
-    public void setId(String id) {
-        this.msg_id = id;
+    public void setMsg_id(String msg_id) {
+        this.msg_id = msg_id;
     }
 
     public String getContent() {

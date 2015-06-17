@@ -33,6 +33,7 @@ import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.main.PopActionListener;
 import com.ymt.demo1.main.PopActionUtil;
 import com.ymt.demo1.main.file.SearchFileActivity;
+import com.ymt.demo1.main.sign.SignInActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,6 +54,7 @@ public class ExportConsultNowActivity extends BaseFloatActivity {
     private ConsultInputCallBack consultInputCallBack;
     private RequestQueue mQueue;
     private Expert expert;
+    private EditText titleTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +83,7 @@ public class ExportConsultNowActivity extends BaseFloatActivity {
 
     protected void initView() {
         //标题输入框
-        final EditText titleTxt = (EditText) findViewById(R.id.input_consult_title);
+        titleTxt = (EditText) findViewById(R.id.input_consult_title);
         //内容输入框
         final EditText contentTxt = (EditText) findViewById(R.id.input_consult_content);
 
@@ -170,76 +172,45 @@ public class ExportConsultNowActivity extends BaseFloatActivity {
                                  发起一条QQ会话
                                  */
                                 mQueue.add(requestQQChat(AppContext.now_session_id, title, content, expert.getThe_id()));
-                                /*
-                                弹出对话框
-                                 */
-                                final WindowManager.LayoutParams lp =
-                                        ExportConsultNowActivity.this.getWindow().getAttributes();
-                                lp.alpha = 0.3f;
-                                ExportConsultNowActivity.this.getWindow().setAttributes(lp);
-                                PopActionUtil popActionUtil = PopActionUtil.getInstance(ExportConsultNowActivity.this);
-                                popActionUtil.setActionListener(new PopActionListener() {
-                                    @Override
-                                    public void onAction(String action) {
-                                        switch (action) {
-                                            case "确定":
-                                                onDismiss();
-                                                break;
-                                            default:
-                                                break;
-                                        }
-                                    }
 
-                                    @Override
-                                    public void onDismiss() {
-                                        lp.alpha = 1f;
-                                        ExportConsultNowActivity.this.getWindow().setAttributes(lp);
-                                    }
-                                });
-                                PopupWindow popupWindow = popActionUtil.getSubmitConsultSignedPop();
-                                int width = (int) (titleTxt.getRootView().getWidth() * 0.618);
-                                popupWindow.setWidth(width);
-                                popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-                                popupWindow.showAtLocation(titleTxt.getRootView(), Gravity.CENTER, 0, 0);
 
                             } else {            //非注册用户
-                                final WindowManager.LayoutParams lp =
-                                        ExportConsultNowActivity.this.getWindow().getAttributes();
-                                lp.alpha = 0.3f;
-                                ExportConsultNowActivity.this.getWindow().setAttributes(lp);
-                                PopActionUtil popActionUtil = PopActionUtil.getInstance(ExportConsultNowActivity.this);
-                                popActionUtil.setActionListener(new PopActionListener() {
-                                    @Override
-                                    public void onAction(String action) {
-                                        switch (action) {
-                                            case "确定":
-//                                                logInfo(title, content);
-                                                break;
-                                            default:
-                                                break;
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onDismiss() {
-                                        lp.alpha = 1f;
-                                        ExportConsultNowActivity.this.getWindow().setAttributes(lp);
-                                    }
-                                });
-                                //todo 获取服务器返回的随机账号和密码
-                                //假设账号： moses2015   密码： sob123
-                                PopupWindow popupWindow =
-                                        popActionUtil.getSubmitConsultUnsignedPop("moses2015", "sob123");
-                                int width = (int) (titleTxt.getRootView().getWidth() * 0.8);
-                                popupWindow.setWidth(width);
-                                popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-                                popupWindow.showAtLocation(titleTxt.getRootView(), Gravity.CENTER, 0, 0);
-
+//                                final WindowManager.LayoutParams lp =
+//                                        ExportConsultNowActivity.this.getWindow().getAttributes();
+//                                lp.alpha = 0.3f;
+//                                ExportConsultNowActivity.this.getWindow().setAttributes(lp);
+//                                PopActionUtil popActionUtil = PopActionUtil.getInstance(ExportConsultNowActivity.this);
+//                                popActionUtil.setActionListener(new PopActionListener() {
+//                                    @Override
+//                                    public void onAction(String action) {
+//                                        switch (action) {
+//                                            case "确定":
+////                                                logInfo(title, content);
+//                                                break;
+//                                            default:
+//                                                break;
+//                                        }
+//                                    }
+//
+//                                    @Override
+//                                    public void onDismiss() {
+//                                        lp.alpha = 1f;
+//                                        ExportConsultNowActivity.this.getWindow().setAttributes(lp);
+//                                    }
+//                                });
+//                                //todo 获取服务器返回的随机账号和密码
+//                                //假设账号： moses2015   密码： sob123
+//                                PopupWindow popupWindow =
+//                                        popActionUtil.getSubmitConsultUnsignedPop("moses2015", "sob123");
+//                                int width = (int) (titleTxt.getRootView().getWidth() * 0.8);
+//                                popupWindow.setWidth(width);
+//                                popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+//                                popupWindow.showAtLocation(titleTxt.getRootView(), Gravity.CENTER, 0, 0);
+                                Toast.makeText(ExportConsultNowActivity.this,
+                                        "请先登录...", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(ExportConsultNowActivity.this, SignInActivity.class));
                             }
-                            //测试用boolean 值
-//                            isSigned = !isSigned;
-//                            Toast.makeText(ExportConsultNowActivity.this,
-//                                    "todo 提交成功pop", Toast.LENGTH_SHORT).show();
+
                         }
                         break;
                     default:
@@ -253,6 +224,45 @@ public class ExportConsultNowActivity extends BaseFloatActivity {
         //底部热点话题
         final GridView hotGrid = (GridView) findViewById(R.id.hot_comment_grid_view);
         setDataToHotGird(hotGrid);
+    }
+
+    protected void popMyWindow(final String qq_id) {
+         /*
+         弹出对话框
+         */
+        final WindowManager.LayoutParams lp =
+                ExportConsultNowActivity.this.getWindow().getAttributes();
+        lp.alpha = 0.3f;
+        ExportConsultNowActivity.this.getWindow().setAttributes(lp);
+        PopActionUtil popActionUtil = PopActionUtil.getInstance(ExportConsultNowActivity.this);
+        popActionUtil.setActionListener(new PopActionListener() {
+            @Override
+            public void onAction(String action) {
+                switch (action) {
+                    case "确定":
+                        Intent intent = new Intent(ExportConsultNowActivity.this, ConsultChatActivity.class);
+                        intent.putExtra("session_id", AppContext.now_session_id);
+                        intent.putExtra("qq_id", qq_id);
+                        startActivity(intent);
+                        onDismiss();
+                        finish();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void onDismiss() {
+                lp.alpha = 1f;
+                ExportConsultNowActivity.this.getWindow().setAttributes(lp);
+            }
+        });
+        PopupWindow popupWindow = popActionUtil.getSubmitConsultSignedPop();
+        int width = (int) (titleTxt.getRootView().getWidth() * 0.618);
+        popupWindow.setWidth(width);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.showAtLocation(titleTxt.getRootView(), Gravity.CENTER, 0, 0);
     }
 
     /**
@@ -278,14 +288,6 @@ public class ExportConsultNowActivity extends BaseFloatActivity {
             }
         });
     }
-//
-//    /**
-//     * 提交的title 和content
-//     */
-//    protected void logInfo(String title, String content) {
-//        Log.e("TAG", title);
-//        Log.e("TAG", content);
-//    }
 
     /**
      * title 和content 内容改变监听
@@ -308,16 +310,12 @@ public class ExportConsultNowActivity extends BaseFloatActivity {
                     String result = jsonObject.getString("result");
                     if (result.equals("Y")) {
                         String qq_id = jsonObject.getString("qq_id");
-//                        Log.e("TAG", "qq_id>>>>>>>>>>>" + qq_id);
-                        Intent intent = new Intent(ExportConsultNowActivity.this, ConsultChatActivity.class);
-                        intent.putExtra("session_id", AppContext.now_session_id);
-                        intent.putExtra("qq_id", qq_id);
-                        startActivity(intent);
+
                         /*
                         todo 加入到QQ会话列表*（更新数据库）
                          */
                         mQueue.add(getMyQQMsgs());
-                        finish();
+                        popMyWindow(qq_id);
 
                     } else {
                         //todo 调到会话列表界面
@@ -352,42 +350,35 @@ public class ExportConsultNowActivity extends BaseFloatActivity {
             stringRequest = new StringRequest(BaseURLUtil.getMyQQMsgs(saveSID), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String s) {
-//                    Log.e("TAG", "s>>>>>>>>>>>>" + s);
                     try {
                         JSONObject object = new JSONObject(s);
                         JSONObject object1 = object.getJSONObject("datas");
                         JSONArray jsonArray = object1.getJSONArray("listData");
                         int length = jsonArray.length();
+
                         /*
                         如果数据库中没有对应QQ会话，则加入对应QQ会话
                          */
-                        List<QQChatInfo> savedQQChatInfos = DataSupport.findAll(QQChatInfo.class);
-                        List<String> savedQQIds = new ArrayList<>();
-                        int qqCounts = savedQQChatInfos.size();
-                        for (int i = 0; i < qqCounts; i++) {
-                            savedQQIds.add(savedQQChatInfos.get(i).getQq_id());
-                        }
-
                         for (int i = 0; i < length; i++) {
                             JSONObject obj = jsonArray.getJSONObject(i);
-                            String qq_id = obj.getString("id");
-
-                            if (!(savedQQIds.contains(qq_id))) {
-                                String msg_time = obj.getString("msg_time");
-                                String fk_user_id = obj.getString("fk_user_id");
-                                QQChatInfo qqChatInfo = new QQChatInfo();
-                                qqChatInfo.setQq_id(qq_id);
-                                qqChatInfo.setMsg_time(msg_time);
-                                qqChatInfo.setFk_user_id(fk_user_id);
-                                qqChatInfo.setCreate_time(obj.getString("create_time"));
-                                qqChatInfo.setStatus(obj.getString("status"));
-                                qqChatInfo.setFk_company_id(obj.getString("fk_company_id"));
-                                qqChatInfo.setElec_price(obj.getString("elec_price"));
-                                qqChatInfo.setFk_pro_id(obj.getString("fk_pro_id"));
-                                qqChatInfo.setMsg_num(obj.getInt("msg_num"));
-                                qqChatInfo.setFk_contract_id(obj.getString("fk_contract_id"));
+                            QQChatInfo qqChatInfo = new QQChatInfo();
+                            String qq_id = obj.optString("id");
+                            qqChatInfo.setQq_id(qq_id);
+                            qqChatInfo.setMsg_title(obj.optString("msg_title"));
+                            qqChatInfo.setMsg_time(obj.optString("msg_time"));
+                            qqChatInfo.setFk_user_id(obj.optString("fk_user_id"));
+                            qqChatInfo.setCreate_time(obj.optString("create_time"));
+                            qqChatInfo.setStatus(obj.optString("status"));
+                            qqChatInfo.setFk_company_id(obj.optString("fk_company_id"));
+                            qqChatInfo.setElec_price(obj.optString("elec_price"));
+                            qqChatInfo.setFk_pro_id(obj.optString("fk_pro_id"));
+                            qqChatInfo.setMsg_num(obj.optInt("msg_num"));
+                            qqChatInfo.setFk_contract_id(obj.optString("fk_contract_id"));
+                            int size = DataSupport.where("qq_id = ?", qq_id).find(QQChatInfo.class).size();
+                            if (size == 0) {
                                 qqChatInfo.save();
-
+                            } else {
+                                qqChatInfo.updateAll("qq_id = ?", qq_id);
                             }
                         }
 
@@ -408,6 +399,9 @@ public class ExportConsultNowActivity extends BaseFloatActivity {
 
     }
 
+    /**
+     * 更新会话列表
+     */
     static class ChatListUpdateHolder {
         static WeakReference<ExportChatListFragment> listFragmentWeakReference;
 

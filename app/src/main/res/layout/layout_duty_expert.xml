@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout android:layout_width="match_parent"
+        android:background="@android:color/white"
+        android:layout_height="match_parent"
+        android:stretchColumns="1">
+
+        <TableRow android:gravity="center" android:layout_weight="1">
+
+            <LinearLayout android:orientation="vertical" android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="上午"
+                    android:textColor="@color/material_blue_grey_800"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="09:00-12:00"
+                    android:textColor="@color/material_blue_grey_800"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <GridView
+                android:id="@+id/am_expert_gridView"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:numColumns="5">
+
+            </GridView>
+        </TableRow>
+
+        <TableRow android:gravity="center" android:layout_weight="1">
+            <LinearLayout android:orientation="vertical" android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="下午"
+                    android:textColor="@color/material_blue_grey_800"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="14:00-18:00"
+                    android:textColor="@color/material_blue_grey_800"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <GridView
+                android:id="@+id/pm_expert_gridView"
+                android:padding="10dp"
+                android:layout_height="match_parent"
+                android:numColumns="5">
+
+            </GridView>
+        </TableRow>
+    </TableLayout>
+</merge>

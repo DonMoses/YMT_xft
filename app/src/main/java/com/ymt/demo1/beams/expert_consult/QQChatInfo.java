@@ -6,6 +6,16 @@ import org.litepal.crud.DataSupport;
  * Created by Dan on 2015/6/11
  */
 public class QQChatInfo extends DataSupport {
+    private String msg_title;
+
+    public String getMsg_title() {
+        return msg_title;
+    }
+
+    public void setMsg_title(String msg_title) {
+        this.msg_title = msg_title;
+    }
+
     /**
      * qq_id
      */
