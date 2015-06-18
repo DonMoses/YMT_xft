@@ -18,7 +18,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
+import com.ymt.demo1.beams.SearchString;
+import com.ymt.demo1.beams.consult_cato.SearchedConsult;
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
+import com.ymt.demo1.beams.expert_consult.QQMsg;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.launchpages.MainActivity;
 import com.ymt.demo1.main.AppContext;
@@ -151,6 +154,9 @@ public class SignInActivity extends Activity {
                         String savedUserId = sharedPreferences.getString("now_user_id", "");
                         if ((!TextUtils.isEmpty(savedUserId)) && (!savedUserId.equals(jsonObject.getString("id")))) {
                             DataSupport.deleteAll(QQChatInfo.class);
+                            DataSupport.deleteAll(QQMsg.class);
+                            DataSupport.deleteAll(SearchedConsult.class);
+                            DataSupport.deleteAll(SearchString.class);
                         }
 
                         SharedPreferences.Editor editor = sharedPreferences.edit();

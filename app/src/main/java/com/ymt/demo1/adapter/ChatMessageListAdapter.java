@@ -9,9 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.SimpleMessage;
+import com.ymt.demo1.beams.expert_consult.QQMsg;
 import com.ymt.demo1.customViews.CircleImageView;
-import com.ymt.demo1.beams.expert_consult.Chat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +19,7 @@ import java.util.List;
  * Created by Dan on 2015/5/15
  */
 public class ChatMessageListAdapter extends BaseAdapter {
-    Chat chat = new Chat();
-    private List<SimpleMessage> messages = new ArrayList<>();
+    private List<QQMsg> messages = new ArrayList<>();
     private static final int INFO_IN = 0;
     private static final int INFO_OUT = 1;
     LayoutInflater inflater;
@@ -32,12 +30,7 @@ public class ChatMessageListAdapter extends BaseAdapter {
         this.inflater = LayoutInflater.from(context);
     }
 
-    public void setChat(Chat chat) {
-        this.chat = chat;
-        setMessages(chat.getMessages());
-    }
-
-    private void setMessages(List<SimpleMessage> messages) {
+    public void setMessages(List<QQMsg> messages) {
         this.messages = messages;
         notifyDataSetChanged();
     }
@@ -64,10 +57,10 @@ public class ChatMessageListAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (messages.get(position).getType().equals("IN")) {
-            return INFO_IN;
-        } else {
+        if (messages.get(position).getReply_role().equals("001")) {
             return INFO_OUT;
+        } else {
+            return INFO_IN;
         }
     }
 
@@ -111,14 +104,14 @@ public class ChatMessageListAdapter extends BaseAdapter {
         //todo 这里简单模拟专家 、 用户信息。实际中使用Export 和Account 获取
         switch (infoType) {
             case INFO_IN:
-                inViewHolder.exportHeader.setImageBitmap(
-                        BitmapFactory.decodeResource(context.getResources(), R.drawable.moses));
-                inViewHolder.inContent.setText(messages.get(position).getMsgTxt());
+//                inViewHolder.exportHeader.setImageBitmap(
+//                        BitmapFactory.decodeResource(context.getResources(), R.drawable.moses));
+                inViewHolder.inContent.setText(messages.get(position).getContent());
                 break;
             case INFO_OUT:
                 outViewHolder.userHeader.setImageBitmap(
                         BitmapFactory.decodeResource(context.getResources(), R.drawable.moses));
-                outViewHolder.outContent.setText(messages.get(position).getMsgTxt());
+                outViewHolder.outContent.setText(messages.get(position).getContent());
                 break;
             default:
                 break;

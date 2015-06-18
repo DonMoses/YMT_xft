@@ -78,7 +78,6 @@ public class QQChatListAdapter extends BaseAdapter {
         viewHolder.exportName.setText(mList.get(position).getFk_pro_id());
         //todo chat的标题
         viewHolder.msgTitle.setText(mList.get(position).getMsg_title());
-
         return convertView;
     }
 

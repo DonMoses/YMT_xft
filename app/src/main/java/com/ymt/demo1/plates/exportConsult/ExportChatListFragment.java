@@ -179,22 +179,8 @@ public class ExportChatListFragment extends Fragment {
                     for (int i = 0; i < length; i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
                         String content = obj.optString("content");
-                        if (i == 0) {
-                            QQChatListAdapter adapter = (QQChatListAdapter) chatListView.getAdapter();
-                            int size = adapter.getCount();
-                            for (int j = 0; j < size; j++) {
-                                View view = chatListView.getChildAt(j);
-                                if (view != null) {
-                                    TextView recentTxt = (TextView) view.findViewById(R.id.recent_message);
-                                    if (((QQChatInfo) adapter.getItem(i)).getQq_id().equals(qq_id) && recentTxt != null) {
-                                        recentTxt.setText(content);
-                                    }
-                                }
-                            }
-                        }
 
                         QQMsg qqMsg = new QQMsg();
-                        qqMsg.setMsg_id(obj.optString("id"));
                         qqMsg.setContent(content);
                         qqMsg.setPro_expert_user_id(obj.optString("pro_expert_user_id"));
                         qqMsg.setStatus(obj.optString("status"));
@@ -203,14 +189,15 @@ public class ExportChatListFragment extends Fragment {
                         qqMsg.setReply_role(obj.optString("reply_role"));
                         qqMsg.setType(obj.optString("type"));
                         qqMsg.setReply_user_name(obj.optString("reply_user_name"));
-                        String fk_qq_id = obj.optString("fk_qq_id");
-                        qqMsg.setFk_qq_id(fk_qq_id);
-                        int size = DataSupport.where("fk_qq_id = ?", fk_qq_id).find(QQMsg.class).size();
+                        String msg_id = obj.optString("id");
+                        qqMsg.setMsg_id(msg_id);
+                        qqMsg.setFk_qq_id(obj.optString("fk_qq_id"));
+                        int size = DataSupport.where("msg_id = ?", msg_id).find(QQMsg.class).size();
                         if (size == 0) {
                             qqMsg.save();
 //                            Log.e("TAG", ">>>>>>>>>>>>>>>save>>>>>>>>>" + qqMsg.getMsg_id());
                         } else {
-                            qqMsg.updateAll("fk_qq_id = ?", fk_qq_id);
+                            qqMsg.updateAll("msg_id = ?", msg_id);
 //                            Log.e("TAG", ">>>>>>>>>>>>>>>update>>>>>>>>>" + qqMsg.getMsg_id());
                         }
                     }
