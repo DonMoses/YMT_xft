@@ -1,6 +1,5 @@
 package com.ymt.demo1.plates.eduPlane;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,10 +8,9 @@ import android.widget.ListView;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.StudyDatumAdapter;
-import com.ymt.demo1.beams.StudyDatumItem;
+import com.ymt.demo1.beams.edu.StudyDatumItem;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;
-import com.ymt.demo1.main.SearchActivity;
 import com.ymt.demo1.main.SearchViewUtil;
 
 import java.lang.ref.WeakReference;

@@ -1,4 +1,4 @@
-package com.ymt.demo1.beams;
+package com.ymt.demo1.beams.hub;
 
 /**
  * Created by Dan on 2015/6/9

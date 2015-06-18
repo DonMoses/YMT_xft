@@ -33,7 +33,7 @@ import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.NewsSummaryAdapter;
 import com.ymt.demo1.baseClasses.BaseFragment;
-import com.ymt.demo1.beams.NewsSummary;
+import com.ymt.demo1.beams.news.NewsSummary;
 import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.SearchViewUtil;
 

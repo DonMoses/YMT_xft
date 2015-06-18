@@ -112,8 +112,8 @@ public class BaseURLUtil {
     /**
      * 根据sessionID、qqID获得某QQ会话的未读消息
      */
-    public static String getMyUnreadQQMsgUrl(String sessionID, String qq_id) {
-        return QQ_MSG_BASE + sessionID + "&m=getQQUnreadMsg&qq_id=" + qq_id;
+    public static String getMyUnreadQQMsgUrl(String sessionID, String qq_id, String userId) {
+        return QQ_MSG_BASE + sessionID + "&m=getQQUnreadMsg&qq_id=" + qq_id + "&userId=" + userId;
     }
 
     /**

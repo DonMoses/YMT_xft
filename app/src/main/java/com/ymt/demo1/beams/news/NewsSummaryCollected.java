@@ -1,6 +1,4 @@
-package com.ymt.demo1.beams;
-
-import com.ymt.demo1.beams.NewsSummary;
+package com.ymt.demo1.beams.news;
 
 import org.litepal.crud.DataSupport;
 

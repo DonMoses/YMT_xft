@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-
-import com.ymt.demo1.beams.Account;
-
 import org.litepal.LitePalApplication;
 
 import java.util.ArrayList;
@@ -20,7 +17,6 @@ public class AppContext extends LitePalApplication {
     private static Activity floatActivity;
     private static AppContext appContext;
     public static final String SERVICE_BASE_URL = "http://120.24.172.105:8000";
-    public static Account myAccount;
     public static String now_user_id;
     public static String now_session_id;
     public static int screenWidth;
@@ -39,7 +35,6 @@ public class AppContext extends LitePalApplication {
             yActivities = new ArrayList<>();
         }
         appContext = this;
-        myAccount = new Account();
     }
 
     /**

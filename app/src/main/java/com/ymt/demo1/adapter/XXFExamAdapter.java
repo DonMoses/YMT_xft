@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.XXFExam;
+import com.ymt.demo1.beams.edu.XXFExam;
 
 import java.util.ArrayList;
 

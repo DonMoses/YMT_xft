@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.XXFExam;
+import com.ymt.demo1.beams.edu.XXFExam;
 
 import java.util.ArrayList;
 

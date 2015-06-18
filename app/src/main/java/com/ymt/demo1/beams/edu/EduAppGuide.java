@@ -1,4 +1,4 @@
-package com.ymt.demo1.beams;
+package com.ymt.demo1.beams.edu;
 
 /**
  * Created by Dan on 2015/4/10

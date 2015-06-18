@@ -20,7 +20,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.Account;
 import com.ymt.demo1.customViews.MyTitle;
 
 import org.json.JSONException;
@@ -31,6 +30,10 @@ import org.litepal.tablemanager.Connector;
  * Created by Moses on 2015
  */
 public class SignUpActivity extends Activity {
+    public static final String NORMAL_USER = "001";
+    public static final String EXPORT_USER = "002";
+    public static final String MEMBER_USER = "003";
+    public static final String MANAGER_USER = "004";
     private RequestQueue queue;
     //&loginname=moses&pwd=123&phone=333&t=001(t表示用户类型，包括001，002，003，004)
     private boolean liscenseChecked = false;
@@ -93,7 +96,7 @@ public class SignUpActivity extends Activity {
                 String rePsw = rePswTxt.getText().toString();
                 if (!TextUtils.isEmpty(phoneNum) && !TextUtils.isEmpty(account) && !TextUtils.isEmpty(psw) && psw.equals(rePsw)) {
                     //输入正确，todo 请求注册
-                    queue.add(signUpRequest(account, psw, phoneNum, Account.NORMAL_USER));
+                    queue.add(signUpRequest(account, psw, phoneNum, NORMAL_USER));
                 } else if (TextUtils.isEmpty(phoneNum)) {
                     //提示手机号错误
                     Toast.makeText(SignUpActivity.this, "手机号不能为空！", Toast.LENGTH_SHORT).show();
@@ -122,14 +125,7 @@ public class SignUpActivity extends Activity {
         });
     }
 
-    protected void jumpToSignIn(String phone, String account, String userId, String psw, String userType) {
-        Account account1 = new Account();
-        account1.setPhoneNum(phone);
-        account1.setLoginname(account);
-        account1.setPassword(psw);
-        account1.setId(userId);
-        account1.setRole(userType);
-        account1.save();
+    protected void jumpToSignIn(String account,String psw) {
         Toast.makeText(SignUpActivity.this, "注册成功！", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent();
         intent.putExtra("account", account);
@@ -152,14 +148,14 @@ public class SignUpActivity extends Activity {
         String loginBaseUrl = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.RegAction";
         String url = loginBaseUrl + "&loginname=" + account + "&pwd=" + psw + "&phone=" + phone + "&t=" + user_type;
 
-        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
+        return new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     if (jsonObject.getString("result").equals("Y")) {
                         //sign successfully
-                        jumpToSignIn(phone, account, jsonObject.getString("user_id"), psw, user_type);
+                        jumpToSignIn(account,psw);
 
                     } else {
                         //sign unsuccessfully
@@ -175,7 +171,6 @@ public class SignUpActivity extends Activity {
 
             }
         });
-        return request;
     }
 
 

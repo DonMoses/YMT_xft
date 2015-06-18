@@ -1,4 +1,4 @@
-package com.ymt.demo1.beams;
+package com.ymt.demo1.beams.news;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -80,6 +77,7 @@ public class ExportChatListFragment extends Fragment {
         chatListView.setAdapter(chatAdapter);
         List<QQChatInfo> chatInfos = DataSupport.findAll(QQChatInfo.class);
         chatAdapter.setList(chatInfos);
+        getMsgs(chatInfos);
 
         /*
          * todo 会话列表点击事件
@@ -87,10 +85,12 @@ public class ExportChatListFragment extends Fragment {
         chatListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "export " + String.valueOf(position), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "export " + String.valueOf(position), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), ConsultChatActivity.class);
                 intent.putExtra("session_id", AppContext.now_session_id);
                 intent.putExtra("qq_id", ((QQChatInfo) parent.getAdapter().getItem(position)).getQq_id());
+                intent.putExtra("title", ((QQChatInfo) parent.getAdapter().getItem(position)).getMsg_title());
+                startActivityForResult(intent, 1);
                 startActivity(intent);
             }
         });
@@ -138,12 +138,11 @@ public class ExportChatListFragment extends Fragment {
                             } else {
                                 qqChatInfo.updateAll("qq_id = ?", qq_id);
                             }
-                            mQueue.add(sendQQChatMsgRequest(qq_id));
-                            mQueue.add(sendUnreadQQMsgRequest(qq_id));
                         }
 
                         List<QQChatInfo> chatInfos = DataSupport.findAll(QQChatInfo.class);
                         chatAdapter.setList(chatInfos);
+                        getMsgs(chatInfos);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -158,6 +157,13 @@ public class ExportChatListFragment extends Fragment {
         }
         return stringRequest;
 
+    }
+
+    protected void getMsgs(List<QQChatInfo> chats) {
+        int length = chats.size();
+        for (int i = 0; i < length; i++) {
+            mQueue.add(sendQQChatMsgRequest(chats.get(i).getQq_id()));
+        }
     }
 
     /**
@@ -213,56 +219,14 @@ public class ExportChatListFragment extends Fragment {
         });
     }
 
-    /**
-     * 一个QQ会话的所有未读消息
-     *
-     * @param qq_id ： QQ会话id
-     */
-    protected StringRequest sendUnreadQQMsgRequest(final String qq_id) {
-        return new StringRequest(BaseURLUtil.getMyUnreadQQMsgUrl(AppContext.now_session_id, qq_id), new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    JSONObject jsonObject1 = jsonObject.getJSONObject("datas");
-                    int unReadCount = jsonObject1.getInt("size");
-                    QQChatListAdapter adapter = (QQChatListAdapter) chatListView.getAdapter();
-                    int length = adapter.getCount();
-                    if (unReadCount > 0) {
-                        for (int i = 0; i < length; i++) {
-                            View view = chatListView.getChildAt(i);
-                            if (view != null) {
-                                TextView unReadTxt = (TextView) view.findViewById(R.id.unread_message_count);
-                                if (((QQChatInfo) adapter.getItem(i)).getQq_id().equals(qq_id) && unReadTxt != null) {
-                                    unReadTxt.setText(String.valueOf(unReadCount));
-                                    unReadTxt.setAlpha(255);
-                                    unReadTxt.setVisibility(View.VISIBLE);
-                                }
-                            }
-                        }
-                    } else {
-                        for (int i = 0; i < length; i++) {
-                            View view = chatListView.getChildAt(i);
-                            if (view != null) {
-                                TextView unReadTxt = (TextView) view.findViewById(R.id.unread_message_count);
-                                if (((QQChatInfo) adapter.getItem(i)).getQq_id().equals(qq_id) && unReadTxt != null) {
-                                    unReadTxt.setAlpha(0);
-                                    unReadTxt.setVisibility(View.INVISIBLE);
-                                }
-                            }
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
-        });
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (resultCode) {
+            case 1:
+                this.onResume();
+                break;
+            default:
+                break;
+        }
     }
-
 }

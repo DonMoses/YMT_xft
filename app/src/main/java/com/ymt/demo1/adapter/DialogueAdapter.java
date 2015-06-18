@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.EduDialogueInfo;
+import com.ymt.demo1.beams.edu.EduDialogueInfo;
 
 import java.util.ArrayList;
 

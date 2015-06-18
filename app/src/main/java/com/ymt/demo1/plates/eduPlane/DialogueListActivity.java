@@ -14,7 +14,7 @@ import android.widget.ListView;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.DialogueAdapter;
-import com.ymt.demo1.beams.EduDialogueInfo;
+import com.ymt.demo1.beams.edu.EduDialogueInfo;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;
 import com.ymt.demo1.main.SearchViewUtil;

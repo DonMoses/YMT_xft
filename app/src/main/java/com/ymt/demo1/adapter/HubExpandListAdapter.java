@@ -1,7 +1,6 @@
 package com.ymt.demo1.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +8,8 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.HubPlate;
-import com.ymt.demo1.beams.HubSubject;
+import com.ymt.demo1.beams.hub.HubPlate;
+import com.ymt.demo1.beams.hub.HubSubject;
 
 import java.util.ArrayList;
 import java.util.List;

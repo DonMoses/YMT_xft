@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.AppGuideGridViewAdapter;
-import com.ymt.demo1.beams.EduAppGuide;
+import com.ymt.demo1.beams.edu.EduAppGuide;
 import com.ymt.demo1.customViews.DragGridView;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;

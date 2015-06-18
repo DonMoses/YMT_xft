@@ -171,7 +171,7 @@ public class ExportConsultNowActivity extends BaseFloatActivity {
                                 /*
                                  发起一条QQ会话
                                  */
-                                mQueue.add(requestQQChat(AppContext.now_session_id, title, content, expert.getThe_id()));
+                                mQueue.add(requestQQChat(AppContext.now_session_id, title.replaceAll(" ", "%20"), content.replaceAll(" ", "%20"), expert.getThe_id()));
 
 
                             } else {            //非注册用户

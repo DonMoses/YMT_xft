@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.PandectExamsAdapter;
-import com.ymt.demo1.beams.XXFExam;
+import com.ymt.demo1.beams.edu.XXFExam;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;
 import com.ymt.demo1.main.SearchActivity;

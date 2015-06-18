@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
-import com.ymt.demo1.beams.EduAppGuide;
+import com.ymt.demo1.beams.edu.EduAppGuide;
 import com.ymt.demo1.customViews.AppGuideButton;
 
 import java.util.ArrayList;
