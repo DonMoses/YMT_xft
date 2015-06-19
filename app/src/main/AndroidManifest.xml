@@ -69,9 +69,7 @@
         <activity
             android:name=".launchpages.GuideActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".main.file.SearchFileActivity"
             android:launchMode="singleTask"
@@ -240,7 +238,6 @@
             android:name=".plates.news.NewsTabActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".plates.exportConsult.ExportConsultMainActivity"
             android:launchMode="singleTask"
@@ -267,17 +264,17 @@
             android:name=".plates.exportConsult.MoreExpertActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <!--滑动风格主机面-->
+        <!-- 滑动风格主机面 -->
         <activity
             android:name=".mainStyles.NavigationMenuActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/ToolbarBaseTheme" />
 
+        <service android:name=".main.floatWindow.FloatWindowService" />
         <service
-            android:name=".main.floatWindow.FloatWindowService"
-            android:launchMode="singleTask" />
-
+            android:name=".launchpages.QQMsgService"
+            android:exported="false" />
     </application>
 
 </manifest>

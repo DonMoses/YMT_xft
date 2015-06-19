@@ -18,7 +18,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.QQChatListAdapter;
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
-import com.ymt.demo1.beams.expert_consult.QQMsg;
+import com.ymt.demo1.launchpages.QQMsgService;
 import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.BaseURLUtil;
 
@@ -37,13 +37,19 @@ public class ExportChatListFragment extends Fragment {
     public static final String FRAGMENT_TAG = "ExportChatFragment";
     private RequestQueue mQueue;
     public QQChatListAdapter chatAdapter;
-    private ListView chatListView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_export_chat, container, false);
         initChatList(view);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Intent intent = new Intent(getActivity(), QQMsgService.class);
+        getActivity().startService(intent);
     }
 
     public static ExportChatListFragment newInstance(String emptyInfo) {
@@ -72,12 +78,12 @@ public class ExportChatListFragment extends Fragment {
      * 初始化会话界面
      */
     protected void initChatList(View view) {
-        chatListView = (ListView) view.findViewById(R.id.export_chat_list_view);
+        ListView chatListView = (ListView) view.findViewById(R.id.export_chat_list_view);
         chatAdapter = new QQChatListAdapter(getActivity());
         chatListView.setAdapter(chatAdapter);
         List<QQChatInfo> chatInfos = DataSupport.findAll(QQChatInfo.class);
         chatAdapter.setList(chatInfos);
-        getMsgs(chatInfos);
+//        getMsgs(chatInfos);
 
         /*
          * todo 会话列表点击事件
@@ -142,7 +148,7 @@ public class ExportChatListFragment extends Fragment {
 
                         List<QQChatInfo> chatInfos = DataSupport.findAll(QQChatInfo.class);
                         chatAdapter.setList(chatInfos);
-                        getMsgs(chatInfos);
+//                        getMsgs(chatInfos);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -157,66 +163,6 @@ public class ExportChatListFragment extends Fragment {
         }
         return stringRequest;
 
-    }
-
-    protected void getMsgs(List<QQChatInfo> chats) {
-        int length = chats.size();
-        for (int i = 0; i < length; i++) {
-            mQueue.add(sendQQChatMsgRequest(chats.get(i).getQq_id()));
-        }
-    }
-
-    /**
-     * 一个QQ会话的所有消息
-     *
-     * @param qq_id ： QQ会话id
-     */
-    protected StringRequest sendQQChatMsgRequest(final String qq_id) {
-        return new StringRequest(BaseURLUtil.getMyAllQQMsgUrl(AppContext.now_session_id, qq_id), new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    JSONObject jsonObject1 = jsonObject.getJSONObject("datas");
-                    JSONArray jsonArray = jsonObject1.getJSONArray("listData");
-                    int length = jsonArray.length();
-                    //todo 获取所有/部分， 加入所有/部分到数据库
-                    for (int i = 0; i < length; i++) {
-                        JSONObject obj = jsonArray.getJSONObject(i);
-                        String content = obj.optString("content");
-
-                        QQMsg qqMsg = new QQMsg();
-                        qqMsg.setContent(content);
-                        qqMsg.setPro_expert_user_id(obj.optString("pro_expert_user_id"));
-                        qqMsg.setStatus(obj.optString("status"));
-                        qqMsg.setFk_reply_user_id(obj.optString("fk_reply_user_id"));
-                        qqMsg.setReply_time(obj.optString("reply_time"));
-                        qqMsg.setReply_role(obj.optString("reply_role"));
-                        qqMsg.setType(obj.optString("type"));
-                        qqMsg.setReply_user_name(obj.optString("reply_user_name"));
-                        String msg_id = obj.optString("id");
-                        qqMsg.setMsg_id(msg_id);
-                        qqMsg.setFk_qq_id(obj.optString("fk_qq_id"));
-                        int size = DataSupport.where("msg_id = ?", msg_id).find(QQMsg.class).size();
-                        if (size == 0) {
-                            qqMsg.save();
-//                            Log.e("TAG", ">>>>>>>>>>>>>>>save>>>>>>>>>" + qqMsg.getMsg_id());
-                        } else {
-                            qqMsg.updateAll("msg_id = ?", msg_id);
-//                            Log.e("TAG", ">>>>>>>>>>>>>>>update>>>>>>>>>" + qqMsg.getMsg_id());
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
-        });
     }
 
     @Override
