@@ -69,7 +69,7 @@ public class NewsMainFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_parent, container, false);
         //初始化搜索界面
-        searchViewUtil = new SearchViewUtil();
+//        searchViewUtil = new SearchViewUtil();
 
         initView(view);
         return view;
@@ -143,7 +143,7 @@ public class NewsMainFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //初始化搜索界面
-        searchViewUtil.initSearchView(getActivity());
+//        searchViewUtil.initSearchView(getActivity());
     }
 
     private StringRequest stringRequest(String urlStr, final int msgWhat) {

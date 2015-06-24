@@ -3,13 +3,14 @@ package com.ymt.demo1.main;
 import android.content.ContentValues;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
@@ -36,20 +37,26 @@ public class SearchActivity extends BaseFloatActivity {
         sharedPreferences = getSharedPreferences(SearchActivity.SEARCH_PREFERENCES, MODE_PRIVATE);
         updateIndex = sharedPreferences.getInt(SearchActivity.UPDATE_SEARCH_INDEX, 0);
         initView();
+
+
     }
 
     private int size;
 
     protected void initView() {
+        Spinner spinner = (Spinner) findViewById(R.id.search_spinner);
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, new String[]{"资讯", "知识平台", "论坛", "咨询"});
+        spinner.setAdapter(adapter);
+
         final EditText searchTxt = (EditText) findViewById(R.id.search_edit_text);
         ImageButton searchBtn = (ImageButton) findViewById(R.id.search_btn);
 
         /*
         * 初始化适配器控件
-        * */
+        */
 
         GridView historyView = (GridView) findViewById(R.id.search_history_gridView);
-        ListView hotView = (ListView) findViewById(R.id.search_hot_listView);
+        GridView hotView = (GridView) findViewById(R.id.search_hot_gridView);
 
         final List<SearchString> searchedStrs = DataSupport.findAll(SearchString.class);
         size = searchedStrs.size();
@@ -71,32 +78,35 @@ public class SearchActivity extends BaseFloatActivity {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //更新数据
-                if (!searched.contains(searchTxt.getText().toString())) {
-                    //获取输入框内容，搜索内容，加入搜索数据库表
-                    if (size >= 10) {
-                        ContentValues values = new ContentValues();
-                        values.put("searchedstring", searchTxt.getText().toString());
+                if (!TextUtils.isEmpty(searchTxt.getText().toString())) {
+                    //更新数据
+                    if (!searched.contains(searchTxt.getText().toString())) {
+                        //获取输入框内容，搜索内容，加入搜索数据库表
+                        if (size >= 10) {
+                            ContentValues values = new ContentValues();
+                            values.put("searchedstring", searchTxt.getText().toString());
 
-                        //更新index，则下次输入后更新到上一次的下一个坐标
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        DataSupport.update(SearchString.class, values, updateIndex + 1);
-                        updateIndex++;
-                        if (updateIndex > 10) {
-                            updateIndex = 1;
+                            //更新index，则下次输入后更新到上一次的下一个坐标
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            DataSupport.update(SearchString.class, values, updateIndex + 1);
+                            updateIndex++;
+                            if (updateIndex > 10) {
+                                updateIndex = 1;
+                            }
+                            editor.putInt(SearchActivity.UPDATE_SEARCH_INDEX, updateIndex);
+                            editor.apply();
+                        } else {
+                            saveString(searchTxt.getText().toString());
                         }
-                        editor.putInt(SearchActivity.UPDATE_SEARCH_INDEX, updateIndex);
-                        editor.apply();
-                    } else {
-                        saveString(searchTxt.getText().toString());
-                    }
 
-                    searched.add(searchTxt.getText().toString());
-                    //刷新适配器
-                    historyAdapter.notifyDataSetChanged();
+                        searched.add(searchTxt.getText().toString());
+                        //刷新适配器
+                        historyAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    Toast.makeText(SearchActivity.this, "请输入搜索关键词...", Toast.LENGTH_SHORT).show();
                 }
-                // todo 搜索逻辑
-                Toast.makeText(SearchActivity.this, "搜索：" + searchTxt.getText().toString(), Toast.LENGTH_SHORT).show();
+
                 //清空输入内容， 输入框改变为不聚焦
                 searchTxt.setText(null);
                 searchTxt.clearFocus();

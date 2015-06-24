@@ -24,7 +24,6 @@
         android:layout_height="52dp"
         android:background="@android:color/holo_blue_dark"
         mytitle:setLeftActionIcon="@drawable/back_normal"
-        mytitle:setRightIconL="@drawable/icon_action_more"
         mytitle:setTitleTxt="资讯平台" />
 
     <FrameLayout

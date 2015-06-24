@@ -58,7 +58,8 @@ public class NewsMainActivity extends BaseActivity {
 
     protected void initTitle() {
         final MyTitle title = (MyTitle) findViewById(R.id.my_title);
-        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
+        title.setTitleStyle(MyTitle.TitleStyle.LEFT_ICON);
+//        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
             public void onClick() {
@@ -66,48 +67,48 @@ public class NewsMainActivity extends BaseActivity {
             }
         });
 
-        actionListener = new PopActionListener() {
-            @Override
-            public void onAction(String action) {
-                switch (action) {
-                    case "最近浏览":
-                        Toast.makeText(NewsMainActivity.this, "最近浏览", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(NewsMainActivity.this, NewsRecentViewActivity.class));
-                        break;
-                    case "历史记录":
-                        Toast.makeText(NewsMainActivity.this, "历史记录", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(NewsMainActivity.this, NewsHistoryActivity.class));
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            @Override
-            public void onDismiss() {
-
-            }
-        };
-
-        title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
-            @Override
-            public void onRightLClick() {
-                PopActionUtil popActionUtil = PopActionUtil.getInstance(NewsMainActivity.this);
-                popActionUtil.setActions(new String[]{"最近浏览", "历史记录"});
-                PopupWindow popupWindow = popActionUtil.getSimpleTxtPopActionMenu();
-                popupWindow.showAtLocation(title.getRootView(),
-                        Gravity.TOP | Gravity.END, 10, 100);
-
-                popActionUtil.setActionListener(actionListener);
-
-            }
-
-            @Override
-            public void onRightRClick() {
-                //此视图，右边只包含L按钮
-
-            }
-        });
+//        actionListener = new PopActionListener() {
+//            @Override
+//            public void onAction(String action) {
+//                switch (action) {
+//                    case "最近浏览":
+//                        Toast.makeText(NewsMainActivity.this, "最近浏览", Toast.LENGTH_SHORT).show();
+//                        startActivity(new Intent(NewsMainActivity.this, NewsRecentViewActivity.class));
+//                        break;
+//                    case "历史记录":
+//                        Toast.makeText(NewsMainActivity.this, "历史记录", Toast.LENGTH_SHORT).show();
+//                        startActivity(new Intent(NewsMainActivity.this, NewsHistoryActivity.class));
+//                        break;
+//                    default:
+//                        break;
+//                }
+//            }
+//
+//            @Override
+//            public void onDismiss() {
+//
+//            }
+//        };
+//
+//        title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
+//            @Override
+//            public void onRightLClick() {
+//                PopActionUtil popActionUtil = PopActionUtil.getInstance(NewsMainActivity.this);
+//                popActionUtil.setActions(new String[]{"最近浏览", "历史记录"});
+//                PopupWindow popupWindow = popActionUtil.getSimpleTxtPopActionMenu();
+//                popupWindow.showAtLocation(title.getRootView(),
+//                        Gravity.TOP | Gravity.END, 10, 100);
+//
+//                popActionUtil.setActionListener(actionListener);
+//
+//            }
+//
+//            @Override
+//            public void onRightRClick() {
+//                //此视图，右边只包含L按钮
+//
+//            }
+//        });
     }
 
     protected void initView() {

@@ -2,44 +2,63 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E3E1DE"
+    android:background="@android:color/holo_blue_light"
     android:orientation="vertical">
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_margin="5dp"
-        android:background="@drawable/bg_input_box">
-
-        <EditText
-            android:id="@id/search_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:gravity="center_vertical"
-            android:hint="请输入关键字"
-            android:maxLength="20"
-            android:textColor="@color/material_blue_grey_800"
-            android:textColorHint="@android:color/darker_gray"
-            android:textSize="14dp" />
-
-        <ImageButton
-            android:id="@id/search_btn"
-            android:layout_width="23dip"
-            android:layout_height="23dip"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/icon_search_normal" />
-
-    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1"
-        android:background="#FFFFFF"
+        android:layout_height="48dp"
+        android:layout_marginTop="35dp"
+        android:orientation="horizontal"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp">
+
+        <Spinner
+            android:id="@+id/search_spinner"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:popupBackground="@android:color/holo_blue_dark"
+            android:spinnerMode="dropdown">
+
+        </Spinner>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@android:color/white">
+
+            <EditText
+                android:id="@id/search_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="请输入关键字"
+                android:maxLength="20"
+                android:textColor="@color/material_blue_grey_800"
+                android:textColorHint="@android:color/darker_gray"
+                android:textSize="14dp" />
+
+            <ImageButton
+                android:id="@id/search_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/holo_green_dark"
+                android:src="@drawable/icon_search" />
+
+        </FrameLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:orientation="vertical">
 
         <TextView
@@ -49,7 +68,7 @@
             android:layout_marginStart="10dp"
             android:gravity="center_vertical"
             android:text="搜索记录"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@android:color/white"
             android:textSize="18sp" />
 
         <View
@@ -68,10 +87,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_weight="2"
-        android:background="#FFFFFF"
         android:orientation="vertical">
 
         <TextView
@@ -81,7 +98,7 @@
             android:layout_marginStart="10dp"
             android:gravity="center_vertical"
             android:text="热门搜索"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@android:color/white"
             android:textSize="18sp" />
 
         <View
@@ -89,12 +106,13 @@
             android:layout_height="0.5dp"
             android:background="@android:color/holo_blue_dark" />
 
-        <ListView
-            android:id="@+id/search_hot_listView"
+        <GridView
+            android:id="@+id/search_hot_gridView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:numColumns="2" />
+            android:numColumns="3" />
 
     </LinearLayout>
+
 
 </LinearLayout>

@@ -298,6 +298,13 @@ public class KnowledgePagerTabParentFragment extends BaseFragment implements Obs
             //todo 根据类型返回不同接口的内容。 这里使用KnowledgeTabScrollUltraListViewFragment演示
             Fragment f;
             switch (position) {
+                case 0:
+                    f = new KnowledgeJgFragment();
+                    break;
+                case 1:
+                case 2:
+                    f = new KnowledgeHyFragment();
+                    break;
                 case 3:
                     f = KnowledgeItemListViewFragment.getNewInstance(KnowledgeItemListViewFragment.KNOWLEDGE_KYWX);
                     break;
