@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -26,9 +28,12 @@ import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.launchpages.MainActivity;
 import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.BaseURLUtil;
+import com.ymt.demo1.main.PopActionListener;
+import com.ymt.demo1.main.PopActionUtil;
 import com.ymt.demo1.mainStyles.CircleMenuActivity;
 import com.ymt.demo1.mainStyles.NavigationMenuActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
@@ -44,10 +49,13 @@ public class SignInActivity extends Activity {
     private EditText pswETxt;
     private SharedPreferences sharedPreferences;
     private RequestQueue queue;
+    private boolean isFromConsult;
+    private Button signInBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isFromConsult = getIntent().getBooleanExtra("isFromConsult", false);
         queue = Volley.newRequestQueue(this);
         setContentView(R.layout.activity_sign_in);
         initTitle();
@@ -69,6 +77,7 @@ public class SignInActivity extends Activity {
     protected void initView() {
         final Button signUpBtn = (Button) findViewById(R.id.jump_sign_up);
         final Button foundPswBtn = (Button) findViewById(R.id.jump_found_psw);
+        final Button autoAccBtn = (Button) findViewById(R.id.auto_create_account_btn);
         accountETxt = (EditText) findViewById(R.id.sign_in_account_text);
         pswETxt = (EditText) findViewById(R.id.sign_in_psw_text);
 
@@ -82,7 +91,7 @@ public class SignInActivity extends Activity {
         pswETxt.setText(savedPsw);
 
         //登录按钮
-        final Button signInBtn = (Button) findViewById(R.id.sign_in_btn);
+        signInBtn = (Button) findViewById(R.id.sign_in_btn);
         final ImageButton wechatBtn = (ImageButton) findViewById(R.id.sign_in_wechat);
         final ImageButton qqBtn = (ImageButton) findViewById(R.id.sign_in_qq);
         final ImageButton sinaBtn = (ImageButton) findViewById(R.id.sign_in_sina);
@@ -96,6 +105,10 @@ public class SignInActivity extends Activity {
                         //跳转到注册界面
                         startActivityForResult(new Intent(SignInActivity.this, SignUpActivity.class), 0);
                         break;
+                    case R.id.auto_create_account_btn:
+                        //自动分配账号
+                        queue.add(getAutoAccount());
+                        break;
                     case R.id.jump_found_psw:
                         //找回密码逻辑
 //                        foundPswBtn.setBackgroundColor(Color.BLUE);
@@ -106,6 +119,17 @@ public class SignInActivity extends Activity {
                         /*获取用户名和密码，匹配则登录（跳转到个人界面），不匹配弹出提示框*/
                         account = accountETxt.getText().toString();
                         psw = pswETxt.getText().toString();
+                         /*
+                        如果更改账号登录，则删除前一账号的QQ信息
+                         */
+                        String savedUserAccount = sharedPreferences.getString("account", "");
+                        assert savedUserAccount != null;
+                        if (!savedUserAccount.equals(account)) {
+                            DataSupport.deleteAll(QQChatInfo.class);
+                            DataSupport.deleteAll(QQMsg.class);
+                            DataSupport.deleteAll(SearchedConsult.class);
+                            DataSupport.deleteAll(SearchString.class);
+                        }
                         queue.add(signInRequest(account, psw));
                         break;
                     case R.id.sign_in_wechat:
@@ -128,6 +152,7 @@ public class SignInActivity extends Activity {
         };
 
         signUpBtn.setOnClickListener(onClickListener);
+        autoAccBtn.setOnClickListener(onClickListener);
         foundPswBtn.setOnClickListener(onClickListener);
         signInBtn.setOnClickListener(onClickListener);
         wechatBtn.setOnClickListener(onClickListener);
@@ -147,31 +172,31 @@ public class SignInActivity extends Activity {
                     if (jsonObject.getString("result").equals("Y")) {
                         //登录成功
                         Toast.makeText(SignInActivity.this, R.string.sign_in_ok, Toast.LENGTH_SHORT).show();
-
-                        /*
-                        如果更改账号登录，则删除前一账号的QQ信息
-                         */
-                        String savedUserId = sharedPreferences.getString("now_user_id", "");
-                        if ((!TextUtils.isEmpty(savedUserId)) && (!savedUserId.equals(jsonObject.getString("id")))) {
-                            DataSupport.deleteAll(QQChatInfo.class);
-                            DataSupport.deleteAll(QQMsg.class);
-                            DataSupport.deleteAll(SearchedConsult.class);
-                            DataSupport.deleteAll(SearchString.class);
-                        }
+                        String userId = jsonObject.optString("id");
+                        String userSId = jsonObject.optString("sId");
 
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("account", account);
                         editor.putString("password", psw);
-                        editor.putString("now_user_id", jsonObject.getString("id"));
-                        editor.putString("now_session_id", jsonObject.getString("sId"));
+                        editor.putString("now_user_id", userId);
+                        editor.putString("now_session_id", userSId);
                         editor.apply();
 
-                        AppContext.now_session_id = jsonObject.getString("sId");
-                        AppContext.now_user_id = jsonObject.getString("id");
+                        AppContext.now_session_id = userSId;
+                        AppContext.now_user_id = userId;
 
                         chooseLaunchStyle();
                     } else {
                         Toast.makeText(SignInActivity.this, jsonObject.getString("result"), Toast.LENGTH_SHORT).show();
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("account", account);
+                        editor.putString("password", psw);
+                        editor.putString("now_user_id", "");
+                        editor.putString("now_session_id", "");
+                        editor.apply();
+
+                        AppContext.now_session_id = "";
+                        AppContext.now_user_id = "";
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -228,5 +253,73 @@ public class SignInActivity extends Activity {
             default:
                 break;
         }
+    }
+
+    /**
+     * 自动生成账号
+     */
+    protected StringRequest getAutoAccount() {
+        return new StringRequest(BaseURLUtil.AUTO_CREATE_ACCOUNT, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (jsonObject.getString("result").equals("Y")) {
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                        JSONArray jsonArray = jsonObject1.getJSONArray("listData");
+                        JSONObject obj = jsonArray.getJSONObject(0);
+                        String account = obj.optString("login_name");
+                        String psw = obj.optString("pwd");
+                        accountETxt.setText(account);
+                        pswETxt.setText(psw);
+                        popAutoAccountInfo(account, psw);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+    }
+
+    /**
+     * 弹出自动配置的账号信息
+     */
+    protected void popAutoAccountInfo(String login_name, String pwd) {
+        final WindowManager.LayoutParams lp =
+                SignInActivity.this.getWindow().getAttributes();
+        lp.alpha = 0.3f;
+        SignInActivity.this.getWindow().setAttributes(lp);
+        PopActionUtil popActionUtil = PopActionUtil.getInstance(SignInActivity.this);
+        popActionUtil.setActionListener(new PopActionListener() {
+            @Override
+            public void onAction(String action) {
+                switch (action) {
+                    case "确定":
+
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void onDismiss() {
+                lp.alpha = 1f;
+                SignInActivity.this.getWindow().setAttributes(lp);
+            }
+        });
+        //todo 获取服务器返回的随机账号和密码
+        PopupWindow popupWindow =
+                popActionUtil.getSubmitConsultUnsignedPop(login_name, pwd, isFromConsult);
+        int width = (int) (signInBtn.getRootView().getWidth() * 0.8);
+        popupWindow.setWidth(width);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.showAtLocation(signInBtn.getRootView(), Gravity.CENTER, 0, 0);
     }
 }

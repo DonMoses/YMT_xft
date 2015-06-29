@@ -1,17 +1,13 @@
 package com.ymt.demo1.launchpages;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,8 +48,6 @@ public class LoadingPageActivity extends Activity {
         RequestQueue mQueue = Volley.newRequestQueue(this);
 
         //获取账号密码信息自动登录
-        AppContext.now_user_id = sharedPreferences.getString("now_user_id", "");
-        AppContext.now_session_id = sharedPreferences.getString("now_session_id", "");
         String admin = sharedPreferences.getString("account", "");
         String psw = sharedPreferences.getString("password", "");
         if (!(TextUtils.isEmpty(admin) || TextUtils.isEmpty(psw))) {

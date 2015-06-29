@@ -38,14 +38,13 @@ public class SearchActivity extends BaseFloatActivity {
         updateIndex = sharedPreferences.getInt(SearchActivity.UPDATE_SEARCH_INDEX, 0);
         initView();
 
-
     }
 
     private int size;
 
     protected void initView() {
         Spinner spinner = (Spinner) findViewById(R.id.search_spinner);
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, new String[]{"资讯", "知识平台", "论坛", "咨询"});
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, new String[]{"全部","资讯", "知识平台", "论坛", "咨询"});
         spinner.setAdapter(adapter);
 
         final EditText searchTxt = (EditText) findViewById(R.id.search_edit_text);

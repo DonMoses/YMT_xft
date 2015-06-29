@@ -208,7 +208,9 @@ public class ExportConsultNowActivity extends BaseFloatActivity {
 //                                popupWindow.showAtLocation(titleTxt.getRootView(), Gravity.CENTER, 0, 0);
                                 Toast.makeText(ExportConsultNowActivity.this,
                                         "请先登录...", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(ExportConsultNowActivity.this, SignInActivity.class));
+                                Intent intent = new Intent(ExportConsultNowActivity.this, SignInActivity.class);
+                                intent.putExtra("isFromConsult", true);
+                                startActivity(intent);
                             }
 
                         }

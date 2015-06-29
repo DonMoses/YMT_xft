@@ -31,6 +31,8 @@ public class BaseURLUtil {
     private static final String HOT_CONSULT = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&t=app&m=hot&start=";
     //专家列表
     private static final String EXPERT_LIST = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ExpertAction&t=app&m=list&pagesize=";
+    //自动分配账号
+    public static final String AUTO_CREATE_ACCOUNT = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.AutoRegAction&t=app";
 
     /**
      * 值日专家表

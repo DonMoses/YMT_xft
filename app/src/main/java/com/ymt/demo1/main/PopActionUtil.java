@@ -169,9 +169,13 @@ public class PopActionUtil {
     /**
      * 显示成功提交咨询的游客用户POP
      */
-    public PopupWindow getSubmitConsultUnsignedPop(String accountTxt, String pswTxt) {
+    public PopupWindow getSubmitConsultUnsignedPop(String accountTxt, String pswTxt, boolean isFromConsult) {
         inflater = LayoutInflater.from(context);
         View popContent = inflater.inflate(R.layout.layout_submit_consult_unsigned_pop, null);
+        final TextView consultSent = (TextView) popContent.findViewById(R.id.consult_sent);
+        if (!isFromConsult) {
+            consultSent.setVisibility(View.INVISIBLE);
+        }
         final TextView account = (TextView) popContent.findViewById(R.id.account_txt);
         final TextView psw = (TextView) popContent.findViewById(R.id.psw_txt);
         final TextView editPsw = (TextView) popContent.findViewById(R.id.edit_psw_txt);
