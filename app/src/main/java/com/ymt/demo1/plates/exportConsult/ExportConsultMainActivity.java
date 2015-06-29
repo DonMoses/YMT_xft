@@ -78,6 +78,12 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
     TextView nearlyConsultTime;
     private Expert todayExpert;
     private Expert tomorrowExpert;
+    private ImageView todayExportIcon;
+    private TextView todayExportName;
+    private TextView todayExportMajor;
+    private ImageView tomorrowExportIcon;
+    private TextView tomorrowExportName;
+    private TextView tomorrowExportMajor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,30 +191,30 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
      * 资深专家信息
      */
     protected void initTodTomExport() {
-
-        //todo 今日、明日专家（从最近一周值守专家中获取）
-        todayExpert = DataSupport.findFirst(Expert.class);
-        tomorrowExpert = DataSupport.findLast(Expert.class);
-
         //设置info 到控件
         RelativeLayout todayExportView = (RelativeLayout) findViewById(R.id.today_export_layout);
         RelativeLayout tomorrowExportView = (RelativeLayout) findViewById(R.id.tomorrow_export_layout);
-        ImageView todayExportIcon = (ImageView) findViewById(R.id.today_export_icon);
-        TextView todayExportName = (TextView) findViewById(R.id.today_export_name);
-//        TextView todayExportBirth = (TextView) findViewById(R.id.today_export_birth);
-        TextView todayExportMajor = (TextView) findViewById(R.id.today_export_major);
-        ImageView tomorrowExportIcon = (ImageView) findViewById(R.id.tomorrow_export_icon);
-        TextView tomorrowExportName = (TextView) findViewById(R.id.tomorrow_export_name);
-//        TextView tomorrowExportBirth = (TextView) findViewById(R.id.tomorrow_export_birth);
-        TextView tomorrowExportMajor = (TextView) findViewById(R.id.tomorrow_export_major);
+        todayExportIcon = (ImageView) findViewById(R.id.today_export_icon);
+        todayExportName = (TextView) findViewById(R.id.today_export_name);
+        //        TextView todayExportBirth = (TextView) findViewById(R.id.today_export_birth);
+        todayExportMajor = (TextView) findViewById(R.id.today_export_major);
+        tomorrowExportIcon = (ImageView) findViewById(R.id.tomorrow_export_icon);
+        tomorrowExportName = (TextView) findViewById(R.id.tomorrow_export_name);
+        //        TextView tomorrowExportBirth = (TextView) findViewById(R.id.tomorrow_export_birth);
+        tomorrowExportMajor = (TextView) findViewById(R.id.tomorrow_export_major);
 
-        if (todayExpert != null && tomorrowExpert != null) {
+        if (DataSupport.count(Expert.class) > 1) {
+            // 今日、明日专家（从最近一周值守专家中获取）
+            todayExpert = DataSupport.findFirst(Expert.class);
+            tomorrowExpert = DataSupport.findLast(Expert.class);
             Picasso.with(this).load(todayExpert.getHead_pic()).into(todayExportIcon);
             todayExportName.setText("姓名：" + todayExpert.getUser_name());
             todayExportMajor.setText("职业：" + todayExpert.getMajor_works());
             Picasso.with(this).load(todayExpert.getHead_pic()).into(tomorrowExportIcon);
             tomorrowExportName.setText("姓名：" + tomorrowExpert.getUser_name());
             tomorrowExportMajor.setText("职业：" + tomorrowExpert.getMajor_works());
+        } else {
+            mQueue.add(getExperts(6, 1, ""));
         }
 
         //点击跳转到专家详情
@@ -222,7 +228,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
     protected void initNearlyHotConsult() {
         //todo 最近咨询info
         RecentConsult recentConsult = DataSupport.findFirst(RecentConsult.class);
-        //todo 热门咨询info
+        // todo 热门咨询info
         HotConsult hotConsult = DataSupport.findFirst(HotConsult.class);
 
         //设置info 到控件
@@ -295,27 +301,31 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.today_export_layout:
-                //todo 点击跳转到专家详情界面
-                Intent intent1 = new Intent(ExportConsultMainActivity.this, ExpertInfoActivity.class);
-                intent1.putExtra("expert_info", todayExpert);
-                startActivity(intent1);
+                // 点击跳转到专家详情界面
+                if (todayExpert != null) {
+                    Intent intent1 = new Intent(ExportConsultMainActivity.this, ExpertInfoActivity.class);
+                    intent1.putExtra("expert_info", todayExpert);
+                    startActivity(intent1);
+                }
                 break;
             case R.id.tomorrow_export_layout:
-                //todo 点击跳转到专家详情界面
-                Intent intent2 = new Intent(ExportConsultMainActivity.this, ExpertInfoActivity.class);
-                intent2.putExtra("expert_info", tomorrowExpert);
-                startActivity(intent2);
+                // 点击跳转到专家详情界面
+                if (tomorrowExpert != null) {
+                    Intent intent2 = new Intent(ExportConsultMainActivity.this, ExpertInfoActivity.class);
+                    intent2.putExtra("expert_info", tomorrowExpert);
+                    startActivity(intent2);
+                }
                 break;
             case R.id.nearly_consult_view:
-                //todo 点击进入咨询详细内容界面
+                // 点击进入咨询详细内容界面
                 Toast.makeText(ExportConsultMainActivity.this, "最近咨询", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.hot_consult_view:
-                //todo 点击进入咨询详细内容界面
+                // 点击进入咨询详细内容界面
                 Toast.makeText(ExportConsultMainActivity.this, "热门咨询", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.more_export:
-                //todo 更多专家
+                // 更多专家
                 startActivity(new Intent(ExportConsultMainActivity.this, MoreExpertActivity.class));
                 break;
             default:
@@ -464,6 +474,67 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
                             }
                         }
 
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+    }
+
+    protected StringRequest getExperts(int pageSize, int start, String searchWho) {
+        return new StringRequest(BaseURLUtil.doGetExpertList(pageSize, start, searchWho), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (jsonObject.getString("result").equals("Y")) {
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("datas");
+                        JSONArray jsonArray = jsonObject1.getJSONArray("listData");
+                        int length = jsonArray.length();
+                        for (int i = 0; i < length; i++) {
+                            JSONObject obj = jsonArray.getJSONObject(i);
+                            Expert expert = new Expert();
+                            String id = obj.optString("id");
+                            expert.setThe_id(id);
+                            expert.setCreate_time(obj.optString("create_time"));
+                            expert.setBio(obj.optString("bio"));
+                            expert.setCapacity(obj.optString("capacity"));
+                            expert.setCount(obj.optString("count"));
+                            expert.setExperience(obj.optString("experience"));
+                            expert.setFk_user_id(obj.optString("fk_user_id"));
+                            expert.setGood(obj.optString("good"));
+                            expert.setHead_pic(obj.optString("head_pic"));
+                            expert.setLevel(obj.optString("level"));
+                            expert.setMajor_works(obj.optString("major_works"));
+                            expert.setNote(obj.optString("note"));
+                            expert.setRemark(obj.optString("remark"));
+                            expert.setResume(obj.optString("resume"));
+                            expert.setSocial_part_time(obj.optString("social_part_time"));
+                            expert.setUser_name(obj.optString("user_name"));
+                            expert.setWork_time(obj.optString("work_time"));
+
+                            int size = DataSupport.where("the_id = ?", id).find(Expert.class).size();
+                            if (size == 0) {
+                                expert.save();
+                            } else {
+                                expert.updateAll("the_id = ?", id);
+                            }
+                        }
+
+                        todayExpert = DataSupport.findFirst(Expert.class);
+                        tomorrowExpert = DataSupport.findLast(Expert.class);
+                        Picasso.with(ExportConsultMainActivity.this).load(todayExpert.getHead_pic()).into(todayExportIcon);
+                        todayExportName.setText("姓名：" + todayExpert.getUser_name());
+                        todayExportMajor.setText("职业：" + todayExpert.getMajor_works());
+                        Picasso.with(ExportConsultMainActivity.this).load(todayExpert.getHead_pic()).into(tomorrowExportIcon);
+                        tomorrowExportName.setText("姓名：" + tomorrowExpert.getUser_name());
+                        tomorrowExportMajor.setText("职业：" + tomorrowExpert.getMajor_works());
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

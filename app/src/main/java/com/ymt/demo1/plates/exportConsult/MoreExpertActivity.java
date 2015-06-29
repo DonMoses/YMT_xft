@@ -45,7 +45,7 @@ public class MoreExpertActivity extends BaseFloatActivity {
         super.onCreate(savedInstanceState);
         mQueue = Volley.newRequestQueue(this);
         pageSize = 6;
-        startIndex = 1;
+        startIndex = 2;
         setContentView(R.layout.activity_more_expert);
         searchViewUtil = new SearchViewUtil();
         mQueue.add(getExperts(pageSize, startIndex, ""));
