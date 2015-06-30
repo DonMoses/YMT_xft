@@ -10,7 +10,6 @@ import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
+import com.ymt.demo1.customViews.MyCheckView;
 import com.ymt.demo1.customViews.MyTitle;
 
 import org.json.JSONException;
@@ -35,8 +35,8 @@ public class SignUpActivity extends Activity {
     public static final String MEMBER_USER = "003";
     public static final String MANAGER_USER = "004";
     private RequestQueue queue;
+    private MyCheckView myCheckView;
     //&loginname=moses&pwd=123&phone=333&t=001(t表示用户类型，包括001，002，003，004)
-    private boolean liscenseChecked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,8 @@ public class SignUpActivity extends Activity {
         ForegroundColorSpan span = new ForegroundColorSpan(getResources().getColor(R.color.material_blue_grey_800));
         spannableString.setSpan(span, 0, 7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         licenseTxt.setText(spannableString);
-
+        //switch(消防协议)
+        myCheckView = (MyCheckView) findViewById(R.id.switch_liscense);
         //注册按钮事件
         Button signUpBtn = (Button) findViewById(R.id.do_sign_btn);
         signUpBtn.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +97,13 @@ public class SignUpActivity extends Activity {
                 String rePsw = rePswTxt.getText().toString();
                 if (!TextUtils.isEmpty(phoneNum) && !TextUtils.isEmpty(account) && !TextUtils.isEmpty(psw) && psw.equals(rePsw)) {
                     //输入正确，todo 请求注册
-                    queue.add(signUpRequest(account, psw, phoneNum, NORMAL_USER));
+                    //已经阅读注册说明
+                    if (myCheckView.isChecked()) {
+                        queue.add(signUpRequest(account, psw, phoneNum, NORMAL_USER));
+                    } else {
+                        Toast.makeText(SignUpActivity.this, "请先阅读并同意《新消防安全协议》！", Toast.LENGTH_SHORT).show();
+                    }
+
                 } else if (TextUtils.isEmpty(phoneNum)) {
                     //提示手机号错误
                     Toast.makeText(SignUpActivity.this, "手机号不能为空！", Toast.LENGTH_SHORT).show();
@@ -110,22 +117,9 @@ public class SignUpActivity extends Activity {
             }
         });
 
-        //switch(消防协议)
-        ImageView checkView = (ImageView) findViewById(R.id.switch_liscense);
-        if (liscenseChecked) {
-            checkView.setImageResource(R.drawable.icon_checked);
-        } else {
-            checkView.setImageResource(R.drawable.icon_unchecked);
-        }
-        checkView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                liscenseChecked = !liscenseChecked;
-            }
-        });
     }
 
-    protected void jumpToSignIn(String account,String psw) {
+    protected void jumpToSignIn(String account, String psw) {
         Toast.makeText(SignUpActivity.this, "注册成功！", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent();
         intent.putExtra("account", account);
@@ -155,7 +149,7 @@ public class SignUpActivity extends Activity {
                     JSONObject jsonObject = new JSONObject(s);
                     if (jsonObject.getString("result").equals("Y")) {
                         //sign successfully
-                        jumpToSignIn(account,psw);
+                        jumpToSignIn(account, psw);
 
                     } else {
                         //sign unsuccessfully
