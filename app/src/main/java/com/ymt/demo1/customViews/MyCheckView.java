@@ -162,7 +162,6 @@ public class MyCheckView extends ImageView {
         }
     }
 
-
     public boolean isChecked() {
         return isChecked;
     }
