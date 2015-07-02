@@ -35,7 +35,7 @@ import com.ymt.demo1.main.PopActionUtil;
  * This activity just provides a toolbar.
  * Toolbar is manipulated by ViewPagerTabFragmentParentFragment.
  */
-public class FireHubPagerTabActivity extends BaseActivity {
+public class FireHubMainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +43,10 @@ public class FireHubPagerTabActivity extends BaseActivity {
         setContentView(R.layout.activity_hub);
 
         FragmentManager fm = getSupportFragmentManager();
-        if (fm.findFragmentByTag(FireHubPagerTabParentFragment.FRAGMENT_TAG) == null) {
+        if (fm.findFragmentByTag(FireHubMainFragment.FRAGMENT_TAG) == null) {
             FragmentTransaction ft = fm.beginTransaction();
-            ft.add(R.id.fragment, new FireHubPagerTabParentFragment(),
-                    FireHubPagerTabParentFragment.FRAGMENT_TAG);
+            ft.add(R.id.fragment, new FireHubMainFragment(),
+                    FireHubMainFragment.FRAGMENT_TAG);
             ft.commit();
             fm.executePendingTransactions();
         }
@@ -65,13 +65,13 @@ public class FireHubPagerTabActivity extends BaseActivity {
             public void onAction(String action) {
                 switch (action) {
                     case "我的收藏":
-                        Toast.makeText(FireHubPagerTabActivity.this, action, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FireHubMainActivity.this, action, Toast.LENGTH_SHORT).show();
                         break;
                     case "最近浏览":
-                        Toast.makeText(FireHubPagerTabActivity.this, action, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FireHubMainActivity.this, action, Toast.LENGTH_SHORT).show();
                         break;
                     case "问题申诉":
-                        Toast.makeText(FireHubPagerTabActivity.this, action, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FireHubMainActivity.this, action, Toast.LENGTH_SHORT).show();
                         break;
                     default:
                         break;
@@ -94,13 +94,13 @@ public class FireHubPagerTabActivity extends BaseActivity {
         title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
             public void onRightLClick() {
-                startActivity(new Intent(FireHubPagerTabActivity.this, SearchActivity.class));
+                startActivity(new Intent(FireHubMainActivity.this, SearchActivity.class));
             }
 
             @Override
             public void onRightRClick() {
                 // 设置按钮Action
-                PopActionUtil popActionUtil = PopActionUtil.getInstance(FireHubPagerTabActivity.this);
+                PopActionUtil popActionUtil = PopActionUtil.getInstance(FireHubMainActivity.this);
                 popActionUtil.setActions(new String[]{"我的收藏", "最近浏览", "问题申诉"});
                 popActionUtil.setActionListener(actionListener);
                 PopupWindow popupWindow = popActionUtil.getSimpleTxtPopActionMenu();

@@ -18,7 +18,8 @@ package com.ymt.demo1.plates.hub;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +36,6 @@ import com.ymt.demo1.adapter.HubExpandListAdapter;
 import com.ymt.demo1.baseClasses.BaseFragment;
 import com.ymt.demo1.beams.hub.HubPlate;
 import com.ymt.demo1.beams.hub.HubSubject;
-import com.ymt.demo1.customViews.obsScrollview.ObservableScrollView;
-import com.ymt.demo1.customViews.obsScrollview.ObservableScrollViewCallbacks;
-import com.ymt.demo1.plates.consultCato.CatoConsultListActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,6 +50,7 @@ import java.util.List;
  * ScrollView callbacks are handled by its parent fragment, not its parent activity.
  */
 public class FireHubMainFragment extends BaseFragment {
+    public static final String FRAGMENT_TAG = "FireHubMainFragment";
     private static final String PLATE_REQUEST_URL = "http://120.24.172.105:8000/xxfintf/bbs/getForumList";
     private static final String SUBJECT_REQUEST_BASE_URL = "http://120.24.172.105:8000/xxfintf/bbs/getSubjectListByFid";
     private HubExpandListAdapter hubExpandListAdapter;
@@ -63,16 +62,6 @@ public class FireHubMainFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_scrollview_list_view, container, false);
-
-        final ObservableScrollView scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
-        Fragment parentFragment = getParentFragment();
-        ViewGroup viewGroup = (ViewGroup) parentFragment.getView();
-        if (viewGroup != null) {
-            scrollView.setTouchInterceptionViewGroup((ViewGroup) viewGroup.findViewById(R.id.container));
-            if (parentFragment instanceof ObservableScrollViewCallbacks) {
-                scrollView.setScrollViewCallbacks((ObservableScrollViewCallbacks) parentFragment);
-            }
-        }
 
         initView(view);
 
@@ -97,10 +86,15 @@ public class FireHubMainFragment extends BaseFragment {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 //todo 根据关键字搜索，跳转到咨询搜索界面
                 HubExpandListAdapter adapter = (HubExpandListAdapter) parent.getExpandableListAdapter();
-                String txt = adapter.getChild(groupPosition, childPosition).toString();
-                Intent intent = new Intent(getActivity(), CatoConsultListActivity.class);
-                intent.putExtra("search_key_word", txt);
-                startActivity(intent);
+
+                HubSubject hubSubject = (HubSubject) adapter.getChild(groupPosition, childPosition);
+                String tid = hubSubject.getThreadTid();
+                if (!TextUtils.isEmpty(tid)) {
+                    Intent intent = new Intent(getActivity(), PostContentActivity.class);
+                    intent.putExtra("tid", Integer.valueOf(tid));
+                    startActivity(intent);
+                }
+//                Log.e("TAG", ">>>>>>>>>>>>>>>>threadId>>>>>>>>" + hubSubject.getThreadTid());
 //                Toast.makeText(ConsultCatoMainActivity.this, txt, Toast.LENGTH_SHORT).show();
                 return true;
             }
