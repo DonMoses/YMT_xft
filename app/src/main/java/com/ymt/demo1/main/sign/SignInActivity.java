@@ -184,6 +184,7 @@ public class SignInActivity extends Activity {
 
                         AppContext.now_session_id = userSId;
                         AppContext.now_user_id = userId;
+                        AppContext.now_user_name = account;
 
                         chooseLaunchStyle();
                     } else {
@@ -197,6 +198,7 @@ public class SignInActivity extends Activity {
 
                         AppContext.now_session_id = "";
                         AppContext.now_user_id = "";
+                        AppContext.now_user_name = "";
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
