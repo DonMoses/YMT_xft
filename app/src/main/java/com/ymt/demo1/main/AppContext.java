@@ -19,6 +19,7 @@ public class AppContext extends LitePalApplication {
     public static final String SERVICE_BASE_URL = "http://120.24.172.105:8000";
     public static String now_user_id;
     public static String now_session_id;
+    public static String now_user_name;
     public static int screenWidth;
 
     public static SharedPreferences getSaveAccountPrefecences(Context context) {

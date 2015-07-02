@@ -33,6 +33,22 @@ public class BaseURLUtil {
     private static final String EXPERT_LIST = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ExpertAction&t=app&m=list&pagesize=";
     //自动分配账号
     public static final String AUTO_CREATE_ACCOUNT = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.AutoRegAction&t=app";
+    //论坛基本接口
+    private static final String HUB_BASE = "http://120.24.172.105:8000/xxfintf/";
+
+    /**
+     * 根据tid 获取帖子内容
+     */
+    public static String getPostContentUrl(int tid) {
+        return HUB_BASE + "bbs/getPostListByTid?tid=" + String.valueOf(tid);
+    }
+
+    /**
+     * 回复帖子
+     */
+    public static String getReplyPostUrl(int tid, String msg, String userName) {
+        return HUB_BASE + "bbs/wirtePost?tid=" + String.valueOf(tid) + "&user=" + userName + "&msg=" + msg;
+    }
 
     /**
      * 值日专家表
