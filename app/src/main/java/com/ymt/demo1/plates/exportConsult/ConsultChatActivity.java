@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +21,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.ChatMessageListAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
-import com.ymt.demo1.beams.expert_consult.Expert;
 import com.ymt.demo1.beams.expert_consult.QQMsg;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.AppContext;
@@ -187,7 +187,6 @@ public class ConsultChatActivity extends BaseActivity {
         });
     }
 
-
     /**
      * 一个QQ会话的所有消息
      *
@@ -197,7 +196,7 @@ public class ConsultChatActivity extends BaseActivity {
         return new StringRequest(BaseURLUtil.getMyAllQQMsgUrl(AppContext.now_session_id, qq_id), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-
+//                Log.e("TAG", "chat>>>>>>>>>>>>>>...s" + s);
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     if (jsonObject.getString("result").equals("Y")) {
