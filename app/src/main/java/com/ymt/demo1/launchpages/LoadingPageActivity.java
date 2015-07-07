@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
@@ -38,6 +40,7 @@ import java.util.TimerTask;
 public class LoadingPageActivity extends Activity {
     private SharedPreferences sharedPreferences;
     private TextView versionTxt;
+    private RequestQueue mQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,7 @@ public class LoadingPageActivity extends Activity {
         Connector.getDatabase();
         setContentView(R.layout.activity_loading_page);
         sharedPreferences = AppContext.getSaveAccountPrefecences(this);
-        RequestQueue mQueue = Volley.newRequestQueue(this);
+        mQueue = Volley.newRequestQueue(this);
 
         //获取账号密码信息自动登录
         String admin = sharedPreferences.getString("account", "");
@@ -140,6 +143,7 @@ public class LoadingPageActivity extends Activity {
                         Intent intent = new Intent(LoadingPageActivity.this, QQMsgService.class);
                         startService(intent);
 
+                        mQueue.add(AppContext.getHeader(jsonObject.optString("headPic")));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -173,5 +177,7 @@ public class LoadingPageActivity extends Activity {
             }
         });
     }
+
+
 
 }

@@ -17,6 +17,7 @@
 package com.ymt.demo1.plates.personal;
 
 import android.animation.ValueAnimator;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -33,6 +34,7 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseFragment;
 import com.ymt.demo1.baseClasses.SimpleTestTabFragmentScrollUltraListViewFragment;
 import com.ymt.demo1.baseClasses.ViewHelper;
+import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.customViews.obsScrollview.CacheFragmentStatePagerAdapter;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollViewCallbacks;
 import com.ymt.demo1.customViews.obsScrollview.ScrollState;
@@ -40,6 +42,7 @@ import com.ymt.demo1.customViews.obsScrollview.ScrollUtils;
 import com.ymt.demo1.customViews.obsScrollview.Scrollable;
 import com.ymt.demo1.customViews.obsScrollview.TouchInterceptionFrameLayout;
 import com.ymt.demo1.customViews.widget.PagerSlidingTabStrip;
+import com.ymt.demo1.main.AppContext;
 
 /**
  * This fragment manages ViewPager and its child Fragments.
@@ -54,6 +57,7 @@ public class PersonalPagerTabParentFragment extends BaseFragment implements Obse
     private int mSlop;
     private boolean mScrolled;
     private ScrollState mLastScrollState;
+    private CircleImageView header;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,6 +81,9 @@ public class PersonalPagerTabParentFragment extends BaseFragment implements Obse
         mSlop = vc.getScaledTouchSlop();
         mInterceptionLayout = (TouchInterceptionFrameLayout) view.findViewById(R.id.container);
         mInterceptionLayout.setScrollInterceptionListener(mInterceptionListener);
+
+        header = (CircleImageView) view.findViewById(R.id.personal_icon_btn);
+        header.setImageBitmap(AppContext.headerPic);
 
         return view;
     }

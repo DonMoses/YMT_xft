@@ -1,6 +1,7 @@
 package com.ymt.demo1.adapter;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,14 +130,14 @@ public class KnowledgeItemAdapter extends BaseAdapter {
         switch (knowledgeType) {
             case KnowledgeItemListViewFragment.KNOWLEDGE_BZGF:
                 myViewHolder.titleView.setText(listBZGF.get(position).getArticle_title());
-                myViewHolder.contentView.setText(listBZGF.get(position).getContent());
+                myViewHolder.contentView.setText(Html.fromHtml(listBZGF.get(position).getContent()));
                 myViewHolder.createTimeView.setText(listBZGF.get(position).getCreate_time());
                 myViewHolder.viewCount.setText(listBZGF.get(position).getHitnum() + "查看");
                 myViewHolder.downloadCount.setText(listBZGF.get(position).getDowncount() + "下载");
                 break;
             case KnowledgeItemListViewFragment.KNOWLEDGE_KYWX:
                 myViewHolder.titleView.setText(listKYWX.get(position).getArticle_title());
-                myViewHolder.contentView.setText(listKYWX.get(position).getContent());
+                myViewHolder.contentView.setText(Html.fromHtml(listKYWX.get(position).getContent()));
                 myViewHolder.createTimeView.setText(listKYWX.get(position).getCreate_time());
                 myViewHolder.viewCount.setText(listKYWX.get(position).getHitnum() + "查看");
                 myViewHolder.downloadCount.setText(listKYWX.get(position).getDowncount() + "下载");

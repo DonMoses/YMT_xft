@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.expert_consult.QQMsg;
 import com.ymt.demo1.customViews.CircleImageView;
+import com.ymt.demo1.main.AppContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,8 +110,7 @@ public class ChatMessageListAdapter extends BaseAdapter {
                 inViewHolder.inContent.setText(messages.get(position).getContent());
                 break;
             case INFO_OUT:
-                outViewHolder.userHeader.setImageBitmap(
-                        BitmapFactory.decodeResource(context.getResources(), R.drawable.moses));
+                outViewHolder.userHeader.setImageBitmap(AppContext.headerPic);
                 outViewHolder.outContent.setText(messages.get(position).getContent());
                 break;
             default:

@@ -216,7 +216,7 @@ public class KnowledgeItemListViewFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //传入内容
-                Intent intent = new Intent(getActivity(), KnowledgeDownloadDetailActivity.class);
+                Intent intent = new Intent(getActivity(), KnowledgeItemDetailActivity.class);
                 switch (mKnowledgeType) {
                     case KNOWLEDGE_BZGF:
                         intent.putExtra("title", ((KnowledgeItemBZGF) parent.getAdapter().getItem(position)).getArticle_title());

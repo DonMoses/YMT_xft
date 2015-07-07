@@ -4,16 +4,28 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.ymt.demo1.beams.expert_consult.QQChatInfo;
+import com.ymt.demo1.beams.expert_consult.QQMsg;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.AppContext;
+import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.mainStyles.CircleMenuActivity;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.LongClickItemsAdapter;
 import com.ymt.demo1.main.sign.SignInActivity;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,11 +34,12 @@ import java.util.Collections;
  * Created by Dan on 2015/4/2
  */
 public class SettingActivity extends Activity {
+    private RequestQueue mQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mQueue = Volley.newRequestQueue(this);
         setContentView(R.layout.activity_setting);
         initTitle();
         initView();
@@ -107,6 +120,13 @@ public class SettingActivity extends Activity {
                 //退出当前账号
                 //跳转到登录界面
                 getSharedPreferences("saved_account", MODE_PRIVATE).edit().clear().apply();
+                AppContext.headerPic = null;
+                AppContext.now_user_name = "";
+                AppContext.now_user_id = "";
+                AppContext.now_session_id = "";
+                DataSupport.deleteAll(QQMsg.class);
+                DataSupport.deleteAll(QQChatInfo.class);
+                mQueue.add(signOutAction(AppContext.now_session_id));
                 Intent intent = new Intent(SettingActivity.this, SignInActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);                //清楚前面所有Activity
                 startActivity(intent);
@@ -117,4 +137,20 @@ public class SettingActivity extends Activity {
         });
     }
 
+    /**
+     * 退出账号操作
+     */
+    protected StringRequest signOutAction(String sId) {
+        return new StringRequest(BaseURLUtil.signOutAct(sId), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                Log.e("TAG", ">>>>>>>>>..s>>." + s);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+    }
 }

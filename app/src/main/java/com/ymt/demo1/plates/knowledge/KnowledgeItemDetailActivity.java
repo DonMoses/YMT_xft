@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
@@ -26,7 +27,7 @@ import java.util.Collections;
 /**
  * Created by Dan on 2015/4/29
  */
-public class KnowledgeDownloadDetailActivity extends BaseActivity {
+public class KnowledgeItemDetailActivity extends BaseActivity {
     private PopActionListener actionListener;
 
     @Override
@@ -90,12 +91,12 @@ public class KnowledgeDownloadDetailActivity extends BaseActivity {
 
                 //设置背景颜色变暗
                 final WindowManager.LayoutParams lp =
-                        KnowledgeDownloadDetailActivity.this.getWindow().getAttributes();
+                        KnowledgeItemDetailActivity.this.getWindow().getAttributes();
                 lp.alpha = 0.3f;
-                KnowledgeDownloadDetailActivity.this.getWindow().setAttributes(lp);
+                KnowledgeItemDetailActivity.this.getWindow().setAttributes(lp);
 
                 //todo 弹出下载提示框
-                PopActionUtil popActionUtil = PopActionUtil.getInstance(KnowledgeDownloadDetailActivity.this);
+                PopActionUtil popActionUtil = PopActionUtil.getInstance(KnowledgeItemDetailActivity.this);
                 PopupWindow popupWindow = popActionUtil.getDownloadPopActionMenu();
                 popupWindow.showAtLocation(downBtn.getRootView(), Gravity.CENTER, 0, 0);
 
@@ -104,16 +105,16 @@ public class KnowledgeDownloadDetailActivity extends BaseActivity {
                     public void onAction(String action) {
                         switch (action) {
                             case "确定":
-                                Toast.makeText(KnowledgeDownloadDetailActivity.this, "确定", Toast.LENGTH_LONG).show();
+                                Toast.makeText(KnowledgeItemDetailActivity.this, "确定", Toast.LENGTH_LONG).show();
                                 break;
                             case "取消":
-                                Toast.makeText(KnowledgeDownloadDetailActivity.this, "取消", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(KnowledgeItemDetailActivity.this, "取消", Toast.LENGTH_SHORT).show();
                                 break;
                             default:
                                 break;
                         }
                         lp.alpha = 1f;
-                        KnowledgeDownloadDetailActivity.this.getWindow().setAttributes(lp);
+                        KnowledgeItemDetailActivity.this.getWindow().setAttributes(lp);
                     }
 
                     @Override
@@ -127,8 +128,8 @@ public class KnowledgeDownloadDetailActivity extends BaseActivity {
         /*
         内容textView
          */
-        final TextView contentView = (TextView) findViewById(R.id.content);
-        contentView.setText(getIntent().getStringExtra("content"));
+        final WebView contentView = (WebView) findViewById(R.id.content);
+        contentView.loadDataWithBaseURL(null, getIntent().getStringExtra("content"), "text/html", "utf-8", null);
 
         ArrayList<String> list = new ArrayList<>();
         String[] hotArray = new String[]{"消防部门", "规范组", "建委",
@@ -144,7 +145,7 @@ public class KnowledgeDownloadDetailActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String str = parent.getAdapter().getItem(position).toString();
                 //todo
-                Toast.makeText(KnowledgeDownloadDetailActivity.this, str, Toast.LENGTH_SHORT).show();
+                Toast.makeText(KnowledgeItemDetailActivity.this, str, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -156,7 +157,7 @@ public class KnowledgeDownloadDetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //todo 写点评
-                Toast.makeText(KnowledgeDownloadDetailActivity.this, "写点评...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(KnowledgeItemDetailActivity.this, "写点评...", Toast.LENGTH_SHORT).show();
             }
         });
     }

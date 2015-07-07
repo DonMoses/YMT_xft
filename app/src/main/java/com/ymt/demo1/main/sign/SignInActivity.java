@@ -41,7 +41,7 @@ import org.litepal.crud.DataSupport;
 /**
  * Created by Dan on 2015/4/2
  */
-public class SignInActivity extends Activity {
+public class SignInActivity extends Activity{
     String account;
     String psw;
 
@@ -189,6 +189,8 @@ public class SignInActivity extends Activity {
                         AppContext.now_session_id = userSId;
                         AppContext.now_user_id = userId;
                         AppContext.now_user_name = account;
+
+                        queue.add(AppContext.getHeader(jsonObject.optString("headPic")));
 
                         chooseLaunchStyle();
                     } else {

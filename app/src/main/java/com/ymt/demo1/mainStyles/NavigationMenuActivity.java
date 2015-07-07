@@ -2,6 +2,7 @@ package com.ymt.demo1.mainStyles;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -30,6 +31,7 @@ import com.ymt.demo1.adapter.CyclePagerAdapter;
 import com.ymt.demo1.beams.consult_cato.ConsultCato;
 import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.customViews.IndicatorView;
+import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.main.SearchActivity;
 import com.ymt.demo1.main.advice.AdviceActivity;
@@ -70,6 +72,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
     public static ManageAppearanceActivity.StyleChangeListener styleChangeListener;
     private List<ConsultCato> catoList;
     private ConsultCatoAdapter catoAdapter;
+    private CircleImageView personIconBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +85,12 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         styleChangeListener = this;
         setContentView(R.layout.activity_navigation_menu);
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        personIconBtn.setImageBitmap(AppContext.headerPic);
     }
 
     protected void initView() {
@@ -222,7 +231,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
      */
     protected void initDrawerMenuView() {
         //头像
-        CircleImageView personIconBtn = (CircleImageView) findViewById(R.id.personal_icon_btn);
+        personIconBtn = (CircleImageView) findViewById(R.id.personal_icon_btn);
         //注册
         View signUp = findViewById(R.id.sign_up);
         //帮助

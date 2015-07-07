@@ -3,6 +3,11 @@ package com.ymt.demo1.main;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 
 import org.litepal.LitePalApplication;
 
@@ -21,6 +26,7 @@ public class AppContext extends LitePalApplication {
     public static String now_session_id;
     public static String now_user_name;
     public static int screenWidth;
+    public static Bitmap headerPic;
 
     public static SharedPreferences getSaveAccountPrefecences(Context context) {
         return context.getSharedPreferences("saved_account", MODE_PRIVATE);
@@ -36,6 +42,7 @@ public class AppContext extends LitePalApplication {
             yActivities = new ArrayList<>();
         }
         appContext = this;
+
     }
 
     /**
@@ -101,4 +108,22 @@ public class AppContext extends LitePalApplication {
         }
         yActivities.clear();
     }
+
+    /**
+     * 获取头像
+     */
+    public static ImageRequest getHeader(String headerUrl) {
+        return new ImageRequest(BaseURLUtil.BASE_URL + headerUrl, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap bitmap) {
+                headerPic = bitmap;
+            }
+        }, 72, 72, Bitmap.Config.RGB_565, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                headerPic = null;
+            }
+        });
+    }
+
 }

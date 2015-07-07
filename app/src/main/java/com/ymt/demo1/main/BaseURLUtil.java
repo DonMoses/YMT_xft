@@ -1,7 +1,5 @@
 package com.ymt.demo1.main;
 
-import android.util.Log;
-
 /**
  * Created by Dan on 2015/6/10
  */
@@ -12,6 +10,7 @@ public class BaseURLUtil {
     public static final String XF_PUB_JZXF = "XF_PUB_JZXF";
     public static final String PUB_ZX_GJC = "PUB_ZX_GJC";
     public static final String PUB_ZX_ZY = "PUB_ZX_ZY";
+    public static final String BASE_URL = "http://120.24.172.105:8000";
 
     //登录
     private static final String SIGN_IN_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.LoginAction&loginname=";
@@ -39,7 +38,15 @@ public class BaseURLUtil {
     private static final String HUB_BASE = "http://120.24.172.105:8000/xxfintf/";
     //修改密码
     private static final String CHANGE_PSW = "http://120.24.172.105:8000/fw?t=app&controller=com.xfsm.action.PwdAction&loginname=";
+    //退出账号
+    private static final String SIGN_OUT = "http://120.24.172.105:8000/exit.jsp?sId=";
 
+    /**
+     * 退出账号
+     */
+    public static String signOutAct(String sId) {
+        return SIGN_OUT + sId;
+    }
 
     /**
      * 修改密码

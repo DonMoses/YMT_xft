@@ -37,8 +37,8 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
     private TextView signText, adviceText, helpText, settingText, collectionText;
     public static ManageAppearanceActivity.StyleChangeListener styleChangeListener;
 
-    private String[] titles = new String[]{"个人中心", "更多", "论坛", "知识平台", "咨询分类", "教育平台", "专家咨询", "资讯平台"};
-    private int[] titleIcons = new int[]{R.drawable.icon_personal_center,
+    private String[] titles = new String[]{"", "", "", "", "", "", "", ""};
+    private int[] titleIcons = new int[]{R.drawable.icon_per_center,
             R.drawable.icon_more, R.drawable.icon_fire_hub,
             R.drawable.icon_fire_learning, R.drawable.icon_consult_cato,
             R.drawable.icon_edu_plane, R.drawable.icon_fire_expert,
