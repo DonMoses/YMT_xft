@@ -31,6 +31,7 @@ import com.ymt.demo1.beams.consult_cato.ConsultCato;
 import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.customViews.IndicatorView;
 import com.ymt.demo1.main.BaseURLUtil;
+import com.ymt.demo1.main.SearchActivity;
 import com.ymt.demo1.main.advice.AdviceActivity;
 import com.ymt.demo1.main.help.HelpActivity;
 import com.ymt.demo1.main.setting.ManageAppearanceActivity;
@@ -42,8 +43,7 @@ import com.ymt.demo1.plates.consultCato.CatoConsultListActivity;
 import com.ymt.demo1.plates.consultCato.ConsultCatoMainActivity;
 import com.ymt.demo1.plates.eduPlane.EduMainActivity;
 import com.ymt.demo1.plates.exportConsult.ExportConsultMainActivity;
-import com.ymt.demo1.plates.exportConsult.MoreExpertActivity;
-import com.ymt.demo1.plates.hub.FireHubPagerTabActivity;
+import com.ymt.demo1.plates.hub.FireHubMainActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
 import com.ymt.demo1.plates.news.NewsMainActivity;
 import com.ymt.demo1.plates.personal.PersonalPagerTabActivity;
@@ -323,7 +323,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                         startActivity(new Intent(NavigationMenuActivity.this, KnowledgeMainActivity.class));        //知识平台
                         break;
                     case R.id.img_hub:
-                        startActivity(new Intent(NavigationMenuActivity.this, FireHubPagerTabActivity.class));      //论坛
+                        startActivity(new Intent(NavigationMenuActivity.this, FireHubMainActivity.class));      //论坛
                         break;
                     case R.id.img_more:
                         startActivity(new Intent(NavigationMenuActivity.this, MoreCatoActivity.class));             //更多
@@ -404,6 +404,14 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
      */
     protected void autoNextPage(int toPosition) {
         adViewPager.setCurrentItem(toPosition);
+    }
+
+    public void onSearchBtnClicked(MenuItem item) {
+        switch (item.getTitle().toString()) {
+            case "action_search":
+                startActivity(new Intent(this, SearchActivity.class));
+                break;
+        }
     }
 
     /*
