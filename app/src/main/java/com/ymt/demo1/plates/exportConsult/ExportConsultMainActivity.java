@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -30,7 +31,6 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -89,12 +89,19 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mQueue = Volley.newRequestQueue(this);
-        mQueue.add(hotConsultRequest(1, 5));
-        mQueue.add(recentConsultRequest(1, 20));
+        mQueue.add(hotConsultRequest(1, 10));
+        mQueue.add(recentConsultRequest(1, 10));
         setContentView(R.layout.activity_export_consult_main);
         searchViewUtil = new SearchViewUtil();
         initTitle();
         initView();
+    }
+
+    @Override
+    protected void onDestroy() {
+        DataSupport.deleteAll(HotConsult.class);
+        DataSupport.deleteAll(RecentConsult.class);
+        super.onDestroy();
     }
 
     protected void initTitle() {
@@ -241,12 +248,12 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
 
         if (recentConsult != null) {
             nearlyConsultTitle.setText(recentConsult.getArticle_title());
-            nearlyConsultContent.setText(recentConsult.getContent());
+            nearlyConsultContent.setText(Html.fromHtml(recentConsult.getContent()));
             nearlyConsultTime.setText(recentConsult.getCreate_time().substring(0, 10));
         }
         if (hotConsult != null) {
             hotConsultTitle.setText(hotConsult.getArticle_title());
-            hotConsultContent.setText(hotConsult.getContent());
+            hotConsultContent.setText(Html.fromHtml(hotConsult.getContent()));
             hotConsultTime.setText(hotConsult.getCreate_time().substring(0, 10));
         }
 
@@ -317,12 +324,10 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
                 }
                 break;
             case R.id.nearly_consult_view:
-                // 点击进入咨询详细内容界面
-                Toast.makeText(ExportConsultMainActivity.this, "最近咨询", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ExportConsultMainActivity.this, RecentConsultListActivity.class));
                 break;
             case R.id.hot_consult_view:
-                // 点击进入咨询详细内容界面
-                Toast.makeText(ExportConsultMainActivity.this, "热门咨询", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ExportConsultMainActivity.this, HotConsultListActivity.class));
                 break;
             case R.id.more_export:
                 // 更多专家
@@ -411,9 +416,9 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
                             }
 
                             if (i == 0) {
-                                nearlyConsultTitle.setText(consult.getArticle_title());
-                                nearlyConsultContent.setText(consult.getContent());
-                                nearlyConsultTime.setText(consult.getCreate_time().substring(0, 10));
+                                hotConsultTitle.setText(consult.getArticle_title());
+                                hotConsultContent.setText(Html.fromHtml(consult.getContent()));
+                                hotConsultTime.setText(consult.getCreate_time().substring(0, 10));
                             }
                         }
                     }
@@ -469,7 +474,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
 
                             if (i == 0) {
                                 nearlyConsultTitle.setText(consult.getArticle_title());
-                                nearlyConsultContent.setText(consult.getContent());
+                                nearlyConsultContent.setText(Html.fromHtml(consult.getContent()));
                                 nearlyConsultTime.setText(consult.getCreate_time().substring(0, 10));
                             }
                         }
@@ -547,4 +552,5 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
             }
         });
     }
+
 }
