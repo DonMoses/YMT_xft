@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.main.setting.ManagePswActivity;
+import com.ymt.demo1.main.sign.ChangePswActivity;
 
 /**
  * Created by Dan on 2015/4/27
@@ -169,7 +170,7 @@ public class PopActionUtil {
     /**
      * 显示成功提交咨询的游客用户POP
      */
-    public PopupWindow getSubmitConsultUnsignedPop(String accountTxt, String pswTxt, boolean isFromConsult) {
+    public PopupWindow getSubmitConsultUnsignedPop(final String accountTxt, String pswTxt, boolean isFromConsult) {
         inflater = LayoutInflater.from(context);
         View popContent = inflater.inflate(R.layout.layout_submit_consult_unsigned_pop, null);
         final TextView consultSent = (TextView) popContent.findViewById(R.id.consult_sent);
@@ -192,7 +193,9 @@ public class PopActionUtil {
         spannableString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                context.startActivity(new Intent(context, ManagePswActivity.class));
+                Intent intent = new Intent(context, ChangePswActivity.class);
+                intent.putExtra("loginName", accountTxt);
+                context.startActivity(intent);
             }
         }, 3, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         //这只spannableString

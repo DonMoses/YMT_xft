@@ -81,10 +81,12 @@ public class SignInActivity extends Activity {
         accountETxt = (EditText) findViewById(R.id.sign_in_account_text);
         pswETxt = (EditText) findViewById(R.id.sign_in_psw_text);
 
-          /*
+        sharedPreferences = AppContext.getSaveAccountPrefecences(this);
+
+              /*
         从sharedPreference获取保存到本地的账号信息
          */
-        sharedPreferences = AppContext.getSaveAccountPrefecences(this);
+
         String savedAccount = sharedPreferences.getString("account", "");
         String savedPsw = sharedPreferences.getString("password", "");
         accountETxt.setText(savedAccount);
@@ -113,7 +115,9 @@ public class SignInActivity extends Activity {
                         //找回密码逻辑
 //                        foundPswBtn.setBackgroundColor(Color.BLUE);
 //                        foundPswBtn.setTextColor(Color.WHITE);
-                        startActivity(new Intent(SignInActivity.this, FoundPswActivity.class));
+                        Intent intent = new Intent(SignInActivity.this, ChangePswActivity.class);
+                        intent.putExtra("loginName", accountETxt.getText().toString());
+                        startActivityForResult(intent, 128);
                         break;
                     case R.id.sign_in_btn:
                         /*获取用户名和密码，匹配则登录（跳转到个人界面），不匹配弹出提示框*/
@@ -224,6 +228,14 @@ public class SignInActivity extends Activity {
                     Log.e("TAG", "password>>>" + data.getStringExtra("password"));
                 }
                 break;
+            case 128:
+                if (resultCode == RESULT_OK) {      //从注册界面返回的账号和密码
+                    accountETxt.setText(data.getStringExtra("loginName"));
+                    pswETxt.setText(data.getStringExtra("psw"));
+                    Log.e("TAG", "account>>>" + data.getStringExtra("account"));
+                    Log.e("TAG", "password>>>" + data.getStringExtra("password"));
+                }
+                break;
             default:
                 break;
         }
@@ -275,6 +287,7 @@ public class SignInActivity extends Activity {
                         accountETxt.setText(account);
                         pswETxt.setText(psw);
                         popAutoAccountInfo(account, psw);
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -324,4 +337,5 @@ public class SignInActivity extends Activity {
         popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popupWindow.showAtLocation(signInBtn.getRootView(), Gravity.CENTER, 0, 0);
     }
+
 }

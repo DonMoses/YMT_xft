@@ -1,5 +1,7 @@
 package com.ymt.demo1.main;
 
+import android.util.Log;
+
 /**
  * Created by Dan on 2015/6/10
  */
@@ -35,6 +37,18 @@ public class BaseURLUtil {
     public static final String AUTO_CREATE_ACCOUNT = "http://120.24.172.105:8000/fw?t=app&controller=com.xfsm.action.AutoRegAction&method=distributionAccount";
     //论坛基本接口
     private static final String HUB_BASE = "http://120.24.172.105:8000/xxfintf/";
+    //修改密码
+    private static final String CHANGE_PSW = "http://120.24.172.105:8000/fw?t=app&controller=com.xfsm.action.PwdAction&loginname=";
+
+
+    /**
+     * 修改密码
+     */
+    public static String getChangePswUrl(String loginName, String oldPsw, String newPsw) {
+        //&old_pwd=222222&new_pwd=111111
+//        Log.e("TAG",">>>>>>>>>>url>>>>>"+CHANGE_PSW + loginName + "&old_pwd=" + oldPsw + "&new_pwd=" + newPsw);
+        return CHANGE_PSW + loginName + "&old_pwd=" + oldPsw + "&new_pwd=" + newPsw;
+    }
 
     /**
      * 根据tid 获取帖子内容
