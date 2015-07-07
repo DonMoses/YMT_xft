@@ -96,7 +96,7 @@ public class KnowledgeItemAdapter extends BaseAdapter {
                 case KnowledgeItemListViewFragment.KNOWLEDGE_KYWX:
                     convertView = inflater.inflate(R.layout.layout_knowledge_item, null);
                     myViewHolder = new MyViewHolder();
-                    myViewHolder.titleView = (TextView) convertView.findViewById(R.id.title);
+                    myViewHolder.titleView = (TextView) convertView.findViewById(R.id.subject);
                     myViewHolder.createTimeView = (TextView) convertView.findViewById(R.id.create_time);
                     myViewHolder.contentView = (TextView) convertView.findViewById(R.id.content_text);
                     myViewHolder.downloadBtn = (ImageButton) convertView.findViewById(R.id.download_btn);

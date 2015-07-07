@@ -1,11 +1,14 @@
 package com.ymt.demo1.beams.expert_consult;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.litepal.crud.DataSupport;
 
 /**
  * Created by Dan on 2015/6/15
  */
-public class RecentConsult extends DataSupport {
+public class RecentConsult extends DataSupport implements Parcelable {
     private String content;
     private String the_id;
     private String fk_expert_id;
@@ -132,4 +135,57 @@ public class RecentConsult extends DataSupport {
     public void setJz(String jz) {
         this.jz = jz;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.content);
+        dest.writeString(this.the_id);
+        dest.writeString(this.fk_expert_id);
+        dest.writeString(this.article_title);
+        dest.writeString(this.fk_consult_user_id);
+        dest.writeString(this.status);
+        dest.writeString(this.gg);
+        dest.writeString(this.hitnum);
+        dest.writeString(this.create_time);
+        dest.writeString(this.fk_create_user_id);
+        dest.writeString(this.ishot);
+        dest.writeString(this.jz);
+        dest.writeString(this.gjc);
+        dest.writeString(this.zy);
+    }
+
+    public RecentConsult() {
+    }
+
+    protected RecentConsult(Parcel in) {
+        this.content = in.readString();
+        this.the_id = in.readString();
+        this.fk_expert_id = in.readString();
+        this.article_title = in.readString();
+        this.fk_consult_user_id = in.readString();
+        this.status = in.readString();
+        this.gg = in.readString();
+        this.hitnum = in.readString();
+        this.create_time = in.readString();
+        this.fk_create_user_id = in.readString();
+        this.ishot = in.readString();
+        this.jz = in.readString();
+        this.gjc = in.readString();
+        this.zy = in.readString();
+    }
+
+    public static final Parcelable.Creator<RecentConsult> CREATOR = new Parcelable.Creator<RecentConsult>() {
+        public RecentConsult createFromParcel(Parcel source) {
+            return new RecentConsult(source);
+        }
+
+        public RecentConsult[] newArray(int size) {
+            return new RecentConsult[size];
+        }
+    };
 }

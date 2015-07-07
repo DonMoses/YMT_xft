@@ -7,73 +7,70 @@
     android:padding="3dp">
 
     <TextView
-        android:id="@+id/subject"
+        android:id="@+id/content_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:hint="高层建筑安全宣传标语"
+        android:hint="user"
+        android:minHeight="32dp"
+        android:textColor="@color/material_blue_grey_950"
+        android:textColorHint="@color/material_blue_grey_950"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/content_subject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6.18dp"
+        android:layout_marginStart="6.18dp"
+        android:layout_toEndOf="@id/content_user"
+        android:layout_toRightOf="@id/content_user"
+        android:gravity="center_vertical"
+        android:hint="subject"
         android:minHeight="32dp"
         android:textColor="@color/material_blue_grey_950"
         android:textColorHint="@color/material_blue_grey_950"
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/content"
+        android:id="@+id/content_msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/subject"
+        android:layout_below="@id/content_subject"
         android:ellipsize="end"
-        android:hint="答: 1、人人防灾防火，家家平安快乐。2、勿忘火警119，危险时刻真朋友。3、消防设施别乱动，灭火救人有大用。"
+        android:hint="msg content"
         android:lineSpacingExtra="2dp"
         android:maxLines="2"
         android:textColor="@android:color/darker_gray"
         android:textColorHint="@color/material_blue_grey_950"
         android:textSize="14sp" />
 
-    <LinearLayout
-        android:id="@+id/comment_layout"
+    <TextView
+        android:id="@+id/content_tags"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/content"
-        android:layout_marginRight="20dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_below="@id/content_msg"
         android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="8dp"
-        android:gravity="bottom"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/comment_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:focusable="false"
-            android:padding="6.18dp"
-            android:src="@drawable/icon_comment_count_normal" />
-
-        <TextView
-            android:id="@+id/comment_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="4782人"
-            android:textColor="@color/material_blue_grey_800"
-            android:textColorHint="@android:color/darker_gray"
-            android:textSize="12sp" />
-
-    </LinearLayout>
+        android:hint="tags"
+        android:textColor="@color/material_blue_grey_800"
+        android:textColorHint="@android:color/darker_gray"
+        android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/time"
-        android:layout_toStartOf="@id/comment_layout"
-        android:layout_toLeftOf="@id/comment_layout"
+        android:id="@+id/content_dateline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="2015-5-20 11:30"
-        android:layout_alignBottom="@id/comment_layout"
-        android:layout_alignBaseline="@id/comment_layout"
+        android:layout_alignBaseline="@id/content_tags"
+        android:layout_alignBottom="@id/content_tags"
         android:layout_marginEnd="18dp"
         android:layout_marginRight="18dp"
+        android:layout_toLeftOf="@id/content_tags"
+        android:layout_toStartOf="@id/content_tags"
+        android:hint="2015-5-20 11:30"
         android:textColor="@color/material_blue_grey_800"
         android:textColorHint="@android:color/darker_gray"
         android:textSize="12sp" />

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mytitle="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <com.ymt.demo1.customViews.MyTitle
+        android:id="@id/my_title"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@android:color/holo_blue_dark"
+        mytitle:setLeftActionIcon="@drawable/back_normal"
+        mytitle:setRightIconL="@drawable/icon_more"
+        mytitle:setTitleTxt="" />
+
+    <EditText
+        android:id="@+id/reply_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="6.18dp"
+        android:layout_weight="2"
+        android:background="@drawable/corner_text_shape1o4"
+        android:gravity="start"
+        android:hint="请输入..."
+        android:textColor="@color/material_blue_grey_800"
+        android:textColorHint="@android:color/darker_gray" />
+
+    <Button
+        android:id="@+id/summit_reply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="6.18dp"
+        android:background="@drawable/corner_text_shape1o4"
+        android:text="确定"
+        android:textColor="@color/material_blue_grey_800" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+
+</LinearLayout>

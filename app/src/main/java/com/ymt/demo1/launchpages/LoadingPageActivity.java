@@ -136,6 +136,7 @@ public class LoadingPageActivity extends Activity {
 
                         AppContext.now_session_id = jsonObject.getString("sId");
                         AppContext.now_user_id = jsonObject.getString("id");
+                        AppContext.now_user_name = userName;
                         Intent intent = new Intent(LoadingPageActivity.this, QQMsgService.class);
                         startService(intent);
 

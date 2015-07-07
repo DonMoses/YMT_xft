@@ -50,5 +50,13 @@
         <attr name="setTitleTxtColor" format="color|integer|reference" />
     </declare-styleable>
 
+    <!--自定义checkbox-->
+    <declare-styleable name="MyCheckView">
+        <!--背景框-->
+        <attr name="backgroundIcon" format="reference" />
+        <!--check图标-->
+        <attr name="checkIcon" format="reference" />
+    </declare-styleable>
+
 
 </resources>

@@ -52,7 +52,7 @@ public class NewsSummaryAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.layout_news_item, null);
             viewHolder = new ViewHolder();
-            viewHolder.titleView = (TextView) convertView.findViewById(R.id.title);
+            viewHolder.titleView = (TextView) convertView.findViewById(R.id.subject);
             viewHolder.contentView = (TextView) convertView.findViewById(R.id.content_text);
             viewHolder.commentBtn = (ImageButton) convertView.findViewById(R.id.comment_btn);
             viewHolder.commentedCount = (TextView) convertView.findViewById(R.id.comment_count);

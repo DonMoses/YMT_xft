@@ -214,6 +214,22 @@ public class MyTitle extends LinearLayout {
                     }
                 }
             });
+        } else {
+            ImageView rightIconL = new ImageView(context);
+            LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins((int) (6.18 * 4), 0, (int) (6.18 * 4), 0);
+            rightIconL.setLayoutParams(layoutParams);
+            rightIconL.setImageDrawable(rightActIconL);
+            rightActionLayout.addView(rightIconL);
+            rightActionLayout.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //回调方法，调用onRightActionClickListener接口实现类的方法
+                    if (onRightActionClickListener != null) {
+                        onRightActionClickListener.onRightLClick();
+                    }
+                }
+            });
         }
 
         addView(rightActionLayout);

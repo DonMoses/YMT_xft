@@ -22,6 +22,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".main.AppContext"
@@ -69,7 +70,7 @@
         <activity
             android:name=".launchpages.GuideActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".main.file.SearchFileActivity"
             android:launchMode="singleTask"
@@ -133,15 +134,11 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".plates.hub.FireHubPagerTabActivity"
+            android:name=".plates.hub.FireHubMainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".plates.MoreCatoActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".plates.hub.PostActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
@@ -262,6 +259,26 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".plates.exportConsult.MoreExpertActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.exportConsult.HotConsultListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.exportConsult.RecentConsultListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.exportConsult.HRConsultDetailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.hub.PostContentActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.hub.PostReplyActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!-- 滑动风格主机面 -->

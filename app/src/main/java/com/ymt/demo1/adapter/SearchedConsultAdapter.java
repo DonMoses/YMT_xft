@@ -51,7 +51,7 @@ public class SearchedConsultAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_searched_consult, null);
             viewHolder = new ViewHolder();
-            viewHolder.title = (TextView) convertView.findViewById(R.id.title);
+            viewHolder.title = (TextView) convertView.findViewById(R.id.subject);
             viewHolder.content = (TextView) convertView.findViewById(R.id.content);
             viewHolder.commentBtn = (ImageButton) convertView.findViewById(R.id.comment_btn);
             viewHolder.commentedCount = (TextView) convertView.findViewById(R.id.comment_count);

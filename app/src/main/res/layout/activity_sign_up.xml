@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mycheckview="http://schemas.android.com/apk/res-auto"
     xmlns:mytitle="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -183,12 +184,12 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <ImageView
+        <com.ymt.demo1.customViews.MyCheckView
             android:id="@+id/switch_liscense"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/corner_text_shape1o4"
-            android:src="@drawable/bg_switch_check" />
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            mycheckview:backgroundIcon="@drawable/corner_text_shape1o4"
+            mycheckview:checkIcon="@drawable/icon_checked" />
 
         <TextView
             android:id="@+id/licence_txt"

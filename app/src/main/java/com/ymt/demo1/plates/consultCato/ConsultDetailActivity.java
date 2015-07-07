@@ -79,7 +79,7 @@ public class ConsultDetailActivity extends BaseActivity {
      */
     protected void initView() {
         //title 和内容
-        TextView title = (TextView) findViewById(R.id.title);
+        TextView title = (TextView) findViewById(R.id.subject);
         TextView content = (TextView) findViewById(R.id.content);
 //        GridView hotConsults = (GridView) findViewById(R.id.hot_consult_grid_view);
         Intent intent = getIntent();

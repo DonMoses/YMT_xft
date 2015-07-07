@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mytitle="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nearly_consult_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="3dp"
+    android:layout_weight="1.2"
+    android:background="@android:color/white"
+    android:minHeight="72dp"
+    android:orientation="vertical">
+
+    <com.ymt.demo1.customViews.MyTitle
+        android:id="@id/my_title"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@android:color/holo_blue_dark"
+        mytitle:setLeftActionIcon="@drawable/back_normal"
+        mytitle:setTitleTxt="咨询详情" />
+
+    <TextView
+        android:id="@+id/consult_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3.2dp"
+        android:ellipsize="end"
+        android:hint="最近咨询 title"
+        android:maxLength="78"
+        android:padding="3dp"
+        android:singleLine="true"
+        android:textColor="@color/material_blue_grey_800"
+        android:textColorHint="@android:color/darker_gray"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/consult_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3.09dp"
+        android:gravity="end"
+        android:hint="2015-6-15"
+        android:padding="3dp"
+        android:textColor="@color/material_blue_grey_800"
+        android:textColorHint="@android:color/darker_gray"
+        android:textSize="13sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="6.18dp">
+
+        <WebView
+            android:id="@+id/consult_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6.18dp"
+            android:textSize="12.5sp" />
+
+    </ScrollView>
+
+</LinearLayout>
