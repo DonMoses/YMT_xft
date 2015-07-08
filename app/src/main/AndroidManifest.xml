@@ -76,6 +76,10 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".main.search.SearchResultActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".customKeyBoard.ConsultActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -142,7 +146,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".main.SearchActivity"
+            android:name=".main.search.SearchActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity

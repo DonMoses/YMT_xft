@@ -1,6 +1,7 @@
-package com.ymt.demo1.main;
+package com.ymt.demo1.main.search;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,10 +12,12 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.SearchString;
+import com.ymt.demo1.main.BaseFloatActivity;
 
 import org.litepal.crud.DataSupport;
 
@@ -40,12 +43,19 @@ public class SearchActivity extends BaseFloatActivity {
 
     }
 
+    /**
+     * activity动画
+     */
+
+
     private int size;
 
     protected void initView() {
-        Spinner spinner = (Spinner) findViewById(R.id.search_spinner);
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, new String[]{"全部","资讯", "知识平台", "论坛", "咨询"});
+        final Spinner spinner = (Spinner) findViewById(R.id.search_spinner);
+        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"全部", "资讯", "知识平台", "论坛", "咨询"});
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setVisibility(View.VISIBLE);//设置默认显示
 
         final EditText searchTxt = (EditText) findViewById(R.id.search_edit_text);
         ImageButton searchBtn = (ImageButton) findViewById(R.id.search_btn);
@@ -77,13 +87,14 @@ public class SearchActivity extends BaseFloatActivity {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(searchTxt.getText().toString())) {
+                String kw = searchTxt.getText().toString();
+                if (!TextUtils.isEmpty(kw)) {
                     //更新数据
-                    if (!searched.contains(searchTxt.getText().toString())) {
+                    if (!searched.contains(kw)) {
                         //获取输入框内容，搜索内容，加入搜索数据库表
                         if (size >= 10) {
                             ContentValues values = new ContentValues();
-                            values.put("searchedstring", searchTxt.getText().toString());
+                            values.put("searchedstring", kw);
 
                             //更新index，则下次输入后更新到上一次的下一个坐标
                             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -95,19 +106,30 @@ public class SearchActivity extends BaseFloatActivity {
                             editor.putInt(SearchActivity.UPDATE_SEARCH_INDEX, updateIndex);
                             editor.apply();
                         } else {
-                            saveString(searchTxt.getText().toString());
+                            saveString(kw);
                         }
 
-                        searched.add(searchTxt.getText().toString());
+                        searched.add(kw);
                         //刷新适配器
                         historyAdapter.notifyDataSetChanged();
+
                     }
+
+                    /*
+                    跳转到搜索结果界面
+                     */
+                    Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
+                    intent.putExtra("position", spinner.getSelectedItemPosition()); //搜索类型
+                    intent.putExtra("keyword", kw);             //搜索关键字
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);     //界面动画
+
                 } else {
                     Toast.makeText(SearchActivity.this, "请输入搜索关键词...", Toast.LENGTH_SHORT).show();
                 }
 
                 //清空输入内容， 输入框改变为不聚焦
-                searchTxt.setText(null);
+//                searchTxt.setText(null);
                 searchTxt.clearFocus();
             }
         });
@@ -130,6 +152,20 @@ public class SearchActivity extends BaseFloatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String str = parent.getAdapter().getItem(position).toString();
                 searchTxt.setText(str);
+            }
+        });
+
+
+        /*
+        清除历史记录
+         */
+        TextView clearHisView = (TextView) findViewById(R.id.clear_search_history);
+        clearHisView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataSupport.deleteAll(SearchString.class);
+                searchedStrs.clear();
+                historyAdapter.clear();
             }
         });
 

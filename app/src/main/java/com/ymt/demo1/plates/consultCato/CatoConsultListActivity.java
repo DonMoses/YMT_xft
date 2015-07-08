@@ -2,7 +2,6 @@ package com.ymt.demo1.plates.consultCato;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -21,7 +20,7 @@ import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.consult_cato.SearchedConsult;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseURLUtil;
-import com.ymt.demo1.main.SearchActivity;
+import com.ymt.demo1.main.search.SearchActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;

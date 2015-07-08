@@ -2,24 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_light"
+    android:background="#EDECEA"
     android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:src="@drawable/logo_search" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="35dp"
-        android:orientation="horizontal"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp">
+        android:layout_margin="6.18dp"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
 
         <Spinner
             android:id="@+id/search_spinner"
+            android:layout_margin="0.618dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
+            android:background="@android:color/holo_blue_dark"
+            android:spinnerMode="dropdown"
             android:popupBackground="@android:color/holo_blue_dark"
-            android:spinnerMode="dropdown">
+            android:visibility="visible">
 
         </Spinner>
 
@@ -58,23 +68,41 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_margin="6.18dp"
+        android:background="@android:color/white"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:gravity="center_vertical"
-            android:text="搜索记录"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12.36dp"
+            android:layout_marginRight="12.36dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:gravity="center_vertical"
+                android:text="搜索记录"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/clear_search_history"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:gravity="center_vertical|end"
+                android:text="清空记录"
+                android:textColor="@android:color/holo_blue_light"
+                android:textSize="18sp" />
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@android:color/holo_blue_dark" />
+            android:layout_marginLeft="12.36dp"
+            android:layout_marginRight="12.36dp"
+            android:background="@android:color/darker_gray" />
 
         <GridView
             android:id="@+id/search_history_gridView"
@@ -88,7 +116,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="6.18dp"
         android:layout_marginTop="10dp"
+        android:background="@android:color/white"
         android:orientation="vertical">
 
         <TextView
@@ -98,12 +128,14 @@
             android:layout_marginStart="10dp"
             android:gravity="center_vertical"
             android:text="热门搜索"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/darker_gray"
             android:textSize="18sp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_marginLeft="12.36dp"
+            android:layout_marginRight="12.36dp"
             android:background="@android:color/holo_blue_dark" />
 
         <GridView

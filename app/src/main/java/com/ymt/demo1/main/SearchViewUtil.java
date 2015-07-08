@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.SearchString;
+import com.ymt.demo1.main.search.SearchActivity;
 
 import org.litepal.crud.DataSupport;
 

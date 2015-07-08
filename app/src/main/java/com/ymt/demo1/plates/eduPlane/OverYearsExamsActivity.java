@@ -15,7 +15,7 @@ import com.ymt.demo1.adapter.PandectExamsAdapter;
 import com.ymt.demo1.beams.edu.XXFExam;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;
-import com.ymt.demo1.main.SearchActivity;
+import com.ymt.demo1.main.search.SearchActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

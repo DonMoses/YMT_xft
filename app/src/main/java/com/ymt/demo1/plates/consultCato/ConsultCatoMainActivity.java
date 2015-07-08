@@ -13,7 +13,7 @@ import com.ymt.demo1.adapter.SimpleExpandListAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.consult_cato.ConsultCato;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.SearchActivity;
+import com.ymt.demo1.main.search.SearchActivity;
 
 import org.litepal.crud.DataSupport;
 

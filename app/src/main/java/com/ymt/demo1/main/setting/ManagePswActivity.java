@@ -1,13 +1,10 @@
 package com.ymt.demo1.main.setting;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.SearchActivity;
 
 /**
  * Created by Dan on 2015/4/3

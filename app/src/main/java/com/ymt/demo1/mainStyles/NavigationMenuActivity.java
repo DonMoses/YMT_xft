@@ -2,7 +2,6 @@ package com.ymt.demo1.mainStyles;
 
 import android.content.ContentValues;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -33,7 +32,7 @@ import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.customViews.IndicatorView;
 import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.BaseURLUtil;
-import com.ymt.demo1.main.SearchActivity;
+import com.ymt.demo1.main.search.SearchActivity;
 import com.ymt.demo1.main.advice.AdviceActivity;
 import com.ymt.demo1.main.help.HelpActivity;
 import com.ymt.demo1.main.setting.ManageAppearanceActivity;

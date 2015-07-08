@@ -28,7 +28,7 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.PopActionListener;
-import com.ymt.demo1.main.SearchActivity;
+import com.ymt.demo1.main.search.SearchActivity;
 import com.ymt.demo1.main.PopActionUtil;
 
 /**

@@ -3,6 +3,7 @@
     xmlns:mytitle="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F0F0F0"
     android:orientation="vertical">
 
     <com.ymt.demo1.customViews.MyTitle
@@ -11,7 +12,23 @@
         android:layout_height="52dp"
         android:background="@android:color/holo_blue_dark"
         mytitle:setLeftActionIcon="@drawable/back_normal"
-        mytitle:setRightActIconR="@drawable/icon_action_more"
-        mytitle:setRightIconL="@drawable/icon_search"
         mytitle:setTitleTxt="关于我们" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3.09dp"
+        android:layout_marginStart="3.09dp"
+        android:layout_marginTop="3.09dp"
+        android:text="简介"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:lineSpacingExtra="1.239dp"
+        android:padding="6.18dp"
+        android:text="@string/about_us_in"
+        android:textColor="@color/material_blue_grey_800" />
 </LinearLayout>

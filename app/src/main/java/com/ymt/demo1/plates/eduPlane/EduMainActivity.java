@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.ymt.demo1.R;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;
-import com.ymt.demo1.main.SearchActivity;
+import com.ymt.demo1.main.search.SearchActivity;
 
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
