@@ -89,6 +89,9 @@ public class KnowledgeVideoFragment extends BaseFragment {
         });
     }
 
+    /**
+     * 知识平台-视频
+     */
     protected StringRequest getKnowledgeVideo(int pageSize, int start, String searchWhat) {
         return new StringRequest(BaseURLUtil.doGetKnowledgeAction(KnowledgeVideoFragment.KNOWLEDGE_SPZL, pageSize, start, searchWhat), new Response.Listener<String>() {
             @Override

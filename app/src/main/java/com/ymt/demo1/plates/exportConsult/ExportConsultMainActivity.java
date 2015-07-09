@@ -65,7 +65,6 @@ import java.util.List;
  * 专家咨询界面
  */
 public class ExportConsultMainActivity extends BaseActivity implements View.OnClickListener {
-
     private PopActionListener actionListener;
     private Handler mHandler = new MyHandler(this);
     private SearchViewUtil searchViewUtil;
@@ -534,12 +533,14 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
 
                         todayExpert = DataSupport.findFirst(Expert.class);
                         tomorrowExpert = DataSupport.findLast(Expert.class);
-                        Picasso.with(ExportConsultMainActivity.this).load(todayExpert.getHead_pic()).into(todayExportIcon);
-                        todayExportName.setText("姓名：" + todayExpert.getUser_name());
-                        todayExportMajor.setText("职业：" + todayExpert.getMajor_works());
-                        Picasso.with(ExportConsultMainActivity.this).load(todayExpert.getHead_pic()).into(tomorrowExportIcon);
-                        tomorrowExportName.setText("姓名：" + tomorrowExpert.getUser_name());
-                        tomorrowExportMajor.setText("职业：" + tomorrowExpert.getMajor_works());
+                        if (todayExpert != null && tomorrowExpert != null) {
+                            Picasso.with(ExportConsultMainActivity.this).load(todayExpert.getHead_pic()).into(todayExportIcon);
+                            todayExportName.setText("姓名：" + todayExpert.getUser_name());
+                            todayExportMajor.setText("职业：" + todayExpert.getMajor_works());
+                            Picasso.with(ExportConsultMainActivity.this).load(todayExpert.getHead_pic()).into(tomorrowExportIcon);
+                            tomorrowExportName.setText("姓名：" + tomorrowExpert.getUser_name());
+                            tomorrowExportMajor.setText("职业：" + tomorrowExpert.getMajor_works());
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

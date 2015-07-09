@@ -290,6 +290,9 @@ public class KnowledgeItemListViewFragment extends BaseFragment {
 
     }
 
+    /**
+    标准规范
+     */
     protected StringRequest getBzgfList(int pageSize, int startIndex, String searchWhat) {
 //        Log.e("TAG", ">>>>>>>>>>>>>url>>>>>>>>>>" + BaseURLUtil.doGetKnowledgeAction(KNOWLEDGE_BZGF, pageSize, startIndex, searchWhat));
         return new StringRequest(BaseURLUtil.doGetKnowledgeAction(KNOWLEDGE_BZGF, pageSize, startIndex, searchWhat), new Response.Listener<String>() {
@@ -353,6 +356,9 @@ public class KnowledgeItemListViewFragment extends BaseFragment {
 
     }
 
+    /**
+     *  科研文献
+     */
     protected StringRequest getKywxList(int pageSize, int startIndex, String searchWhat) {
         return new StringRequest(BaseURLUtil.doGetKnowledgeAction(KNOWLEDGE_KYWX, pageSize, startIndex, searchWhat), new Response.Listener<String>() {
             @Override
