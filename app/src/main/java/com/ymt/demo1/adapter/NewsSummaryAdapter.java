@@ -1,6 +1,7 @@
 package com.ymt.demo1.adapter;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.news.NewsSummary;
+import com.ymt.demo1.main.StringUtils;
 
 import java.util.ArrayList;
 
@@ -54,8 +56,7 @@ public class NewsSummaryAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             viewHolder.titleView = (TextView) convertView.findViewById(R.id.subject);
             viewHolder.contentView = (TextView) convertView.findViewById(R.id.content_text);
-            viewHolder.commentBtn = (ImageButton) convertView.findViewById(R.id.comment_btn);
-            viewHolder.commentedCount = (TextView) convertView.findViewById(R.id.comment_count);
+            viewHolder.hitView = (TextView) convertView.findViewById(R.id.hit_num);
             convertView.setTag(viewHolder);
 
         } else {
@@ -64,16 +65,15 @@ public class NewsSummaryAdapter extends BaseAdapter {
         //todo
 
         viewHolder.titleView.setText(list.get(position).getArticle_title());
-        viewHolder.contentView.setText(list.get(position).getCreate_time());
-
+        viewHolder.contentView.setText(StringUtils.replaceBlank(Html.fromHtml(list.get(position).getContent()).toString()));
+        viewHolder.hitView.setText(list.get(position).getHitnum() + "跟贴");
         return convertView;
     }
 
     class ViewHolder {
         TextView titleView;
         TextView contentView;
-        ImageButton commentBtn;
-        TextView commentedCount;
+        TextView hitView;
 
     }
 }
