@@ -34,7 +34,6 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.NewsSummaryAdapter;
 import com.ymt.demo1.baseClasses.BaseFragment;
 import com.ymt.demo1.beams.news.NewsSummary;
-import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.SearchViewUtil;
 
 import org.json.JSONArray;
@@ -159,12 +158,16 @@ public class NewsMainFragment extends BaseFragment {
                     for (int i = 0; i < length; i++) {
                         JSONObject object = summaryArray.getJSONObject(i);
                         NewsSummary summary = new NewsSummary();
-                        summary.setCreate_time(object.getString("create_time"));
-                        summary.setArticle_title(object.getString("article_title"));
+                        summary.setContent(object.optString("content"));
+                        summary.setCreate_time(object.optString("create_time"));
+                        summary.setArticle_title(object.optString("article_title"));
                         summary.setHitnum(object.optString("hitnum"));
-                        summary.setId(object.getString("id"));
-                        summary.setStatus(object.getString("status"));
-                        summary.setPic(AppContext.SERVICE_BASE_URL + object.optString("pic"));
+                        summary.setThe_id(object.optString("id"));
+                        summary.setFk_create_user_id(object.optString("fk_create_user_id"));
+                        summary.setSource(object.optString("source"));
+                        summary.setEditor(object.optString("editor"));
+                        summary.setAuthor(object.optString("author"));
+                        summary.setStatus(object.optString("status"));
                         summaries.add(summary);
                         if (summaries.size() == 5) {    //只取5条数据
                             break;

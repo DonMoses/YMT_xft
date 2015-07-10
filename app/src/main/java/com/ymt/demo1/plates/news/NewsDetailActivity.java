@@ -3,6 +3,7 @@ package com.ymt.demo1.plates.news;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
@@ -18,6 +19,7 @@ import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.SimpleTxtItemAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
+import com.ymt.demo1.beams.news.NewsSummary;
 import com.ymt.demo1.customViews.MyTitle;
 
 import org.json.JSONException;
@@ -33,14 +35,16 @@ public class NewsDetailActivity extends BaseActivity {
     private WebView contentView;
     private String title;
     private String time;
+    private NewsSummary summary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         RequestQueue mQueue = Volley.newRequestQueue(this);
-        String id = getIntent().getStringExtra("news_id");
-        title = getIntent().getStringExtra("news_title");
-        String fullTime = getIntent().getStringExtra("news_time");
+        summary = getIntent().getParcelableExtra("summary");
+        String id = summary.getThe_id();
+        title = summary.getArticle_title();
+        String fullTime = summary.getCreate_time();
         time = (String) fullTime.subSequence(0, fullTime.length() - 2);
         setContentView(R.layout.activity_news_detail);
         initTitle();
@@ -91,7 +95,14 @@ public class NewsDetailActivity extends BaseActivity {
         final TextView newsTitle = (TextView) findViewById(R.id.news_title);
         final TextView newsTime = (TextView) findViewById(R.id.news_time);
         newsTitle.setText(title);
-        newsTime.setText(time);
+        String author = summary.getAuthor();
+        String editor = summary.getEditor();
+        String source = summary.getSource();
+        if (!TextUtils.isEmpty(editor)) {
+            newsTime.setText(source + "-" + author + "  编辑-" + editor + "  " + time);
+        } else {
+            newsTime.setText(source + "-" + author + "  " + time);
+        }
 
         /*
         内容textView

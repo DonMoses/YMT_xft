@@ -161,9 +161,8 @@ public class NewsFragment extends BaseFragment {
                 //传入内容
                 //todo bug
                 Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
-                intent.putExtra("news_id", ((NewsSummary) parent.getAdapter().getItem(position)).getId());
-                intent.putExtra("news_time", ((NewsSummary) parent.getAdapter().getItem(position)).getCreate_time());
-                intent.putExtra("news_title", ((NewsSummary) parent.getAdapter().getItem(position)).getArticle_title());
+                NewsSummary summary = (NewsSummary) (parent.getAdapter()).getItem(position);
+                intent.putExtra("summary", summary);
                 startActivity(intent);
             }
         });
@@ -222,11 +221,16 @@ public class NewsFragment extends BaseFragment {
                     for (int i = 0; i < length; i++) {
                         JSONObject object = summaryArray.getJSONObject(i);
                         NewsSummary summary = new NewsSummary();
-                        summary.setCreate_time(object.getString("create_time"));
-                        summary.setArticle_title(object.getString("article_title"));
-                        summary.setHitnum(object.getString("hitnum"));
-                        summary.setId(object.getString("id"));
-                        summary.setStatus(object.getString("status"));
+                        summary.setContent(object.optString("content"));
+                        summary.setCreate_time(object.optString("create_time"));
+                        summary.setArticle_title(object.optString("article_title"));
+                        summary.setHitnum(object.optString("hitnum"));
+                        summary.setThe_id(object.optString("id"));
+                        summary.setFk_create_user_id(object.optString("fk_create_user_id"));
+                        summary.setSource(object.optString("source"));
+                        summary.setEditor(object.optString("editor"));
+                        summary.setAuthor(object.optString("author"));
+                        summary.setStatus(object.optString("status"));
                         mNews.add(summary);
                         summaryAdapter.setList(mNews);
                     }
