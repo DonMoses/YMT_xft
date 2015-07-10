@@ -151,8 +151,7 @@
                 android:layout_width="58dp"
                 android:layout_height="58dp"
                 android:layout_marginEnd="3dp"
-                android:layout_marginRight="3dp"
-                android:src="@drawable/moses" />
+                android:layout_marginRight="3dp" />
 
             <TextView
                 android:id="@+id/today_export_name"
@@ -160,7 +159,6 @@
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/today_export_icon"
                 android:layout_toRightOf="@id/today_export_icon"
-                android:hint="姓名：贺东凛"
                 android:singleLine="true"
                 android:textColor="@color/material_blue_grey_800"
                 android:textColorHint="@android:color/darker_gray"
@@ -173,7 +171,6 @@
                 android:layout_below="@id/today_export_name"
                 android:layout_toEndOf="@id/today_export_icon"
                 android:layout_toRightOf="@id/today_export_icon"
-                android:hint="生日：1964年8月"
                 android:singleLine="true"
                 android:textColor="@android:color/darker_gray"
                 android:textColorHint="@android:color/darker_gray"
@@ -187,7 +184,6 @@
                 android:layout_toEndOf="@id/today_export_icon"
                 android:layout_toRightOf="@id/today_export_icon"
                 android:ellipsize="end"
-                android:hint="职业：你是我的小苹急急急急急急急急急急急急急急急急急急睡觉睡觉果，小苹果"
                 android:maxLines="2"
                 android:textColor="@android:color/darker_gray"
                 android:textColorHint="@android:color/darker_gray"
@@ -207,8 +203,7 @@
                 android:layout_width="58dp"
                 android:layout_height="58dp"
                 android:layout_marginEnd="3dp"
-                android:layout_marginRight="3dp"
-                android:src="@drawable/moses" />
+                android:layout_marginRight="3dp" />
 
             <TextView
                 android:id="@+id/tomorrow_export_name"
@@ -216,7 +211,6 @@
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/tomorrow_export_icon"
                 android:layout_toRightOf="@id/tomorrow_export_icon"
-                android:hint="姓名：李徵"
                 android:singleLine="true"
                 android:textColor="@color/material_blue_grey_800"
                 android:textColorHint="@android:color/darker_gray"
@@ -229,7 +223,6 @@
                 android:layout_below="@id/tomorrow_export_name"
                 android:layout_toEndOf="@id/tomorrow_export_icon"
                 android:layout_toRightOf="@id/tomorrow_export_icon"
-                android:hint="生日：1975年4月"
                 android:singleLine="true"
                 android:textColor="@android:color/darker_gray"
                 android:textColorHint="@android:color/darker_gray"
@@ -243,7 +236,6 @@
                 android:layout_toEndOf="@id/tomorrow_export_icon"
                 android:layout_toRightOf="@id/tomorrow_export_icon"
                 android:ellipsize="end"
-                android:hint="职业：你是我的小jkiang.sdngiasndg.,经济建设你是男是女你是苹果，小苹果"
                 android:maxLines="2"
                 android:textColor="@android:color/darker_gray"
                 android:textColorHint="@android:color/darker_gray"

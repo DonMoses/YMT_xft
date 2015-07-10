@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.expert_consult.Expert;
 
@@ -73,6 +74,7 @@ public class ExpertListAdapter extends BaseAdapter {
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(width, height);
         viewHolder.header.setLayoutParams(params);
+        Picasso.with(context).load(experts.get(position).getHead_pic()).into(viewHolder.header);
         return convertView;
     }
 

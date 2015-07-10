@@ -14,6 +14,7 @@ import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.expert_consult.Expert;
 import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.BaseURLUtil;
 
 /**
  * Created by Dan on 2015/5/13
@@ -65,7 +66,7 @@ public class ExpertInfoActivity extends BaseActivity {
         exportName.setText(expert.getUser_name());
         //专家生日
         TextView exportAge = (TextView) findViewById(R.id.export_age);
-        exportAge.setText(expert.getBio());
+//        exportAge.setText(expert.getBio());
         //专家职业
         TextView exportMajor = (TextView) findViewById(R.id.export_major);
         exportMajor.setText(expert.getMajor_works());
@@ -76,7 +77,7 @@ public class ExpertInfoActivity extends BaseActivity {
 
         //专家简介
         TextView selfResume = (TextView) findViewById(R.id.self_resume_content);
-        selfResume.setText(expert.getResume());
+//        selfResume.setText(expert.getResume());
         //团队简介
         TextView groupResume = (TextView) findViewById(R.id.group_resume_content);
         groupResume.setText(expert.getCapacity());

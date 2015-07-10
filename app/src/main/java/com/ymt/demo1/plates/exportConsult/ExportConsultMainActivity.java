@@ -90,6 +90,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         mQueue = Volley.newRequestQueue(this);
         mQueue.add(hotConsultRequest(1, 10));
         mQueue.add(recentConsultRequest(1, 10));
+        mQueue.add(getExperts(6, 1, ""));
         setContentView(R.layout.activity_export_consult_main);
         searchViewUtil = new SearchViewUtil();
         initTitle();
@@ -208,20 +209,6 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         tomorrowExportName = (TextView) findViewById(R.id.tomorrow_export_name);
         //        TextView tomorrowExportBirth = (TextView) findViewById(R.id.tomorrow_export_birth);
         tomorrowExportMajor = (TextView) findViewById(R.id.tomorrow_export_major);
-
-        if (DataSupport.count(Expert.class) > 1) {
-            // 今日、明日专家（从最近一周值守专家中获取）
-            todayExpert = DataSupport.findFirst(Expert.class);
-            tomorrowExpert = DataSupport.findLast(Expert.class);
-            Picasso.with(this).load(todayExpert.getHead_pic()).into(todayExportIcon);
-            todayExportName.setText("姓名：" + todayExpert.getUser_name());
-            todayExportMajor.setText("职业：" + todayExpert.getMajor_works());
-            Picasso.with(this).load(todayExpert.getHead_pic()).into(tomorrowExportIcon);
-            tomorrowExportName.setText("姓名：" + tomorrowExpert.getUser_name());
-            tomorrowExportMajor.setText("职业：" + tomorrowExpert.getMajor_works());
-        } else {
-            mQueue.add(getExperts(6, 1, ""));
-        }
 
         //点击跳转到专家详情
         todayExportView.setOnClickListener(this);
@@ -506,22 +493,35 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
                             Expert expert = new Expert();
                             String id = obj.optString("id");
                             expert.setThe_id(id);
-                            expert.setCreate_time(obj.optString("create_time"));
-                            expert.setBio(obj.optString("bio"));
-                            expert.setCapacity(obj.optString("capacity"));
                             expert.setCount(obj.optString("count"));
-                            expert.setExperience(obj.optString("experience"));
+                            expert.setPro_life(obj.optString("pro_life"));
+                            expert.setHead_pic(BaseURLUtil.BASE_URL + obj.optString("head_pic"));
+                            expert.setTel(obj.optString("tel"));
                             expert.setFk_user_id(obj.optString("fk_user_id"));
-                            expert.setGood(obj.optString("good"));
-                            expert.setHead_pic(obj.optString("head_pic"));
+                            expert.setAddr(obj.optString("addr"));
+                            expert.setEducation(obj.optString("education"));
+                            expert.setReporting_methods(obj.optString("reporting_methods"));
+                            expert.setHome_zip_code(obj.optString("home_zip_code"));
+                            expert.setPolitics(obj.optString("politics"));
+                            expert.setQualification(obj.optString("qualification"));
                             expert.setLevel(obj.optString("level"));
-                            expert.setMajor_works(obj.optString("major_works"));
+                            expert.setCapacity(obj.optString("capacity"));
+                            expert.setExperience(obj.optString("experience"));
+                            expert.setIndustry(obj.optString("industry"));
                             expert.setNote(obj.optString("note"));
-                            expert.setRemark(obj.optString("remark"));
-                            expert.setResume(obj.optString("resume"));
-                            expert.setSocial_part_time(obj.optString("social_part_time"));
+                            expert.setWork_addr(obj.optString("work_addr"));
+                            expert.setOthers(obj.optString("others"));
+                            expert.setId_number(obj.optString("id_number"));
+                            expert.setHome_addr(obj.optString("home_addr"));
                             expert.setUser_name(obj.optString("user_name"));
-                            expert.setWork_time(obj.optString("work_time"));
+                            expert.setSchool(obj.optString("school"));
+                            expert.setDegree(obj.optString("degree"));
+                            expert.setMajor_works(obj.optString("major_works"));
+                            expert.setWork_zip_code(obj.optString("work_zip_code"));
+                            expert.setCreate_time(obj.optString("create_time"));
+                            expert.setPosition_title(obj.optString("position_title"));
+                            expert.setWork_experience(obj.optString("work_experience"));
+                            expert.setWork_name(obj.optString("work_name"));
 
                             int size = DataSupport.where("the_id = ?", id).find(Expert.class).size();
                             if (size == 0) {
@@ -537,7 +537,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
                             Picasso.with(ExportConsultMainActivity.this).load(todayExpert.getHead_pic()).into(todayExportIcon);
                             todayExportName.setText("姓名：" + todayExpert.getUser_name());
                             todayExportMajor.setText("职业：" + todayExpert.getMajor_works());
-                            Picasso.with(ExportConsultMainActivity.this).load(todayExpert.getHead_pic()).into(tomorrowExportIcon);
+                            Picasso.with(ExportConsultMainActivity.this).load(tomorrowExpert.getHead_pic()).into(tomorrowExportIcon);
                             tomorrowExportName.setText("姓名：" + tomorrowExpert.getUser_name());
                             tomorrowExportMajor.setText("职业：" + tomorrowExpert.getMajor_works());
                         }
