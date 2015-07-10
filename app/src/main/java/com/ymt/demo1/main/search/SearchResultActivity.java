@@ -41,6 +41,7 @@ import com.ymt.demo1.beams.knowledge.KnowledgeVideo;
 import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.BaseFloatActivity;
 import com.ymt.demo1.main.BaseURLUtil;
+import com.ymt.demo1.plates.consultCato.ConsultDetailActivity;
 import com.ymt.demo1.plates.exportConsult.ExpertInfoActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeItemDetailActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeItemListViewFragment;
@@ -403,21 +404,26 @@ public class SearchResultActivity extends BaseFloatActivity {
                 switch (pos) {
 
                     case 2:
-                        Intent intent1 = new Intent(SearchResultActivity.this, KnowledgeItemDetailActivity.class);
-                        intent1.putExtra("title", ((KnowledgeItemKYWX) parent.getAdapter().getItem(position)).getArticle_title());
-                        intent1.putExtra("content", ((KnowledgeItemKYWX) parent.getAdapter().getItem(position)).getContent());
-                        startActivity(intent1);
+                        Intent intent2 = new Intent(SearchResultActivity.this, KnowledgeItemDetailActivity.class);
+                        intent2.putExtra("title", ((KnowledgeItemKYWX) parent.getAdapter().getItem(position)).getArticle_title());
+                        intent2.putExtra("content", ((KnowledgeItemKYWX) parent.getAdapter().getItem(position)).getContent());
+                        startActivity(intent2);
                         break;
                     case 3:
-                        Intent intent2 = new Intent(SearchResultActivity.this, KnowledgeItemDetailActivity.class);
-                        intent2.putExtra("title", ((KnowledgeItemBZGF) parent.getAdapter().getItem(position)).getArticle_title());
-                        intent2.putExtra("content", ((KnowledgeItemBZGF) parent.getAdapter().getItem(position)).getContent());
-                        startActivity(intent2);
+                        Intent intent3 = new Intent(SearchResultActivity.this, KnowledgeItemDetailActivity.class);
+                        intent3.putExtra("title", ((KnowledgeItemBZGF) parent.getAdapter().getItem(position)).getArticle_title());
+                        intent3.putExtra("content", ((KnowledgeItemBZGF) parent.getAdapter().getItem(position)).getContent());
+                        startActivity(intent3);
                         break;
                     case 4:         //视频
 
                         break;
                     case 5:         //咨询分类
+                        Intent intent5 = new Intent(SearchResultActivity.this, ConsultDetailActivity.class);
+                        intent5.putExtra("title", ((SearchedConsult) parent.getAdapter().getItem(position)).getArticle_title());
+                        intent5.putExtra("content", ((SearchedConsult) parent.getAdapter().getItem(position)).getArticle_content());
+                        startActivity(intent5);
+                        break;
                     default:
 
                         break;

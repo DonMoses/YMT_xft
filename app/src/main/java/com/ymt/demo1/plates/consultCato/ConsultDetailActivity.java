@@ -3,6 +3,7 @@ package com.ymt.demo1.plates.consultCato;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -84,7 +85,7 @@ public class ConsultDetailActivity extends BaseActivity {
 //        GridView hotConsults = (GridView) findViewById(R.id.hot_consult_grid_view);
         Intent intent = getIntent();
         title.setText(intent.getStringExtra("title"));
-        content.setText(intent.getStringExtra("content"));
+        content.setText(Html.fromHtml(intent.getStringExtra("content")));
 
         //热门话题
         GridView hotGrid = (GridView) findViewById(R.id.hot_consult_grid_view);

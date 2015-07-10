@@ -2,6 +2,7 @@ package com.ymt.demo1.adapter;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.consult_cato.SearchedConsult;
+import com.ymt.demo1.main.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +64,7 @@ public class SearchedConsultAdapter extends BaseAdapter {
         }
 
         viewHolder.title.setText(list.get(position).getArticle_title());
-        viewHolder.content.setText(list.get(position).getArticle_content());
+        viewHolder.content.setText(StringUtils.replaceBlank(Html.fromHtml(list.get(position).getArticle_content()).toString()));
         viewHolder.commentedCount.setText(String.valueOf(list.get(position).getHitnum()) + "人");
         viewHolder.commentBtn.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_comment_normal));
 
