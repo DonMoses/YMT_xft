@@ -114,18 +114,18 @@ public class SearchActivity extends BaseFloatActivity {
 
                     }
 
-                    /*
-                    跳转到搜索结果界面
-                     */
-                    Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
-                    intent.putExtra("position", spinner.getSelectedItemPosition()); //搜索类型
-                    intent.putExtra("keyword", kw);             //搜索关键字
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);     //界面动画
-
                 } else {
                     Toast.makeText(SearchActivity.this, "请输入搜索关键词...", Toast.LENGTH_SHORT).show();
                 }
+
+                 /*
+                    跳转到搜索结果界面
+                     */
+                Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
+                intent.putExtra("position", spinner.getSelectedItemPosition()); //搜索类型
+                intent.putExtra("keyword", kw);             //搜索关键字
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);     //界面动画
 
                 //清空输入内容， 输入框改变为不聚焦
 //                searchTxt.setText(null);

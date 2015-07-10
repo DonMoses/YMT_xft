@@ -14,5 +14,4 @@
     android:smoothScrollbar="true"
     android:dividerHeight="1dp"
     android:divider="@android:color/holo_blue_dark"
-    android:dividerPadding="0.2dp"
-    android:background="#F0F0F0" />
+    android:dividerPadding="0.2dp" />

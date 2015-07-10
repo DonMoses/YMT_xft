@@ -103,7 +103,7 @@ public class BaseURLUtil {
      * 知识平台（视频、标准规范、科研文献）
      */
     public static String doGetKnowledgeAction(String knowledgeType, int pageSize, int start, String searchWhat) {
-        return KNOWLEDGE_ITEM_BASE + knowledgeType + "&pagesize=" + String.valueOf(pageSize) + "&start=" + String.valueOf(start) + "&jl=" + "&kw=" + searchWhat;
+        return KNOWLEDGE_ITEM_BASE + knowledgeType + "&pagesize=" + String.valueOf(pageSize) + "&start=" + String.valueOf(start) + "&jl=&kw=" + searchWhat;
     }
 
     /**
