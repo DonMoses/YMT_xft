@@ -21,6 +21,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.ChatMessageListAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
+import com.ymt.demo1.beams.expert_consult.Expert;
 import com.ymt.demo1.beams.expert_consult.QQMsg;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.AppContext;
@@ -43,6 +44,7 @@ public class ConsultChatActivity extends BaseActivity {
     private ChatMessageListAdapter messageListAdapter;
     private PullToRefreshListView infoListView;
     private List<QQMsg> mQQMsgs;
+    private Expert expert;
 
     private String sessionId;
     private String qq_id;
@@ -55,6 +57,7 @@ public class ConsultChatActivity extends BaseActivity {
         Intent intent = getIntent();
         sessionId = intent.getStringExtra("session_id");
         qq_id = intent.getStringExtra("qq_id");
+        expert = intent.getParcelableExtra("expert");
         mQQMsgs.addAll(DataSupport.where("fk_qq_id = ?", qq_id).find(QQMsg.class));
 //        Log.e("TAG",">>>>>>>>>>>qq_id>>>>>>>>>>"+qq_id);
         requestQueue = Volley.newRequestQueue(this);
@@ -80,6 +83,7 @@ public class ConsultChatActivity extends BaseActivity {
                 public void onClick(View v) {
                     //todo 跳转到预约界面
                     Toast.makeText(ConsultChatActivity.this, "关注...", Toast.LENGTH_SHORT).show(); //打开预约界面
+                    follow(AppContext.now_session_id, expert.getFk_user_id());
                 }
             });
         }
@@ -265,5 +269,28 @@ public class ConsultChatActivity extends BaseActivity {
         super.onBackPressed();
     }
 
+    /**
+     * 关注
+     */
+    private StringRequest follow(String sId, String expertId) {
+        return new StringRequest(BaseURLUtil.followExpert(sId, expertId), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (jsonObject.getString("result").equals("Y")) {
+                        Toast.makeText(ConsultChatActivity.this, "已关注！", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+    }
 }

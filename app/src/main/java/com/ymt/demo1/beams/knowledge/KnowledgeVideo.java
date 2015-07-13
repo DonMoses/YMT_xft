@@ -1,30 +1,25 @@
 package com.ymt.demo1.beams.knowledge;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.litepal.crud.DataSupport;
 
 /**
  * Created by Dan on 2015/6/16
  */
-public class KnowledgeVideo extends DataSupport {
-    private String the_id;
+public class KnowledgeVideo extends DataSupport implements Parcelable {
+
     private String content;
-    private String files;
+    private String the_id;
+    private String classify;
+    private String cover;
     private String article_title;
     private String status;
     private String create_time;
-    private String meta_keys;
-    private String score;
-    private String fk_create_user_id;
     private String hitnum;
-    private String downcount;
-
-    public String getThe_id() {
-        return the_id;
-    }
-
-    public void setThe_id(String the_id) {
-        this.the_id = the_id;
-    }
+    private String fk_create_user_id;
+    private String attachment;
 
     public String getContent() {
         return content;
@@ -34,12 +29,28 @@ public class KnowledgeVideo extends DataSupport {
         this.content = content;
     }
 
-    public String getFiles() {
-        return files;
+    public String getThe_id() {
+        return the_id;
     }
 
-    public void setFiles(String files) {
-        this.files = files;
+    public void setThe_id(String the_id) {
+        this.the_id = the_id;
+    }
+
+    public String getClassify() {
+        return classify;
+    }
+
+    public void setClassify(String classify) {
+        this.classify = classify;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 
     public String getArticle_title() {
@@ -66,20 +77,12 @@ public class KnowledgeVideo extends DataSupport {
         this.create_time = create_time;
     }
 
-    public String getMeta_keys() {
-        return meta_keys;
+    public String getHitnum() {
+        return hitnum;
     }
 
-    public void setMeta_keys(String meta_keys) {
-        this.meta_keys = meta_keys;
-    }
-
-    public String getScore() {
-        return score;
-    }
-
-    public void setScore(String score) {
-        this.score = score;
+    public void setHitnum(String hitnum) {
+        this.hitnum = hitnum;
     }
 
     public String getFk_create_user_id() {
@@ -90,19 +93,56 @@ public class KnowledgeVideo extends DataSupport {
         this.fk_create_user_id = fk_create_user_id;
     }
 
-    public String getHitnum() {
-        return hitnum;
+    public String getAttachment() {
+        return attachment;
     }
 
-    public void setHitnum(String hitnum) {
-        this.hitnum = hitnum;
+    public void setAttachment(String attachment) {
+        this.attachment = attachment;
     }
 
-    public String getDowncount() {
-        return downcount;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setDowncount(String downcount) {
-        this.downcount = downcount;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.content);
+        dest.writeString(this.the_id);
+        dest.writeString(this.classify);
+        dest.writeString(this.cover);
+        dest.writeString(this.article_title);
+        dest.writeString(this.status);
+        dest.writeString(this.create_time);
+        dest.writeString(this.hitnum);
+        dest.writeString(this.fk_create_user_id);
+        dest.writeString(this.attachment);
     }
+
+    public KnowledgeVideo() {
+    }
+
+    protected KnowledgeVideo(Parcel in) {
+        this.content = in.readString();
+        this.the_id = in.readString();
+        this.classify = in.readString();
+        this.cover = in.readString();
+        this.article_title = in.readString();
+        this.status = in.readString();
+        this.create_time = in.readString();
+        this.hitnum = in.readString();
+        this.fk_create_user_id = in.readString();
+        this.attachment = in.readString();
+    }
+
+    public static final Parcelable.Creator<KnowledgeVideo> CREATOR = new Parcelable.Creator<KnowledgeVideo>() {
+        public KnowledgeVideo createFromParcel(Parcel source) {
+            return new KnowledgeVideo(source);
+        }
+
+        public KnowledgeVideo[] newArray(int size) {
+            return new KnowledgeVideo[size];
+        }
+    };
 }

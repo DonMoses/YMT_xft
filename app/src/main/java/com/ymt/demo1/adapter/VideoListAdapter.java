@@ -70,7 +70,7 @@ public class VideoListAdapter extends BaseAdapter {
         viewHolder.time.setText(videos.get(position).getCreate_time().substring(14, 19));
         viewHolder.title.setText(videos.get(position).getArticle_title());
         viewHolder.watchCount.setText("观看" + videos.get(position).getHitnum());
-        viewHolder.commCount.setText("下载" + videos.get(position).getDowncount());
+        viewHolder.commCount.setText("下载" + videos.get(position).getHitnum());
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(width, height);
         viewHolder.cover.setLayoutParams(params);

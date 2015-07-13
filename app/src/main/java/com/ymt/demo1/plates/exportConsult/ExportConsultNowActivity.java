@@ -245,6 +245,7 @@ public class ExportConsultNowActivity extends BaseFloatActivity {
                         Intent intent = new Intent(ExportConsultNowActivity.this, ConsultChatActivity.class);
                         intent.putExtra("session_id", AppContext.now_session_id);
                         intent.putExtra("qq_id", qq_id);
+                        intent.putExtra("expert", expert);
                         startActivity(intent);
                         onDismiss();
                         finish();

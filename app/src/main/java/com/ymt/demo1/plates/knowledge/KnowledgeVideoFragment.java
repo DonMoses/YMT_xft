@@ -1,10 +1,12 @@
 package com.ymt.demo1.plates.knowledge;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.RequestQueue;
@@ -87,6 +89,16 @@ public class KnowledgeVideoFragment extends BaseFragment {
                 mQueue.add(getKnowledgeVideo(pageSize, startIndex, ""));
             }
         });
+
+        videoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent intent = new Intent(getActivity(), VideoPlayActivity.class);
+                Intent intent = new Intent(getActivity(), WebVideoActivity.class);
+                intent.putExtra("mp4_url", ((KnowledgeVideo) parent.getAdapter().getItem(position)).getAttachment());
+                startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -109,14 +121,14 @@ public class KnowledgeVideoFragment extends BaseFragment {
                             video.setCreate_time(obj.optString("create_time"));
                             video.setArticle_title(obj.optString("article_title"));
                             video.setContent(obj.optString("content"));
-                            video.setDowncount(obj.optString("downcount"));
-                            video.setFiles(obj.optString("files"));
-                            video.setFk_create_user_id(obj.optString("fk_create_user_id"));
                             video.setHitnum(obj.optString("hitnum"));
-                            video.setMeta_keys(obj.optString("meta_keys"));
-                            video.setScore(obj.optString("score"));
+                            video.setFk_create_user_id(obj.optString("fk_create_user_id"));
                             video.setStatus(obj.optString("status"));
                             video.setThe_id(id);
+                            video.setAttachment(obj.optString("attachment"));
+                            video.setClassify(obj.optString("classify"));
+                            video.setCover(obj.optString("cover"));
+//                            Log.e("TAG",">>>>>>>>url>>>>>>>."+obj.optString("attachment"));
                             int size = DataSupport.where("the_id = ?", id).find(KnowledgeVideo.class).size();
                             if (size == 0) {
                                 video.save();

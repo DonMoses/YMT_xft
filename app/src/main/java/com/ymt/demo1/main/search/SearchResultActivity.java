@@ -690,14 +690,13 @@ public class SearchResultActivity extends BaseFloatActivity {
                             video.setCreate_time(obj.optString("create_time"));
                             video.setArticle_title(obj.optString("article_title"));
                             video.setContent(obj.optString("content"));
-                            video.setDowncount(obj.optString("downcount"));
-                            video.setFiles(obj.optString("files"));
-                            video.setFk_create_user_id(obj.optString("fk_create_user_id"));
                             video.setHitnum(obj.optString("hitnum"));
-                            video.setMeta_keys(obj.optString("meta_keys"));
-                            video.setScore(obj.optString("score"));
+                            video.setFk_create_user_id(obj.optString("fk_create_user_id"));
                             video.setStatus(obj.optString("status"));
                             video.setThe_id(id);
+                            video.setAttachment(obj.optString("attachment"));
+                            video.setClassify(obj.optString("classify"));
+                            video.setCover(obj.optString("cover"));
                             spzlList.add(video);
                             videoListAdapter.setVideos(spzlList);
                         }
