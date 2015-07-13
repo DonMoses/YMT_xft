@@ -20,6 +20,7 @@ import com.ymt.demo1.beams.expert_consult.QQMsg;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.BaseURLUtil;
+import com.ymt.demo1.main.sign.ChangePswActivity;
 import com.ymt.demo1.mainStyles.CircleMenuActivity;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.LongClickItemsAdapter;
@@ -77,7 +78,9 @@ public class SettingActivity extends Activity {
                         finish();
                         break;
                     case 1:            //修改登录密码
-                        startActivity(new Intent(SettingActivity.this, ManagePswActivity.class));
+                        Intent intent1 = new Intent(SettingActivity.this, ChangePswActivity.class);
+                        intent1.putExtra("loginName", AppContext.now_user_name);
+                        startActivityForResult(intent1, 128);
                         finish();
                         break;
                     case 2:            //自定义皮肤

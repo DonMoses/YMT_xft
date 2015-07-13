@@ -41,7 +41,7 @@ import org.litepal.crud.DataSupport;
 /**
  * Created by Dan on 2015/4/2
  */
-public class SignInActivity extends Activity{
+public class SignInActivity extends Activity {
     String account;
     String psw;
 
@@ -76,7 +76,7 @@ public class SignInActivity extends Activity{
 
     protected void initView() {
         final Button signUpBtn = (Button) findViewById(R.id.jump_sign_up);
-        final Button foundPswBtn = (Button) findViewById(R.id.jump_found_psw);
+//        final Button foundPswBtn = (Button) findViewById(R.id.jump_found_psw);
         final Button autoAccBtn = (Button) findViewById(R.id.auto_create_account_btn);
         accountETxt = (EditText) findViewById(R.id.sign_in_account_text);
         pswETxt = (EditText) findViewById(R.id.sign_in_psw_text);
@@ -111,14 +111,14 @@ public class SignInActivity extends Activity{
                         //自动分配账号
                         queue.add(getAutoAccount());
                         break;
-                    case R.id.jump_found_psw:
-                        //找回密码逻辑
-//                        foundPswBtn.setBackgroundColor(Color.BLUE);
-//                        foundPswBtn.setTextColor(Color.WHITE);
-                        Intent intent = new Intent(SignInActivity.this, ChangePswActivity.class);
-                        intent.putExtra("loginName", accountETxt.getText().toString());
-                        startActivityForResult(intent, 128);
-                        break;
+//                    case R.id.jump_found_psw:
+//                        //找回密码逻辑
+////                        foundPswBtn.setBackgroundColor(Color.BLUE);
+////                        foundPswBtn.setTextColor(Color.WHITE);
+//                        Intent intent = new Intent(SignInActivity.this, ChangePswActivity.class);
+//                        intent.putExtra("loginName", accountETxt.getText().toString());
+//                        startActivityForResult(intent, 128);
+//                        break;
                     case R.id.sign_in_btn:
                         /*获取用户名和密码，匹配则登录（跳转到个人界面），不匹配弹出提示框*/
                         account = accountETxt.getText().toString();
@@ -157,7 +157,7 @@ public class SignInActivity extends Activity{
 
         signUpBtn.setOnClickListener(onClickListener);
         autoAccBtn.setOnClickListener(onClickListener);
-        foundPswBtn.setOnClickListener(onClickListener);
+//        foundPswBtn.setOnClickListener(onClickListener);
         signInBtn.setOnClickListener(onClickListener);
         wechatBtn.setOnClickListener(onClickListener);
         qqBtn.setOnClickListener(onClickListener);
