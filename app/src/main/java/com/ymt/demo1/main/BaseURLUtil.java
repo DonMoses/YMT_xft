@@ -40,6 +40,32 @@ public class BaseURLUtil {
     private static final String CHANGE_PSW = "http://120.24.172.105:8000/fw?t=app&controller=com.xfsm.action.PwdAction&loginname=";
     //退出账号
     private static final String SIGN_OUT = "http://120.24.172.105:8000/exit.jsp?sId=";
+    //关注的专家列表
+    private static final String FOLLOWED_EXPERT_LIST = "http://120.24.172.105:8000/fw?t=app&controller=com.xfsm.action.ExpertAction&m=myFcous&start=";
+    //取消关注某专家
+    private static final String FOLLOW_UN_FOLLOW_EXPERT = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.PersonalAction&sId=";
+
+    /**
+     * 关注某专家
+     */
+    public static String followExpert(String sId, String expertId) {
+        return FOLLOW_UN_FOLLOW_EXPERT + sId + "&expertID=" + expertId + "&method=queryExpertList";
+
+    }
+
+    /**
+     * 取消关注某专家
+     */
+    public static String unfollowedExpert(String sId, String expertId, String userId) {
+        return FOLLOW_UN_FOLLOW_EXPERT + sId + "&expertID=" + expertId + "&user_id=" + userId + "&method=cancel";
+    }
+
+    /**
+     * 关注的专家列表
+     */
+    public static String followedExpertList(int start, int pageSize, String sId) {
+        return FOLLOWED_EXPERT_LIST + start + "&pagesize=" + pageSize + "&sId=" + sId;
+    }
 
     /**
      * 退出账号

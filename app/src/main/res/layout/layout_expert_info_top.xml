@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mytitle="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/header_img"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/bg_personal_page" />
+
+    <com.ymt.demo1.customViews.CircleImageView
+        android:id="@+id/export_header"
+        android:layout_width="78dp"
+        android:layout_height="78dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/moses"
+        mytitle:border_color="@android:color/white"
+        mytitle:border_width="0.618dp" />
+
+
+    <TextView
+        android:id="@+id/export_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="6.18dp"
+        android:layout_marginStart="6.18dp"
+        android:layout_toEndOf="@id/export_header"
+        android:layout_toRightOf="@id/export_header"
+        android:hint="export A"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/export_position_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@id/export_name"
+        android:layout_toRightOf="@id/export_name"
+        android:hint="A's major"
+        android:maxLines="2"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/follow_export"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/header_img"
+        android:layout_marginLeft="6.18dp"
+        android:layout_marginStart="6.18dp"
+        android:layout_toEndOf="@id/export_header"
+        android:layout_toRightOf="@id/export_header"
+        android:background="@drawable/corner_text_shape1o4"
+        android:gravity="center"
+        android:hint="+关注"
+        android:minHeight="25dp"
+        android:minWidth="46dp"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:textSize="12sp" />
+</RelativeLayout>

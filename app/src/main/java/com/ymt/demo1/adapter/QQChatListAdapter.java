@@ -9,10 +9,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
 import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.launchpages.QQMsgService;
+import com.ymt.demo1.main.BaseURLUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +73,7 @@ public class QQChatListAdapter extends BaseAdapter {
         }
         //todo 头像\名字
 //        int exportId = Integer.valueOf(mList.get(position).getFk_pro_id());
-//        viewHolder.exportHeader.setImageBitmap(null);
+        Picasso.with(context).load(BaseURLUtil.BASE_URL + "/images/header.png").into(viewHolder.exportHeader);
         viewHolder.exportName.setText(mList.get(position).getFk_pro_id());
         //todo chat的标题
         viewHolder.msgTitle.setText(mList.get(position).getMsg_title());

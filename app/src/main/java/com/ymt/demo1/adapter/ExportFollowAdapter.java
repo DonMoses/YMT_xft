@@ -7,29 +7,44 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.expert_consult.Expert;
+import com.ymt.demo1.beams.expert_consult.FollowedExpert;
 import com.ymt.demo1.customViews.CircleImageView;
+import com.ymt.demo1.main.AppContext;
+import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.plates.exportConsult.ExpertInfoActivity;
+import com.ymt.demo1.plates.exportConsult.MyConsultActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Dan on 2015/5/13
  */
 public class ExportFollowAdapter extends BaseAdapter {
-    ArrayList<Expert> mList = new ArrayList<>();
+    List<FollowedExpert> mList = new ArrayList<>();
     Context context;
     LayoutInflater inflater;
+    private RequestQueue queue;
 
     public ExportFollowAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
+        queue = ((MyConsultActivity) context).mQueue;
     }
 
-    public void setList(ArrayList<Expert> mList) {
+    public void setList(List<FollowedExpert> mList) {
         this.mList = mList;
         notifyDataSetChanged();
     }
@@ -63,16 +78,21 @@ public class ExportFollowAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Picasso.with(context).load(mList.get(position).getHead_pic()).into(viewHolder.exportHeader);
-        viewHolder.exportName.setText(mList.get(position).getUser_name());
-        viewHolder.exportHeader.setOnClickListener(new View.OnClickListener() {
+        Picasso.with(context).load(mList.get(position).getExpert_head_pic()).into(viewHolder.exportHeader);
+        viewHolder.exportName.setText(mList.get(position).getExpert_name());
+        View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ExpertInfoActivity.class);
-                intent.putExtra("expert_info", mList.get(position));
-                context.startActivity(intent);
+                switch (v.getId()) {
+                    case R.id.un_follow:
+                        queue.add(unFollow(position, AppContext.now_session_id, mList.get(position).getFk_expert_id(), mList.get(position).getFk_user_id()));
+                        break;
+                    default:
+                        break;
+                }
             }
-        });
+        };
+        viewHolder.unFollow.setOnClickListener(onClickListener);
         return convertView;
     }
 
@@ -80,5 +100,32 @@ public class ExportFollowAdapter extends BaseAdapter {
         CircleImageView exportHeader;
         TextView exportName;
         TextView unFollow;
+    }
+
+    /**
+     * 取消关注
+     */
+    private StringRequest unFollow(final int position, String sId, String expertId, String userId) {
+        return new StringRequest(BaseURLUtil.unfollowedExpert(sId, expertId, userId), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (jsonObject.getString("result").equals("Y")) {
+                        Toast.makeText(context, "已取消关注！", Toast.LENGTH_SHORT).show();
+                        mList.remove(position);
+                        setList(mList);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
     }
 }

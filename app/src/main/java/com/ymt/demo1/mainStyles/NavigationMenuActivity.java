@@ -95,7 +95,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
     protected void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        toolbar.setLogo(R.drawable.icon_float_logo72);
-//        toolbar.setTitle("新消防");// 标题的文字需在setSupportActionBar之前，不然会无效
+        toolbar.setTitle("");// 标题的文字需在setSupportActionBar之前，不然会无效
         toolbar.setLogo(R.drawable.logo_search);
         // toolbar.setSubtitle("副标题");
         setSupportActionBar(toolbar);

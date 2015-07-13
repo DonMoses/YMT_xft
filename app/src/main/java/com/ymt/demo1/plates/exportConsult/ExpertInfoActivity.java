@@ -5,16 +5,27 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.expert_consult.Expert;
 import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.BaseURLUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by Dan on 2015/5/13
@@ -22,10 +33,16 @@ import com.ymt.demo1.main.BaseURLUtil;
 public class ExpertInfoActivity extends BaseActivity {
     private Expert expert;
 
+    private boolean isFollowed;
+    private TextView follow;
+    private RequestQueue mQueue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_export_info);
+        mQueue = Volley.newRequestQueue(this);
+        isFollowed = false;
         initTitle();
         initView();
     }
@@ -58,73 +75,40 @@ public class ExpertInfoActivity extends BaseActivity {
     }
 
     protected void initView() {
+
+        //立即咨询
+        View consultLayout = findViewById(R.id.consult_action_layout);
+        final ImageButton consultImg = (ImageButton) findViewById(R.id.consult_img);
+
         //专家头像
         CircleImageView exportHeader = (CircleImageView) findViewById(R.id.export_header);
         Picasso.with(this).load(expert.getHead_pic()).into(exportHeader);
         //专家名
         TextView exportName = (TextView) findViewById(R.id.export_name);
         exportName.setText(expert.getUser_name());
-        //专家生日
-        TextView exportAge = (TextView) findViewById(R.id.export_age);
-//        exportAge.setText(expert.getBio());
-        //专家职业
-        TextView exportMajor = (TextView) findViewById(R.id.export_major);
-        exportMajor.setText(expert.getMajor_works());
+        //专家职位
+        TextView exportPos = (TextView) findViewById(R.id.export_position_title);
+        exportPos.setText(expert.getPosition_title());
         //关注按钮
-        final TextView follow = (TextView) findViewById(R.id.follow_export);
+        follow = (TextView) findViewById(R.id.follow_export);
 
         //todo 关注
 
         //专家简介
-        TextView selfResume = (TextView) findViewById(R.id.self_resume_content);
-//        selfResume.setText(expert.getResume());
-        //团队简介
-        TextView groupResume = (TextView) findViewById(R.id.group_resume_content);
-        groupResume.setText(expert.getCapacity());
-        //最近问题1，2，3，4
-        TextView questA = ((TextView) findViewById(R.id.quest_a));
-        TextView questB = ((TextView) findViewById(R.id.quest_b));
-        TextView questC = ((TextView) findViewById(R.id.quest_c));
-        TextView questD = ((TextView) findViewById(R.id.quest_d));
+        TextView expertResumeView = (TextView) findViewById(R.id.expert_resume);
 
-        //todo 最近咨询的问题
-//        ArrayList<String> quests = expert.getRecentQuests();
-//        int questsSize = quests.size();
-//        switch (questsSize) {
-//            case 0:
-//                questA.setText("该专家目前没有处理中的问题。");
-//                break;
-//            case 1:
-//                questA.setText(quests.get(0));
-//                break;
-//            case 2:
-//                questA.setText(quests.get(0));
-//                questB.setText(quests.get(1));
-//                break;
-//            case 3:
-//                questA.setText(quests.get(0));
-//                questB.setText(quests.get(1));
-//                questC.setText(quests.get(2));
-//                break;
-//            case 4:
-//                questA.setText(quests.get(0));
-//                questB.setText(quests.get(1));
-//                questC.setText(quests.get(2));
-//                questD.setText(quests.get(3));
-//                break;
-//            default:
-//
-//                break;
-//        }
+        //主要经历
+        WebView experienceView = (WebView) findViewById(R.id.experience);
+        experienceView.loadDataWithBaseURL(null, expert.getExperience(), "text/html", "utf-8", null);
+        //主攻方向
+        WebView majorWorkView = (WebView) findViewById(R.id.major_works);
+        majorWorkView.loadDataWithBaseURL(null, expert.getMajor_works(), "text/html", "utf-8", null);
+        //工作案例
+        WebView workExpeView = (WebView) findViewById(R.id.work_experience);
+        workExpeView.loadDataWithBaseURL(null, expert.getWork_experience(), "text/html", "utf-8", null);
+        //其他信息
+        TextView otherInfoView = (TextView) findViewById(R.id.other_infos);
 
-//        //成功案例1，2，3，4
-//        TextView caseA = (TextView) findViewById(R.id.case_a);
-//        TextView caseB = (TextView) findViewById(R.id.case_b);
-//        TextView caseC = (TextView) findViewById(R.id.case_c);
-//        TextView caseD = (TextView) findViewById(R.id.case_d);
-        //立即咨询layout、icon
-        View consultLayout = findViewById(R.id.consult_action_layout);
-        final ImageButton consultImg = (ImageButton) findViewById(R.id.consult_img);
         /*
         点击事件监听
          */
@@ -134,8 +118,15 @@ public class ExpertInfoActivity extends BaseActivity {
                 switch (v.getId()) {
                     case R.id.follow_export:
 
-                        //todo 关注
+                        if (!isFollowed) {
+                            //todo 关注
+                            mQueue.add(follow(AppContext.now_session_id, expert.getFk_user_id()));
+                        } else {
+                            //todo 取消关注
+                            mQueue.add(unFollow(AppContext.now_session_id, expert.getFk_user_id(), AppContext.now_user_id));
+                        }
 
+                        isFollowed = !isFollowed;
                         break;
                     case R.id.consult_action_layout:
                         //todo 咨询会话界面
@@ -174,6 +165,57 @@ public class ExpertInfoActivity extends BaseActivity {
             }
         };
         consultLayout.setOnTouchListener(onTouchListener);
+    }
+
+
+    /**
+     * 取消关注
+     */
+    private StringRequest unFollow(String sId, String expertId, String userId) {
+        return new StringRequest(BaseURLUtil.unfollowedExpert(sId, expertId, userId), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (jsonObject.getString("result").equals("Y")) {
+                        follow.setText("+关注");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+    }
+
+    /**
+     * 关注
+     */
+    private StringRequest follow(String sId, String expertId) {
+        return new StringRequest(BaseURLUtil.followExpert(sId, expertId), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (jsonObject.getString("result").equals("Y")) {
+                        follow.setText("已关注");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
     }
 
 

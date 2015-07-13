@@ -3,7 +3,7 @@
     xmlns:mytitle="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAFAF9"
+    android:background="#F0F0F0"
     android:orientation="vertical">
 
     <com.ymt.demo1.customViews.MyTitle
@@ -15,7 +15,7 @@
         mytitle:setTitleTxt="专家信息" />
 
     <LinearLayout
-        android:id="@+id/bottom_action_layout"
+        android:id="@+id/consult_action_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -23,166 +23,48 @@
         android:minHeight="48dp"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/consult_action_layout"
-            android:layout_width="0dp"
+        <ImageButton
+            android:id="@+id/consult_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_consult_now" />
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/consult_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_consult_now" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:gravity="center"
-                android:text="立即咨询"
-                android:textColor="@color/material_blue_grey_800"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <!--<LinearLayout-->
-        <!--android:id="@+id/booking_action_layout"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_weight="1"-->
-        <!--android:gravity="center"-->
-        <!--android:orientation="horizontal">-->
-
-        <!--<ImageButton-->
-        <!--android:id="@+id/booking_img"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@drawable/bg_export_booking" />-->
-
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_marginLeft="8dp"-->
-        <!--android:layout_marginRight="8dp"-->
-        <!--android:gravity="center"-->
-        <!--android:text="预约"-->
-        <!--android:textColor="@color/material_blue_grey_800"-->
-        <!--android:textSize="16sp" />-->
-        <!--</LinearLayout>-->
-
+            android:text="立即咨询"
+            android:textColor="@color/material_blue_grey_800"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
     <View
         android:id="@+id/divider_bottom"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_above="@id/bottom_action_layout"
+        android:layout_height="0.618dp"
+        android:layout_above="@id/consult_action_layout"
+        android:layout_marginTop="6.18dp"
         android:background="@android:color/holo_blue_dark" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_above="@id/divider_bottom"
-        android:layout_below="@id/my_title">
+        android:layout_below="@id/my_title"
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/header_img"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@drawable/bg_personal_page" />
-
-            <com.ymt.demo1.customViews.CircleImageView
-                android:id="@+id/export_header"
-                android:layout_width="78dp"
-                android:layout_height="78dp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="30dp"
-                android:src="@drawable/moses"
-                mytitle:border_color="@android:color/white"
-                mytitle:border_width="0.618dp" />
-
-            <LinearLayout
-                android:id="@+id/base_info_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="15dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="35dp"
-                android:layout_toEndOf="@id/export_header"
-                android:layout_toRightOf="@id/export_header"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/export_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="export A"
-                    android:singleLine="true"
-                    android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/white"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/export_age"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
-                    android:hint="age"
-                    android:singleLine="true"
-                    android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/white"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/export_major"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
-                    android:hint="A's major"
-                    android:maxLines="2"
-                    android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/white"
-                    android:textSize="14sp" />
-            </LinearLayout>
+            <include layout="@layout/layout_expert_info_top" />
 
             <TextView
-                android:id="@+id/follow_export"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_toEndOf="@id/export_header"
-                android:layout_toRightOf="@id/export_header"
-                android:layout_marginLeft="15dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="60dp"
-                android:layout_alignBaseline="@id/export_header"
-                android:background="@drawable/corner_text_shape1o4"
-                android:gravity="center"
-                android:hint="+关注"
-                android:minHeight="25dp"
-                android:minWidth="46dp"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/self_resume"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/export_header"
                 android:layout_marginTop="8dp"
                 android:minHeight="26dp"
                 android:text="个人简介"
@@ -190,211 +72,136 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/self_resume_content"
+                android:id="@+id/expert_resume"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/export_header"
+                android:layout_marginTop="8dp"
+                android:hint="xxx,四川人，中共党员，一级注册消防工程师。1992年毕业于重庆大学建筑环境专业，本科学历。"
+                android:minHeight="26dp"
+                android:textColor="@color/material_blue_grey_950"
+                android:textColorHint="@android:color/darker_gray"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.618dp"
+                android:layout_marginTop="3dp"
+                android:background="@android:color/holo_blue_dark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:minHeight="26dp"
+                android:text="主要经历"
+                android:textColor="@color/material_blue_grey_950"
+                android:textSize="18sp" />
+
+            <WebView
+                android:id="@+id/experience"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_toEndOf="@id/self_resume"
-                android:layout_toRightOf="@id/self_resume"
-                android:hint="唐祝华，男，汉族，1942-05-29生于大连市，1960-08毕业于大连市第一高中，1965-07毕业于大连工学院（现为：大连理工大学）化学工程系燃料化学工学专业，大学5年本科毕业学历。"
+                android:hint="在全国建筑给水排水委员会的任职和兼职领导力"
                 android:minHeight="26dp"
                 android:textColor="@android:color/darker_gray"
                 android:textColorHint="@android:color/darker_gray"
                 android:textSize="16sp" />
 
             <View
-                android:id="@+id/divider_a"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/self_resume_content"
+                android:layout_height="0.618dp"
                 android:layout_marginTop="3dp"
                 android:background="@android:color/holo_blue_dark" />
 
             <TextView
-                android:id="@+id/group_resume"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/divider_a"
                 android:layout_marginTop="8dp"
                 android:minHeight="26dp"
-                android:text="团队简介"
+                android:text="主攻方向"
                 android:textColor="@color/material_blue_grey_950"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/group_resume_content"
-                android:layout_width="wrap_content"
+            <WebView
+                android:id="@+id/major_works"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/divider_a"
                 android:layout_marginEnd="5dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_toEndOf="@id/group_resume"
-                android:layout_toRightOf="@id/group_resume"
-                android:hint="在全国建筑给水排水委员会的任职和兼职（标委会常委和分会理事长），主要是为全国的设计单位服务，并在建筑给水排水两委会的领导下为全国的设计单位和消防部门搭建跨省的学术/技术交流平台。作为消防部门的代表，应当尽心尽力、尽职尽责、切实地起到密切联络、有机协调的桥梁作用。"
+                android:hint="在全国建筑给水排水委员会的任职和兼职领导力"
                 android:minHeight="26dp"
                 android:textColor="@android:color/darker_gray"
                 android:textColorHint="@android:color/darker_gray"
                 android:textSize="16sp" />
 
             <View
-                android:id="@+id/divider_b"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/group_resume_content"
+                android:layout_height="0.618dp"
                 android:layout_marginTop="3dp"
                 android:background="@android:color/holo_blue_dark" />
 
             <TextView
-                android:id="@+id/recent_quests"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/divider_b"
                 android:layout_marginTop="8dp"
                 android:minHeight="26dp"
-                android:text="最新问题"
+                android:text="工作案例"
                 android:textColor="@color/material_blue_grey_950"
                 android:textSize="18sp" />
 
-            <TableLayout
-                android:id="@+id/recent_quests_content"
+            <WebView
+                android:id="@+id/work_experience"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/divider_b"
                 android:layout_marginEnd="5dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_toEndOf="@id/recent_quests"
-                android:layout_toRightOf="@id/recent_quests"
-                android:shrinkColumns="0,1,2,3">
-
-                <TableRow>
-
-                    <TextView
-                        android:id="@+id/quest_a"
-                        android:minHeight="26dp"
-                        android:textColor="@android:color/darker_gray"
-                        android:textColorHint="@android:color/darker_gray"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/quest_b"
-                        android:layout_marginLeft="6dp"
-                        android:layout_marginStart="6dp"
-                        android:minHeight="26dp"
-                        android:textColor="@android:color/darker_gray"
-                        android:textColorHint="@android:color/darker_gray"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/quest_c"
-                        android:layout_marginLeft="6dp"
-                        android:layout_marginStart="6dp"
-                        android:minHeight="26dp"
-                        android:textColor="@android:color/darker_gray"
-                        android:textColorHint="@android:color/darker_gray"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/quest_d"
-                        android:layout_marginLeft="6dp"
-                        android:layout_marginStart="6dp"
-                        android:minHeight="26dp"
-                        android:textColor="@android:color/darker_gray"
-                        android:textColorHint="@android:color/darker_gray"
-                        android:textSize="16sp" />
-                </TableRow>
-            </TableLayout>
+                android:hint="在全国建筑给水排水委员会的任职和兼职领导力"
+                android:minHeight="26dp"
+                android:textColor="@android:color/darker_gray"
+                android:textColorHint="@android:color/darker_gray"
+                android:textSize="16sp" />
 
             <View
-                android:id="@+id/divider_c"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/recent_quests_content"
+                android:layout_height="0.618dp"
                 android:layout_marginTop="3dp"
                 android:background="@android:color/holo_blue_dark" />
 
-
             <TextView
-                android:id="@+id/successful_cases"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/divider_c"
                 android:layout_marginTop="8dp"
                 android:minHeight="26dp"
-                android:text="成功案例"
+                android:text="其他信息"
                 android:textColor="@color/material_blue_grey_950"
                 android:textSize="18sp" />
 
-            <TableLayout
-                android:id="@+id/successful_cases_content"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/other_infos"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/divider_c"
                 android:layout_marginEnd="5dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_toEndOf="@id/successful_cases"
-                android:layout_toRightOf="@id/successful_cases"
-                android:shrinkColumns="0,1,2,3">
-
-                <TableRow>
-
-                    <TextView
-                        android:id="@+id/case_a"
-                        android:hint="this is example successful cases for test..."
-                        android:minHeight="26dp"
-                        android:textColor="@android:color/darker_gray"
-                        android:textColorHint="@android:color/darker_gray"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/case_b"
-                        android:layout_marginLeft="6dp"
-                        android:layout_marginStart="6dp"
-                        android:hint="this is example successful cases for test..."
-                        android:minHeight="26dp"
-                        android:textColor="@android:color/darker_gray"
-                        android:textColorHint="@android:color/darker_gray"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/case_c"
-                        android:layout_marginLeft="6dp"
-                        android:layout_marginStart="6dp"
-                        android:hint="this is example successful cases for test..."
-                        android:minHeight="26dp"
-                        android:textColor="@android:color/darker_gray"
-                        android:textColorHint="@android:color/darker_gray"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/case_d"
-                        android:layout_marginLeft="6dp"
-                        android:layout_marginStart="6dp"
-                        android:hint="this is example successful cases for test..."
-                        android:minHeight="26dp"
-                        android:textColor="@android:color/darker_gray"
-                        android:textColorHint="@android:color/darker_gray"
-                        android:textSize="16sp" />
-                </TableRow>
-
-            </TableLayout>
-        </RelativeLayout>
+                android:hint="在全国建筑给水排水委员会的任职和兼职领导力"
+                android:minHeight="26dp"
+                android:textColor="@android:color/darker_gray"
+                android:textColorHint="@android:color/darker_gray"
+                android:textSize="16sp" />
+        </LinearLayout>
     </ScrollView>
+
 </RelativeLayout>

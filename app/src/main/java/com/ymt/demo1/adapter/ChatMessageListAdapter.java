@@ -8,10 +8,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.expert_consult.QQMsg;
 import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.main.AppContext;
+import com.ymt.demo1.main.BaseURLUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,8 +107,7 @@ public class ChatMessageListAdapter extends BaseAdapter {
         //todo 这里简单模拟专家 、 用户信息。实际中使用Export 和Account 获取
         switch (infoType) {
             case INFO_IN:
-//                inViewHolder.exportHeader.setImageBitmap(
-//                        BitmapFactory.decodeResource(context.getResources(), R.drawable.moses));
+                Picasso.with(context).load(BaseURLUtil.BASE_URL + "/images/header.png").into(inViewHolder.exportHeader);
                 inViewHolder.inContent.setText(messages.get(position).getContent());
                 break;
             case INFO_OUT:

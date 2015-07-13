@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ptr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/export_follow_list_view"
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/followed_list_view"
         android:layout_width="match_parent"
-        android:dividerHeight="0.2dp"
+        android:layout_height="match_parent"
+        ptr:ptrMode="both"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:smoothScrollbar="true"
+        android:dividerHeight="1dp"
+        android:background="@android:color/darker_gray"
         android:divider="@android:color/holo_blue_dark"
-        android:layout_height="match_parent" />
+        android:dividerPadding="0.2dp" />
 </FrameLayout>
