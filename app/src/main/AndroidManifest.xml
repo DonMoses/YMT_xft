@@ -171,13 +171,8 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".plates.knowledge.VideoPlayActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".plates.knowledge.WebVideoActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:launchMode="singleTask" />
         <activity
             android:name=".plates.eduPlane.DialogueListActivity"
             android:launchMode="singleTask"
