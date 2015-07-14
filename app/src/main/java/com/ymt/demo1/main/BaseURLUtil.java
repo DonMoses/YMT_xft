@@ -12,6 +12,9 @@ public class BaseURLUtil {
     public static final String PUB_ZX_ZY = "PUB_ZX_ZY";
     public static final String BASE_URL = "http://120.24.172.105:8000";
 
+    //pdf
+    public static final String PDF_BASE = "http://120.24.172.105:8000/public/pub/upload/down.jsp?id=";
+
     //登录
     private static final String SIGN_IN_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.LoginAction&loginname=";
     //注册

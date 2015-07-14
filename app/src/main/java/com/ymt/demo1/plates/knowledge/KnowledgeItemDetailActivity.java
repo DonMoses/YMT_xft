@@ -1,7 +1,9 @@
 package com.ymt.demo1.plates.knowledge;
 
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.Gravity;
@@ -15,12 +17,14 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.SimpleTxtItemAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.knowledge.KnowledgeItemBZGF;
 import com.ymt.demo1.beams.knowledge.KnowledgeItemKYWX;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.main.PopActionListener;
 import com.ymt.demo1.main.PopActionUtil;
 
@@ -31,7 +35,6 @@ import java.util.Collections;
  * Created by Dan on 2015/4/29
  */
 public class KnowledgeItemDetailActivity extends BaseActivity {
-    private PopActionListener actionListener;
     private KnowledgeItemBZGF itemBZGF;
     private KnowledgeItemKYWX itemKYWX;
     private boolean isBZGF = false;
@@ -133,6 +136,12 @@ public class KnowledgeItemDetailActivity extends BaseActivity {
                         switch (action) {
                             case "确定":
                                 Toast.makeText(KnowledgeItemDetailActivity.this, "确定", Toast.LENGTH_LONG).show();
+                                if (isBZGF) {
+//                                    downloadBZGFFile(111 + ".mp3", itemBZGF.getPdf_id());
+                                    downloadBZGFFile(itemBZGF.getArticle_title() + ".pdf", itemBZGF.getPdf_id());
+                                } else {
+                                    downloadBZGFFile(itemKYWX.getArticle_title() + ".pdf", itemKYWX.getPdf_id());
+                                }
                                 break;
                             case "取消":
                                 Toast.makeText(KnowledgeItemDetailActivity.this, "取消", Toast.LENGTH_SHORT).show();
@@ -181,6 +190,27 @@ public class KnowledgeItemDetailActivity extends BaseActivity {
 //                Toast.makeText(KnowledgeItemDetailActivity.this, "写点评...", Toast.LENGTH_SHORT).show();
 //            }
 //        });
+    }
+
+    protected void downloadBZGFFile(String name, String pdf_id) {
+        DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+        Uri uri = Uri.parse(BaseURLUtil.PDF_BASE + pdf_id);
+//        Uri uri = Uri.parse("http://tingge.5nd.com/20060919/2015/2015-7-8/67322/1.Mp3");
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+
+        //设置允许使用的网络类型，这里是移动网络和wifi都可以
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
+
+        //禁止发出通知，既后台下载，如果要使用这一句必须声明一个权限：android.permission.DOWNLOAD_WITHOUT_NOTIFICATION
+        //request.setShowRunningNotification(false);
+
+        //不显示下载界面
+        //request.setVisibleInDownloadsUi(false);
+        /*设置下载后文件存放的位置,如果sdcard不可用，那么设置这个将报错，因此最好不设置如果sdcard可用，下载后的文件        在/mnt/sdcard/Android/data/packageName/files目录下面，如果sdcard不可用,设置了下面这个将报错，不设置，下载后的文件在/cache这个  目录下面*/
+        request.setDestinationInExternalFilesDir(this, null, name);
+
+        long id = downloadManager.enqueue(request);
+        //TODO 把id保存好，在接收者里面要用，最好保存在Preferences里面
     }
 
 }
