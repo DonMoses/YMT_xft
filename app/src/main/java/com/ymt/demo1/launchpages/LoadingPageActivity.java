@@ -179,5 +179,4 @@ public class LoadingPageActivity extends Activity {
     }
 
 
-
 }

@@ -219,12 +219,10 @@ public class KnowledgeItemListViewFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(), KnowledgeItemDetailActivity.class);
                 switch (mKnowledgeType) {
                     case KNOWLEDGE_BZGF:
-                        intent.putExtra("title", ((KnowledgeItemBZGF) parent.getAdapter().getItem(position)).getArticle_title());
-                        intent.putExtra("content", ((KnowledgeItemBZGF) parent.getAdapter().getItem(position)).getContent());
+                        intent.putExtra("bzgf", (KnowledgeItemBZGF) parent.getAdapter().getItem(position));
                         break;
                     case KNOWLEDGE_KYWX:
-                        intent.putExtra("title", ((KnowledgeItemKYWX) parent.getAdapter().getItem(position)).getArticle_title());
-                        intent.putExtra("content", ((KnowledgeItemKYWX) parent.getAdapter().getItem(position)).getContent());
+                        intent.putExtra("kywx", (KnowledgeItemKYWX) parent.getAdapter().getItem(position));
                         break;
                     case KNOWLEDGE_SPZL:
 
@@ -291,7 +289,7 @@ public class KnowledgeItemListViewFragment extends BaseFragment {
     }
 
     /**
-    标准规范
+     * 标准规范
      */
     protected StringRequest getBzgfList(int pageSize, int startIndex, String searchWhat) {
 //        Log.e("TAG", ">>>>>>>>>>>>>url>>>>>>>>>>" + BaseURLUtil.doGetKnowledgeAction(KNOWLEDGE_BZGF, pageSize, startIndex, searchWhat));
@@ -323,6 +321,9 @@ public class KnowledgeItemListViewFragment extends BaseFragment {
                             String id = obj.optString("id");
                             knowledgeItemBZGF.setThe_id(id);
                             knowledgeItemBZGF.setScore(obj.optString("score"));
+                            knowledgeItemBZGF.setHxxf(obj.optString("hxxf"));
+                            knowledgeItemBZGF.setDqxf(obj.optString("dqxf"));
+                            knowledgeItemBZGF.setPdf_id(obj.optString("pdf_id"));
 
                             /*
                              * 判断数据库是否已经包含该item
@@ -340,24 +341,24 @@ public class KnowledgeItemListViewFragment extends BaseFragment {
                         }
                         knowledgeItemBZGFList = DataSupport.findAll(KnowledgeItemBZGF.class);
                         adapter.setBZGFList(knowledgeItemBZGFList);
-                        listView.onRefreshComplete();
 
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                listView.onRefreshComplete();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                listView.onRefreshComplete();
             }
         });
 
     }
 
     /**
-     *  科研文献
+     * 科研文献
      */
     protected StringRequest getKywxList(int pageSize, int startIndex, String searchWhat) {
         return new StringRequest(BaseURLUtil.doGetKnowledgeAction(KNOWLEDGE_KYWX, pageSize, startIndex, searchWhat), new Response.Listener<String>() {
@@ -409,34 +410,20 @@ public class KnowledgeItemListViewFragment extends BaseFragment {
                         }
                         knowledgeItemKYWXList = DataSupport.findAll(KnowledgeItemKYWX.class);
                         adapter.setKYWXList(knowledgeItemKYWXList);
-                        listView.onRefreshComplete();
 
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                listView.onRefreshComplete();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                listView.onRefreshComplete();
             }
         });
 
     }
 
-    protected StringRequest getSpzlList() {
-        return new StringRequest("", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
-        });
-
-    }
 }

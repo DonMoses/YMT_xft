@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
  * 调用loadNativeImage()方法加载本地图片，此类可作为一个加载本地图片的工具类
  *
  * @author xiaanming
- * blog http://blog.csdn.net/xiaanming
+ *         blog http://blog.csdn.net/xiaanming
  */
 public class NativeImageLoader {
     private LruCache<String, Bitmap> mMemoryCache;

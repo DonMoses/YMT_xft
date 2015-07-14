@@ -1,11 +1,14 @@
 package com.ymt.demo1.beams.knowledge;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.litepal.crud.DataSupport;
 
 /**
  * Created by Dan on 2015/4/29
  */
-public class KnowledgeItemBZGF extends DataSupport {
+public class KnowledgeItemBZGF extends DataSupport implements Parcelable {
     private String the_id;
     private String content;
     private String files;
@@ -18,6 +21,33 @@ public class KnowledgeItemBZGF extends DataSupport {
     private String hitnum;
     private String jzxf;
     private String downcount;
+    private String hxxf;
+    private String pdf_id;
+    private String dqxf;
+
+    public String getHxxf() {
+        return hxxf;
+    }
+
+    public void setHxxf(String hxxf) {
+        this.hxxf = hxxf;
+    }
+
+    public String getPdf_id() {
+        return pdf_id;
+    }
+
+    public void setPdf_id(String pdf_id) {
+        this.pdf_id = pdf_id;
+    }
+
+    public String getDqxf() {
+        return dqxf;
+    }
+
+    public void setDqxf(String dqxf) {
+        this.dqxf = dqxf;
+    }
 
     public String getThe_id() {
         return the_id;
@@ -114,4 +144,59 @@ public class KnowledgeItemBZGF extends DataSupport {
     public void setDowncount(String downcount) {
         this.downcount = downcount;
     }
+
+    public KnowledgeItemBZGF() {
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.the_id);
+        dest.writeString(this.content);
+        dest.writeString(this.files);
+        dest.writeString(this.article_title);
+        dest.writeString(this.status);
+        dest.writeString(this.create_time);
+        dest.writeString(this.meta_keys);
+        dest.writeString(this.score);
+        dest.writeString(this.fk_create_user_id);
+        dest.writeString(this.hitnum);
+        dest.writeString(this.jzxf);
+        dest.writeString(this.downcount);
+        dest.writeString(this.hxxf);
+        dest.writeString(this.pdf_id);
+        dest.writeString(this.dqxf);
+    }
+
+    protected KnowledgeItemBZGF(Parcel in) {
+        this.the_id = in.readString();
+        this.content = in.readString();
+        this.files = in.readString();
+        this.article_title = in.readString();
+        this.status = in.readString();
+        this.create_time = in.readString();
+        this.meta_keys = in.readString();
+        this.score = in.readString();
+        this.fk_create_user_id = in.readString();
+        this.hitnum = in.readString();
+        this.jzxf = in.readString();
+        this.downcount = in.readString();
+        this.hxxf = in.readString();
+        this.pdf_id = in.readString();
+        this.dqxf = in.readString();
+    }
+
+    public static final Creator<KnowledgeItemBZGF> CREATOR = new Creator<KnowledgeItemBZGF>() {
+        public KnowledgeItemBZGF createFromParcel(Parcel source) {
+            return new KnowledgeItemBZGF(source);
+        }
+
+        public KnowledgeItemBZGF[] newArray(int size) {
+            return new KnowledgeItemBZGF[size];
+        }
+    };
 }

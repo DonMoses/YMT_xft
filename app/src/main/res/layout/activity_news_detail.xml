@@ -15,105 +15,98 @@
         mytitle:setLeftActionIcon="@drawable/back_normal"
         mytitle:setRightIconL="@drawable/icon_share" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/news_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:hint="title"
-                android:minHeight="32dp"
-                android:paddingLeft="6dp"
-                android:paddingRight="6dp"
-                android:textColor="@color/material_blue_grey_800"
-                android:textColorHint="@android:color/holo_blue_dark"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/news_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:hint="time"
-                android:minHeight="20dp"
-                android:paddingLeft="6dp"
-                android:paddingRight="6dp"
-                android:textColor="@color/material_blue_grey_800"
-                android:textColorHint="@android:color/holo_blue_dark"
-                android:textSize="12sp" />
-
-            <WebView
-                android:id="@+id/content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:lineSpacingExtra="5dp"
-                android:padding="8dp"
-                android:textColor="@color/material_blue_grey_900"
-                android:textSize="13sp" />
-        </LinearLayout>
-
-    </ScrollView>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="6dp"
-        android:background="@android:color/holo_blue_bright" />
-
     <LinearLayout
-        android:id="@+id/write_comment_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_write_comment" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/write_comment"
+            android:id="@+id/news_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="写点评"
+            android:gravity="center_vertical"
+            android:hint="title"
+            android:minHeight="32dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
             android:textColor="@color/material_blue_grey_800"
-            android:textSize="14sp" />
+            android:textColorHint="@android:color/holo_blue_dark"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/news_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:hint="time"
+            android:minHeight="20dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:textColor="@color/material_blue_grey_800"
+            android:textColorHint="@android:color/holo_blue_dark"
+            android:textSize="12sp" />
+
+        <WebView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:lineSpacingExtra="5dp"
+            android:padding="8dp"
+            android:textColor="@color/material_blue_grey_900"
+            android:textSize="13sp" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/holo_blue_bright" />
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:layout_marginTop="6dp"-->
+        <!--android:background="@android:color/holo_blue_bright" />-->
 
-    <TextView
-        android:id="@+id/hot_comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="热门话题"
-        android:textColor="@color/material_blue_grey_800"
-        android:textSize="14sp" />
+    <!--<LinearLayout-->
+        <!--android:id="@+id/write_comment_layout"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal">-->
 
-    <GridView
-        android:id="@+id/hot_comment_grid_view"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:horizontalSpacing="2dp"
-        android:numColumns="5"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp" />
+        <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@drawable/icon_write_comment" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/write_comment"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="写点评"-->
+            <!--android:textColor="@color/material_blue_grey_800"-->
+            <!--android:textSize="14sp" />-->
+    <!--</LinearLayout>-->
+
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="@android:color/holo_blue_bright" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/hot_comment"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="6dp"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:paddingLeft="20dp"-->
+        <!--android:paddingRight="20dp"-->
+        <!--android:text="热门话题"-->
+        <!--android:textColor="@color/material_blue_grey_800"-->
+        <!--android:textSize="14sp" />-->
+
+    <!--<GridView-->
+        <!--android:id="@+id/hot_comment_grid_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="48dp"-->
+        <!--android:horizontalSpacing="2dp"-->
+        <!--android:numColumns="5"-->
+        <!--android:paddingLeft="20dp"-->
+        <!--android:paddingRight="20dp" />-->
 </LinearLayout>

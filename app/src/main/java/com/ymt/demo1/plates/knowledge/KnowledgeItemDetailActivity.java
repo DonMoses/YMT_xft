@@ -3,6 +3,7 @@ package com.ymt.demo1.plates.knowledge;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.SimpleTxtItemAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
+import com.ymt.demo1.beams.knowledge.KnowledgeItemBZGF;
+import com.ymt.demo1.beams.knowledge.KnowledgeItemKYWX;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.PopActionListener;
 import com.ymt.demo1.main.PopActionUtil;
@@ -29,10 +32,20 @@ import java.util.Collections;
  */
 public class KnowledgeItemDetailActivity extends BaseActivity {
     private PopActionListener actionListener;
+    private KnowledgeItemBZGF itemBZGF;
+    private KnowledgeItemKYWX itemKYWX;
+    private boolean isBZGF = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        itemBZGF = getIntent().getParcelableExtra("bzgf");
+        itemKYWX = getIntent().getParcelableExtra("kywx");
+        if (itemBZGF == null) {
+            isBZGF = false;
+        } else {
+            isBZGF = true;
+        }
         setContentView(R.layout.activity_knowledge_content_detail);
         initTitle();
         initView();
@@ -45,7 +58,6 @@ public class KnowledgeItemDetailActivity extends BaseActivity {
         final MyTitle title = (MyTitle) findViewById(R.id.my_title);
         title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
 
-        title.updateCenterTitle(getIntent().getStringExtra("title"));     //设置title
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
             public void onClick() {
@@ -75,14 +87,29 @@ public class KnowledgeItemDetailActivity extends BaseActivity {
     }
 
     protected void initView() {
-        //文档大小
-        final TextView fileSize = (TextView) findViewById(R.id.download_file_size);
+        final TextView titleView = (TextView) findViewById(R.id.title);
+        final TextView timeView = (TextView) findViewById(R.id.create_time);
+        final TextView contentView = (TextView) findViewById(R.id.content);
         //所需积分
         final TextView scoreNeed = (TextView) findViewById(R.id.download_file_score_needed);
-        //下载文档按钮
+
         final Button downBtn = (Button) findViewById(R.id.download_btn);
-        //热门话题GridView
-        final GridView hotCommentGrid = (GridView) findViewById(R.id.hot_comment_grid_view);
+
+
+        if (isBZGF) {
+            titleView.setText(itemBZGF.getArticle_title() + ".pdf");
+            timeView.setText(itemBZGF.getCreate_time());
+            scoreNeed.setText(itemBZGF.getScore());
+        } else {
+            titleView.setText(itemKYWX.getArticle_title());
+            timeView.setText(itemKYWX.getCreate_time());
+            scoreNeed.setText(itemKYWX.getScore());
+            contentView.setText(Html.fromHtml(itemKYWX.getContent()));
+        }
+
+
+//        //热门话题GridView
+//        final GridView hotCommentGrid = (GridView) findViewById(R.id.hot_comment_grid_view);
 
         //下载按钮监听
         downBtn.setOnClickListener(new View.OnClickListener() {
@@ -125,41 +152,35 @@ public class KnowledgeItemDetailActivity extends BaseActivity {
             }
         });
 
-        /*
-        内容textView
-         */
-        final WebView contentView = (WebView) findViewById(R.id.content);
-        contentView.loadDataWithBaseURL(null, getIntent().getStringExtra("content"), "text/html", "utf-8", null);
+//        ArrayList<String> list = new ArrayList<>();
+//        String[] hotArray = new String[]{"消防部门", "规范组", "建委",
+//                "科研机构", "设计院", "开发商", "设备商", "服务商"};
+//        Collections.addAll(list, hotArray);
+//        SimpleTxtItemAdapter adapter = new SimpleTxtItemAdapter(this);
+//        hotCommentGrid.setAdapter(adapter);
+//        adapter.setColor(Color.WHITE, getResources().getColor(R.color.bg_view_blue));
+//        adapter.setList(list);
 
-        ArrayList<String> list = new ArrayList<>();
-        String[] hotArray = new String[]{"消防部门", "规范组", "建委",
-                "科研机构", "设计院", "开发商", "设备商", "服务商"};
-        Collections.addAll(list, hotArray);
-        SimpleTxtItemAdapter adapter = new SimpleTxtItemAdapter(this);
-        hotCommentGrid.setAdapter(adapter);
-        adapter.setColor(Color.WHITE, getResources().getColor(R.color.bg_view_blue));
-        adapter.setList(list);
-
-        hotCommentGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String str = parent.getAdapter().getItem(position).toString();
-                //todo
-                Toast.makeText(KnowledgeItemDetailActivity.this, str, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        /*
-        点击 “写点评”
-         */
-        View view = findViewById(R.id.write_comment_layout);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //todo 写点评
-                Toast.makeText(KnowledgeItemDetailActivity.this, "写点评...", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        hotCommentGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                String str = parent.getAdapter().getItem(position).toString();
+//                //todo
+//                Toast.makeText(KnowledgeItemDetailActivity.this, str, Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        /*
+//        点击 “写点评”
+//         */
+//        View view = findViewById(R.id.write_comment_layout);
+//        view.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //todo 写点评
+//                Toast.makeText(KnowledgeItemDetailActivity.this, "写点评...", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
 }

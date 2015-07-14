@@ -46,6 +46,7 @@ import com.ymt.demo1.plates.exportConsult.ExpertInfoActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeItemDetailActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeItemListViewFragment;
 import com.ymt.demo1.plates.knowledge.KnowledgeVideoFragment;
+import com.ymt.demo1.plates.knowledge.WebVideoActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -108,7 +109,7 @@ public class SearchResultActivity extends BaseFloatActivity {
     protected void initBaseView() {
         rootLayout = (LinearLayout) findViewById(R.id.root_layout);
         spinner = (Spinner) findViewById(R.id.search_spinner);
-        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"全部", "专家", "知识平台-科研", "知识平台-标准", "知识平台-视频", "咨询分类"});
+        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"全部", "专家", "科研", "规范", "视频", "咨询分类"});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setVisibility(View.VISIBLE);//设置默认显示
@@ -405,18 +406,18 @@ public class SearchResultActivity extends BaseFloatActivity {
 
                     case 2:
                         Intent intent2 = new Intent(SearchResultActivity.this, KnowledgeItemDetailActivity.class);
-                        intent2.putExtra("title", ((KnowledgeItemKYWX) parent.getAdapter().getItem(position)).getArticle_title());
-                        intent2.putExtra("content", ((KnowledgeItemKYWX) parent.getAdapter().getItem(position)).getContent());
+                        intent2.putExtra("kywx", ((KnowledgeItemKYWX) parent.getAdapter().getItem(position)));
                         startActivity(intent2);
                         break;
                     case 3:
                         Intent intent3 = new Intent(SearchResultActivity.this, KnowledgeItemDetailActivity.class);
-                        intent3.putExtra("title", ((KnowledgeItemBZGF) parent.getAdapter().getItem(position)).getArticle_title());
-                        intent3.putExtra("content", ((KnowledgeItemBZGF) parent.getAdapter().getItem(position)).getContent());
+                        intent3.putExtra("bzgf", ((KnowledgeItemBZGF) parent.getAdapter().getItem(position)));
                         startActivity(intent3);
                         break;
                     case 4:         //视频
-
+                        Intent intent = new Intent(SearchResultActivity.this, WebVideoActivity.class);
+                        intent.putExtra("mp4_url", ((KnowledgeVideo) parent.getAdapter().getItem(position)).getAttachment());
+                        startActivity(intent);
                         break;
                     case 5:         //咨询分类
                         Intent intent5 = new Intent(SearchResultActivity.this, ConsultDetailActivity.class);
@@ -494,15 +495,15 @@ public class SearchResultActivity extends BaseFloatActivity {
                             expert.setWork_experience(obj.optString("work_experience"));
                             expert.setWork_name(obj.optString("work_name"));
                             experts.add(expert);
-                            expertListAdapter.setExperts(experts);
                         }
-                        expertGirdView.onRefreshComplete();
+                        expertListAdapter.setExperts(experts);
 
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    expertGirdView.onRefreshComplete();
+
                 }
+                expertGirdView.onRefreshComplete();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -546,6 +547,9 @@ public class SearchResultActivity extends BaseFloatActivity {
                             String id = obj.optString("id");
                             knowledgeItemBZGF.setThe_id(id);
                             knowledgeItemBZGF.setScore(obj.optString("score"));
+                            knowledgeItemBZGF.setHxxf(obj.optString("hxxf"));
+                            knowledgeItemBZGF.setDqxf(obj.optString("dqxf"));
+                            knowledgeItemBZGF.setPdf_id(obj.optString("pdf_id"));
                             bzgfList.add(knowledgeItemBZGF);
                             knowledgeNormalAdapter.setBZGFList(bzgfList);
                         }

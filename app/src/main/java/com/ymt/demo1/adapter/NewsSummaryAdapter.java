@@ -2,13 +2,17 @@ package com.ymt.demo1.adapter;
 
 import android.content.Context;
 import android.text.Html;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.news.NewsSummary;
 import com.ymt.demo1.main.StringUtils;
@@ -55,6 +59,7 @@ public class NewsSummaryAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.layout_news_item, null);
             viewHolder = new ViewHolder();
             viewHolder.titleView = (TextView) convertView.findViewById(R.id.subject);
+            viewHolder.picView = (ImageView) convertView.findViewById(R.id.pic);
             viewHolder.contentView = (TextView) convertView.findViewById(R.id.content_text);
             viewHolder.hitView = (TextView) convertView.findViewById(R.id.hit_num);
             convertView.setTag(viewHolder);
@@ -67,10 +72,19 @@ public class NewsSummaryAdapter extends BaseAdapter {
         viewHolder.titleView.setText(list.get(position).getArticle_title());
         viewHolder.contentView.setText(StringUtils.replaceBlank(Html.fromHtml(list.get(position).getContent()).toString()));
         viewHolder.hitView.setText(list.get(position).getHitnum() + "跟贴");
+        String pic = list.get(position).getPic();
+        if (!TextUtils.isEmpty(pic)) {
+            viewHolder.picView.setVisibility(View.VISIBLE);
+            Picasso.with(context).load(pic).into(viewHolder.picView);
+        } else {
+            viewHolder.picView.setVisibility(View.GONE);
+        }
+
         return convertView;
     }
 
     class ViewHolder {
+        ImageView picView;
         TextView titleView;
         TextView contentView;
         TextView hitView;

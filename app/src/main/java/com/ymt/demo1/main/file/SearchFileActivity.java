@@ -291,7 +291,7 @@ public class SearchFileActivity extends BaseFloatActivity {
     /**
      * 封装1个方法，搜索文件， 得到list数据源
      * 要求没搜索得到一个适当的文件，就要传递对应的指导空间上显示
-     * <p>
+     * <p/>
      * 使用Handler  发送数据
      */
     private void searchFiles(String theFileDirPath) {

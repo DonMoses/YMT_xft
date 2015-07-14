@@ -38,7 +38,6 @@ public class FoundPswActivity extends Activity {
     }
 
 
-
     protected void initTitle() {
         MyTitle title = (MyTitle) findViewById(R.id.my_title);
         title.setTitleStyle(MyTitle.TitleStyle.LEFT_ICON);

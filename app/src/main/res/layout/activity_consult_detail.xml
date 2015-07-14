@@ -51,23 +51,23 @@
         </LinearLayout>
     </ScrollView>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@android:color/holo_blue_dark" />
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="2dp"-->
+        <!--android:background="@android:color/holo_blue_dark" />-->
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="热门话题"
-        android:textColor="@color/material_blue_grey_950"
-        android:textSize="16sp" />
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="热门话题"-->
+        <!--android:textColor="@color/material_blue_grey_950"-->
+        <!--android:textSize="16sp" />-->
 
-    <GridView
-        android:id="@+id/hot_consult_grid_view"
-        android:layout_width="match_parent"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:layout_height="62dp"
-        android:numColumns="5" />
+    <!--<GridView-->
+        <!--android:id="@+id/hot_consult_grid_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:paddingLeft="8dp"-->
+        <!--android:paddingRight="8dp"-->
+        <!--android:layout_height="62dp"-->
+        <!--android:numColumns="5" />-->
 </LinearLayout>

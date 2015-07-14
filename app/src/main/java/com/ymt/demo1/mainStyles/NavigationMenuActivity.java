@@ -47,6 +47,7 @@ import com.ymt.demo1.plates.exportConsult.ExportConsultMainActivity;
 import com.ymt.demo1.plates.hub.FireHubMainActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
 import com.ymt.demo1.plates.news.NewsMainActivity;
+import com.ymt.demo1.plates.news.NewsTabActivity;
 import com.ymt.demo1.plates.personal.PersonalPagerTabActivity;
 
 import org.json.JSONArray;
@@ -320,7 +321,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                         startActivity(new Intent(NavigationMenuActivity.this, ConsultCatoMainActivity.class));      //咨询分类
                         break;
                     case R.id.img_news:
-                        startActivity(new Intent(NavigationMenuActivity.this, NewsMainActivity.class));             //资讯平台
+                        startActivity(new Intent(NavigationMenuActivity.this, NewsTabActivity.class));             //资讯平台
                         break;
                     case R.id.img_export:
                         startActivity(new Intent(NavigationMenuActivity.this, ExportConsultMainActivity.class));    //专家咨询

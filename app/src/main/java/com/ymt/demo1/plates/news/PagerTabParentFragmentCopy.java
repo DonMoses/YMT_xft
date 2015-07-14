@@ -33,7 +33,7 @@ import com.ymt.demo1.customViews.widget.PagerSlidingTabStrip;
  * This fragment manages ViewPager and its child Fragments.
  * Scrolling techniques are basically the same as ViewPagerTab2Activity.
  */
-public class PagerTabParentFragment extends BaseFragment {
+public class PagerTabParentFragmentCopy extends BaseFragment {
     public static final String FRAGMENT_TAG = "fragment";
     private int tabPosition;
 
@@ -57,8 +57,8 @@ public class PagerTabParentFragment extends BaseFragment {
         return view;
     }
 
-    public static PagerTabParentFragment newInstanceWithPosition(int position) {
-        PagerTabParentFragment pagerTabParentFragment = new PagerTabParentFragment();
+    public static PagerTabParentFragmentCopy newInstanceWithPosition(int position) {
+        PagerTabParentFragmentCopy pagerTabParentFragment = new PagerTabParentFragmentCopy();
         Bundle bundle = new Bundle();
         bundle.putInt("position", position);
         pagerTabParentFragment.setArguments(bundle);

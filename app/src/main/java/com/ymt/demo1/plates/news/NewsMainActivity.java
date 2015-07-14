@@ -16,19 +16,14 @@
 
 package com.ymt.demo1.plates.news;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Gravity;
-import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.PopActionListener;
-import com.ymt.demo1.main.PopActionUtil;
 
 
 /**
@@ -45,10 +40,10 @@ public class NewsMainActivity extends BaseActivity {
         setContentView(R.layout.activity_news_main);
 
         FragmentManager fm = getSupportFragmentManager();
-        if (fm.findFragmentByTag(NewsMainFragment.FRAGMENT_TAG) == null) {
+        if (fm.findFragmentByTag(FireNewsFragment.FRAGMENT_TAG) == null) {
             FragmentTransaction ft = fm.beginTransaction();
-            ft.add(R.id.fragment, new NewsMainFragment(),
-                    NewsMainFragment.FRAGMENT_TAG);
+            ft.add(R.id.fragment, new FireNewsFragment(),
+                    FireNewsFragment.FRAGMENT_TAG);
             ft.commit();
             fm.executePendingTransactions();
         }

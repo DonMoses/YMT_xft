@@ -5,7 +5,7 @@ import org.litepal.crud.DataSupport;
 /**
  * Created by Dan on 2015/6/13
  */
-public class ConsultCato extends DataSupport{
+public class ConsultCato extends DataSupport {
     private String code;
     private String note;
 

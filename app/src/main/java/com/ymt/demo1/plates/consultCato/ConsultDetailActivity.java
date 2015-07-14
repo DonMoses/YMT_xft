@@ -87,24 +87,24 @@ public class ConsultDetailActivity extends BaseActivity {
         title.setText(intent.getStringExtra("title"));
         content.setText(Html.fromHtml(intent.getStringExtra("content")));
 
-        //热门话题
-        GridView hotGrid = (GridView) findViewById(R.id.hot_consult_grid_view);
-        ArrayList<String> list = new ArrayList<>();
-        String[] hotArray = new String[]{"消防部门", "规范组", "建委",
-                "科研机构", "设计院", "开发商", "设备商", "服务商"};
-        Collections.addAll(list, hotArray);
-        SimpleTxtItemAdapter adapter = new SimpleTxtItemAdapter(this);
-        hotGrid.setAdapter(adapter);
-        adapter.setColor(Color.WHITE, getResources().getColor(R.color.bg_view_blue));
-        adapter.setList(list);
-
-        hotGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String str = parent.getAdapter().getItem(position).toString();
-                //todo
-                Toast.makeText(ConsultDetailActivity.this, str, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        //热门话题
+//        GridView hotGrid = (GridView) findViewById(R.id.hot_consult_grid_view);
+//        ArrayList<String> list = new ArrayList<>();
+//        String[] hotArray = new String[]{"消防部门", "规范组", "建委",
+//                "科研机构", "设计院", "开发商", "设备商", "服务商"};
+//        Collections.addAll(list, hotArray);
+//        SimpleTxtItemAdapter adapter = new SimpleTxtItemAdapter(this);
+//        hotGrid.setAdapter(adapter);
+//        adapter.setColor(Color.WHITE, getResources().getColor(R.color.bg_view_blue));
+//        adapter.setList(list);
+//
+//        hotGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                String str = parent.getAdapter().getItem(position).toString();
+//                //todo
+//                Toast.makeText(ConsultDetailActivity.this, str, Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 }

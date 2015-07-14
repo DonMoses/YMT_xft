@@ -86,7 +86,7 @@ public class HotConsultListActivity extends BaseFloatActivity {
                 start = 1;
                 mList.clear();
                 mRequestQueue.add(hotConsultRequest(start, pageSize));
-                Log.e("TAG","start>>>>>>>>>>"+start);
+                Log.e("TAG", "start>>>>>>>>>>" + start);
             }
 
             @Override

@@ -15,18 +15,39 @@
         mytitle:setLeftActionIcon="@drawable/back_normal"
         mytitle:setRightIconL="@drawable/icon_share" />
 
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-        <WebView
-            android:id="@+id/content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:padding="8dp"
-            android:textColor="@color/material_blue_grey_900"
-            android:lineSpacingExtra="5dp"
-            android:textSize="13sp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:textColor="@color/material_blue_grey_800"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/create_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="61.8dp"
+                android:padding="8dp" />
+        </LinearLayout>
+
     </ScrollView>
 
     <Button
@@ -40,11 +61,11 @@
         android:text="下载" />
 
     <RelativeLayout
-        android:layout_marginTop="6dp"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:layout_height="wrap_content">
+        android:paddingRight="20dp">
 
         <TextView
             android:id="@+id/download_instruction"
@@ -64,34 +85,34 @@
             android:textColor="@color/material_blue_grey_800"
             android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/download_file_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/download_explain"
-            android:layout_marginTop="1dp"
-            android:text="大小："
-            android:textColor="@color/material_blue_grey_800"
-            android:textSize="12sp" />
+        <!--<TextView-->
+        <!--android:id="@+id/download_file_text"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/download_explain"-->
+        <!--android:layout_marginTop="1dp"-->
+        <!--android:text="大小："-->
+        <!--android:textColor="@color/material_blue_grey_800"-->
+        <!--android:textSize="12sp" />-->
 
-        <TextView
-            android:id="@+id/download_file_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/download_explain"
-            android:layout_marginTop="1dp"
-            android:layout_toEndOf="@id/download_file_text"
-            android:layout_toRightOf="@id/download_file_text"
-            android:hint="0.5 MB"
-            android:textColor="@color/material_blue_grey_800"
-            android:textColorHint="@android:color/darker_gray"
-            android:textSize="12sp" />
+        <!--<TextView-->
+        <!--android:id="@+id/download_file_size"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/download_explain"-->
+        <!--android:layout_marginTop="1dp"-->
+        <!--android:layout_toEndOf="@id/download_file_text"-->
+        <!--android:layout_toRightOf="@id/download_file_text"-->
+        <!--android:hint="0 MB"-->
+        <!--android:textColor="@color/material_blue_grey_800"-->
+        <!--android:textColorHint="@android:color/darker_gray"-->
+        <!--android:textSize="12sp" />-->
 
         <TextView
             android:id="@+id/download_file_text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/download_file_size"
+            android:layout_below="@id/download_explain"
             android:layout_marginTop="1dp"
             android:text="所需积分："
             android:textColor="@color/material_blue_grey_800"
@@ -101,68 +122,68 @@
             android:id="@+id/download_file_score_needed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/download_file_size"
+            android:layout_below="@id/download_explain"
             android:layout_marginTop="1dp"
             android:layout_toEndOf="@id/download_file_text1"
             android:layout_toRightOf="@id/download_file_text1"
-            android:hint="2 分"
+            android:hint="0 分"
             android:textColor="@color/material_blue_grey_800"
             android:textColorHint="@android:color/darker_gray"
             android:textSize="12sp" />
 
     </RelativeLayout>
 
-    <View
-        android:layout_marginTop="6dp"
-        android:layout_width="match_parent"
-        android:background="@android:color/holo_blue_bright"
-        android:layout_height="1dp" />
+    <!--<View-->
+    <!--android:layout_marginTop="6dp"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:background="@android:color/holo_blue_bright"-->
+    <!--android:layout_height="1dp" />-->
 
-    <LinearLayout
-        android:id="@+id/write_comment_layout"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
+    <!--<LinearLayout-->
+    <!--android:id="@+id/write_comment_layout"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:layout_height="wrap_content">-->
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:src="@drawable/icon_write_comment"
-            android:layout_height="wrap_content" />
+    <!--<ImageView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:src="@drawable/icon_write_comment"-->
+    <!--android:layout_height="wrap_content" />-->
 
-        <TextView
-            android:id="@+id/write_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="写点评"
-            android:textColor="@color/material_blue_grey_800"
-            android:textSize="14sp" />
-    </LinearLayout>
+    <!--<TextView-->
+    <!--android:id="@+id/write_comment"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="写点评"-->
+    <!--android:textColor="@color/material_blue_grey_800"-->
+    <!--android:textSize="14sp" />-->
+    <!--</LinearLayout>-->
 
-    <View
-        android:layout_width="match_parent"
-        android:background="@android:color/holo_blue_bright"
-        android:layout_height="1dp" />
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:background="@android:color/holo_blue_bright"-->
+    <!--android:layout_height="1dp" />-->
 
-    <TextView
-        android:layout_marginTop="6dp"
-        android:id="@+id/hot_comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:text="热门话题"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:textColor="@color/material_blue_grey_800"
-        android:textSize="14sp" />
+    <!--<TextView-->
+    <!--android:layout_marginTop="6dp"-->
+    <!--android:id="@+id/hot_comment"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:text="热门话题"-->
+    <!--android:paddingLeft="20dp"-->
+    <!--android:paddingRight="20dp"-->
+    <!--android:textColor="@color/material_blue_grey_800"-->
+    <!--android:textSize="14sp" />-->
 
-    <GridView
-        android:paddingLeft="20dp"
-        android:numColumns="5"
-        android:paddingRight="20dp"
-        android:horizontalSpacing="2dp"
-        android:id="@+id/hot_comment_grid_view"
-        android:layout_width="match_parent"
-        android:layout_height="48dp" />
+    <!--<GridView-->
+    <!--android:paddingLeft="20dp"-->
+    <!--android:numColumns="5"-->
+    <!--android:paddingRight="20dp"-->
+    <!--android:horizontalSpacing="2dp"-->
+    <!--android:id="@+id/hot_comment_grid_view"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="48dp" />-->
 </LinearLayout>

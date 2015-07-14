@@ -18,8 +18,6 @@ package com.ymt.demo1.plates.news;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +48,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 
@@ -187,28 +184,6 @@ public class NewsFragment extends BaseFragment {
 
     }
 
-    private static class MyHandler extends Handler {
-        private final WeakReference<NewsFragment> mNewsContentReference;
-
-        public MyHandler(NewsFragment newsContentFragment) {
-            this.mNewsContentReference = new WeakReference<>(newsContentFragment);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            NewsFragment newsContentFragment = mNewsContentReference.get();
-            if (newsContentFragment != null) {
-                switch (msg.what) {
-                    case 1:
-
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-    }
-
     private StringRequest summaryRequest(String urlStr) {
 
         return new StringRequest(urlStr, new Response.Listener<String>() {
@@ -232,10 +207,9 @@ public class NewsFragment extends BaseFragment {
                         summary.setAuthor(object.optString("author"));
                         summary.setStatus(object.optString("status"));
                         mNews.add(summary);
-                        summaryAdapter.setList(mNews);
                     }
-                    // when refresh completed
-                    listView.onRefreshComplete();
+                    summaryAdapter.setList(mNews);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

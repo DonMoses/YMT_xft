@@ -24,8 +24,6 @@ public class TestActivity extends BaseActivity {
     protected void initView() {
 
 
-
-
     }
 
 }

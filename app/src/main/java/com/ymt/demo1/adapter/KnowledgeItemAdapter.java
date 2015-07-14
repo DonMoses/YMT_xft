@@ -2,11 +2,11 @@ package com.ymt.demo1.adapter;
 
 import android.content.Context;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ymt.demo1.R;
@@ -100,8 +100,6 @@ public class KnowledgeItemAdapter extends BaseAdapter {
                     myViewHolder.titleView = (TextView) convertView.findViewById(R.id.subject);
                     myViewHolder.createTimeView = (TextView) convertView.findViewById(R.id.create_time);
                     myViewHolder.contentView = (TextView) convertView.findViewById(R.id.content_text);
-                    myViewHolder.downloadBtn = (ImageButton) convertView.findViewById(R.id.download_btn);
-                    myViewHolder.viewBtn = (ImageButton) convertView.findViewById(R.id.view_btn);
                     myViewHolder.downloadCount = (TextView) convertView.findViewById(R.id.download_count);
                     myViewHolder.viewCount = (TextView) convertView.findViewById(R.id.view_count);
                     convertView.setTag(myViewHolder);
@@ -129,18 +127,21 @@ public class KnowledgeItemAdapter extends BaseAdapter {
 
         switch (knowledgeType) {
             case KnowledgeItemListViewFragment.KNOWLEDGE_BZGF:
-                myViewHolder.titleView.setText(listBZGF.get(position).getArticle_title());
-                myViewHolder.contentView.setText(Html.fromHtml(listBZGF.get(position).getContent()));
+                if (!TextUtils.isEmpty(listBZGF.get(position).getPdf_id())) {
+                    myViewHolder.titleView.setText(listBZGF.get(position).getArticle_title() + ".pdf");
+                } else {
+                    myViewHolder.titleView.setText(listBZGF.get(position).getArticle_title());
+                }
                 myViewHolder.createTimeView.setText(listBZGF.get(position).getCreate_time());
-                myViewHolder.viewCount.setText(listBZGF.get(position).getHitnum() + "查看");
+                myViewHolder.viewCount.setText(listBZGF.get(position).getHitnum());
                 myViewHolder.downloadCount.setText(listBZGF.get(position).getDowncount() + "下载");
                 break;
             case KnowledgeItemListViewFragment.KNOWLEDGE_KYWX:
                 myViewHolder.titleView.setText(listKYWX.get(position).getArticle_title());
                 myViewHolder.contentView.setText(Html.fromHtml(listKYWX.get(position).getContent()));
                 myViewHolder.createTimeView.setText(listKYWX.get(position).getCreate_time());
-                myViewHolder.viewCount.setText(listKYWX.get(position).getHitnum() + "查看");
-                myViewHolder.downloadCount.setText(listKYWX.get(position).getDowncount() + "下载");
+                myViewHolder.viewCount.setText(listKYWX.get(position).getHitnum());
+                myViewHolder.downloadCount.setVisibility(View.GONE);
                 break;
             case KnowledgeItemListViewFragment.KNOWLEDGE_SPZL:
                 break;
@@ -203,8 +204,6 @@ public class KnowledgeItemAdapter extends BaseAdapter {
         TextView titleView;
         TextView contentView;
         TextView createTimeView;
-        ImageButton viewBtn;
-        ImageButton downloadBtn;
         TextView viewCount;
         TextView downloadCount;
 

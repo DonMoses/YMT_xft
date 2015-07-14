@@ -51,7 +51,7 @@ public class SearchActivity extends BaseFloatActivity {
 
     protected void initView() {
         final Spinner spinner = (Spinner) findViewById(R.id.search_spinner);
-        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"全部", "专家", "知识平台-科研", "知识平台-标准", "知识平台-视频", "咨询分类"});
+        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"全部", "专家", "科研", "规范", "视频", "咨询分类"});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setVisibility(View.VISIBLE);//设置默认显示

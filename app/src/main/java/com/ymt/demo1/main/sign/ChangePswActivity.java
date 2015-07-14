@@ -34,6 +34,7 @@ import org.litepal.tablemanager.Connector;
 public class ChangePswActivity extends Activity {
     private RequestQueue queue;
     private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

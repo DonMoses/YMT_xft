@@ -1,11 +1,14 @@
 package com.ymt.demo1.beams.knowledge;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.litepal.crud.DataSupport;
 
 /**
  * Created by Dan on 2015/4/29
  */
-public class KnowledgeItemKYWX extends DataSupport {
+public class KnowledgeItemKYWX extends DataSupport implements Parcelable {
     private String the_id;
     private String content;
     private String files;
@@ -150,4 +153,61 @@ public class KnowledgeItemKYWX extends DataSupport {
     public void setDowncount(String downcount) {
         this.downcount = downcount;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.the_id);
+        dest.writeString(this.content);
+        dest.writeString(this.files);
+        dest.writeString(this.article_title);
+        dest.writeString(this.status);
+        dest.writeString(this.create_time);
+        dest.writeString(this.meta_keys);
+        dest.writeString(this.score);
+        dest.writeString(this.fk_create_user_id);
+        dest.writeString(this.hitnum);
+        dest.writeString(this.jzxf);
+        dest.writeString(this.downcount);
+        dest.writeString(this.isFile);
+        dest.writeString(this.attribute);
+        dest.writeString(this.pdf_id);
+        dest.writeString(this.author);
+    }
+
+    public KnowledgeItemKYWX() {
+    }
+
+    protected KnowledgeItemKYWX(Parcel in) {
+        this.the_id = in.readString();
+        this.content = in.readString();
+        this.files = in.readString();
+        this.article_title = in.readString();
+        this.status = in.readString();
+        this.create_time = in.readString();
+        this.meta_keys = in.readString();
+        this.score = in.readString();
+        this.fk_create_user_id = in.readString();
+        this.hitnum = in.readString();
+        this.jzxf = in.readString();
+        this.downcount = in.readString();
+        this.isFile = in.readString();
+        this.attribute = in.readString();
+        this.pdf_id = in.readString();
+        this.author = in.readString();
+    }
+
+    public static final Parcelable.Creator<KnowledgeItemKYWX> CREATOR = new Parcelable.Creator<KnowledgeItemKYWX>() {
+        public KnowledgeItemKYWX createFromParcel(Parcel source) {
+            return new KnowledgeItemKYWX(source);
+        }
+
+        public KnowledgeItemKYWX[] newArray(int size) {
+            return new KnowledgeItemKYWX[size];
+        }
+    };
 }

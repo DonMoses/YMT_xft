@@ -19,6 +19,15 @@ public class NewsSummary extends DataSupport implements Parcelable {
     private String hitnum;
     private String fk_create_user_id;
     private String status;
+    private String pic;
+
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
 
     public String getStatus() {
         return status;
@@ -120,6 +129,7 @@ public class NewsSummary extends DataSupport implements Parcelable {
         dest.writeString(this.hitnum);
         dest.writeString(this.fk_create_user_id);
         dest.writeString(this.status);
+        dest.writeString(this.pic);
     }
 
     protected NewsSummary(Parcel in) {
@@ -133,6 +143,7 @@ public class NewsSummary extends DataSupport implements Parcelable {
         this.hitnum = in.readString();
         this.fk_create_user_id = in.readString();
         this.status = in.readString();
+        this.pic = in.readString();
     }
 
     public static final Creator<NewsSummary> CREATOR = new Creator<NewsSummary>() {
