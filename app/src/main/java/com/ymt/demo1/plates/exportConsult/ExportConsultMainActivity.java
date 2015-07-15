@@ -50,6 +50,7 @@ import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.main.PopActionListener;
 import com.ymt.demo1.main.PopActionUtil;
 import com.ymt.demo1.main.SearchViewUtil;
+import com.ymt.demo1.main.StringUtils;
 import com.ymt.demo1.main.sign.SignInActivity;
 
 import org.json.JSONArray;
@@ -234,12 +235,12 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
 
         if (recentConsult != null) {
             nearlyConsultTitle.setText(recentConsult.getArticle_title());
-            nearlyConsultContent.setText(Html.fromHtml(recentConsult.getContent()));
+            nearlyConsultContent.setText(StringUtils.replaceBlank(Html.fromHtml(recentConsult.getContent()).toString()));
             nearlyConsultTime.setText(recentConsult.getCreate_time().substring(0, 10));
         }
         if (hotConsult != null) {
             hotConsultTitle.setText(hotConsult.getArticle_title());
-            hotConsultContent.setText(Html.fromHtml(hotConsult.getContent()));
+            hotConsultContent.setText(StringUtils.replaceBlank(Html.fromHtml(hotConsult.getContent()).toString()));
             hotConsultTime.setText(hotConsult.getCreate_time().substring(0, 10));
         }
 

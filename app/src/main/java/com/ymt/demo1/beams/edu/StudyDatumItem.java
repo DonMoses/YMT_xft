@@ -10,40 +10,31 @@ import java.io.Serializable;
 /**
  * Created by Dan on 2015/5/22
  */
-public class StudyDatumItem extends DataSupport implements Parcelable, Serializable {
+public class StudyDatumItem extends DataSupport implements Parcelable {
 
-    public enum TypeO {
-        WORD, PPT, PDF, MP3
+//    public enum TypeO {
+//        WORD, PPT, PDF, MP3
+//    }
+
+    private String the_id;
+    private String content;
+    private String author;
+    private String time;
+    private String article_title;
+    private String level;
+    private String status;
+    private String subject;
+    private String create_time;
+    private String fk_create_user_id;
+    private String hitnum;
+    private String pdf_id;
+
+    public String getThe_id() {
+        return the_id;
     }
 
-    private TypeO typeO;        //type
-    private String title;       //标题
-    private String content;     //内容
-    private float fileSize;     //文件大小
-    private int requiredIntegral;       //所需积分
-
-    public float getFileSize() {
-        return fileSize;
-    }
-
-    public void setFileSize(float fileSize) {
-        this.fileSize = fileSize;
-    }
-
-    public int getRequiredIntegral() {
-        return requiredIntegral;
-    }
-
-    public void setRequiredIntegral(int requiredIntegral) {
-        this.requiredIntegral = requiredIntegral;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void setThe_id(String the_id) {
+        this.the_id = the_id;
     }
 
     public String getContent() {
@@ -54,16 +45,84 @@ public class StudyDatumItem extends DataSupport implements Parcelable, Serializa
         this.content = content;
     }
 
-    public TypeO getTypeO() {
-        return typeO;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setTypeO(TypeO typeO) {
-        this.typeO = typeO;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
+    public String getTime() {
+        return time;
+    }
 
-    public StudyDatumItem() {
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getArticle_title() {
+        return article_title;
+    }
+
+    public void setArticle_title(String article_title) {
+        this.article_title = article_title;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
+    }
+
+    public String getFk_create_user_id() {
+        return fk_create_user_id;
+    }
+
+    public void setFk_create_user_id(String fk_create_user_id) {
+        this.fk_create_user_id = fk_create_user_id;
+    }
+
+    public String getHitnum() {
+        return hitnum;
+    }
+
+    public void setHitnum(String hitnum) {
+        this.hitnum = hitnum;
+    }
+
+    public String getPdf_id() {
+        return pdf_id;
+    }
+
+    public void setPdf_id(String pdf_id) {
+        this.pdf_id = pdf_id;
     }
 
     @Override
@@ -73,23 +132,39 @@ public class StudyDatumItem extends DataSupport implements Parcelable, Serializa
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.typeO == null ? -1 : this.typeO.ordinal());
-        dest.writeString(this.title);
+        dest.writeString(this.the_id);
         dest.writeString(this.content);
-        dest.writeFloat(this.fileSize);
-        dest.writeInt(this.requiredIntegral);
+        dest.writeString(this.author);
+        dest.writeString(this.time);
+        dest.writeString(this.article_title);
+        dest.writeString(this.level);
+        dest.writeString(this.status);
+        dest.writeString(this.subject);
+        dest.writeString(this.create_time);
+        dest.writeString(this.fk_create_user_id);
+        dest.writeString(this.hitnum);
+        dest.writeString(this.pdf_id);
     }
 
-    private StudyDatumItem(Parcel in) {
-        int tmpTypeO = in.readInt();
-        this.typeO = tmpTypeO == -1 ? null : TypeO.values()[tmpTypeO];
-        this.title = in.readString();
+    public StudyDatumItem() {
+    }
+
+    protected StudyDatumItem(Parcel in) {
+        this.the_id = in.readString();
         this.content = in.readString();
-        this.fileSize = in.readFloat();
-        this.requiredIntegral = in.readInt();
+        this.author = in.readString();
+        this.time = in.readString();
+        this.article_title = in.readString();
+        this.level = in.readString();
+        this.status = in.readString();
+        this.subject = in.readString();
+        this.create_time = in.readString();
+        this.fk_create_user_id = in.readString();
+        this.hitnum = in.readString();
+        this.pdf_id = in.readString();
     }
 
-    public static final Creator<StudyDatumItem> CREATOR = new Creator<StudyDatumItem>() {
+    public static final Parcelable.Creator<StudyDatumItem> CREATOR = new Parcelable.Creator<StudyDatumItem>() {
         public StudyDatumItem createFromParcel(Parcel source) {
             return new StudyDatumItem(source);
         }

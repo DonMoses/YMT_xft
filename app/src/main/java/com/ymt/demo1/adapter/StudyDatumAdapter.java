@@ -70,6 +70,8 @@ public class StudyDatumAdapter extends BaseAdapter {
                     viewHolder.title = (TextView) convertView.findViewById(R.id.datum_title);
                     viewHolder.fileIcon = (ImageView) convertView.findViewById(R.id.file_icon);
                     viewHolder.content = (TextView) convertView.findViewById(R.id.datum_content);
+                    viewHolder.time = (TextView) convertView.findViewById(R.id.time);
+                    viewHolder.hitNum = (TextView) convertView.findViewById(R.id.hit_num);
                     convertView.setTag(viewHolder);
                     break;
                 default:
@@ -92,27 +94,29 @@ public class StudyDatumAdapter extends BaseAdapter {
         switch (type) {
             case SIMPLE_TYPE:
                 StudyDatumItem studyDatum = (StudyDatumItem) getItem(position);
-                viewHolder.title.setText(studyDatum.getTitle());
-                StudyDatumItem.TypeO typeO = studyDatum.getTypeO();
-                switch (typeO) {
-                    case WORD:
-                        Picasso.with(context).load(R.drawable.icon_file_txt).into(viewHolder.fileIcon);
-                        break;
-                    case PPT:
-                        Picasso.with(context).load(R.drawable.icon_file_ppt).into(viewHolder.fileIcon);
-                        break;
-                    case PDF:
-                        Picasso.with(context).load(R.drawable.icon_file_pdf).into(viewHolder.fileIcon);
-                        break;
-                    case MP3:
-                        Picasso.with(context).load(R.drawable.icon_file_mp3).into(viewHolder.fileIcon);
-                        break;
-                    default:
-                        break;
-
-                }
-
-                viewHolder.content.setText(String.valueOf(studyDatum.getContent()));
+                viewHolder.title.setText(studyDatum.getArticle_title());
+//                StudyDatumItem.TypeO typeO = studyDatum.getTypeO();
+//                switch (typeO) {
+//                    case WORD:
+//                        Picasso.with(context).load(R.drawable.icon_file_txt).into(viewHolder.fileIcon);
+//                        break;
+//                    case PPT:
+//                        Picasso.with(context).load(R.drawable.icon_file_ppt).into(viewHolder.fileIcon);
+//                        break;
+//                    case PDF:
+//                        Picasso.with(context).load(R.drawable.icon_file_pdf).into(viewHolder.fileIcon);
+//                        break;
+//                    case MP3:
+//                        Picasso.with(context).load(R.drawable.icon_file_mp3).into(viewHolder.fileIcon);
+//                        break;
+//                    default:
+//                        break;
+//
+//                }
+                Picasso.with(context).load(R.drawable.icon_file_pdf).into(viewHolder.fileIcon);
+                viewHolder.content.setText(String.valueOf(studyDatum.getContent()) + ".pdf");
+                viewHolder.time.setText(String.valueOf(studyDatum.getCreate_time()));
+                viewHolder.hitNum.setText(String.valueOf(studyDatum.getHitnum()) + "查看");
                 break;
 
             default:
@@ -129,5 +133,7 @@ public class StudyDatumAdapter extends BaseAdapter {
         TextView title;
         ImageView fileIcon;
         TextView content;
+        TextView time;
+        TextView hitNum;
     }
 }

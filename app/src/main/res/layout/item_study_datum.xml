@@ -36,9 +36,33 @@
         android:layout_toEndOf="@id/file_icon"
         android:layout_toRightOf="@id/file_icon"
         android:ellipsize="end"
-        android:hint="contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent"
         android:maxLines="4"
         android:textColor="@color/material_blue_grey_800"
         android:textColorHint="@android:color/darker_gray"
         android:textSize="12.5sp" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/datum_content"
+        android:textColor="@color/material_blue_grey_800"
+        android:layout_toEndOf="@id/file_icon"
+        android:textSize="12sp"
+        android:layout_marginLeft="9dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="3.09dp"
+        android:layout_toRightOf="@id/file_icon" />
+
+    <TextView
+        android:id="@+id/hit_num"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="3.09dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:textSize="12sp"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/material_blue_grey_800"
+        android:layout_alignBaseline="@id/time"
+        android:layout_below="@id/datum_content"/>
 </RelativeLayout>

@@ -55,7 +55,6 @@ public class FireNewsFragment extends BaseFragment {
     private TextView hotHitView;
     private ImageView hotPicView;
 
-
     private TextView recTitleView;
     private TextView recContentView;
     private TextView recHitView;

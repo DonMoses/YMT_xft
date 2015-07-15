@@ -14,7 +14,7 @@ import com.ymt.demo1.plates.eduPlane.EduMainActivity;
 import com.ymt.demo1.plates.exportConsult.ExportConsultMainActivity;
 import com.ymt.demo1.plates.hub.FireHubMainActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
-import com.ymt.demo1.plates.news.NewsMainActivity;
+import com.ymt.demo1.plates.news.NewsTabActivity;
 import com.ymt.demo1.plates.personal.PersonalPagerTabActivity;
 import com.zhy.view.CircleMenuLayout;
 
@@ -112,8 +112,7 @@ public class FloatMenuActivity extends Activity {
                         break;
                     case 6:
                         MyWindowManager.removeBigWindow();
-                        startActivity(
-                                new Intent(FloatMenuActivity.this, NewsMainActivity.class)); //资讯平台;
+                        startActivity( new Intent(FloatMenuActivity.this, NewsTabActivity.class)); //资讯平台;
                         break;
                     case 7:
                         MyWindowManager.removeBigWindow();

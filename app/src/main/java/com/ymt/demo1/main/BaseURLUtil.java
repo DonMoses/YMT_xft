@@ -12,6 +12,12 @@ public class BaseURLUtil {
     public static final String PUB_ZX_ZY = "PUB_ZX_ZY";
     public static final String BASE_URL = "http://120.24.172.105:8000";
 
+    //学习资料
+    public static final String STUDY_DATUM = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ExamAction&m=book&order=new&start=";
+
+    //最新考试时间
+    public static final String EARLIEST_EXAM_INFO = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.TypeAction&t=app&m=param&p=%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%9C%80%E6%96%B0%E8%80%83%E8%AF%95%E5%90%8D%E7%A7%B0,%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%9C%80%E6%96%B0%E8%80%83%E8%AF%95%E6%97%B6%E9%97%B4";
+
     //pdf
     public static final String PDF_BASE = "http://120.24.172.105:8000/public/pub/upload/down.jsp?id=";
 
@@ -47,6 +53,13 @@ public class BaseURLUtil {
     private static final String FOLLOWED_EXPERT_LIST = "http://120.24.172.105:8000/fw?t=app&controller=com.xfsm.action.ExpertAction&m=myFcous&start=";
     //取消关注某专家
     private static final String FOLLOW_UN_FOLLOW_EXPERT = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.PersonalAction&sId=";
+
+    /**
+     * 学习资料
+     */
+    public static String getStudyDatum(int start, String searchWhat) {
+        return STUDY_DATUM + String.valueOf(start) + "&kw=" + searchWhat;
+    }
 
     /**
      * 关注某专家

@@ -22,7 +22,7 @@ import com.ymt.demo1.main.help.HelpActivity;
 import com.ymt.demo1.main.setting.SettingActivity;
 import com.ymt.demo1.main.sign.SignUpActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
-import com.ymt.demo1.plates.news.NewsMainActivity;
+import com.ymt.demo1.plates.news.NewsTabActivity;
 import com.ymt.demo1.plates.personal.PersonalPagerTabActivity;
 import com.zhy.view.CircleMenuLayout;
 
@@ -91,7 +91,7 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
                         startActivity(new Intent(CircleMenuActivity.this, ExportConsultMainActivity.class));     //专家咨询
                         break;
                     case 7:
-                        startActivity(new Intent(CircleMenuActivity.this, NewsMainActivity.class));          //资讯平台
+                        startActivity(new Intent(CircleMenuActivity.this, NewsTabActivity.class));          //资讯平台
                         break;
                     default:
                         break;

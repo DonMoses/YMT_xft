@@ -46,7 +46,6 @@ import com.ymt.demo1.plates.eduPlane.EduMainActivity;
 import com.ymt.demo1.plates.exportConsult.ExportConsultMainActivity;
 import com.ymt.demo1.plates.hub.FireHubMainActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
-import com.ymt.demo1.plates.news.NewsMainActivity;
 import com.ymt.demo1.plates.news.NewsTabActivity;
 import com.ymt.demo1.plates.personal.PersonalPagerTabActivity;
 

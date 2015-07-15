@@ -1,41 +1,59 @@
 package com.ymt.demo1.plates.eduPlane;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.StudyDatumAdapter;
 import com.ymt.demo1.beams.edu.StudyDatumItem;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;
-import com.ymt.demo1.main.SearchViewUtil;
+import com.ymt.demo1.main.BaseURLUtil;
+import com.ymt.demo1.main.search.SearchActivity;
 
-import java.lang.ref.WeakReference;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by Dan on 2015/4/9
  * 学习资料
  */
 public class StudyDatumActivity extends BaseFloatActivity {
-    private SearchViewUtil searchViewUtil;
+
+    private ArrayList<StudyDatumItem> datumItems;
+    private RequestQueue mQueue;
+    private StudyDatumAdapter studyDatumAdapter;
+    private PullToRefreshListView pullToRefreshListView;
+    private int start;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mQueue = Volley.newRequestQueue(this);
+        datumItems = new ArrayList<>();
+        start = 1;
         setContentView(R.layout.activity_edu_study_datum);
-        searchViewUtil = new SearchViewUtil();
         initTitle();
         initView();
+        mQueue.add(getStudyDatum(start, ""));
 
     }
 
     protected void initTitle() {
-        searchViewUtil.initSearchView(this);
         MyTitle title = (MyTitle) findViewById(R.id.my_title);
         title.setTitleStyle(MyTitle.TitleStyle.LEFT_ICON);
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
@@ -49,6 +67,7 @@ public class StudyDatumActivity extends BaseFloatActivity {
             @Override
             public void onRightLClick() {
                 //todo
+                startActivity(new Intent(StudyDatumActivity.this, SearchActivity.class));
             }
 
             @Override
@@ -60,67 +79,81 @@ public class StudyDatumActivity extends BaseFloatActivity {
     }
 
     protected void initView() {
-        PullToRefreshListView pullToRefreshListView = (PullToRefreshListView) findViewById(R.id.studyDatum_list);
-        ListView datumListView = pullToRefreshListView.getRefreshableView();
-        StudyDatumAdapter studyDatumAdapter = new StudyDatumAdapter(this);
-        datumListView.setAdapter(studyDatumAdapter);
-        /*
-        todo 学习资料数据源和适配器
-         */
-        ArrayList<StudyDatumItem> datumItems = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            StudyDatumItem item = new StudyDatumItem();
-            item.setTitle(String.valueOf(i + 1) + " " + getString(R.string.study_datum_title_for_test));
-            item.setContent(getString(R.string.study_datum_content_for_test));
-            int random = new Random().nextInt(100);
-            switch (random % 4) {
-                case 0:
-                    item.setTypeO(StudyDatumItem.TypeO.WORD);
-                    break;
-                case 1:
-                    item.setTypeO(StudyDatumItem.TypeO.PDF);
-                    break;
-                case 2:
-                    item.setTypeO(StudyDatumItem.TypeO.PPT);
-                    break;
-                case 3:
-                    item.setTypeO(StudyDatumItem.TypeO.MP3);
-                    break;
-                default:
-                    break;
-
+        pullToRefreshListView = (PullToRefreshListView) findViewById(R.id.studyDatum_list);
+        studyDatumAdapter = new StudyDatumAdapter(this);
+        pullToRefreshListView.setAdapter(studyDatumAdapter);
+        pullToRefreshListView.setEmptyView(new ProgressBar(this));
+        pullToRefreshListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                StudyDatumItem item = (StudyDatumItem) parent.getAdapter().getItem(position);
+                Intent intent = new Intent(StudyDatumActivity.this, StudyItemDetailActivity.class);
+                intent.putExtra("study", item);
+                startActivity(intent);
             }
-            item.setFileSize((float) (0.618 * random));
-            item.setRequiredIntegral(random % 8);
-            datumItems.add(item);
-            studyDatumAdapter.setList(datumItems);
-        }
+        });
+
+        pullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                start = 1;
+                datumItems.clear();
+                studyDatumAdapter.setList(datumItems);
+                mQueue.add(getStudyDatum(start, ""));
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                start++;
+                mQueue.add(getStudyDatum(start, ""));
+            }
+        });
 
     }
 
-    static class ShowTabHandler extends Handler {
-        private WeakReference<StudyDatumActivity> overYearsTestActivityWeakReference;
 
-        public ShowTabHandler(StudyDatumActivity overYearsTestActivity) {
-            overYearsTestActivityWeakReference = new WeakReference<>(overYearsTestActivity);
-        }
+    protected StringRequest getStudyDatum(int start, String searchWhat) {
+        return new StringRequest(BaseURLUtil.getStudyDatum(start, searchWhat), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (jsonObject.getString("result").equals("Y")) {
+                        JSONObject object = jsonObject.getJSONObject("datas");
+                        JSONArray array = object.getJSONArray("listData");
+                        int length = array.length();
+                        for (int i = 0; i < length; i++) {
+                            JSONObject obj = array.getJSONObject(i);
+                            StudyDatumItem study = new StudyDatumItem();
+                            study.setThe_id(obj.optString("id"));
+                            study.setContent(obj.optString("content"));
+                            study.setAuthor(obj.optString("author"));
+                            study.setTime(obj.optString("time"));
+                            study.setArticle_title(obj.optString("article_title"));
+                            study.setLevel(obj.optString("level"));
+                            study.setStatus(obj.optString("status"));
+                            study.setSubject(obj.optString("subject"));
+                            study.setCreate_time(obj.optString("create_time"));
+                            study.setFk_create_user_id(obj.optString("fk_creat_user_id"));
+                            study.setHitnum(obj.optString("hitnum"));
+                            study.setPdf_id(BaseURLUtil.PDF_BASE + obj.optString("pdf_id"));
+                            datumItems.add(study);
+                        }
+                        studyDatumAdapter.setList(datumItems);
 
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            StudyDatumActivity overYearsTestActivity = overYearsTestActivityWeakReference.get();
-            if (overYearsTestActivity != null) {
-                //todo 通过外部类的引用，操操作外部类的成员和方法
-                switch (msg.what) {
-                    case 0:
-
-                        break;
-                    default:
-                        break;
-
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+
+                pullToRefreshListView.onRefreshComplete();
             }
-        }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                pullToRefreshListView.onRefreshComplete();
+            }
+        });
     }
 
 

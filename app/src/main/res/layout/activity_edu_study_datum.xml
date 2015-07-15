@@ -13,14 +13,8 @@
         android:layout_height="52dp"
         android:background="@android:color/holo_blue_dark"
         mytitle:setLeftActionIcon="@drawable/back_normal"
+        mytitle:setRightIconL="@drawable/icon_search"
         mytitle:setTitleTxt="学习资料" />
-
-    <include layout="@layout/layout_search_view" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="6.18dp"
-        android:background="@android:color/darker_gray" />
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/studyDatum_list"
@@ -32,7 +26,7 @@
         android:dividerHeight="0.618dp"
         android:fadingEdge="none"
         android:fastScrollEnabled="false"
-        android:footerDividersEnabled="false"
+        android:footerDividersEnabled="true"
         android:headerDividersEnabled="false"
         android:smoothScrollbar="true"
         ptr:ptrMode="both">

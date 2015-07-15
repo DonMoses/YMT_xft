@@ -5,13 +5,24 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;
+import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.main.search.SearchActivity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
@@ -25,6 +36,7 @@ import java.util.Locale;
 public class EduMainActivity extends BaseFloatActivity {
     private static final int DO_REFRESH = 0;
     private static final int SHOW_NEXT_PAGE = 1;
+    private RequestQueue mQueue;
     /*
     考试时间倒计时提示views
      */
@@ -32,22 +44,27 @@ public class EduMainActivity extends BaseFloatActivity {
     private TextView timeHour;
     private TextView timeMinute;
     private TextView timeSecond;
+
+    private TextView examYear;
+    private TextView examMonth;
+    private TextView examDay;
+
     private static boolean ALWAYS_ON = true;
-    //顶部ViewPager
-//    private ViewPager adViewPager;
     /*
     假设在2015年7月3日上午的8：30考试
      */
-    int year = 2015, month = 7, day = 20, hour = 8, min = 30, sec = 0;
+    int year = 0, month = 0, day = 0, hour = 0, min = 0, sec = 0;
     int showDay, showHour, showMin, showSec;
     private final MyHandler myHandler = new MyHandler(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mQueue = Volley.newRequestQueue(this);
         setContentView(R.layout.activity_edu_main);
         initTitle();
         initView();
+        mQueue.add(getExamInfo());
     }
 
     protected void initTitle() {
@@ -76,116 +93,23 @@ public class EduMainActivity extends BaseFloatActivity {
     }
 
     protected void initView() {
-//        initAdViewPager();
         initNextExamView();
         initEduItem();
     }
-
-//    /**
-//     * 初始化顶部广告ViewPager
-//     */
-//    protected void initAdViewPager() {
-//        adViewPager = (ViewPager) findViewById(R.id.ad_viewPager);
-//        /*
-//        设置适配器
-//         */
-//        final CyclePagerAdapter adPagerAdapter = new CyclePagerAdapter();
-//        adViewPager.setAdapter(adPagerAdapter);
-//        /*
-//        更新数据源（Views）
-//         */
-//        LayoutInflater inflater = LayoutInflater.from(this);
-//        ArrayList<View> views = new ArrayList<>();
-//        views.add(inflater.inflate(R.layout.edu_pager1, null));
-//        views.add(inflater.inflate(R.layout.edu_pager2, null));
-//        views.add(inflater.inflate(R.layout.edu_pager3, null));
-//        adPagerAdapter.setViews(views);
-//        //指示器Indicator
-//        final IndicatorView indicator = (IndicatorView) findViewById(R.id.myPointIndicator);
-//        indicator.updateTotal(adPagerAdapter.getCount());   //设置指示器显示item个数（适配adapter中元素个数）
-//        indicator.setCurr(0);
-//        /*
-//        pager 滑动事件
-//         */
-//        adViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                indicator.setCurr(position);
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//                switch (state) {
-//                    case ViewPager.SCROLL_STATE_DRAGGING:
-//
-//                        break;
-//                    case ViewPager.SCROLL_STATE_IDLE:
-//
-//                        break;
-//                    default:
-//                        break;
-//
-//                }
-//            }
-//        });
-//
-//        /*
-//        开启线程，让使Viewpager轮播
-//         */
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (ALWAYS_ON) {
-//
-//                    if (adPagerAdapter.getCount() == 0) {
-//                        Toast.makeText(EduMainActivity.this, "这里应加入view", Toast.LENGTH_SHORT).show();
-//                        continue;
-//                    }
-//
-//                    int toPosition;
-//                    int curPosition = adViewPager.getCurrentItem();
-//                    if (curPosition < adViewPager.getChildCount() - 1) {
-//                        toPosition = curPosition + 1;
-//                    } else {
-//                        toPosition = 0;             //从page尾跳到page头
-//                    }
-//
-//                    Message msg = Message.obtain();
-//                    msg.what = SHOW_NEXT_PAGE;
-//                    msg.arg1 = toPosition;
-//                    myHandler.sendMessage(msg);
-//
-//                    try {
-//                        Thread.sleep(6000);         //每6 s切换到下一page
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
-//            }
-//        }).start();
-//
-//    }
 
     /**
      * 初始化平台内容item   。 ”我的学习“，”历年真题“，”报考指南“等
      */
     protected void initEduItem() {
 
-        TextView overYearsTest = (TextView) findViewById(R.id.pastExams);
-        TextView practiceTest = (TextView) findViewById(R.id.anologExams);
-        TextView myStudy = (TextView) findViewById(R.id.myStudy);
-        TextView studyDatum = (TextView) findViewById(R.id.studyDatum);
-        TextView appGuide = (TextView) findViewById(R.id.appGuide);
-        TextView trainVideo = (TextView) findViewById(R.id.trainVideo);
-        TextView dialogue = (TextView) findViewById(R.id.dialogue);
-        TextView practicePaper = (TextView) findViewById(R.id.examInterpret);
-        TextView eduMore = (TextView) findViewById(R.id.eduMore);
+        ImageView overYearsTest = (ImageView) findViewById(R.id.pastExams);
+        ImageView practiceTest = (ImageView) findViewById(R.id.anologExams);
+        ImageView myStudy = (ImageView) findViewById(R.id.myStudy);
+        ImageView studyDatum = (ImageView) findViewById(R.id.studyDatum);
+        ImageView appGuide = (ImageView) findViewById(R.id.appGuide);
+        ImageView trainVideo = (ImageView) findViewById(R.id.trainVideo);
+        ImageView practicePaper = (ImageView) findViewById(R.id.examInterpret);
+        ImageView eduMore = (ImageView) findViewById(R.id.eduMore);
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -208,9 +132,6 @@ public class EduMainActivity extends BaseFloatActivity {
                     case R.id.trainVideo:
                         Toast.makeText(EduMainActivity.this, "培训视频", Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.dialogue:
-                        startActivity(new Intent(EduMainActivity.this, DialogueListActivity.class));         //问答
-                        break;
                     case R.id.examInterpret:
                         Toast.makeText(EduMainActivity.this, "试题解析", Toast.LENGTH_SHORT).show();
                         break;
@@ -227,7 +148,6 @@ public class EduMainActivity extends BaseFloatActivity {
         myStudy.setOnClickListener(onClickListener);
         practicePaper.setOnClickListener(onClickListener);
         practiceTest.setOnClickListener(onClickListener);
-        dialogue.setOnClickListener(onClickListener);
         appGuide.setOnClickListener(onClickListener);
         eduMore.setOnClickListener(onClickListener);
         overYearsTest.setOnClickListener(onClickListener);
@@ -239,18 +159,18 @@ public class EduMainActivity extends BaseFloatActivity {
      * 初始化考试时间倒计时提示控件
      */
     protected void initNextExamView() {
-        TextView examYear = (TextView) findViewById(R.id.next_exam_year);
-        TextView examMonth = (TextView) findViewById(R.id.next_exam_month);
-        TextView examDay = (TextView) findViewById(R.id.next_exam_day);
-        examYear.setText(String.valueOf(year));
-        examMonth.setText(String.valueOf(month));
-        examDay.setText(String.valueOf(day));
+        examYear = (TextView) findViewById(R.id.next_exam_year);
+        examMonth = (TextView) findViewById(R.id.next_exam_month);
+        examDay = (TextView) findViewById(R.id.next_exam_day);
 
         timeDay = (TextView) findViewById(R.id.time_day);
         timeHour = (TextView) findViewById(R.id.time_hour);
         timeMinute = (TextView) findViewById(R.id.time_minute);
         timeSecond = (TextView) findViewById(R.id.time_second);
 
+    }
+
+    protected void examTimer() {
         //String 先转成date
         String begin = year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
         SimpleDateFormat sDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
@@ -291,7 +211,6 @@ public class EduMainActivity extends BaseFloatActivity {
                 }
             }
         }).start();
-
     }
 
     /**
@@ -303,13 +222,6 @@ public class EduMainActivity extends BaseFloatActivity {
         timeMinute.setText(String.valueOf(showMin));
         timeSecond.setText(String.valueOf(showSec));
     }
-//
-//    /**
-//     * ViewPager轮播
-//     */
-//    protected void autoNextPage(int toPosition) {
-//        adViewPager.setCurrentItem(toPosition);
-//    }
 
     /*
     Handler
@@ -340,6 +252,41 @@ public class EduMainActivity extends BaseFloatActivity {
 
             }
         }
+    }
+
+    protected StringRequest getExamInfo() {
+        return new StringRequest(BaseURLUtil.EARLIEST_EXAM_INFO, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (jsonObject.getString("result").equals("Y")) {
+                        JSONArray array = jsonObject.getJSONArray("data");
+                        JSONObject nameObj = array.getJSONObject(0);
+                        JSONObject timeObj = array.getJSONObject(1);
+                        String time = timeObj.optString("val");
+                        String name = nameObj.optString("val");
+                        year = Integer.valueOf(time.substring(0, 4));
+                        month = Integer.valueOf(time.substring(5, 7));
+                        day = Integer.valueOf(time.substring(8, 10));
+
+                        examYear.setText(String.valueOf(year));
+                        examMonth.setText(String.valueOf(month));
+                        examDay.setText(String.valueOf(day) + "日  " + name);
+
+                        examTimer();
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
     }
 
 

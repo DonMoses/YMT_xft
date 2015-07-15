@@ -40,7 +40,7 @@ public class QQMsgService extends IntentService {
                 QQChatInfo info = chats.get(i);
                 String qq_id = info.getQq_id();
                 unreadMsg(qq_id);
-                sendQQChatMsgRequest(qq_id);
+//                sendQQChatMsgRequest(qq_id);
             }
         }
     }

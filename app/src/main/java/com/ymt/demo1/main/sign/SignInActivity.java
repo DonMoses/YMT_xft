@@ -287,8 +287,10 @@ public class SignInActivity extends Activity {
                         String account = obj.optString("login_name");
                         String psw = obj.optString("pwd");
                         accountETxt.setText(account);
-                        pswETxt.setText(psw);
-                        popAutoAccountInfo(account, psw);
+//                        pswETxt.setText(psw);
+//                        popAutoAccountInfo(account, psw);
+                        pswETxt.setText("123456");
+                        popAutoAccountInfo(account, "123456");
 
                     }
                 } catch (JSONException e) {

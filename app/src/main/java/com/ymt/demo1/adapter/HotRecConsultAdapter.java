@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.expert_consult.HotConsult;
 import com.ymt.demo1.beams.expert_consult.RecentConsult;
+import com.ymt.demo1.main.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,7 +115,7 @@ public class HotRecConsultAdapter extends BaseAdapter {
             case RECENT:
                 viewHolder.title.setText(recList.get(position).getArticle_title());
                 viewHolder.time.setText(recList.get(position).getCreate_time());
-                viewHolder.content.setText(Html.fromHtml(recList.get(position).getContent()));
+                viewHolder.content.setText(StringUtils.replaceBlank(Html.fromHtml(recList.get(position).getContent()).toString()));
                 break;
             default:
                 break;

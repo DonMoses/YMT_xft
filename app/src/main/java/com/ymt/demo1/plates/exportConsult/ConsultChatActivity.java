@@ -3,9 +3,11 @@ package com.ymt.demo1.plates.exportConsult;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -32,6 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +52,8 @@ public class ConsultChatActivity extends BaseActivity {
     private String sessionId;
     private String qq_id;
 
+    private MyHandler myHandler = new MyHandler(this);
+    private Runnable runnable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +70,50 @@ public class ConsultChatActivity extends BaseActivity {
         initTitle();
         initView();
 
+        infoListView.setRefreshing(true);
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                while (!ConsultChatActivity.this.isFinishing()) {
+                    myHandler.sendEmptyMessage(0);
+                    try {
+                        Thread.sleep(1200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (!ConsultChatActivity.this.isFinishing()) {
+                    myHandler.sendEmptyMessage(0);
+                    try {
+                        Thread.sleep(1200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+
+        infoListView.getRefreshableView().setSelection(infoListView.getBottom());
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        infoListView.setRefreshing(true);
+//        infoListView.getRefreshableView().setSelection(infoListView.getBottom());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        infoListView.setRefreshing(true);
+//        infoListView.getRefreshableView().setSelection(infoListView.getBottom());
     }
 
     protected void initTitle() {
@@ -147,13 +196,27 @@ public class ConsultChatActivity extends BaseActivity {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 requestQueue.add(getQQMsgs(qq_id));
-                infoListView.getRefreshableView().setSelection(0);
+                myHandler.removeMessages(0);
+//                infoListView.getRefreshableView().setSelection(0);
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 requestQueue.add(getQQMsgs(qq_id));
-                infoListView.getRefreshableView().setSelection(infoListView.getBottom());
+                myHandler.removeMessages(0);
+//                infoListView.getRefreshableView().setSelection(infoListView.getBottom());
+            }
+        });
+
+        infoListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                myHandler.removeMessages(0);
             }
         });
 
@@ -165,6 +228,7 @@ public class ConsultChatActivity extends BaseActivity {
      */
     protected void sendMsg(String sendTxt) {
         requestQueue.add(doSend(sendTxt));
+        infoListView.getRefreshableView().setSelection(infoListView.getBottom());
     }
 
     protected StringRequest doSend(final String sendTxt) {
@@ -240,8 +304,6 @@ public class ConsultChatActivity extends BaseActivity {
 
                     mQQMsgs = DataSupport.where("fk_qq_id = ?", qq_id).find(QQMsg.class);
                     messageListAdapter.setMessages(mQQMsgs);
-                    infoListView.getRefreshableView().setSelection(infoListView.getBottom());
-                    infoListView.onRefreshComplete();
 
                     /*
                     清空未读记录
@@ -254,6 +316,7 @@ public class ConsultChatActivity extends BaseActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                infoListView.onRefreshComplete();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -292,5 +355,36 @@ public class ConsultChatActivity extends BaseActivity {
 
             }
         });
+
     }
+
+    protected void doRefresh() {
+        requestQueue.add(getQQMsgs(qq_id));
+//        infoListView.getRefreshableView().setSelection(infoListView.getBottom());
+    }
+
+    static class MyHandler extends Handler {
+        private WeakReference<ConsultChatActivity> reference;
+
+        public MyHandler(ConsultChatActivity activity) {
+            reference = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            ConsultChatActivity activity = reference.get();
+            if (activity != null) {
+                switch (msg.what) {
+                    case 0:
+                        activity.doRefresh();
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
 }
