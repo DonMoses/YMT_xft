@@ -53,7 +53,7 @@ public class ConsultChatActivity extends BaseActivity {
     private String qq_id;
 
     private MyHandler myHandler = new MyHandler(this);
-    private Runnable runnable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,19 +71,6 @@ public class ConsultChatActivity extends BaseActivity {
         initView();
 
         infoListView.setRefreshing(true);
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                while (!ConsultChatActivity.this.isFinishing()) {
-                    myHandler.sendEmptyMessage(0);
-                    try {
-                        Thread.sleep(1200);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        };
 
         new Thread(new Runnable() {
             @Override
@@ -359,7 +346,10 @@ public class ConsultChatActivity extends BaseActivity {
     }
 
     protected void doRefresh() {
-        requestQueue.add(getQQMsgs(qq_id));
+        if (!infoListView.isRefreshing() && !infoListView.isScrollingWhileRefreshingEnabled()) {
+            requestQueue.add(getQQMsgs(qq_id));
+        }
+
 //        infoListView.getRefreshableView().setSelection(infoListView.getBottom());
     }
 
@@ -378,7 +368,6 @@ public class ConsultChatActivity extends BaseActivity {
                 switch (msg.what) {
                     case 0:
                         activity.doRefresh();
-
                         break;
                     default:
                         break;

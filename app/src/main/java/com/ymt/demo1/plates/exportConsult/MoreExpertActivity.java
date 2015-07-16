@@ -33,7 +33,7 @@ import java.util.List;
  * Created by Dan on 2015/6/16
  */
 public class MoreExpertActivity extends BaseFloatActivity {
-    private SearchViewUtil searchViewUtil;
+    //    private SearchViewUtil searchViewUtil;
     private RequestQueue mQueue;
     private ExpertListAdapter expertListAdapter;
     private PullToRefreshGridView expertGirdView;
@@ -47,7 +47,7 @@ public class MoreExpertActivity extends BaseFloatActivity {
         pageSize = 6;
         startIndex = 2;
         setContentView(R.layout.activity_more_expert);
-        searchViewUtil = new SearchViewUtil();
+//        searchViewUtil = new SearchViewUtil();
         mQueue.add(getExperts(pageSize, startIndex, ""));
 
         initTitle();
@@ -68,7 +68,7 @@ public class MoreExpertActivity extends BaseFloatActivity {
     }
 
     protected void initView() {
-        searchViewUtil.initSearchView(this);
+//        searchViewUtil.initSearchView(this);
         expertGirdView = (PullToRefreshGridView) findViewById(R.id.expert_grid_view);
 
         expertListAdapter = new ExpertListAdapter(this, AppContext.screenWidth);

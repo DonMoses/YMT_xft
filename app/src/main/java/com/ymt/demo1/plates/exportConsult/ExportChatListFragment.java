@@ -3,6 +3,8 @@ package com.ymt.demo1.plates.exportConsult;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,6 +17,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.QQChatListAdapter;
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
@@ -27,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -37,6 +42,8 @@ public class ExportChatListFragment extends Fragment {
     public static final String FRAGMENT_TAG = "ExportChatFragment";
     private RequestQueue mQueue;
     public QQChatListAdapter chatAdapter;
+    private int start;
+    private PullToRefreshListView qqListView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,11 +52,32 @@ public class ExportChatListFragment extends Fragment {
         return view;
     }
 
+    private MyHandler myHandler = new MyHandler(this);
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Intent intent = new Intent(getActivity(), QQMsgService.class);
         getActivity().startService(intent);
+
+        qqListView.setRefreshing(true);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (ExportChatListFragment.this.isVisible()) {
+                    myHandler.sendEmptyMessage(0);
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+
+        qqListView.getRefreshableView().setSelection(qqListView.getBottom());
+
     }
 
     public static ExportChatListFragment newInstance(String emptyInfo) {
@@ -63,7 +91,7 @@ public class ExportChatListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        start = 1;
 //        Bundle bundle = getArguments();
 //        String emptyInfo = bundle.getString("empty_info");
     }
@@ -74,13 +102,19 @@ public class ExportChatListFragment extends Fragment {
         mQueue = ((MyConsultActivity) activity).mQueue;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        qqListView.setRefreshing(true);
+    }
+
     /**
      * 初始化会话界面
      */
     protected void initChatList(View view) {
-        ListView chatListView = (ListView) view.findViewById(R.id.export_chat_list_view);
+        qqListView = (PullToRefreshListView) view.findViewById(R.id.export_chat_list_view);
         chatAdapter = new QQChatListAdapter(getActivity());
-        chatListView.setAdapter(chatAdapter);
+        qqListView.setAdapter(chatAdapter);
         List<QQChatInfo> chatInfos = DataSupport.findAll(QQChatInfo.class);
         chatAdapter.setList(chatInfos);
 //        getMsgs(chatInfos);
@@ -88,7 +122,7 @@ public class ExportChatListFragment extends Fragment {
         /*
          * todo 会话列表点击事件
          */
-        chatListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        qqListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                Toast.makeText(getActivity(), "export " + String.valueOf(position), Toast.LENGTH_SHORT).show();
@@ -98,6 +132,18 @@ public class ExportChatListFragment extends Fragment {
                 intent.putExtra("title", ((QQChatInfo) parent.getAdapter().getItem(position)).getMsg_title());
                 startActivityForResult(intent, 1);
                 startActivity(intent);
+            }
+        });
+
+        qqListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+
             }
         });
 
@@ -173,6 +219,40 @@ public class ExportChatListFragment extends Fragment {
                 break;
             default:
                 break;
+        }
+        qqListView.setRefreshing(true);
+    }
+
+    protected void doRefresh() {
+        if (!qqListView.isRefreshing() && !qqListView.isScrollingWhileRefreshingEnabled()) {
+            mQueue.add(getMyQQMsgs());
+        }
+
+//        infoListView.getRefreshableView().setSelection(infoListView.getBottom());
+    }
+
+    static class MyHandler extends Handler {
+        private WeakReference<ExportChatListFragment> reference;
+
+        public MyHandler(ExportChatListFragment activity) {
+            reference = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            ExportChatListFragment activity = reference.get();
+            if (activity != null) {
+                switch (msg.what) {
+                    case 0:
+
+                        activity.doRefresh();
+
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 }
