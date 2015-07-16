@@ -3,7 +3,7 @@
     <dbname value="xxf">
 
     </dbname>
-    <version value="8">
+    <version value="9">
 
     </version>
     <list>
@@ -19,6 +19,7 @@
         <mapping class="com.ymt.demo1.beams.expert_consult.RecentConsult" />
         <mapping class="com.ymt.demo1.beams.expert_consult.Expert" />
         <mapping class="com.ymt.demo1.beams.knowledge.KnowledgeVideo" />
+        <mapping class="com.ymt.demo1.beams.HeaderById" />
 
     </list>
 </litepal>

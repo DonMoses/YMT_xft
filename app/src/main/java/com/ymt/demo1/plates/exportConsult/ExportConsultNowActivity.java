@@ -350,7 +350,7 @@ public class ExportConsultNowActivity extends BaseFloatActivity {
 
         StringRequest stringRequest = null;
         if (!TextUtils.isEmpty(saveSID)) {
-            stringRequest = new StringRequest(BaseURLUtil.getMyQQMsgs(saveSID), new Response.Listener<String>() {
+            stringRequest = new StringRequest(BaseURLUtil.getMyQQMsgs(saveSID,0), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String s) {
                     try {

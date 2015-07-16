@@ -1,7 +1,6 @@
 package com.ymt.demo1.adapter;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +9,11 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
+import com.ymt.demo1.beams.HeaderById;
 import com.ymt.demo1.beams.expert_consult.QQMsg;
 import com.ymt.demo1.customViews.CircleImageView;
-import com.ymt.demo1.main.AppContext;
-import com.ymt.demo1.main.BaseURLUtil;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +79,8 @@ public class ChatMessageListAdapter extends BaseAdapter {
                     inViewHolder = new InViewHolder();
                     inViewHolder.exportHeader = (CircleImageView) convertView.findViewById(R.id.header_img);
                     inViewHolder.inContent = (TextView) convertView.findViewById(R.id.content_txt);
+                    inViewHolder.name = (TextView) convertView.findViewById(R.id.in_name);
+                    inViewHolder.reply = (TextView) convertView.findViewById(R.id.reply_time);
                     convertView.setTag(inViewHolder);
                     break;
                 case INFO_OUT:
@@ -86,6 +88,8 @@ public class ChatMessageListAdapter extends BaseAdapter {
                     outViewHolder = new OutViewHolder();
                     outViewHolder.userHeader = (CircleImageView) convertView.findViewById(R.id.header_img);
                     outViewHolder.outContent = (TextView) convertView.findViewById(R.id.content_txt);
+                    outViewHolder.name = (TextView) convertView.findViewById(R.id.out_name);
+                    outViewHolder.reply = (TextView) convertView.findViewById(R.id.reply_time);
                     convertView.setTag(outViewHolder);
                     break;
                 default:
@@ -107,12 +111,26 @@ public class ChatMessageListAdapter extends BaseAdapter {
         //todo 这里简单模拟专家 、 用户信息。实际中使用Export 和Account 获取
         switch (infoType) {
             case INFO_IN:
-                Picasso.with(context).load(BaseURLUtil.BASE_URL + "/images/header.png").into(inViewHolder.exportHeader);
+                List<HeaderById> list1 = DataSupport.where("the_id = ?", messages.get(position).getFk_reply_user_id()).find(HeaderById.class);
+
+                if (list1.size() > 0) {
+                    String headerIn = list1.get(0).getHeaderUrl();
+                    Picasso.with(context).load(headerIn).into(inViewHolder.exportHeader);
+                }
                 inViewHolder.inContent.setText(messages.get(position).getContent());
+                inViewHolder.name.setText(messages.get(position).getPro_expert_user_id());
+                inViewHolder.reply.setText(messages.get(position).getReply_time());
                 break;
             case INFO_OUT:
-                outViewHolder.userHeader.setImageBitmap(AppContext.headerPic);
+                List<HeaderById> list2 = DataSupport.where("the_id = ?", messages.get(position).getFk_reply_user_id()).find(HeaderById.class);
+
+                if (list2.size() > 0) {
+                    String headerOut = list2.get(0).getHeaderUrl();
+                    Picasso.with(context).load(headerOut).into(outViewHolder.userHeader);
+                }
                 outViewHolder.outContent.setText(messages.get(position).getContent());
+                outViewHolder.name.setText(messages.get(position).getPro_expert_user_id());
+                outViewHolder.reply.setText(messages.get(position).getReply_time());
                 break;
             default:
                 break;
@@ -124,10 +142,14 @@ public class ChatMessageListAdapter extends BaseAdapter {
     class InViewHolder {
         CircleImageView exportHeader;
         TextView inContent;
+        TextView name;
+        TextView reply;
     }
 
     class OutViewHolder {
         CircleImageView userHeader;
         TextView outContent;
+        TextView name;
+        TextView reply;
     }
 }

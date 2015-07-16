@@ -2,6 +2,7 @@ package com.ymt.demo1.plates.exportConsult;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,7 +32,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,8 +50,9 @@ public class ExportChatListFragment extends Fragment {
     public static final String FRAGMENT_TAG = "ExportChatFragment";
     private RequestQueue mQueue;
     public QQChatListAdapter chatAdapter;
-    private int start;
+    private int start = 1;
     private PullToRefreshListView qqListView;
+    private List<QQChatInfo> chatInfos;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -91,7 +100,8 @@ public class ExportChatListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        start = 1;
+        chatInfos = new ArrayList<>();
+//        chatInfos.addAll(DataSupport.findAll(QQChatInfo.class));
 //        Bundle bundle = getArguments();
 //        String emptyInfo = bundle.getString("empty_info");
     }
@@ -115,7 +125,6 @@ public class ExportChatListFragment extends Fragment {
         qqListView = (PullToRefreshListView) view.findViewById(R.id.export_chat_list_view);
         chatAdapter = new QQChatListAdapter(getActivity());
         qqListView.setAdapter(chatAdapter);
-        List<QQChatInfo> chatInfos = DataSupport.findAll(QQChatInfo.class);
         chatAdapter.setList(chatInfos);
 //        getMsgs(chatInfos);
 
@@ -138,12 +147,16 @@ public class ExportChatListFragment extends Fragment {
         qqListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-
+                start = 1;
+                chatInfos.clear();
+                chatAdapter.setList(chatInfos);
+                mQueue.add(getMyQQMsgs());
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-
+                start++;
+                mQueue.add(getMyQQMsgs());
             }
         });
 
@@ -158,7 +171,7 @@ public class ExportChatListFragment extends Fragment {
         String saveSID = AppContext.now_session_id;
         StringRequest stringRequest = null;
         if (!TextUtils.isEmpty(saveSID)) {
-            stringRequest = new StringRequest(BaseURLUtil.getMyQQMsgs(saveSID), new Response.Listener<String>() {
+            stringRequest = new StringRequest(BaseURLUtil.getMyQQMsgs(saveSID, start), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String s) {
                     try {
@@ -184,26 +197,30 @@ public class ExportChatListFragment extends Fragment {
                             qqChatInfo.setFk_pro_id(obj.optString("fk_pro_id"));
                             qqChatInfo.setMsg_num(obj.optInt("msg_num"));
                             qqChatInfo.setFk_contract_id(obj.optString("fk_contract_id"));
-                            int size = DataSupport.where("qq_id = ?", qq_id).find(QQChatInfo.class).size();
-                            if (size == 0) {
-                                qqChatInfo.save();
-                            } else {
-                                qqChatInfo.updateAll("qq_id = ?", qq_id);
-                            }
+//                            int size = DataSupport.where("qq_id = ?", qq_id).find(QQChatInfo.class).size();
+//                            if (size == 0) {
+//                                qqChatInfo.save();
+//                                chatInfos.add(qqChatInfo);
+//                            } else {
+//                                qqChatInfo.updateAll("qq_id = ?", qq_id);
+//                            }
+                            chatInfos.add(qqChatInfo);
+
                         }
 
-                        List<QQChatInfo> chatInfos = DataSupport.findAll(QQChatInfo.class);
                         chatAdapter.setList(chatInfos);
 //                        getMsgs(chatInfos);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
+                    qqListView.onRefreshComplete();
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
-
+                    qqListView.onRefreshComplete();
                 }
             });
         }
@@ -245,13 +262,56 @@ public class ExportChatListFragment extends Fragment {
             if (activity != null) {
                 switch (msg.what) {
                     case 0:
-
                         activity.doRefresh();
-
                         break;
                     default:
                         break;
                 }
+            }
+        }
+    }
+
+    /**
+     * 未读消息
+     */
+    protected void unreadMsg(String qq_id) {
+        final String urlStr = BaseURLUtil.getMyUnreadQQMsgUrl(AppContext.now_session_id, qq_id, AppContext.now_user_id);
+        HttpURLConnection connection = null;
+        StringBuilder response = new StringBuilder();
+        try {
+            URL url = new URL(urlStr);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setConnectTimeout(30000);
+            connection.setReadTimeout(300000);
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+            connection.setRequestMethod("GET");
+            InputStream ins = connection.getInputStream();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(ins));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+//            Log.e("TAG", " >>>>>>>>>>>>>> s>>>>>>>>>>" + response);
+
+
+            try {
+                JSONObject jsonObject = new JSONObject(String.valueOf(response));
+                JSONObject jsonObject1 = jsonObject.getJSONObject("datas");
+                int unReadCount = jsonObject1.getInt("size");
+//                SharedPreferences.Editor editor = preferences.edit();
+//                editor.putInt(qq_id, unReadCount);
+//                editor.apply();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+//            Log.e("TAG", ">>>>>>>>>>>>.error>>>>>>>>>>>" + e.toString());
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
             }
         }
     }

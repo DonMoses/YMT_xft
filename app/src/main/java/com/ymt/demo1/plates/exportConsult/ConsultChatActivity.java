@@ -23,6 +23,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.ChatMessageListAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
+import com.ymt.demo1.beams.HeaderById;
 import com.ymt.demo1.beams.expert_consult.Expert;
 import com.ymt.demo1.beams.expert_consult.QQMsg;
 import com.ymt.demo1.customViews.MyTitle;
@@ -346,10 +347,14 @@ public class ConsultChatActivity extends BaseActivity {
     }
 
     protected void doRefresh() {
-        if (!infoListView.isRefreshing() && !infoListView.isScrollingWhileRefreshingEnabled()) {
+        if ((!infoListView.isRefreshing()) && (!infoListView.isPressed())) {
             requestQueue.add(getQQMsgs(qq_id));
         }
 
+        int size = mQQMsgs.size();
+        for (int i = 0; i < size; i++) {
+            requestQueue.add(getHeader(mQQMsgs.get(i).getFk_reply_user_id()));
+        }
 //        infoListView.getRefreshableView().setSelection(infoListView.getBottom());
     }
 
@@ -374,6 +379,50 @@ public class ConsultChatActivity extends BaseActivity {
                 }
             }
         }
+    }
+
+    /**
+     * 获取header头像
+     */
+    protected StringRequest getHeader(final String reply_user_id) {
+        return new StringRequest(BaseURLUtil.getInfoById(reply_user_id), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject object = new JSONObject(s);
+                    if (object.getString("result").equals("Y")) {
+                        JSONObject obj = object.getJSONObject("data");
+                        HeaderById header = new HeaderById();
+                        header.setThe_id(reply_user_id);
+                        String pic = obj.optString("headPic");
+
+                        if (!TextUtils.isEmpty(pic)) {
+                            String hd = BaseURLUtil.BASE_URL + "/" + pic;
+                            header.setHeaderUrl(hd);
+                            int size = DataSupport.where("the_id = ? and headerUrl = ?", reply_user_id, hd).find(HeaderById.class).size();
+                            if (size == 0) {
+                                header.save();
+//                            Log.e("TAG", ">>>>>>>>>>>>>>>save>>>>>>>>>" + qqMsg.getMsg_id());
+                            } else {
+                                header.updateAll("the_id = ?", reply_user_id);
+//                            Log.e("TAG", ">>>>>>>>>>>>>>>update>>>>>>>>>" + qqMsg.getMsg_id());
+                            }
+
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+
     }
 
 }

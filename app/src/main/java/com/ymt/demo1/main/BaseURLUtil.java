@@ -53,6 +53,15 @@ public class BaseURLUtil {
     private static final String FOLLOWED_EXPERT_LIST = "http://120.24.172.105:8000/fw?t=app&controller=com.xfsm.action.ExpertAction&m=myFcous&start=";
     //取消关注某专家
     private static final String FOLLOW_UN_FOLLOW_EXPERT = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.PersonalAction&sId=";
+    //id获得基本信息
+    private static final String INFO_BY_ID = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.UserInfoAction&uid=";
+
+    /**
+     * 根据id获得基本信息
+     */
+    public static String getInfoById(String id) {
+        return INFO_BY_ID + id;
+    }
 
     /**
      * 学习资料
@@ -186,8 +195,8 @@ public class BaseURLUtil {
     /**
      * 根据sessionID获得消息（所有消息）
      */
-    public static String getMyQQMsgs(String sessionID) {
-        return QQ_MSG_BASE + sessionID + "&m=getMyQQs";
+    public static String getMyQQMsgs(String sessionID, int start) {
+        return QQ_MSG_BASE + sessionID + "&m=getMyQQs&start=" + String.valueOf(start);
     }
 
     /**
