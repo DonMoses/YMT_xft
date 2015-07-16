@@ -1,11 +1,10 @@
-package com.ymt.demo1.plates.eduPlane;
+package com.ymt.demo1.plates.eduPlane.pastExams;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.SimpleTextDragGridViewAdapter;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Created by Dan on 2015/4/10
  */
-public class ListOverYearsTestsActivity extends Activity {
+public class PastExamsOrderActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,8 +29,7 @@ public class ListOverYearsTestsActivity extends Activity {
         SimpleTextDragGridViewAdapter adapter = new SimpleTextDragGridViewAdapter(this, 6, 2);
         gridView.setAdapter(adapter);
 
-        Intent intent = getIntent();
-        ArrayList<String> mTests = intent.getStringArrayListExtra("tests_years");
+        ArrayList<String> mTests = getIntent().getStringArrayListExtra("tests_years");
         adapter.setList(mTests);
 
         /*
@@ -42,21 +40,19 @@ public class ListOverYearsTestsActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String text = parent.getAdapter().getItem(position).toString();
+                Intent intent = new Intent(PastExamsOrderActivity.this, PastExamsListActivity.class);
                 switch (text) {
                     case "全部":
-                        finish();
+                        intent.putExtra("all", "all");
                         break;
                     default:
-                        /*
-                        进入该年份试题答题界面
-                         */
-                        Toast.makeText(ListOverYearsTestsActivity.this,
-                                "open " + text, Toast.LENGTH_SHORT).show();
-                        //todo 进入对应答题界面
-                        finish();  //退出当前界面
+                        intent.putExtra("year", Integer.valueOf(text));
                         break;
 
                 }
+
+                startActivity(intent);
+                finish();
             }
         });
 

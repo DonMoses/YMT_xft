@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ymt.demo1.plates.eduPlane;
+package com.ymt.demo1.plates.eduPlane.myStudy;
 
 import android.animation.ValueAnimator;
 import android.os.Bundle;

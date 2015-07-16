@@ -51,8 +51,8 @@
         android:id="@+id/reply_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="end"
+        android:layout_marginEnd="5dp"
         android:layout_marginRight="5dp"
-        android:gravity="5dp"
+        android:gravity="end"
         android:textColor="@android:color/darker_gray" />
 </LinearLayout>

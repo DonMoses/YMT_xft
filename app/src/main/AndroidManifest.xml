@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ymt.demo1" >
+    package="com.ymt.demo1">
 
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -29,7 +29,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/icon_circle"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat" >
+        android:theme="@style/Theme.AppCompat">
         <activity
             android:name=".demos.TestActivity"
             android:launchMode="singleTask"
@@ -39,7 +39,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <data android:scheme="tencent100371282" />
 
@@ -56,7 +56,7 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".launchpages.MainActivity" >
+        <activity android:name=".launchpages.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -150,11 +150,19 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".plates.eduPlane.OverYearsExamsActivity"
+            android:name=".plates.eduPlane.pastExams.PastExamsListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".plates.eduPlane.StudyItemDetailActivity"
+            android:name=".plates.eduPlane.pastExams.PastExamsMainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.eduPlane.pastExams.PastExamDetailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.eduPlane.studyDatum.StudyItemDetailActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
@@ -162,7 +170,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".plates.eduPlane.ListOverYearsTestsActivity"
+            android:name=".plates.eduPlane.pastExams.PastExamsOrderActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/dialog" />
@@ -178,14 +186,6 @@
             android:name=".plates.knowledge.WebVideoActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".plates.eduPlane.DialogueListActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".plates.eduPlane.DialogueDetailActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".plates.news.FireHRActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
@@ -194,11 +194,11 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".plates.eduPlane.MyStudyActivity"
+            android:name=".plates.eduPlane.myStudy.MyStudyActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".plates.eduPlane.StudyDatumActivity"
+            android:name=".plates.eduPlane.studyDatum.StudyDatumActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity

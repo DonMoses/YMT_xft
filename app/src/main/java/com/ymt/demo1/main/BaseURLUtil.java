@@ -55,6 +55,27 @@ public class BaseURLUtil {
     private static final String FOLLOW_UN_FOLLOW_EXPERT = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.PersonalAction&sId=";
     //id获得基本信息
     private static final String INFO_BY_ID = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.UserInfoAction&uid=";
+    //历年真题
+    private static final String PAST_EXAMS = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ExamAction&m=histroy&order=new&start=";
+
+
+    /**
+     * 历年真题(按年份)
+     */
+    public static String getPastExamsByYear(int start, int dateYear, String searchWhat) {
+        if (String.valueOf(dateYear).length() != 4) {
+            return PAST_EXAMS + String.valueOf(start) + "&kw=" + searchWhat;
+        } else {
+            return PAST_EXAMS + String.valueOf(start) + "&kw=" + searchWhat + "&jl=hisdate_" + String.valueOf(dateYear);
+        }
+    }
+
+    /**
+     * 历年真题(按level)
+     */
+    public static String getPastExamsByLevel(int start, String level, String searchWhat) {
+        return PAST_EXAMS + String.valueOf(start) + "&kw=" + searchWhat + "&jl=type_" + level;
+    }
 
     /**
      * 根据id获得基本信息

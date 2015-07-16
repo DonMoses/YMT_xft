@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mytitle="http://schemas.android.com/apk/res-auto"
+    xmlns:ptr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
@@ -12,17 +13,22 @@
         android:background="@android:color/holo_blue_dark"
         mytitle:setLeftActionIcon="@drawable/back_normal"
         mytitle:setRightActIconR="@drawable/icon_search"
-        mytitle:setRightIconL="@drawable/icon_all_exams"
         mytitle:setTitleTxt="历年真题" />
 
-    <ListView
-        android:id="@+id/content_list"
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/past_exams_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/input_layout"
         android:layout_below="@id/my_title"
+        android:cacheColorHint="#0000"
         android:divider="@android:color/darker_gray"
-        android:dividerHeight="0.309dp">
-
-    </ListView>
+        android:dividerHeight="0.618dp"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:smoothScrollbar="true"
+        ptr:ptrMode="both" />
 
 </RelativeLayout>

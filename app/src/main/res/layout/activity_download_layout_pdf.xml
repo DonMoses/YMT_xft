@@ -42,6 +42,7 @@
 
             <TextView
                 android:id="@+id/content"
+                android:textColor="@android:color/darker_gray"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="61.8dp"

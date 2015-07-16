@@ -1,10 +1,9 @@
-package com.ymt.demo1.plates.eduPlane;
+package com.ymt.demo1.plates.eduPlane.pastExams;
 
 import android.app.DownloadManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,21 +14,23 @@ import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
-import com.ymt.demo1.beams.edu.StudyDatumItem;
+import com.ymt.demo1.beams.edu.PastExamItem;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.main.PopActionListener;
 import com.ymt.demo1.main.PopActionUtil;
 
 /**
  * Created by Dan on 2015/4/29
  */
-public class StudyItemDetailActivity extends BaseActivity {
-    private StudyDatumItem studyItem;
+public class PastExamDetailActivity extends BaseActivity {
+    private PastExamItem examItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        studyItem = getIntent().getParcelableExtra("study");
+        examItem = getIntent().getParcelableExtra("exam");
+
         setContentView(R.layout.activity_download_layout_pdf);
         initTitle();
         initView();
@@ -41,7 +42,7 @@ public class StudyItemDetailActivity extends BaseActivity {
     protected void initTitle() {
         final MyTitle title = (MyTitle) findViewById(R.id.my_title);
         title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
-        title.updateCenterTitle("学习资料");
+
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
             public void onClick() {
@@ -56,8 +57,8 @@ public class StudyItemDetailActivity extends BaseActivity {
                 //todo 分享内容
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("*/*");
-                intent.putExtra(Intent.EXTRA_SUBJECT, "学习资料-" + studyItem.getArticle_title());
-                intent.putExtra(Intent.EXTRA_TEXT, studyItem.getPdf_id());
+                intent.putExtra(Intent.EXTRA_SUBJECT, "消防历年真题-" + getIntent().getStringExtra("title"));
+                intent.putExtra(Intent.EXTRA_TEXT, getIntent().getStringExtra("content"));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(Intent.createChooser(intent, getTitle()));
             }
@@ -79,19 +80,11 @@ public class StudyItemDetailActivity extends BaseActivity {
 
         final Button downBtn = (Button) findViewById(R.id.download_btn);
 
-        titleView.setText(studyItem.getArticle_title() + ".pdf");
-        String author = studyItem.getAuthor();
-        if (!author.equals("无")) {
-            timeView.setText("作者：" + author + "  上传时间：" + studyItem.getCreate_time());
-        } else {
-            timeView.setText("上传时间：" + studyItem.getCreate_time());
-        }
+        titleView.setText(examItem.getArticle_title());
+        timeView.setText(examItem.getCreate_time());
+        scoreNeed.setText("0");
+        contentView.setText(examItem.getArticle_title() + ".pdf");
 
-        if (!studyItem.getArticle_title().equals(studyItem.getContent())) {
-            contentView.setText(Html.fromHtml(studyItem.getContent()));
-        }
-        //todo 下载积分
-        scoreNeed.setText(String.valueOf(0));
 
 //        //热门话题GridView
 //        final GridView hotCommentGrid = (GridView) findViewById(R.id.hot_comment_grid_view);
@@ -103,12 +96,12 @@ public class StudyItemDetailActivity extends BaseActivity {
 
                 //设置背景颜色变暗
                 final WindowManager.LayoutParams lp =
-                        StudyItemDetailActivity.this.getWindow().getAttributes();
+                        PastExamDetailActivity.this.getWindow().getAttributes();
                 lp.alpha = 0.3f;
-                StudyItemDetailActivity.this.getWindow().setAttributes(lp);
+                PastExamDetailActivity.this.getWindow().setAttributes(lp);
 
                 //todo 弹出下载提示框
-                PopActionUtil popActionUtil = PopActionUtil.getInstance(StudyItemDetailActivity.this);
+                PopActionUtil popActionUtil = PopActionUtil.getInstance(PastExamDetailActivity.this);
                 PopupWindow popupWindow = popActionUtil.getDownloadPopActionMenu();
                 popupWindow.showAtLocation(downBtn.getRootView(), Gravity.CENTER, 0, 0);
 
@@ -117,18 +110,17 @@ public class StudyItemDetailActivity extends BaseActivity {
                     public void onAction(String action) {
                         switch (action) {
                             case "确定":
-                                Toast.makeText(StudyItemDetailActivity.this, "确定", Toast.LENGTH_LONG).show();
-                                downloadBZGFFile(studyItem.getArticle_title() + ".pdf", studyItem.getPdf_id());
-
+                                Toast.makeText(PastExamDetailActivity.this, "确定", Toast.LENGTH_LONG).show();
+                                downloadBZGFFile(examItem.getArticle_title() + ".pdf", examItem.getPdf_id());
                                 break;
                             case "取消":
-                                Toast.makeText(StudyItemDetailActivity.this, "取消", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PastExamDetailActivity.this, "取消", Toast.LENGTH_SHORT).show();
                                 break;
                             default:
                                 break;
                         }
                         lp.alpha = 1f;
-                        StudyItemDetailActivity.this.getWindow().setAttributes(lp);
+                        PastExamDetailActivity.this.getWindow().setAttributes(lp);
                     }
 
                     @Override
@@ -139,40 +131,11 @@ public class StudyItemDetailActivity extends BaseActivity {
             }
         });
 
-//        ArrayList<String> list = new ArrayList<>();
-//        String[] hotArray = new String[]{"消防部门", "规范组", "建委",
-//                "科研机构", "设计院", "开发商", "设备商", "服务商"};
-//        Collections.addAll(list, hotArray);
-//        SimpleTxtItemAdapter adapter = new SimpleTxtItemAdapter(this);
-//        hotCommentGrid.setAdapter(adapter);
-//        adapter.setColor(Color.WHITE, getResources().getColor(R.color.bg_view_blue));
-//        adapter.setList(list);
-
-//        hotCommentGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                String str = parent.getAdapter().getItem(position).toString();
-//                //todo
-//                Toast.makeText(KnowledgeItemDetailActivity.this, str, Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        /*
-//        点击 “写点评”
-//         */
-//        View view = findViewById(R.id.write_comment_layout);
-//        view.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //todo 写点评
-//                Toast.makeText(KnowledgeItemDetailActivity.this, "写点评...", Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
     protected void downloadBZGFFile(String name, String pdf_id) {
         DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-        Uri uri = Uri.parse(pdf_id);
+        Uri uri = Uri.parse(BaseURLUtil.PDF_BASE + pdf_id);
 //        Uri uri = Uri.parse("http://tingge.5nd.com/20060919/2015/2015-7-8/67322/1.Mp3");
         DownloadManager.Request request = new DownloadManager.Request(uri);
 

@@ -19,6 +19,9 @@ import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;
 import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.main.search.SearchActivity;
+import com.ymt.demo1.plates.eduPlane.myStudy.MyStudyActivity;
+import com.ymt.demo1.plates.eduPlane.pastExams.PastExamsMainActivity;
+import com.ymt.demo1.plates.eduPlane.studyDatum.StudyDatumActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -115,7 +118,7 @@ public class EduMainActivity extends BaseFloatActivity {
             public void onClick(View view) {
                 switch (view.getId()) {
                     case R.id.pastExams:
-                        startActivity(new Intent(EduMainActivity.this, OverYearsExamsActivity.class));    //历年真题
+                        startActivity(new Intent(EduMainActivity.this, PastExamsMainActivity.class));    //历年真题
                         break;
                     case R.id.anologExams:
                         Toast.makeText(EduMainActivity.this, "模拟考试", Toast.LENGTH_SHORT).show();
