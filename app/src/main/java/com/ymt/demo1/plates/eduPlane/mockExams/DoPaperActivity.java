@@ -193,9 +193,14 @@ public class DoPaperActivity extends BaseActivity {
                         startActivityForResult(intent, 0);
                         break;
                     case R.id.sub_topic:
-                        if ((recIndex == linkedList.size() - 1)) {
-                            //todo pop 菜单提交试卷
+                        if (!doneList.contains(String.valueOf(recIndex + 1))) {
                             doneList.add(String.valueOf(recIndex + 1));
+                        }
+
+                        if (doneList.size() == linkedList.size()) {
+                            recIndex = linkedList.size() - 1;
+                            isShownOpts = false;
+                            updateViewInfo();
 
                             //设置背景颜色变暗
                             final WindowManager.LayoutParams lp =
@@ -232,7 +237,7 @@ public class DoPaperActivity extends BaseActivity {
                                 }
                             });
 
-                        } else {
+                        } else if (recIndex < linkedList.size() - 1) {
                             //提交题目
                             submitTopic();
                             trueOptsLayout.removeAllViews();
@@ -240,6 +245,18 @@ public class DoPaperActivity extends BaseActivity {
                             recIndex++;
                             isShownOpts = false;
                             updateViewInfo();
+                        } else {
+                            //显示题目表
+                            Intent intent1 = new Intent(DoPaperActivity.this, TopicIndexActivity.class);
+                            ArrayList<String> allList1 = new ArrayList<>();
+                            int size1 = linkedList.size();
+                            for (int i = 0; i < size1; i++) {
+                                allList1.add(String.valueOf(i + 1));
+                            }
+
+                            intent1.putStringArrayListExtra("doneList", doneList);
+                            intent1.putStringArrayListExtra("allList", allList1);
+                            startActivityForResult(intent1, 0);
                         }
                         break;
                     default:
@@ -474,7 +491,7 @@ public class DoPaperActivity extends BaseActivity {
         }
 
         //下标
-        indexView.setText(String.valueOf(recIndex + 1) + "/" + String.valueOf(linkedList.size()));
+        indexView.setText(String.valueOf(doneList.size()) + "/" + String.valueOf(linkedList.size()));
 
     }
 
