@@ -172,13 +172,13 @@ public class NewsFragment extends BaseFragment {
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 mNews.clear();
                 startPosition = 1;
-                mQueue.add(summaryRequest("http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + news_type_id + "&order=new&start=" + String.valueOf(startPosition)));
+                mQueue.add(summaryRequest("http://120.24.172.105/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + news_type_id + "&order=new&start=" + String.valueOf(startPosition)));
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 startPosition++;
-                mQueue.add(summaryRequest("http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + news_type_id + "&order=new&start=" + String.valueOf(startPosition)));
+                mQueue.add(summaryRequest("http://120.24.172.105/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + news_type_id + "&order=new&start=" + String.valueOf(startPosition)));
             }
         });
 
@@ -245,7 +245,7 @@ public class NewsFragment extends BaseFragment {
         news_type_id = bundle.getString("news_type_id");
         mQueue = Volley.newRequestQueue(getActivity());
         startPosition = 1;
-        mQueue.add(summaryRequest("http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + news_type_id + "&order=new&start=" + String.valueOf(startPosition)));
+        mQueue.add(summaryRequest("http://120.24.172.105/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + news_type_id + "&order=new&start=" + String.valueOf(startPosition)));
 
     }
 

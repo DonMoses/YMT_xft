@@ -114,10 +114,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".main.sign.FoundPswActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".main.setting.AboutUsActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
@@ -127,10 +123,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".main.setting.ManageAppearanceActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".main.setting.ManagePswActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
@@ -166,7 +158,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".plates.eduPlane.ApplicationGuideActivity"
+            android:name=".plates.eduPlane.examGuide.ExamsGuideMainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity

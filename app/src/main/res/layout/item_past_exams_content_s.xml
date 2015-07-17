@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:layout_width="match_parent"
+    android:background="#F0F0F0"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
@@ -20,7 +21,6 @@
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F0F0F0"
             android:gravity="center_vertical"
             android:hint="example_exam_info"
             android:minHeight="34dp"
@@ -35,7 +35,6 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="6.18dp"
             android:layout_marginRight="6.18dp"
-            android:background="#F0F0F0"
             android:gravity="end|bottom"
             android:hint="example_exam_info"
             android:textColor="@color/material_blue_grey_800"

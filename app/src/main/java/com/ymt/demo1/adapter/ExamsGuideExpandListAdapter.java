@@ -1,14 +1,15 @@
 package com.ymt.demo1.adapter;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.consult_cato.ConsultCato;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,19 +17,19 @@ import java.util.List;
 /**
  * Created by Dan on 2015/5/4
  */
-public class SimpleExpandListAdapter extends BaseExpandableListAdapter {
+public class ExamsGuideExpandListAdapter extends BaseExpandableListAdapter {
 
     List<String> parentList = new ArrayList<>();
-    List<List<ConsultCato>> childList = new ArrayList<>();
+    List<List<String>> childList = new ArrayList<>();
     LayoutInflater inflater;
     Context context;
 
-    public SimpleExpandListAdapter(Context context) {
+    public ExamsGuideExpandListAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
     }
 
-    public void setList(List<String> parentList, List<List<ConsultCato>> childList) {
+    public void setList(List<String> parentList, List<List<String>> childList) {
         this.parentList = parentList;
         this.childList = childList;
         notifyDataSetChanged();
@@ -76,15 +77,26 @@ public class SimpleExpandListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        TextView textView;
+        ViewHolder viewHolder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_expand_parent, null);
-            textView = (TextView) convertView.findViewById(android.R.id.text1);
-            convertView.setTag(textView);
+            viewHolder = new ViewHolder();
+            viewHolder.textView = (TextView) convertView.findViewById(android.R.id.text1);
+            viewHolder.imageView = (ImageView) convertView.findViewById(R.id.expan_parent_view);
+            convertView.setTag(viewHolder);
         } else {
-            textView = (TextView) convertView.getTag();
+            viewHolder = (ViewHolder) convertView.getTag();
         }
-        textView.setText(parentList.get(groupPosition));
+        viewHolder.textView.setText(parentList.get(groupPosition));
+        viewHolder.textView.setTextColor(context.getResources().getColor(android.R.color.white));
+
+        if (isExpanded) {
+            viewHolder.imageView.setBackgroundResource(R.drawable.icon_arrows_b);
+        } else {
+            viewHolder.imageView.setBackgroundResource(R.drawable.icon_arrows_r);
+        }
+
+        convertView.setBackgroundColor(context.getResources().getColor(R.color.bg_view_blue));
         return convertView;
     }
 
@@ -94,28 +106,19 @@ public class SimpleExpandListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_view_common_quest_high, null);
             textView = (TextView) convertView.findViewById(R.id.common_quest_item_view);
+            textView.setGravity(Gravity.START);
             convertView.setTag(textView);
         } else {
             textView = (TextView) convertView.getTag();
         }
-        String txt = childList.get(groupPosition).get(childPosition).getNote();
-        textView.setText(txt);
-        switch (txt.length() % 4) {
-            case 0:
-                textView.setTextColor(context.getResources().getColor(R.color.guide_bmtj));
-                break;
-            case 1:
-                textView.setTextColor(context.getResources().getColor(R.color.guide_kskm));
-                break;
-            case 2:
-                textView.setTextColor(context.getResources().getColor(R.color.guide_kssj));
-                break;
-            case 3:
-                textView.setTextColor(context.getResources().getColor(R.color.guide_zyfw));
-                break;
-            default:
-                break;
-        }
+
+        textView.setText(childList.get(groupPosition).get(childPosition));
+
         return convertView;
+    }
+
+    class ViewHolder {
+        TextView textView;
+        ImageView imageView;
     }
 }

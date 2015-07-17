@@ -14,14 +14,17 @@
         mytitle:setRightIconL="@drawable/icon_search"
         mytitle:setTitleTxt="咨询分类" />
 
+
     <ExpandableListView
         android:id="@+id/consult_cato_expandable_list_view"
         android:layout_width="match_parent"
-        android:dividerHeight="1.236dp"
-        android:divider="@android:color/white"
-        android:minHeight="48dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/my_title" />
+        android:layout_below="@id/my_title"
+        android:layout_marginTop="0.309dp"
+        android:divider="@android:color/white"
+        android:dividerHeight="1.236dp"
+        android:groupIndicator="@null"
+        android:minHeight="48dp" />
 
     <ProgressBar
         android:id="@+id/loading_progress_bar"

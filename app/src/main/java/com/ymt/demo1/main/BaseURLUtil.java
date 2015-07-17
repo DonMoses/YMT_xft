@@ -10,55 +10,55 @@ public class BaseURLUtil {
     public static final String XF_PUB_JZXF = "XF_PUB_JZXF";
     public static final String PUB_ZX_GJC = "PUB_ZX_GJC";
     public static final String PUB_ZX_ZY = "PUB_ZX_ZY";
-    public static final String BASE_URL = "http://120.24.172.105:8000";
+    public static final String BASE_URL = "http://120.24.172.105";
 
     //学习资料
-    public static final String STUDY_DATUM = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ExamAction&m=book&order=new&start=";
+    public static final String STUDY_DATUM = "http://120.24.172.105/fw?controller=com.xfsm.action.ExamAction&m=book&order=new&start=";
 
     //最新考试时间
-    public static final String EARLIEST_EXAM_INFO = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.TypeAction&t=app&m=param&p=%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%9C%80%E6%96%B0%E8%80%83%E8%AF%95%E5%90%8D%E7%A7%B0,%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%9C%80%E6%96%B0%E8%80%83%E8%AF%95%E6%97%B6%E9%97%B4";
+    public static final String EARLIEST_EXAM_INFO = "http://120.24.172.105/fw?controller=com.xfsm.action.TypeAction&t=app&m=param&p=%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%9C%80%E6%96%B0%E8%80%83%E8%AF%95%E5%90%8D%E7%A7%B0,%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%9C%80%E6%96%B0%E8%80%83%E8%AF%95%E6%97%B6%E9%97%B4";
 
     //pdf
-    public static final String PDF_BASE = "http://120.24.172.105:8000/public/pub/upload/down.jsp?id=";
+    public static final String PDF_BASE = "http://120.24.172.105/public/pub/upload/down.jsp?id=";
 
     //登录
-    private static final String SIGN_IN_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.LoginAction&loginname=";
+    private static final String SIGN_IN_BASE = "http://120.24.172.105/fw?controller=com.xfsm.action.LoginAction&loginname=";
     //注册
-    private static final String SIGN_UP_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.RegAction";
+    private static final String SIGN_UP_BASE = "http://120.24.172.105/fw?controller=com.xfsm.action.RegAction";
     //关注、粉丝
-    private static final String ATT_FANS_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.UserAction&t=app&SESSIONID=";
+    private static final String ATT_FANS_BASE = "http://120.24.172.105/fw?controller=com.xfsm.action.UserAction&t=app&SESSIONID=";
     //消息
-    private static final String QQ_MSG_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ChatAction&SESSIONID=";
+    private static final String QQ_MSG_BASE = "http://120.24.172.105/fw?controller=com.xfsm.action.ChatAction&SESSIONID=";
     //分类
-    private static final String TYPE_ACTION_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.TypeAction&t=app&m=st&type=";
+    private static final String TYPE_ACTION_BASE = "http://120.24.172.105/fw?controller=com.xfsm.action.TypeAction&t=app&m=st&type=";
     //分类内容列表
-    private static final String TYPE_CONTENT_LIST_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&t=app&m=chat&pagesize=";
+    private static final String TYPE_CONTENT_LIST_BASE = "http://120.24.172.105/fw?controller=com.xfsm.action.ArticleAction&t=app&m=chat&pagesize=";
     //知识平台（视频、标准规范、科研文献）
-    private static final String KNOWLEDGE_ITEM_BASE = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.KnowAction&t=app&m=";
+    private static final String KNOWLEDGE_ITEM_BASE = "http://120.24.172.105/fw?controller=com.xfsm.action.KnowAction&t=app&m=";
     //最近咨询
-    private static final String RECENT_CONSULT = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&t=app&m=lastest&start=";
+    private static final String RECENT_CONSULT = "http://120.24.172.105/fw?controller=com.xfsm.action.ArticleAction&t=app&m=lastest&start=";
     //热点咨询
-    private static final String HOT_CONSULT = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&t=app&m=hot&start=";
+    private static final String HOT_CONSULT = "http://120.24.172.105/fw?controller=com.xfsm.action.ArticleAction&t=app&m=hot&start=";
     //专家列表
-    private static final String EXPERT_LIST = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ExpertAction&t=app&m=list&pagesize=";
+    private static final String EXPERT_LIST = "http://120.24.172.105/fw?controller=com.xfsm.action.ExpertAction&t=app&m=list&pagesize=";
     //自动分配账号
-    public static final String AUTO_CREATE_ACCOUNT = "http://120.24.172.105:8000/fw?t=app&controller=com.xfsm.action.AutoRegAction&method=distributionAccount";
+    public static final String AUTO_CREATE_ACCOUNT = "http://120.24.172.105/fw?t=app&controller=com.xfsm.action.AutoRegAction&method=distributionAccount";
     //论坛基本接口
-    private static final String HUB_BASE = "http://120.24.172.105:8000/xxfintf/";
+    private static final String HUB_BASE = "http://120.24.172.105/xxfintf/";
     //修改密码
-    private static final String CHANGE_PSW = "http://120.24.172.105:8000/fw?t=app&controller=com.xfsm.action.PwdAction&loginname=";
+    private static final String CHANGE_PSW = "http://120.24.172.105/fw?t=app&controller=com.xfsm.action.PwdAction&loginname=";
     //退出账号
-    private static final String SIGN_OUT = "http://120.24.172.105:8000/exit.jsp?sId=";
+    private static final String SIGN_OUT = "http://120.24.172.105/exit.jsp?sId=";
     //关注的专家列表
-    private static final String FOLLOWED_EXPERT_LIST = "http://120.24.172.105:8000/fw?t=app&controller=com.xfsm.action.ExpertAction&m=myFcous&start=";
+    private static final String FOLLOWED_EXPERT_LIST = "http://120.24.172.105/fw?t=app&controller=com.xfsm.action.ExpertAction&m=myFcous&start=";
     //取消关注某专家
-    private static final String FOLLOW_UN_FOLLOW_EXPERT = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.PersonalAction&sId=";
+    private static final String FOLLOW_UN_FOLLOW_EXPERT = "http://120.24.172.105/fw?controller=com.xfsm.action.PersonalAction&sId=";
     //id获得基本信息
-    private static final String INFO_BY_ID = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.UserInfoAction&uid=";
+    private static final String INFO_BY_ID = "http://120.24.172.105/fw?controller=com.xfsm.action.UserInfoAction&uid=";
     //历年真题
-    private static final String PAST_EXAMS = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ExamAction&m=histroy&order=new&start=";
+    private static final String PAST_EXAMS = "http://120.24.172.105/fw?controller=com.xfsm.action.ExamAction&m=histroy&order=new&start=";
     //模拟试题
-    private static final String MOCK_EXAMS = "http://120.24.172.105:8000/fw?t=app&controller=com.xfsm.action.ExamAction&m=exams&jl=";
+    private static final String MOCK_EXAMS = "http://120.24.172.105/fw?t=app&controller=com.xfsm.action.ExamAction&m=exams&jl=";
 
 
     /**
@@ -169,7 +169,7 @@ public class BaseURLUtil {
      * 值日专家表
      */
     public static String doGetDutyExpert() {
-        return "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ExpertAction&m=duty";
+        return "http://120.24.172.105/fw?controller=com.xfsm.action.ExpertAction&m=duty";
     }
 
     /**

@@ -139,7 +139,7 @@ public class SignUpActivity extends Activity {
      * @return : VOLLEY Request
      */
     protected StringRequest signUpRequest(final String account, final String psw, final String phone, final String user_type) {
-        String loginBaseUrl = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.RegAction";
+        String loginBaseUrl = "http://120.24.172.105/fw?controller=com.xfsm.action.RegAction";
         String url = loginBaseUrl + "&loginname=" + account + "&pwd=" + psw + "&phone=" + phone + "&t=" + user_type;
 
         return new StringRequest(url, new Response.Listener<String>() {

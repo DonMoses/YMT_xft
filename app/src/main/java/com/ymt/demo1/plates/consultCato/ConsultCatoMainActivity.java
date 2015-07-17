@@ -9,7 +9,7 @@ import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.adapter.SimpleExpandListAdapter;
+import com.ymt.demo1.adapter.ConsultCatoExpandListAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.consult_cato.ConsultCato;
 import com.ymt.demo1.customViews.MyTitle;
@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class ConsultCatoMainActivity extends BaseActivity {
     private MyHandler myHandler;
-    private SimpleExpandListAdapter simpleExpandListAdapter;
+    private ConsultCatoExpandListAdapter consultCatoExpandListAdapter;
     private List<String> parentList;
     private List<List<ConsultCato>> childList;
     private ExpandableListView expandableListView;
@@ -109,15 +109,15 @@ public class ConsultCatoMainActivity extends BaseActivity {
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.loading_progress_bar);
         expandableListView.setEmptyView(progressBar);
 
-        simpleExpandListAdapter = new SimpleExpandListAdapter(this);
-        expandableListView.setAdapter(simpleExpandListAdapter);
+        consultCatoExpandListAdapter = new ConsultCatoExpandListAdapter(this);
+        expandableListView.setAdapter(consultCatoExpandListAdapter);
 
         //列表item点击事件
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 //todo 根据关键字搜索，跳转到咨询搜索界面
-                SimpleExpandListAdapter adapter = (SimpleExpandListAdapter) parent.getExpandableListAdapter();
+                ConsultCatoExpandListAdapter adapter = (ConsultCatoExpandListAdapter) parent.getExpandableListAdapter();
                 ConsultCato consultCato = (ConsultCato) adapter.getChild(groupPosition, childPosition);
                 Intent intent = new Intent(ConsultCatoMainActivity.this, CatoConsultListActivity.class);
                 intent.putExtra("search_key_word", consultCato.getNote());
@@ -131,7 +131,7 @@ public class ConsultCatoMainActivity extends BaseActivity {
     }
 
     protected void updateList() {
-        simpleExpandListAdapter.setList(parentList, childList);
+        consultCatoExpandListAdapter.setList(parentList, childList);
         //默认选中第一栏
         expandableListView.expandGroup(expandIndex);
 

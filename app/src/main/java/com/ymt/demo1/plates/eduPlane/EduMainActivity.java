@@ -19,6 +19,8 @@ import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;
 import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.main.search.SearchActivity;
+import com.ymt.demo1.plates.eduPlane.examGuide.ExamsGuideMainActivity;
+import com.ymt.demo1.plates.eduPlane.mockExams.MockExamsMainActivity;
 import com.ymt.demo1.plates.eduPlane.myStudy.MyStudyActivity;
 import com.ymt.demo1.plates.eduPlane.pastExams.PastExamsMainActivity;
 import com.ymt.demo1.plates.eduPlane.studyDatum.StudyDatumActivity;
@@ -121,16 +123,16 @@ public class EduMainActivity extends BaseFloatActivity {
                         startActivity(new Intent(EduMainActivity.this, PastExamsMainActivity.class));    //历年真题
                         break;
                     case R.id.anologExams:
-                        Toast.makeText(EduMainActivity.this, "模拟考试", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(EduMainActivity.this, MockExamsMainActivity.class));    //模拟考试
                         break;
                     case R.id.myStudy:
-                        startActivity(new Intent(EduMainActivity.this, MyStudyActivity.class));             //我的学习
+                        startActivity(new Intent(EduMainActivity.this, MyStudyActivity.class));          //我的学习
                         break;
                     case R.id.studyDatum:
-                        startActivity(new Intent(EduMainActivity.this, StudyDatumActivity.class));          //学习资料
+                        startActivity(new Intent(EduMainActivity.this, StudyDatumActivity.class));       //学习资料
                         break;
                     case R.id.appGuide:
-                        startActivity(new Intent(EduMainActivity.this, ApplicationGuideActivity.class));    //报考指南
+                        startActivity(new Intent(EduMainActivity.this, ExamsGuideMainActivity.class));   //报考指南
                         break;
                     case R.id.trainVideo:
                         Toast.makeText(EduMainActivity.this, "培训视频", Toast.LENGTH_SHORT).show();

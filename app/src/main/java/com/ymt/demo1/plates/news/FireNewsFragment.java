@@ -83,9 +83,9 @@ public class FireNewsFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         RequestQueue mQueue = Volley.newRequestQueue(getActivity());
-        mQueue.add(newsRequest("http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_news_photo" + "&order=new&start=" + String.valueOf(1), 0));
-        mQueue.add(newsRequest("http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_news" + "&order=hot&start=" + String.valueOf(1), 1));
-        mQueue.add(newsRequest("http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_notice" + "&order=new&start=" + String.valueOf(1), 2));
+        mQueue.add(newsRequest("http://120.24.172.105/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_news_photo" + "&order=new&start=" + String.valueOf(1), 0));
+        mQueue.add(newsRequest("http://120.24.172.105/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_news" + "&order=hot&start=" + String.valueOf(1), 1));
+        mQueue.add(newsRequest("http://120.24.172.105/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_notice" + "&order=new&start=" + String.valueOf(1), 2));
     }
 
     protected void initView(View view) {

@@ -100,7 +100,7 @@ public class FireHRActivity extends BaseFloatActivity {
 
     private StringRequest summaryRequest(String type, int start) {
 
-        return new StringRequest("http://120.24.172.105:8000/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_news" + "&order=" + type + "&start=" + String.valueOf(start), new Response.Listener<String>() {
+        return new StringRequest("http://120.24.172.105/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_news" + "&order=" + type + "&start=" + String.valueOf(start), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {

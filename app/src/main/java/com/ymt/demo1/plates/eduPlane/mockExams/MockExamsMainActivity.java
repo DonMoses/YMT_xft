@@ -159,9 +159,9 @@ public class MockExamsMainActivity extends BaseFloatActivity {
                             TextView totalTime = (TextView) itemView.findViewById(R.id.total_time);
                             TextView totalScore = (TextView) itemView.findViewById(R.id.total_score);
                             examName.setText(exam.getExam_title());
-                            totalItem.setText("总题：" + exam.getTotal_item() + "题");
-                            totalTime.setText("考试时长：" + exam.getExam_time() + "分钟");
-                            totalScore.setText("总分：" + exam.getTop_score() + "分");
+                            totalItem.setText("总题:" + exam.getTotal_item() + "题");
+                            totalTime.setText("考试时长:" + exam.getExam_time() + "分钟");
+                            totalScore.setText("总分:" + exam.getTop_score() + "分");
 
                             LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(
                                     LinearLayout.LayoutParams.MATCH_PARENT, 3);

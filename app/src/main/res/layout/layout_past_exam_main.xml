@@ -36,7 +36,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="一级消防工程师真题"
+                    android:text="一级消防工程师模拟题"
                     android:textColor="@color/material_blue_grey_800"
                     android:textSize="18sp" />
 
@@ -75,7 +75,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="二级消防工程师真题"
+                    android:text="二级消防工程师模拟题"
                     android:textColor="@color/material_blue_grey_800"
                     android:textSize="18sp" />
 
@@ -113,7 +113,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="初级消防工程师真题"
+                    android:text="初级消防工程师模拟题"
                     android:textColor="@color/material_blue_grey_800"
                     android:textSize="18sp" />
 
@@ -151,7 +151,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="中级消防工程师真题"
+                    android:text="中级消防工程师模拟题"
                     android:textColor="@color/material_blue_grey_800"
                     android:textSize="18sp" />
 

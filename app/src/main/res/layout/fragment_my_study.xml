@@ -55,17 +55,16 @@
                     android:id="@+id/personal_icon_btn"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
-                    android:src="@drawable/moses"
                     app:border_color="@android:color/holo_blue_light"
                     app:border_width="0.8dp" />
 
                 <TextView
+                    android:id="@+id/user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
                     android:layout_marginStart="3dp"
-                    android:text="Moses"
-                    android:textColor="@android:color/holo_blue_dark" />
+                    android:textColor="@android:color/white" />
 
             </LinearLayout>
 

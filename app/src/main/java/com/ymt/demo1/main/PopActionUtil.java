@@ -20,7 +20,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.main.setting.ManagePswActivity;
 import com.ymt.demo1.main.sign.ChangePswActivity;
 
 /**

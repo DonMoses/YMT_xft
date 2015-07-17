@@ -158,7 +158,9 @@ public class PastExamsMainActivity extends BaseFloatActivity {
 
                             View itemView = inflater.inflate(R.layout.item_past_exams_content_s, null);
                             TextView examName = (TextView) itemView.findViewById(R.id.content);
+                            TextView downloadCount = (TextView) itemView.findViewById(R.id.download_count);
                             examName.setText(exam.getArticle_title());
+                            downloadCount.setVisibility(View.GONE);
 
                             LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(
                                     LinearLayout.LayoutParams.MATCH_PARENT, 3);

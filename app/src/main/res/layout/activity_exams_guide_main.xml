@@ -17,27 +17,14 @@
         mytitle:setRightIconL="@drawable/icon_search"
         mytitle:setTitleTxt="报考指南" />
 
-    <!--<GridView-->
-    <!--android:id="@+id/app_guide_gridView"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_margin="18dp"-->
-    <!--android:layout_weight="1"-->
-    <!--android:gravity="center"-->
-    <!--android:horizontalSpacing="5dp"-->
-    <!--android:numColumns="3"-->
-    <!--android:verticalSpacing="15dp">-->
-
-    <!--</GridView>-->
-    <com.ymt.demo1.customViews.DragGridView
-        android:id="@+id/app_guide_gridView"
+    <ExpandableListView
+        android:id="@+id/exams_guide_expandable_list_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="18dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:horizontalSpacing="5dp"
-        android:numColumns="3"
-        android:verticalSpacing="15dp" />
+        android:layout_height="wrap_content"
+        android:divider="@android:color/white"
+        android:layout_marginTop="0.309dp"
+        android:dividerHeight="1.236dp"
+        android:groupIndicator="@null"
+        android:minHeight="48dp" />
 
 </LinearLayout>

@@ -72,6 +72,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
     private List<ConsultCato> catoList;
     private ConsultCatoAdapter catoAdapter;
     private CircleImageView personIconBtn;
+    private TextView userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +91,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
     protected void onResume() {
         super.onResume();
         personIconBtn.setImageBitmap(AppContext.headerPic);
+        userName.setText(AppContext.now_user_name);
     }
 
     protected void initView() {
@@ -232,6 +234,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
     protected void initDrawerMenuView() {
         //头像
         personIconBtn = (CircleImageView) findViewById(R.id.personal_icon_btn);
+        userName = (TextView) findViewById(R.id.user_name);
         //注册
         View signUp = findViewById(R.id.sign_up);
         //帮助

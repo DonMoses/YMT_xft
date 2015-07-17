@@ -28,11 +28,13 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseFragment;
 import com.ymt.demo1.baseClasses.ViewHelper;
 import com.ymt.demo1.baseClasses.SimpleTestTabFragmentScrollUltraListViewFragment;
+import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.customViews.obsScrollview.CacheFragmentStatePagerAdapter;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollViewCallbacks;
 import com.ymt.demo1.customViews.obsScrollview.ScrollState;
@@ -40,6 +42,7 @@ import com.ymt.demo1.customViews.obsScrollview.ScrollUtils;
 import com.ymt.demo1.customViews.obsScrollview.Scrollable;
 import com.ymt.demo1.customViews.obsScrollview.TouchInterceptionFrameLayout;
 import com.ymt.demo1.customViews.widget.PagerSlidingTabStrip;
+import com.ymt.demo1.main.AppContext;
 
 /**
  * This fragment manages ViewPager and its child Fragments.
@@ -77,6 +80,12 @@ public class MyStudyFragment extends BaseFragment implements ObservableScrollVie
         mSlop = vc.getScaledTouchSlop();
         mInterceptionLayout = (TouchInterceptionFrameLayout) view.findViewById(R.id.container);
         mInterceptionLayout.setScrollInterceptionListener(mInterceptionListener);
+
+        CircleImageView header = (CircleImageView) view.findViewById(R.id.personal_icon_btn);
+        TextView userName = (TextView) view.findViewById(R.id.user_name);
+
+        header.setImageBitmap(AppContext.headerPic);
+        userName.setText(AppContext.now_user_name);
 
         return view;
     }

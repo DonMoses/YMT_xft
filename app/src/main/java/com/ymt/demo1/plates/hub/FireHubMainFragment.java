@@ -51,8 +51,8 @@ import java.util.List;
  */
 public class FireHubMainFragment extends BaseFragment {
     public static final String FRAGMENT_TAG = "FireHubMainFragment";
-    private static final String PLATE_REQUEST_URL = "http://120.24.172.105:8000/xxfintf/bbs/getForumList";
-    private static final String SUBJECT_REQUEST_BASE_URL = "http://120.24.172.105:8000/xxfintf/bbs/getSubjectListByFid";
+    private static final String PLATE_REQUEST_URL = "http://120.24.172.105/xxfintf/bbs/getForumList";
+    private static final String SUBJECT_REQUEST_BASE_URL = "http://120.24.172.105/xxfintf/bbs/getSubjectListByFid";
     private HubExpandListAdapter hubExpandListAdapter;
     private List<HubPlate> plateList;
     private LinkedList<List<HubSubject>> subjectList;

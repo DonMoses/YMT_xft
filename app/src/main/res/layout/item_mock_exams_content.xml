@@ -3,8 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#F0F0F0"
-    android:minHeight="72dp"
-    android:orientation="horizontal">
+    android:minHeight="80dp"
+    android:orientation="horizontal"
+    android:padding="3.09dp">
 
     <ImageView
         android:layout_width="48dp"
@@ -20,7 +21,6 @@
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F0F0F0"
             android:gravity="center_vertical"
             android:hint="example_exam_info"
             android:minHeight="34dp"
@@ -37,27 +37,30 @@
 
             <TextView
                 android:id="@+id/total_item"
-                android:textColor="@color/material_blue_grey_800"
-                android:textSize="13.5sp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textColor="@color/material_blue_grey_800"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/total_time"
-                android:textColor="@color/material_blue_grey_800"
-                android:textSize="13.5sp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textColor="@color/material_blue_grey_800"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/total_score"
                 android:layout_width="0dp"
-                android:textColor="@color/material_blue_grey_800"
-                android:textSize="13.5sp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textColor="@color/material_blue_grey_800"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
