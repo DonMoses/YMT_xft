@@ -69,6 +69,10 @@ public class PastExamsListActivity extends BaseFloatActivity {
             title.updateCenterTitle("一级消防工程师真题");
         } else if (level == 2) {
             title.updateCenterTitle("二级消防工程师真题");
+        } else if (level == 3) {
+            title.updateCenterTitle("初级消防工程师真题");
+        } else if (level == 4) {
+            title.updateCenterTitle("中级消防工程师真题");
         }
 
         if (orderYear != 0) {
@@ -122,6 +126,8 @@ public class PastExamsListActivity extends BaseFloatActivity {
                 examList.clear();
 //                adapter.setList(examList);
                 mQueue.add(getExamInfo(start, orderYear, searchKW));
+                start++;
+                mQueue.add(getExamInfo(start, orderYear, searchKW));
             }
 
             @Override
@@ -141,6 +147,12 @@ public class PastExamsListActivity extends BaseFloatActivity {
                 break;
             case 2:
                 url = BaseURLUtil.getPastExamsByLevel(start, "level002", searchWhat);
+                break;
+            case 3:
+                url = BaseURLUtil.getPastExamsByLevel(start, "level003", searchWhat);
+                break;
+            case 4:
+                url = BaseURLUtil.getPastExamsByLevel(start, "level004", searchWhat);
                 break;
             default:
                 url = BaseURLUtil.getPastExamsByYear(start, dateYear, searchWhat);

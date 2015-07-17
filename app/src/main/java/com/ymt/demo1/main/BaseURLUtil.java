@@ -57,7 +57,29 @@ public class BaseURLUtil {
     private static final String INFO_BY_ID = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.UserInfoAction&uid=";
     //历年真题
     private static final String PAST_EXAMS = "http://120.24.172.105:8000/fw?controller=com.xfsm.action.ExamAction&m=histroy&order=new&start=";
+    //模拟试题
+    private static final String MOCK_EXAMS = "http://120.24.172.105:8000/fw?t=app&controller=com.xfsm.action.ExamAction&m=exams&jl=";
 
+
+    /**
+     * 模拟试题（考试类型、时间）
+     */
+    public static String getMockExams(int start, String examType, int dateYear, String searchWhat) {
+        if (examType.equals("001") || examType.equals("002") || examType.equals("003") || examType.equals("004")) {
+            if (String.valueOf(dateYear).length() != 4) {
+                return MOCK_EXAMS + "type_" + examType + "&start=" + String.valueOf(start) + "&kw=" + searchWhat;
+            } else {
+                return MOCK_EXAMS + "type_" + examType + ",bookdate_" + String.valueOf(dateYear) + "&start=" + String.valueOf(start) + "&kw=" + searchWhat;
+            }
+        } else {
+            if (String.valueOf(dateYear).length() != 4) {
+                return MOCK_EXAMS + "&start=" + String.valueOf(start) + "&kw=" + searchWhat;
+            } else {
+                return MOCK_EXAMS + "bookdate_" + String.valueOf(dateYear) + "&start=" + String.valueOf(start) + "&kw=" + searchWhat;
+            }
+        }
+
+    }
 
     /**
      * 历年真题(按年份)

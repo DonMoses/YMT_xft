@@ -170,12 +170,20 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".plates.eduPlane.pastExams.PastExamsOrderActivity"
+            android:name=".plates.eduPlane.ExamsOrderYearActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/dialog" />
         <activity
             android:name=".plates.eduPlane.EduMainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.eduPlane.mockExams.MockExamsMainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.eduPlane.mockExams.MockExamsListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity

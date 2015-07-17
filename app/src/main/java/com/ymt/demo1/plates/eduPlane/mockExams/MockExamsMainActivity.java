@@ -13,14 +13,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.edu.PastExamItem;
+import com.ymt.demo1.beams.edu.MockExamItem;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;
 import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.main.search.SearchActivity;
-import com.ymt.demo1.plates.eduPlane.pastExams.PastExamsOrderActivity;
-import com.ymt.demo1.plates.eduPlane.pastExams.PastExamsListActivity;
-import com.ymt.demo1.plates.eduPlane.pastExams.PastExamDetailActivity;
+import com.ymt.demo1.plates.eduPlane.ExamsOrderYearActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +33,8 @@ import java.util.Arrays;
 public class MockExamsMainActivity extends BaseFloatActivity {
     private LinearLayout level001Layout;
     private LinearLayout level002Layout;
+    private LinearLayout level003Layout;
+    private LinearLayout level004Layout;
     private LayoutInflater inflater;
 
     @Override
@@ -46,8 +46,10 @@ public class MockExamsMainActivity extends BaseFloatActivity {
         initTitle();
         initView();
 
-        mQueue.add(getExamInfo(1, "level001", ""));
-        mQueue.add(getExamInfo(1, "level002", ""));
+        mQueue.add(getExamInfo(1, 0, "001", ""));
+        mQueue.add(getExamInfo(1, 0, "002", ""));
+        mQueue.add(getExamInfo(1, 0, "003", ""));
+        mQueue.add(getExamInfo(1, 0, "004", ""));
     }
 
     protected void initTitle() {
@@ -63,7 +65,7 @@ public class MockExamsMainActivity extends BaseFloatActivity {
         title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
             public void onRightLClick() {
-                Intent intent = new Intent(MockExamsMainActivity.this, PastExamsOrderActivity.class);
+                Intent intent = new Intent(MockExamsMainActivity.this, ExamsOrderYearActivity.class);
                 String[] array = MockExamsMainActivity.this.getResources().getStringArray(R.array.exam_years_array);
                 int size = array.length;
                 ArrayList<String> list = new ArrayList<>();
@@ -82,20 +84,32 @@ public class MockExamsMainActivity extends BaseFloatActivity {
     protected void initView() {
         View all001View = findViewById(R.id.view_all_level001);
         View all002View = findViewById(R.id.view_all_level002);
+        View all003View = findViewById(R.id.view_all_level003);
+        View all004View = findViewById(R.id.view_all_level004);
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.view_all_level001:
-                        Intent intent1 = new Intent(MockExamsMainActivity.this, PastExamsListActivity.class);
-                        intent1.putExtra("level", 1);
+                        Intent intent1 = new Intent(MockExamsMainActivity.this, MockExamsListActivity.class);
+                        intent1.putExtra("level", "001");
                         startActivity(intent1);
                         break;
                     case R.id.view_all_level002:
-                        Intent intent2 = new Intent(MockExamsMainActivity.this, PastExamsListActivity.class);
-                        intent2.putExtra("level", 2);
+                        Intent intent2 = new Intent(MockExamsMainActivity.this, MockExamsListActivity.class);
+                        intent2.putExtra("level", "002");
                         startActivity(intent2);
+                        break;
+                    case R.id.view_all_level003:
+                        Intent intent3 = new Intent(MockExamsMainActivity.this, MockExamsListActivity.class);
+                        intent3.putExtra("level", "003");
+                        startActivity(intent3);
+                        break;
+                    case R.id.view_all_level004:
+                        Intent intent4 = new Intent(MockExamsMainActivity.this, MockExamsListActivity.class);
+                        intent4.putExtra("level", "004");
+                        startActivity(intent4);
                         break;
                     default:
                         break;
@@ -105,14 +119,17 @@ public class MockExamsMainActivity extends BaseFloatActivity {
 
         all001View.setOnClickListener(onClickListener);
         all002View.setOnClickListener(onClickListener);
+        all003View.setOnClickListener(onClickListener);
+        all004View.setOnClickListener(onClickListener);
 
         level001Layout = (LinearLayout) findViewById(R.id.layout_level001);
+        level003Layout = (LinearLayout) findViewById(R.id.layout_level003);
+        level004Layout = (LinearLayout) findViewById(R.id.layout_level004);
         level002Layout = (LinearLayout) findViewById(R.id.layout_level002);
     }
 
-
-    protected StringRequest getExamInfo(int start, final String level, String searchWhat) {
-        return new StringRequest(BaseURLUtil.getPastExamsByLevel(start, level, searchWhat), new Response.Listener<String>() {
+    protected StringRequest getExamInfo(int start, int year, final String level, String searchWhat) {
+        return new StringRequest(BaseURLUtil.getMockExams(start, level, year, searchWhat), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -123,24 +140,28 @@ public class MockExamsMainActivity extends BaseFloatActivity {
                         int length = array.length();
                         for (int i = 0; i < length; i++) {
                             JSONObject obj = array.getJSONObject(i);
-                            final PastExamItem exam = new PastExamItem();
-                            exam.setExam_year(obj.optString("exam_year"));
+                            final MockExamItem exam = new MockExamItem();
                             exam.setThe_id(obj.optString("id"));
-                            exam.setFiles(obj.optString("files"));
-                            exam.setArticle_title(obj.optString("article_title"));
-                            exam.setLevel(obj.optString("level"));
                             exam.setStatus(obj.optString("status"));
+                            exam.setTotal_item(obj.optString("total_item"));
                             exam.setSubject(obj.optString("subject"));
-                            exam.setMeta_keys(obj.optString("meta_keys"));
+                            exam.setTotal_score(obj.optString("total_score"));
+                            exam.setTop_score(obj.optString("top_score"));
                             exam.setCreate_time(obj.optString("create_time"));
-                            exam.setHitnum(obj.optString("hitnum"));
                             exam.setFk_create_user_id(obj.optString("fk_create_user_id"));
-                            exam.setPdf_id(obj.optString("pdf_id"));
-                            exam.setDowncount(obj.optString("downcount"));
+                            exam.setExam_time(obj.optString("exam_time"));
+                            exam.setType(obj.optString("type"));
+                            exam.setExam_title(obj.optString("exam_title"));
 
-                            View itemView = inflater.inflate(R.layout.item_pandect_exams_content, null);
+                            View itemView = inflater.inflate(R.layout.item_mock_exams_content, null);
                             TextView examName = (TextView) itemView.findViewById(R.id.content);
-                            examName.setText(exam.getArticle_title());
+                            TextView totalItem = (TextView) itemView.findViewById(R.id.total_item);
+                            TextView totalTime = (TextView) itemView.findViewById(R.id.total_time);
+                            TextView totalScore = (TextView) itemView.findViewById(R.id.total_score);
+                            examName.setText(exam.getExam_title());
+                            totalItem.setText("总题：" + exam.getTotal_item() + "题");
+                            totalTime.setText("考试时长：" + exam.getExam_time() + "分钟");
+                            totalScore.setText("总分：" + exam.getTop_score() + "分");
 
                             LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(
                                     LinearLayout.LayoutParams.MATCH_PARENT, 3);
@@ -152,19 +173,25 @@ public class MockExamsMainActivity extends BaseFloatActivity {
                             itemView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Intent intent = new Intent(MockExamsMainActivity.this, PastExamDetailActivity.class);
-                                    intent.putExtra("exam", exam);
-                                    startActivity(intent);
+//                                    Intent intent = new Intent(MockExamsMainActivity.this, PastExamDetailActivity.class);
+//                                    intent.putExtra("exam", exam);
+//                                    startActivity(intent);
+                                    //todo
                                 }
                             });
 
-                            if (level.equals("level001")) {
+                            if (level.equals("001")) {
                                 level001Layout.addView(view1);
                                 level001Layout.addView(itemView);
-
-                            } else if (level.equals("level002")) {
+                            } else if (level.equals("002")) {
                                 level002Layout.addView(view1);
                                 level002Layout.addView(itemView);
+                            } else if (level.equals("003")) {
+                                level003Layout.addView(view1);
+                                level003Layout.addView(itemView);
+                            } else if (level.equals("004")) {
+                                level004Layout.addView(view1);
+                                level004Layout.addView(itemView);
                             }
 
                         }

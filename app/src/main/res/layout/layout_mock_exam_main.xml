@@ -14,7 +14,7 @@
         mytitle:setLeftActionIcon="@drawable/back_normal"
         mytitle:setRightActIconR="@drawable/icon_search"
         mytitle:setRightIconL="@drawable/icon_all_exams"
-        mytitle:setTitleTxt="历年真题" />
+        mytitle:setTitleTxt="模拟试题" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="一级消防工程师真题"
+                    android:text="一级消防工程真题"
                     android:textColor="@color/material_blue_grey_800"
                     android:textSize="18sp" />
 
@@ -75,7 +75,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="二级消防工程师真题"
+                    android:text="二级消防工程真题"
                     android:textColor="@color/material_blue_grey_800"
                     android:textSize="18sp" />
 
@@ -96,82 +96,6 @@
 
             <LinearLayout
                 android:id="@+id/layout_level002"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/view_all_level003"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="6.18dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="初级消防工程师真题"
-                    android:textColor="@color/material_blue_grey_800"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text=">显示全部"
-                    android:textColor="@color/material_blue_grey_800"
-                    android:textSize="13.5sp" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.618dp"
-                android:background="@android:color/darker_gray" />
-
-            <LinearLayout
-                android:id="@+id/layout_level003"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/view_all_level004"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="6.18dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="中级消防工程师真题"
-                    android:textColor="@color/material_blue_grey_800"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text=">显示全部"
-                    android:textColor="@color/material_blue_grey_800"
-                    android:textSize="13.5sp" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.618dp"
-                android:background="@android:color/darker_gray" />
-
-            <LinearLayout
-                android:id="@+id/layout_level004"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">

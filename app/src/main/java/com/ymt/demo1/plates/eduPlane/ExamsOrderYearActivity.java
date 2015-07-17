@@ -1,4 +1,4 @@
-package com.ymt.demo1.plates.eduPlane.pastExams;
+package com.ymt.demo1.plates.eduPlane;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,13 +9,14 @@ import android.widget.AdapterView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.SimpleTextDragGridViewAdapter;
 import com.ymt.demo1.customViews.DragGridView;
+import com.ymt.demo1.plates.eduPlane.pastExams.PastExamsListActivity;
 
 import java.util.ArrayList;
 
 /**
  * Created by Dan on 2015/4/10
  */
-public class PastExamsOrderActivity extends Activity {
+public class ExamsOrderYearActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +41,7 @@ public class PastExamsOrderActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String text = parent.getAdapter().getItem(position).toString();
-                Intent intent = new Intent(PastExamsOrderActivity.this, PastExamsListActivity.class);
+                Intent intent = new Intent(ExamsOrderYearActivity.this, PastExamsListActivity.class);
                 switch (text) {
                     case "全部":
                         intent.putExtra("all", "all");

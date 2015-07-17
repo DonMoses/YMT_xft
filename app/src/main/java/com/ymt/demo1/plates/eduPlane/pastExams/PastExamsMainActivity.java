@@ -18,6 +18,7 @@ import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;
 import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.main.search.SearchActivity;
+import com.ymt.demo1.plates.eduPlane.ExamsOrderYearActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +33,8 @@ import java.util.Arrays;
 public class PastExamsMainActivity extends BaseFloatActivity {
     private LinearLayout level001Layout;
     private LinearLayout level002Layout;
+    private LinearLayout level003Layout;
+    private LinearLayout level004Layout;
     private LayoutInflater inflater;
 
     @Override
@@ -45,6 +48,8 @@ public class PastExamsMainActivity extends BaseFloatActivity {
 
         mQueue.add(getExamInfo(1, "level001", ""));
         mQueue.add(getExamInfo(1, "level002", ""));
+        mQueue.add(getExamInfo(1, "level003", ""));
+        mQueue.add(getExamInfo(1, "level004", ""));
     }
 
     protected void initTitle() {
@@ -60,7 +65,7 @@ public class PastExamsMainActivity extends BaseFloatActivity {
         title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
             public void onRightLClick() {
-                Intent intent = new Intent(PastExamsMainActivity.this, PastExamsOrderActivity.class);
+                Intent intent = new Intent(PastExamsMainActivity.this, ExamsOrderYearActivity.class);
                 String[] array = PastExamsMainActivity.this.getResources().getStringArray(R.array.exam_years_array);
                 int size = array.length;
                 ArrayList<String> list = new ArrayList<>();
@@ -79,6 +84,8 @@ public class PastExamsMainActivity extends BaseFloatActivity {
     protected void initView() {
         View all001View = findViewById(R.id.view_all_level001);
         View all002View = findViewById(R.id.view_all_level002);
+        View all003View = findViewById(R.id.view_all_level003);
+        View all004View = findViewById(R.id.view_all_level004);
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -94,6 +101,16 @@ public class PastExamsMainActivity extends BaseFloatActivity {
                         intent2.putExtra("level", 2);
                         startActivity(intent2);
                         break;
+                    case R.id.view_all_level003:
+                        Intent intent3 = new Intent(PastExamsMainActivity.this, PastExamsListActivity.class);
+                        intent3.putExtra("level", 3);
+                        startActivity(intent3);
+                        break;
+                    case R.id.view_all_level004:
+                        Intent intent4 = new Intent(PastExamsMainActivity.this, PastExamsListActivity.class);
+                        intent4.putExtra("level", 4);
+                        startActivity(intent4);
+                        break;
                     default:
                         break;
                 }
@@ -102,8 +119,12 @@ public class PastExamsMainActivity extends BaseFloatActivity {
 
         all001View.setOnClickListener(onClickListener);
         all002View.setOnClickListener(onClickListener);
+        all003View.setOnClickListener(onClickListener);
+        all004View.setOnClickListener(onClickListener);
 
         level001Layout = (LinearLayout) findViewById(R.id.layout_level001);
+        level003Layout = (LinearLayout) findViewById(R.id.layout_level003);
+        level004Layout = (LinearLayout) findViewById(R.id.layout_level004);
         level002Layout = (LinearLayout) findViewById(R.id.layout_level002);
     }
 
@@ -135,7 +156,7 @@ public class PastExamsMainActivity extends BaseFloatActivity {
                             exam.setPdf_id(obj.optString("pdf_id"));
                             exam.setDowncount(obj.optString("downcount"));
 
-                            View itemView = inflater.inflate(R.layout.item_pandect_exams_content, null);
+                            View itemView = inflater.inflate(R.layout.item_past_exams_content_s, null);
                             TextView examName = (TextView) itemView.findViewById(R.id.content);
                             examName.setText(exam.getArticle_title());
 
@@ -162,6 +183,12 @@ public class PastExamsMainActivity extends BaseFloatActivity {
                             } else if (level.equals("level002")) {
                                 level002Layout.addView(view1);
                                 level002Layout.addView(itemView);
+                            } else if (level.equals("level003")) {
+                                level003Layout.addView(view1);
+                                level003Layout.addView(itemView);
+                            } else if (level.equals("level004")) {
+                                level004Layout.addView(view1);
+                                level004Layout.addView(itemView);
                             }
 
                         }
