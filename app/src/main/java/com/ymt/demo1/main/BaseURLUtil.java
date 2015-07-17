@@ -59,7 +59,15 @@ public class BaseURLUtil {
     private static final String PAST_EXAMS = "http://120.24.172.105/fw?controller=com.xfsm.action.ExamAction&m=histroy&order=new&start=";
     //模拟试题
     private static final String MOCK_EXAMS = "http://120.24.172.105/fw?t=app&controller=com.xfsm.action.ExamAction&m=exams&jl=";
+    //试题信息
+    private static final String PAPER_INFO = "http://120.24.172.105/fw?t=app&controller=com.xfsm.action.ExamAction&m=goExam&id=";
 
+    /**
+     * 获取试卷内容
+     */
+    public static String getPaperContent(String paper_id) {
+        return PAPER_INFO + paper_id + "&sId=" + AppContext.now_session_id;
+    }
 
     /**
      * 模拟试题（考试类型、时间）

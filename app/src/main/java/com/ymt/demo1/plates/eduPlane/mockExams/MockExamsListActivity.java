@@ -122,11 +122,11 @@ public class MockExamsListActivity extends BaseFloatActivity {
         examsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                PastExamItem examItem = (PastExamItem) parent.getAdapter().getItem(position);
-//                Intent intent = new Intent(MockExamsListActivity.this, PastExamDetailActivity.class);
-//                intent.putExtra("exam", examItem);
-//                startActivity(intent);
-                //todo
+                Intent intent = new Intent(MockExamsListActivity.this, ReadyActivity.class);
+                MockExamItem item = (MockExamItem) parent.getAdapter().getItem(position);
+                intent.putExtra("exam_id", item.getThe_id());
+                startActivity(intent);
+                //todo (其他试卷信息)
             }
         });
 

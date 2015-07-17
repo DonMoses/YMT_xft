@@ -53,7 +53,7 @@ public class NewsDetailActivity extends BaseActivity {
                 //todo 分享内容
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("*/*");
-                intent.putExtra(Intent.EXTRA_SUBJECT, "消防咨询-" + getIntent().getStringExtra("title"));
+                intent.putExtra(Intent.EXTRA_SUBJECT, "消防资讯-" + getIntent().getStringExtra("title"));
                 intent.putExtra(Intent.EXTRA_TEXT, getIntent().getStringExtra("content"));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(Intent.createChooser(intent, getTitle()));

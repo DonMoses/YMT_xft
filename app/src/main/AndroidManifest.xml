@@ -158,6 +158,18 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".plates.eduPlane.mockExams.ReadyActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.eduPlane.mockExams.DoPaperActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.eduPlane.mockExams.TopicIndexActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".plates.eduPlane.examGuide.ExamsGuideMainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />

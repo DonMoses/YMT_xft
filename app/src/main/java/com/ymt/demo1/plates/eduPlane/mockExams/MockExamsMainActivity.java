@@ -173,25 +173,30 @@ public class MockExamsMainActivity extends BaseFloatActivity {
                             itemView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-//                                    Intent intent = new Intent(MockExamsMainActivity.this, PastExamDetailActivity.class);
-//                                    intent.putExtra("exam", exam);
-//                                    startActivity(intent);
-                                    //todo
+                                    Intent intent = new Intent(MockExamsMainActivity.this, ReadyActivity.class);
+                                    intent.putExtra("exam_id", exam.getThe_id());
+                                    startActivity(intent);
+                                    //todo (试卷的其他信息)
                                 }
                             });
 
-                            if (level.equals("001")) {
-                                level001Layout.addView(view1);
-                                level001Layout.addView(itemView);
-                            } else if (level.equals("002")) {
-                                level002Layout.addView(view1);
-                                level002Layout.addView(itemView);
-                            } else if (level.equals("003")) {
-                                level003Layout.addView(view1);
-                                level003Layout.addView(itemView);
-                            } else if (level.equals("004")) {
-                                level004Layout.addView(view1);
-                                level004Layout.addView(itemView);
+                            switch (level) {
+                                case "001":
+                                    level001Layout.addView(view1);
+                                    level001Layout.addView(itemView);
+                                    break;
+                                case "002":
+                                    level002Layout.addView(view1);
+                                    level002Layout.addView(itemView);
+                                    break;
+                                case "003":
+                                    level003Layout.addView(view1);
+                                    level003Layout.addView(itemView);
+                                    break;
+                                case "004":
+                                    level004Layout.addView(view1);
+                                    level004Layout.addView(itemView);
+                                    break;
                             }
 
                         }
