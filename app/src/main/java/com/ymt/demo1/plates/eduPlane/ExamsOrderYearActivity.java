@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.SimpleTextDragGridViewAdapter;
 import com.ymt.demo1.customViews.DragGridView;
+import com.ymt.demo1.plates.eduPlane.mockExams.MockExamsListActivity;
 import com.ymt.demo1.plates.eduPlane.pastExams.PastExamsListActivity;
 
 import java.util.ArrayList;
@@ -41,18 +42,33 @@ public class ExamsOrderYearActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String text = parent.getAdapter().getItem(position).toString();
-                Intent intent = new Intent(ExamsOrderYearActivity.this, PastExamsListActivity.class);
-                switch (text) {
-                    case "全部":
-                        intent.putExtra("all", "all");
+                Intent intent = null;
+
+                switch (getIntent().getStringExtra("type")) {
+                    case "past":
+                        intent = new Intent(ExamsOrderYearActivity.this, PastExamsListActivity.class);
+                        break;
+                    case "mock":
+                        intent = new Intent(ExamsOrderYearActivity.this, MockExamsListActivity.class);
                         break;
                     default:
-                        intent.putExtra("year", Integer.valueOf(text));
                         break;
 
                 }
 
-                startActivity(intent);
+                if (intent != null) {
+                    switch (text) {
+                        case "全部":
+                            intent.putExtra("all", "all");
+                            break;
+                        default:
+                            intent.putExtra("year", Integer.valueOf(text));
+                            break;
+
+                    }
+                    startActivity(intent);
+                }
+
                 finish();
             }
         });

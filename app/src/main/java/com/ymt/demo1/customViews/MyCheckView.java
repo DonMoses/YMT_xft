@@ -183,6 +183,7 @@ public class MyCheckView extends ImageView {
     }
 
     public void setIsChecked(boolean isChecked) {
+        checkAction(this.isChecked);
         this.isChecked = isChecked;
     }
 }

@@ -20,6 +20,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.beams.edu.exam.Exam;
 import com.ymt.demo1.main.sign.ChangePswActivity;
 
 /**
@@ -239,5 +240,59 @@ public class PopActionUtil {
      */
     public void setActionListener(PopActionListener actionListener) {
         this.actionListener = actionListener;
+    }
+
+    /**
+     * 显示提交试卷POP
+     */
+    public PopupWindow getSubPaperPopActionMenu(Exam exam) {
+        inflater = LayoutInflater.from(context);
+        View popContent = inflater.inflate(R.layout.layout_sub_paper_pop_action, null);
+        final Button yBtn = (Button) popContent.findViewById(R.id.do_download_btn);
+        final Button nBtn = (Button) popContent.findViewById(R.id.not_download_btn);
+
+        final TextView examName = (TextView) popContent.findViewById(R.id.exam_content);
+        final TextView totalItem = (TextView) popContent.findViewById(R.id.total_item);
+        final TextView totalScore = (TextView) popContent.findViewById(R.id.total_score);
+        examName.setText(exam.getExam_title());
+        totalItem.setText("题目：" + exam.getTotal_item() + "题");
+        totalScore.setText("总分：" + exam.getTotal_score() + "分");
+
+        final PopupWindow popupWindow = new PopupWindow(popContent,
+                FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x90000000));
+        //设置弹出菜单的动画
+        popupWindow.setAnimationStyle(R.style.MyDownloadPopAnimation);
+        popupWindow.setOnDismissListener(actionListener);
+
+        View.OnClickListener downloadListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo 下载菜单监听
+                switch (v.getId()) {
+                    case R.id.do_download_btn:
+                        //todo 下载
+                        actionListener.onAction("确定");
+                        popupWindow.dismiss();
+                        break;
+                    case R.id.not_download_btn:
+                        //todo 关闭
+                        actionListener.onAction("取消");
+                        popupWindow.dismiss();
+                        //关闭pop
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+        };
+        yBtn.setOnClickListener(downloadListener);
+        nBtn.setOnClickListener(downloadListener);
+
+        return popupWindow;
+
     }
 }

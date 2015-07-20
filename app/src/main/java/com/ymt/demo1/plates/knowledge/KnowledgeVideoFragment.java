@@ -57,6 +57,7 @@ public class KnowledgeVideoFragment extends BaseFragment {
         pageSize = 12;
         startIndex = 1;
         videoList = new ArrayList<>();
+        mQueue.add(getKnowledgeVideo(pageSize, startIndex, ""));
     }
 
     @Override

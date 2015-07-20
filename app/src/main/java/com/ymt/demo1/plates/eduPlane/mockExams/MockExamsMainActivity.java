@@ -2,10 +2,12 @@ package com.ymt.demo1.plates.eduPlane.mockExams;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -15,9 +17,11 @@ import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.edu.MockExamItem;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.BaseFloatActivity;
 import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.main.search.SearchActivity;
+import com.ymt.demo1.main.sign.SignUpActivity;
 import com.ymt.demo1.plates.eduPlane.ExamsOrderYearActivity;
 
 import org.json.JSONArray;
@@ -42,7 +46,7 @@ public class MockExamsMainActivity extends BaseFloatActivity {
         super.onCreate(savedInstanceState);
         RequestQueue mQueue = Volley.newRequestQueue(this);
         inflater = LayoutInflater.from(this);
-        setContentView(R.layout.layout_past_exam_main);
+        setContentView(R.layout.layout_past_mock_exam_main);
         initTitle();
         initView();
 
@@ -55,6 +59,7 @@ public class MockExamsMainActivity extends BaseFloatActivity {
     protected void initTitle() {
         MyTitle title = (MyTitle) findViewById(R.id.my_title);
         title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L_R);
+        title.updateCenterTitle("模拟试题");
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
             public void onClick() {
@@ -71,6 +76,7 @@ public class MockExamsMainActivity extends BaseFloatActivity {
                 ArrayList<String> list = new ArrayList<>();
                 list.addAll(Arrays.asList(array).subList(0, size));
                 intent.putStringArrayListExtra("tests_years", list);
+                intent.putExtra("type", "mock");
                 startActivity(intent);
             }
 
@@ -93,22 +99,22 @@ public class MockExamsMainActivity extends BaseFloatActivity {
                 switch (v.getId()) {
                     case R.id.view_all_level001:
                         Intent intent1 = new Intent(MockExamsMainActivity.this, MockExamsListActivity.class);
-                        intent1.putExtra("level", "001");
+                        intent1.putExtra("level", 1);
                         startActivity(intent1);
                         break;
                     case R.id.view_all_level002:
                         Intent intent2 = new Intent(MockExamsMainActivity.this, MockExamsListActivity.class);
-                        intent2.putExtra("level", "002");
+                        intent2.putExtra("level", 2);
                         startActivity(intent2);
                         break;
                     case R.id.view_all_level003:
                         Intent intent3 = new Intent(MockExamsMainActivity.this, MockExamsListActivity.class);
-                        intent3.putExtra("level", "003");
+                        intent3.putExtra("level", 3);
                         startActivity(intent3);
                         break;
                     case R.id.view_all_level004:
                         Intent intent4 = new Intent(MockExamsMainActivity.this, MockExamsListActivity.class);
-                        intent4.putExtra("level", "004");
+                        intent4.putExtra("level", 4);
                         startActivity(intent4);
                         break;
                     default:
@@ -161,7 +167,7 @@ public class MockExamsMainActivity extends BaseFloatActivity {
                             examName.setText(exam.getExam_title());
                             totalItem.setText("总题:" + exam.getTotal_item() + "题");
                             totalTime.setText("考试时长:" + exam.getExam_time() + "分钟");
-                            totalScore.setText("总分:" + exam.getTop_score() + "分");
+                            totalScore.setText("总分:" + exam.getTotal_score() + "分");
 
                             LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(
                                     LinearLayout.LayoutParams.MATCH_PARENT, 3);
@@ -173,10 +179,17 @@ public class MockExamsMainActivity extends BaseFloatActivity {
                             itemView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Intent intent = new Intent(MockExamsMainActivity.this, ReadyActivity.class);
-                                    intent.putExtra("exam_id", exam.getThe_id());
-                                    startActivity(intent);
-                                    //todo (试卷的其他信息)
+                                    if (!TextUtils.isEmpty(AppContext.now_session_id)) {
+                                        Intent intent = new Intent(MockExamsMainActivity.this, ReadyActivity.class);
+                                        intent.putExtra("exam_id", exam.getThe_id());
+                                        startActivity(intent);
+                                        //todo (试卷的其他信息)
+                                    } else {
+                                        Toast.makeText(MockExamsMainActivity.this, "请登录！", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(MockExamsMainActivity.this, SignUpActivity.class);
+                                        startActivity(intent);
+                                    }
+
                                 }
                             });
 
@@ -214,6 +227,3 @@ public class MockExamsMainActivity extends BaseFloatActivity {
 
     }
 }
-
-
-

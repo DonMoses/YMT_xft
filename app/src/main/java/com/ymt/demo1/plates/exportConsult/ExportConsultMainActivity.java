@@ -23,11 +23,11 @@ import android.os.Message;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -49,8 +49,8 @@ import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.main.PopActionListener;
 import com.ymt.demo1.main.PopActionUtil;
-import com.ymt.demo1.main.SearchViewUtil;
 import com.ymt.demo1.main.StringUtils;
+import com.ymt.demo1.main.search.SearchActivity;
 import com.ymt.demo1.main.sign.SignInActivity;
 
 import org.json.JSONArray;
@@ -68,7 +68,6 @@ import java.util.List;
 public class ExportConsultMainActivity extends BaseActivity implements View.OnClickListener {
     private PopActionListener actionListener;
     private Handler mHandler = new MyHandler(this);
-    private SearchViewUtil searchViewUtil;
     private RequestQueue mQueue;
     private TextView nearlyConsultTitle;
     TextView nearlyConsultContent;
@@ -93,7 +92,6 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         mQueue.add(recentConsultRequest(1, 10));
         mQueue.add(getExperts(6, 1, ""));
         setContentView(R.layout.activity_export_consult_main);
-        searchViewUtil = new SearchViewUtil();
         initTitle();
         initView();
     }
@@ -107,7 +105,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
 
     protected void initTitle() {
         final MyTitle title = (MyTitle) findViewById(R.id.my_title);
-        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
+        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L_R);
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
             public void onClick() {
@@ -150,6 +148,11 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
             public void onRightLClick() {
+                startActivity(new Intent(ExportConsultMainActivity.this, SearchActivity.class));
+            }
+
+            @Override
+            public void onRightRClick() {
                 PopActionUtil popActionUtil = PopActionUtil.getInstance(ExportConsultMainActivity.this);
 //                popActionUtil.setActions(new String[]{"立即咨询", "我的咨询", "咨询历史"});
                 popActionUtil.setActions(new String[]{"我的咨询"});
@@ -158,19 +161,11 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
                         Gravity.TOP | Gravity.END, 10, 100);
 
                 popActionUtil.setActionListener(actionListener);
-
-            }
-
-            @Override
-            public void onRightRClick() {
-                //此视图，右边只包含L按钮
-
             }
         });
     }
 
     protected void initView() {
-        searchViewUtil.initSearchView(this);
         TextView moreExpert = (TextView) findViewById(R.id.more_export);
         moreExpert.setOnClickListener(this);
         /**
@@ -277,6 +272,8 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         amAdapter.setExpertList(amExperts);
         pmAdapter.setExpertList(pmExperts);
 
+        mHandler.sendEmptyMessage(1);
+
         AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -325,30 +322,6 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         }
     }
 
-    /**
-     * @param view：被测量的view
-     */
-    public static boolean checkDownPointerInView(View view, float x, float y) {
-        int[] location2 = new int[2];
-        view.getLocationOnScreen(location2);
-        return x >= location2[0] && x <= location2[0] + view.getWidth() && y >= location2[1] && y <= location2[1] + view.getHeight();
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        int action = event.getAction();
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                float x = event.getRawX();
-                float y = event.getRawY();
-                if (!checkDownPointerInView(findViewById(R.id.search_edit_text), x, y)) {
-                    searchViewUtil.clearInputFocus();
-                    return true;
-                }
-        }
-        return false;
-    }
-
     static class MyHandler extends Handler {
         private WeakReference<ExportConsultMainActivity> reference;
 
@@ -361,7 +334,19 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
             super.handleMessage(msg);
             ExportConsultMainActivity activity = reference.get();
             if (activity != null) {
-                activity.initExportTable();
+                switch (msg.what) {
+                    case 0:
+                        activity.initExportTable();
+                        break;
+                    case 1:          //值日表
+                        ((LinearLayout) activity.findViewById(R.id.duty_parent_view)).getChildAt(1).setVisibility(View.GONE);
+                        break;
+                    case 2:         //专家表
+                        ((LinearLayout) activity.findViewById(R.id.expert_parent_view)).getChildAt(0).setVisibility(View.GONE);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
@@ -542,6 +527,8 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
                             tomorrowExportName.setText("姓名：" + tomorrowExpert.getUser_name());
                             tomorrowExportMajor.setText("职业：" + tomorrowExpert.getMajor_works());
                         }
+
+                        mHandler.sendEmptyMessage(2);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -13,9 +13,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -40,8 +42,10 @@ import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Dan on 2015/7/17
@@ -145,7 +149,6 @@ public class DoPaperActivity extends BaseActivity {
         indexView = (TextView) findViewById(R.id.index_in_topics);
         LinearLayout subTopicLayoutView = (LinearLayout) findViewById(R.id.sub_topic);
 
-
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,6 +178,7 @@ public class DoPaperActivity extends BaseActivity {
                                     trueOptsLayout.addView(optView);
                                 }
                             }
+
                         }
 
                         isShownOpts = !isShownOpts;
@@ -193,6 +197,28 @@ public class DoPaperActivity extends BaseActivity {
                         startActivityForResult(intent, 0);
                         break;
                     case R.id.sub_topic:
+                        //提交题目。【如果是单选、多选、判断，则不能为空】
+                        switch (linkedList.get(recIndex).getType()) {
+                            case "c1":              //单选
+                            case "c2":              //多选
+                            case "c3":              //判断
+                                int childCount = optsLayout.getChildCount();
+                                int checkedCount = 0;
+                                for (int i = 0; i < childCount; i++) {
+                                    MyCheckView checkView = (MyCheckView) optsLayout.getChildAt(i).findViewById(R.id.switch_opt);
+                                    if (checkView.isChecked()) {
+                                        checkedCount++;
+                                    }
+                                }
+                                if (checkedCount == 0) {
+                                    Toast.makeText(DoPaperActivity.this, "请先完成当前题目!", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+
                         if (!doneList.contains(String.valueOf(recIndex + 1))) {
                             doneList.add(String.valueOf(recIndex + 1));
                         }
@@ -210,7 +236,7 @@ public class DoPaperActivity extends BaseActivity {
 
                             //todo 弹出下载提示框
                             PopActionUtil popActionUtil = PopActionUtil.getInstance(DoPaperActivity.this);
-                            PopupWindow popupWindow = popActionUtil.getDownloadPopActionMenu();
+                            PopupWindow popupWindow = popActionUtil.getSubPaperPopActionMenu(exam);
                             popupWindow.showAtLocation(topicName.getRootView(), Gravity.CENTER, 0, 0);
 
                             popActionUtil.setActionListener(new PopActionListener() {
@@ -218,7 +244,7 @@ public class DoPaperActivity extends BaseActivity {
                                 public void onAction(String action) {
                                     switch (action) {
                                         case "确定":
-                                            Toast.makeText(DoPaperActivity.this, "提交...", Toast.LENGTH_LONG).show();
+                                            mQueue.add(subPaper());
                                             //todo 提交
                                             break;
                                         case "取消":
@@ -408,6 +434,7 @@ public class DoPaperActivity extends BaseActivity {
      * 显示题目信息
      */
     protected void setLinkedTopicData() {
+        findViewById(R.id.pro_view).setVisibility(View.GONE);
 
         linkedList = new LinkedList<>();
         linkedList.addAll(exam.getSingles());
@@ -425,7 +452,7 @@ public class DoPaperActivity extends BaseActivity {
     protected void updateViewInfo() {
 
         //显示参考答案
-        Topic topic = linkedList.get(recIndex);
+        final Topic topic = linkedList.get(recIndex);
         List<Opt> opts = topic.getOps();
         int size = opts.size();
         //供选答案
@@ -439,15 +466,59 @@ public class DoPaperActivity extends BaseActivity {
             params.setMargins(3, 18, 3, 0);
             optsLayout.setLayoutParams(params);
             for (int i = 0; i < size; i++) {
-                View optView = inflater.inflate(R.layout.item_exam_opt, null);
+                final View optView = inflater.inflate(R.layout.item_exam_opt, null);
 
                 TextView optItem = (TextView) optView.findViewById(R.id.opt_content);
-                MyCheckView optCheck = (MyCheckView) optView.findViewById(R.id.switch_opt);
+                final MyCheckView optCheck = (MyCheckView) optView.findViewById(R.id.switch_opt);
 
                 optItem.setTextColor(Color.DKGRAY);
                 optItem.setText(opts.get(i).getContent());
+
+                optView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                          /*
+                           设置单选、多选action
+                           */
+                        switch (topic.getType()) {
+                            case "c1":              //单选
+                            case "c3":              //判断
+                                int pos = optsLayout.indexOfChild(optView);
+                                int childCount = optsLayout.getChildCount();
+                                if (optCheck.isChecked()) {
+                                    optCheck.setIsChecked(false);
+                                } else {
+                                    optCheck.setIsChecked(true);
+                                    for (int i = 0; i < childCount; i++) {
+                                        if (i != pos) {
+                                            MyCheckView check = (MyCheckView) optsLayout.getChildAt(i).findViewById(R.id.switch_opt);
+                                            if (check.isChecked()) {
+                                                check.setIsChecked(false);
+                                            }
+                                        }
+
+                                    }
+                                }
+
+//                                Log.e("TAG", ">>>>>>>>>>>>>>>..c1.c3..>>>>>");
+                                break;
+                            case "c2":              //多选
+                                if (optCheck.isChecked()) {
+                                    optCheck.setIsChecked(false);
+                                } else {
+                                    optCheck.setIsChecked(true);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+
                 optsLayout.addView(optView);
+
             }
+
         }
 
         //参考答案
@@ -504,8 +575,90 @@ public class DoPaperActivity extends BaseActivity {
             doneList.add(String.valueOf(recIndex + 1));
         }
 
-        //todo
+        /*
+        ignoreConn : "Y",
+        method:"doAnswer",
+        examId : ,
+        answer_id : qid,
+        val:val
+         */
+        int size = optsLayout.getChildCount();
+        ArrayList<String> ids = new ArrayList<>();
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                MyCheckView checkView = (MyCheckView) optsLayout.getChildAt(i).findViewById(R.id.switch_opt);
+                if (checkView.isChecked()) {
+                    ids.add(linkedList.get(recIndex).getOps().get(i).getThe_id());
+                }
+            }
+        }
+        String examId = linkedList.get(recIndex).getFk_exam_id();
+        String answerId = linkedList.get(recIndex).getFk_que_id();
+        String[] optIds = new String[ids.size()];
+        for (int i = 0; i < ids.size(); i++) {
+            optIds[i] = ids.get(i);
+        }
 
+        mQueue.add(subAnswer(answerId, optIds));
+    }
+
+    /**
+     * 提交答案网络请求
+     */
+    protected StringRequest subAnswer(final String answer_id, final String[] values) {
+
+        return new StringRequest(BaseURLUtil.SUB_ANSWER, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(DoPaperActivity.this, "网络问题，请稍后重试!", Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<>();
+                map.put("ignoreConn", "Y");
+                map.put("method", "doAnswer");
+                map.put("examId", exam_id);
+                map.put("answer_id", answer_id);
+                for (String value : values) {
+                    map.put("val[]", value);
+                }
+                return map;
+            }
+        };
+    }
+
+    /**
+     * 交卷
+     */
+    protected StringRequest subPaper() {
+
+        return new StringRequest(BaseURLUtil.SUB_ANSWER, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                Toast.makeText(DoPaperActivity.this, "试卷已提交!", Toast.LENGTH_LONG).show();
+                finish();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(DoPaperActivity.this, "网络问题，请稍后重试!", Toast.LENGTH_LONG).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<>();
+                map.put("ignoreConn", "Y");
+                map.put("method", "submitExam");
+                map.put("exam_id", exam_id);
+                return map;
+            }
+        };
     }
 
     static class MyHandler extends Handler {

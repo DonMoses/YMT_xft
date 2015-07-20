@@ -31,6 +31,7 @@ import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.PopActionListener;
 import com.ymt.demo1.main.PopActionUtil;
+import com.ymt.demo1.main.search.SearchActivity;
 
 /**
  * This activity just provides a toolbar.
@@ -62,7 +63,7 @@ public class KnowledgeMainActivity extends BaseActivity {
 
     protected void initTitle() {
         final MyTitle title = (MyTitle) findViewById(R.id.my_title);
-        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
+        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L_R);
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
             public void onClick() {
@@ -100,6 +101,12 @@ public class KnowledgeMainActivity extends BaseActivity {
         title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
             public void onRightLClick() {
+                startActivity(new Intent(KnowledgeMainActivity.this, SearchActivity.class));
+
+            }
+
+            @Override
+            public void onRightRClick() {
                 PopActionUtil popActionUtil = PopActionUtil.getInstance(KnowledgeMainActivity.this);
                 popActionUtil.setActions(new String[]{"最近浏览", "最新上传", "下载排行"});
                 PopupWindow popupWindow = popActionUtil.getSimpleTxtPopActionMenu();
@@ -107,13 +114,6 @@ public class KnowledgeMainActivity extends BaseActivity {
                         Gravity.TOP | Gravity.END, 10, 100);
 
                 popActionUtil.setActionListener(actionListener);
-
-            }
-
-            @Override
-            public void onRightRClick() {
-                //此视图，右边只包含L按钮
-
             }
         });
     }

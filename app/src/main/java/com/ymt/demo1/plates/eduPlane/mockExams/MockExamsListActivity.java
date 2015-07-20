@@ -3,9 +3,11 @@ package com.ymt.demo1.plates.eduPlane.mockExams;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -16,14 +18,13 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.MockExamsAdapter;
-import com.ymt.demo1.adapter.PastExamsAdapter;
 import com.ymt.demo1.beams.edu.MockExamItem;
-import com.ymt.demo1.beams.edu.PastExamItem;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.BaseFloatActivity;
 import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.main.search.SearchActivity;
-import com.ymt.demo1.plates.eduPlane.pastExams.PastExamDetailActivity;
+import com.ymt.demo1.main.sign.SignInActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,7 +46,7 @@ public class MockExamsListActivity extends BaseFloatActivity {
     private List<MockExamItem> examList;
     private String searchKW;
     private int orderYear;
-    private String level;
+    private int level;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class MockExamsListActivity extends BaseFloatActivity {
         examList = new ArrayList<>();
         searchKW = "";
         orderYear = getIntent().getIntExtra("year", 0);
-        level = getIntent().getStringExtra("level");
+        level = getIntent().getIntExtra("level", 0);
         setContentView(R.layout.activity_edu_over_exams);
         initTitle();
         initView();
@@ -69,16 +70,16 @@ public class MockExamsListActivity extends BaseFloatActivity {
         MyTitle title = (MyTitle) findViewById(R.id.my_title);
         title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L_R);
         switch (level) {
-            case "001":
+            case 1:
                 title.updateCenterTitle("一级消防工程师模拟题");
                 break;
-            case "002":
+            case 2:
                 title.updateCenterTitle("二级消防工程师模拟题");
                 break;
-            case "003":
+            case 3:
                 title.updateCenterTitle("初级消防工程师模拟题");
                 break;
-            case "004":
+            case 4:
                 title.updateCenterTitle("中级消防工程师模拟题");
                 break;
             default:
@@ -122,11 +123,17 @@ public class MockExamsListActivity extends BaseFloatActivity {
         examsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MockExamsListActivity.this, ReadyActivity.class);
-                MockExamItem item = (MockExamItem) parent.getAdapter().getItem(position);
-                intent.putExtra("exam_id", item.getThe_id());
-                startActivity(intent);
-                //todo (其他试卷信息)
+                if (!TextUtils.isEmpty(AppContext.now_session_id)) {
+                    Intent intent = new Intent(MockExamsListActivity.this, ReadyActivity.class);
+                    MockExamItem item = (MockExamItem) parent.getAdapter().getItem(position);
+                    intent.putExtra("exam_id", item.getThe_id());
+                    startActivity(intent);
+                    //todo (其他试卷信息)
+                } else {
+                    Toast.makeText(MockExamsListActivity.this, "请登录!", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MockExamsListActivity.this, SignInActivity.class));
+                }
+
             }
         });
 
@@ -150,8 +157,26 @@ public class MockExamsListActivity extends BaseFloatActivity {
 
     }
 
-    protected StringRequest getExamInfo(int start, String level, int dateYear, String searchWhat) {
-        return new StringRequest(BaseURLUtil.getMockExams(start, level, dateYear, searchWhat), new Response.Listener<String>() {
+    protected StringRequest getExamInfo(int start, int level, int dateYear, String searchWhat) {
+        String theLevel = "001";
+        switch (level) {
+            case 1:
+                theLevel = "001";
+                break;
+            case 2:
+                theLevel = "002";
+                break;
+            case 3:
+                theLevel = "003";
+                break;
+            case 4:
+                theLevel = "004";
+                break;
+            default:
+                break;
+        }
+
+        return new StringRequest(BaseURLUtil.getMockExams(start, theLevel, dateYear, searchWhat), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {

@@ -61,6 +61,8 @@ public class BaseURLUtil {
     private static final String MOCK_EXAMS = "http://120.24.172.105/fw?t=app&controller=com.xfsm.action.ExamAction&m=exams&jl=";
     //试题信息
     private static final String PAPER_INFO = "http://120.24.172.105/fw?t=app&controller=com.xfsm.action.ExamAction&m=goExam&id=";
+    //提交答案、试卷
+    public static final String SUB_ANSWER = "http://120.24.172.105/fw?controller=com.xfsm.action.UserExamAction";
 
     /**
      * 获取试卷内容

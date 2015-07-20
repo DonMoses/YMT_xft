@@ -42,7 +42,7 @@ public class PastExamsMainActivity extends BaseFloatActivity {
         super.onCreate(savedInstanceState);
         RequestQueue mQueue = Volley.newRequestQueue(this);
         inflater = LayoutInflater.from(this);
-        setContentView(R.layout.layout_past_exam_main);
+        setContentView(R.layout.layout_past_mock_exam_main);
         initTitle();
         initView();
 
@@ -55,6 +55,7 @@ public class PastExamsMainActivity extends BaseFloatActivity {
     protected void initTitle() {
         MyTitle title = (MyTitle) findViewById(R.id.my_title);
         title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L_R);
+        title.updateCenterTitle("历年真题");
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
             public void onClick() {
@@ -71,6 +72,7 @@ public class PastExamsMainActivity extends BaseFloatActivity {
                 ArrayList<String> list = new ArrayList<>();
                 list.addAll(Arrays.asList(array).subList(0, size));
                 intent.putStringArrayListExtra("tests_years", list);
+                intent.putExtra("type", "past");
                 startActivity(intent);
             }
 
