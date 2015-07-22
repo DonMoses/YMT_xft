@@ -26,11 +26,12 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshGridView;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
+import com.ymt.demo1.adapter.AllSearchListAdapter;
 import com.ymt.demo1.adapter.ExpertListAdapter;
 import com.ymt.demo1.adapter.KnowledgeItemAdapter;
 import com.ymt.demo1.adapter.SearchedConsultAdapter;
 import com.ymt.demo1.adapter.VideoListAdapter;
-import com.ymt.demo1.beams.SearchString;
+import com.ymt.demo1.beams.AllSearchItem;
 import com.ymt.demo1.beams.consult_cato.SearchedConsult;
 import com.ymt.demo1.beams.expert_consult.Expert;
 import com.ymt.demo1.beams.knowledge.KnowledgeItemBZGF;
@@ -39,6 +40,7 @@ import com.ymt.demo1.beams.knowledge.KnowledgeVideo;
 import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.BaseFloatActivity;
 import com.ymt.demo1.main.BaseURLUtil;
+import com.ymt.demo1.main.StringUtils;
 import com.ymt.demo1.plates.consultCato.ConsultDetailActivity;
 import com.ymt.demo1.plates.exportConsult.ExpertInfoActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeItemDetailActivity;
@@ -49,7 +51,6 @@ import com.ymt.demo1.plates.knowledge.WebVideoActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,11 +74,13 @@ public class SearchResultActivity extends BaseFloatActivity {
 
     private KnowledgeItemAdapter knowledgeNormalAdapter;
     private VideoListAdapter videoListAdapter;
+    private AllSearchListAdapter allSearchListAdapter;
     private List<Expert> experts = new ArrayList<>();
     private List<KnowledgeItemBZGF> bzgfList = new ArrayList<>();
     private List<KnowledgeItemKYWX> kywxList = new ArrayList<>();
     private List<KnowledgeVideo> spzlList = new ArrayList<>();
     private List<SearchedConsult> consultList = new ArrayList<>();
+    private List<AllSearchItem> allSearchList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +89,7 @@ public class SearchResultActivity extends BaseFloatActivity {
         //创建时搜索类型和关键字
         typePos = getIntent().getIntExtra("position", 0);
         keyW = getIntent().getStringExtra("keyword");
-        setContentView(R.layout.activity_search_result_copy);
+        setContentView(R.layout.activity_search_result);
         start = 1;
         pageSize = 10;
         initBaseView();
@@ -97,13 +100,10 @@ public class SearchResultActivity extends BaseFloatActivity {
         }
     }
 
-    private int size;
-
-
     protected void initBaseView() {
         rootLayout = (LinearLayout) findViewById(R.id.root_layout);
         spinner = (Spinner) findViewById(R.id.search_spinner);
-        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"全部", "咨询", "知识", "论坛", "教育", "商品"});
+        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"全部", "专家", "科研", "规范", "视频", "咨询"});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setVisibility(View.VISIBLE);//设置默认显示
@@ -128,7 +128,6 @@ public class SearchResultActivity extends BaseFloatActivity {
                         case 3:                 //知识平台-标准
                         case 4:                 //知识平台-视频
                         case 5:                 //咨询分类
-
                             initListView();
                             break;
                         default:
@@ -145,13 +144,6 @@ public class SearchResultActivity extends BaseFloatActivity {
 
             }
         });
-
-        final List<SearchString> searchedStrs = DataSupport.findAll(SearchString.class);
-        size = searchedStrs.size();
-        final ArrayList<String> searched = new ArrayList<>();
-        for (int i = 0; i < searchedStrs.size(); i++) {
-            searched.add(searchedStrs.get(i).getSearchedString());
-        }
 
          /*
         searchBtn 事件
@@ -268,6 +260,7 @@ public class SearchResultActivity extends BaseFloatActivity {
         kywxList.clear();
         consultList.clear();
         spzlList.clear();
+        allSearchList.clear();
         normalListView = (PullToRefreshListView) findViewById(R.id.result_list_view);
         if (normalListView == null) {
             normalListView = (PullToRefreshListView) LayoutInflater.from(this).inflate(R.layout.search_pull_list_view, null);
@@ -286,6 +279,13 @@ public class SearchResultActivity extends BaseFloatActivity {
         int pos = spinner.getSelectedItemPosition();
         String kword = searchTxt.getText().toString();
         switch (pos) {
+            case 0:                 //全部
+                start = 0;
+                allSearchListAdapter = new AllSearchListAdapter(SearchResultActivity.this);
+                normalListView.setAdapter(allSearchListAdapter);
+                allSearchListAdapter.setList(allSearchList, kword);
+                mQueue.add(getAllSearch(AppContext.now_user_id, start, pageSize, kword));
+                break;
             case 2:                 //知识平台-科研
                 knowledgeNormalAdapter = new KnowledgeItemAdapter(SearchResultActivity.this, KnowledgeItemListViewFragment.KNOWLEDGE_KYWX);
                 normalListView.setAdapter(knowledgeNormalAdapter);
@@ -322,6 +322,12 @@ public class SearchResultActivity extends BaseFloatActivity {
                 int pos = spinner.getSelectedItemPosition();
                 String inKw = searchTxt.getText().toString();
                 switch (pos) {
+                    case 0:                 //全部
+                        start = 0;
+                        allSearchList.clear();
+                        allSearchListAdapter.setList(allSearchList, inKw);
+                        mQueue.add(getAllSearch(AppContext.now_user_id, start, pageSize, inKw));
+                        break;
                     case 2:                 //知识平台-科研
                         kywxList.clear();
                         knowledgeNormalAdapter.setKYWXList(kywxList);
@@ -353,6 +359,9 @@ public class SearchResultActivity extends BaseFloatActivity {
                 int pos = spinner.getSelectedItemPosition();
                 String inKw = searchTxt.getText().toString();
                 switch (pos) {
+                    case 0:                 //全部
+                        mQueue.add(getAllSearch(AppContext.now_user_id, start, pageSize, inKw));
+                        break;
                     case 2:                 //知识平台-科研
                         mQueue.add(getKywxList(pageSize, start, inKw));
                         break;
@@ -381,7 +390,28 @@ public class SearchResultActivity extends BaseFloatActivity {
 
                 int pos = spinner.getSelectedItemPosition();
                 switch (pos) {
-
+                    case 0:                 //全部
+                        //todo
+                        AllSearchItem item = (AllSearchItem) parent.getAdapter().getItem(position);
+                        switch (item.getDoc_type_name()) {
+                            case "标准规范":
+                                KnowledgeItemBZGF itemBZGF = new KnowledgeItemBZGF();
+                                itemBZGF.setCreate_time(item.getCreate_date());
+                                itemBZGF.setArticle_title(item.getDoc_title());
+                                itemBZGF.setPdf_id(item.getFile_path());
+                                itemBZGF.setContent(item.getFile_name());
+                                Intent intent0 = new Intent(SearchResultActivity.this, KnowledgeItemDetailActivity.class);
+                                intent0.putExtra("bzgf", itemBZGF);
+                                startActivity(intent0);
+                                break;
+                            case "论坛":
+                            case "教育":
+                            case "商品":
+                            case "咨询":
+                            default:
+                                break;
+                        }
+                        break;
                     case 2:
                         Intent intent2 = new Intent(SearchResultActivity.this, KnowledgeItemDetailActivity.class);
                         intent2.putExtra("kywx", ((KnowledgeItemKYWX) parent.getAdapter().getItem(position)));
@@ -411,16 +441,6 @@ public class SearchResultActivity extends BaseFloatActivity {
             }
         });
 
-
-    }
-
-    public void saveString(String str) {
-        if (str != null && !str.equals("")) {
-            SearchString searchString = new SearchString();
-            searchString.setSearchedString(str);
-            searchString.save();            //加入数据库
-            size++;
-        }
 
     }
 
@@ -685,6 +705,49 @@ public class SearchResultActivity extends BaseFloatActivity {
                         normalListView.onRefreshComplete();
 
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    normalListView.onRefreshComplete();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                normalListView.onRefreshComplete();
+            }
+        });
+    }
+
+    /**
+     * 全部
+     */
+    protected StringRequest getAllSearch(String user_id, int start, int limit, final String queryInfo) {
+        return new StringRequest("http://120.24.172.105/webintf/search/getFullQueryForKN?userId=" + user_id + "&queryWay=app&queryType=&start=" + String.valueOf(start) + "&limit=" + String.valueOf(limit) + "&queryInfo=" + queryInfo, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONObject jsonObject1 = jsonObject.getJSONObject("response");
+                    JSONArray array = jsonObject1.getJSONArray("docs");
+                    int length = array.length();
+                    for (int i = 0; i < length; i++) {
+                        JSONObject obj = array.getJSONObject(i);
+                        AllSearchItem item = new AllSearchItem();
+                        item.setThe_id(obj.optString("id"));
+                        item.setDoc_title(obj.optString("doc_title"));
+                        item.setDoc_url(obj.optString("doc_url"));
+                        item.setDoc_type(obj.optString("doc_type"));
+                        item.setCreate_date(obj.optString("create_date"));
+                        item.setDoc_type_name(obj.optString("doc_type_name"));
+                        item.setDoc_keyword(obj.optString("doc_keyword"));
+                        item.setFile_name(obj.optString("file_name"));
+                        item.setFile_type(obj.optString("file_type"));
+                        item.setFile_path(obj.optString("file_path"));
+                        item.setDoc_content(obj.optString("doc_content"));
+                        allSearchList.add(item);
+                        allSearchListAdapter.setList(allSearchList, queryInfo);
+                    }
+                    normalListView.onRefreshComplete();
                 } catch (JSONException e) {
                     e.printStackTrace();
                     normalListView.onRefreshComplete();

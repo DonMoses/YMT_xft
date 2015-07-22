@@ -39,13 +39,25 @@
             android:textSize="11sp" />
 
         <EditText
-            android:id="@+id/advice_edit_text"
+            android:id="@+id/advice_edit_title"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/abc_cab_background_top_material"
+            android:gravity="top"
+            android:maxLines="100"
+            android:hint="标题："
+            android:textColorHint="@android:color/darker_gray"
+            android:textColor="#008080"
+            android:textSize="12sp" />
+        <EditText
+            android:id="@+id/advice_edit_content"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:background="@drawable/abc_cab_background_top_material"
             android:gravity="top"
             android:maxLines="100"
-            android:text="请在这里输入"
+            android:textColorHint="@android:color/darker_gray"
+            android:hint="内容："
             android:textColor="#008080"
             android:textSize="12sp" />
 

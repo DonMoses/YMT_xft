@@ -67,7 +67,7 @@ public class SearchActivity extends BaseFloatActivity {
         if (hotList.size() > 0) {
             hotList.clear();
         }
-        mQueue.add(getHisKW(AppContext.now_user_id, 0, 20));
+        mQueue.add(getHisKW(AppContext.now_user_id, 0, 100));
         mQueue.add(getHotKW(0, 12));
     }
 
@@ -77,7 +77,7 @@ public class SearchActivity extends BaseFloatActivity {
 
     protected void initView() {
         final Spinner spinner = (Spinner) findViewById(R.id.search_spinner);
-        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"全部", "咨询", "知识", "论坛", "教育", "商品"});
+        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"全部", "专家", "科研", "规范", "视频", "咨询"});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setVisibility(View.VISIBLE);//设置默认显示
@@ -179,9 +179,12 @@ public class SearchActivity extends BaseFloatActivity {
                         int length = array.length();
                         for (int i = 0; i < length; i++) {
                             JSONObject object = array.getJSONObject(i);
-                            hisList.add(object.getString("attr"));
+                            String str = object.getString("attr");
+                            if ((!hisList.contains(str)) && (hisList.size() <= 16)) {
+                                hisList.add(str);
+                                historyAdapter.notifyDataSetChanged();
+                            }
                         }
-                        historyAdapter.notifyDataSetChanged();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -208,8 +211,8 @@ public class SearchActivity extends BaseFloatActivity {
                         for (int i = 0; i < length; i++) {
                             JSONObject object = array.getJSONObject(i);
                             hotList.add(object.getString("attr"));
+                            hotAdapter.notifyDataSetChanged();
                         }
-                        hotAdapter.notifyDataSetChanged();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

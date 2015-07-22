@@ -8,6 +8,7 @@ import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.PopupWindow;
@@ -98,17 +99,32 @@ public class KnowledgeItemDetailActivity extends BaseActivity {
 
         final Button downBtn = (Button) findViewById(R.id.download_btn);
 
-
         if (isBZGF) {
             titleView.setText(itemBZGF.getArticle_title());
             timeView.setText(itemBZGF.getCreate_time());
             scoreNeed.setText(itemBZGF.getScore());
-            contentView.loadDataWithBaseURL(null, itemBZGF.getArticle_title() + ".pdf", "text/html", "utf-8", null);
+            if (itemBZGF.getContent().endsWith(".pdf")) {
+                contentView.loadDataWithBaseURL(null, itemBZGF.getContent(), "text/html", "utf-8", null);
+            } else {
+                contentView.loadDataWithBaseURL(null, itemBZGF.getContent() + ".pdf", "text/html", "utf-8", null);
+            }
         } else {
+            //todo 图片转义符 ！
             titleView.setText(itemKYWX.getArticle_title());
             timeView.setText(itemKYWX.getCreate_time());
             scoreNeed.setText(itemKYWX.getScore());
-            contentView.loadDataWithBaseURL(null, itemKYWX.getContent(), "text/html", "utf-8", null);
+            String content = itemKYWX.getContent();
+            String contentTxt = content.replaceAll("/attached", BaseURLUtil.BASE_URL + "/attached");
+
+            WebSettings settings = contentView.getSettings();
+            //WebView启用Javascript脚本执行
+            settings.setJavaScriptEnabled(true);//是否允许javascript脚本
+            settings.setJavaScriptCanOpenWindowsAutomatically(true);//是否允许页面弹窗
+
+            settings.setBuiltInZoomControls(true);
+            settings.setPluginState(WebSettings.PluginState.ON);
+            contentView.loadDataWithBaseURL(null, contentTxt, "text/html", "utf-8", null);
+
         }
 
 
@@ -195,8 +211,13 @@ public class KnowledgeItemDetailActivity extends BaseActivity {
 
     protected void downloadBZGFFile(String name, String pdf_id) {
         DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-        Uri uri = Uri.parse(BaseURLUtil.PDF_BASE + pdf_id);
-//        Uri uri = Uri.parse("http://tingge.5nd.com/20060919/2015/2015-7-8/67322/1.Mp3");
+        Uri uri;
+        if (pdf_id.startsWith("http://")) {
+            uri = Uri.parse(pdf_id);
+        } else {
+            uri = Uri.parse(BaseURLUtil.PDF_BASE + pdf_id);
+        }
+        //Uri uri = Uri.parse("http://tingge.5nd.com/20060919/2015/2015-7-8/67322/1.Mp3");
         DownloadManager.Request request = new DownloadManager.Request(uri);
 
         //设置允许使用的网络类型，这里是移动网络和wifi都可以

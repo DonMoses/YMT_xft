@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="3.09dp"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/result_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3.09dp"
+        android:ellipsize="middle"
+        android:maxLines="2"
+        android:textColor="@color/material_blue_grey_900"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/result_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3.09dp"
+        android:textColor="@color/material_blue_grey_800"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/result_file"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3.09dp"
+        android:ellipsize="middle"
+        android:maxLines="2"
+        android:textColor="@color/material_blue_grey_800"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/result_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3.09dp"
+        android:ellipsize="middle"
+        android:textColor="@color/material_blue_grey_800"
+        android:textSize="12.5sp" />
+</LinearLayout>

@@ -243,8 +243,6 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         View advice = findViewById(R.id.advice);
         //设置
         View setting = findViewById(R.id.setting);
-        //收藏
-        View collect = findViewById(R.id.collect);
         //登录
         View singIn = findViewById(R.id.sign_in);
 
@@ -272,10 +270,6 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                         startActivity(new Intent(NavigationMenuActivity.this, SettingActivity.class));      //设置
                         mDrawerLayout.closeDrawers();
                         break;
-                    case R.id.collect:
-                        //todo 收藏
-                        mDrawerLayout.closeDrawers();
-                        break;
                     case R.id.sign_in:
                         startActivity(new Intent(NavigationMenuActivity.this, SignInActivity.class));       //登录
                         mDrawerLayout.closeDrawers();
@@ -293,7 +287,6 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         help.setOnClickListener(onClickListener);
         advice.setOnClickListener(onClickListener);
         setting.setOnClickListener(onClickListener);
-        collect.setOnClickListener(onClickListener);
         singIn.setOnClickListener(onClickListener);
     }
 

@@ -3,7 +3,7 @@ package com.ymt.demo1.beams;
 /**
  * Created by Dan on 2015/7/22
  */
-public class SearchItem {
+public class AllSearchItem {
     private String the_id;
     private String doc_title;
     private String doc_url;

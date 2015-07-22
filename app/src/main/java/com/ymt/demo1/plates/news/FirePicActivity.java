@@ -100,7 +100,7 @@ public class FirePicActivity extends BaseFloatActivity {
     }
 
     private StringRequest summaryRequest(int start) {
-        return new StringRequest("http://120.24.172.105/fw?controller=com.xfsm.action.ArticleAction&m=list&type=xf_article_h_news_photo&order=new&start=" + String.valueOf(start), new Response.Listener<String>() {
+        return new StringRequest(BaseURLUtil.BASE_URL+"/fw?controller=com.xfsm.action.ArticleAction&m=list&type=xf_article_h_news_photo&order=new&start=" + String.valueOf(start), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
