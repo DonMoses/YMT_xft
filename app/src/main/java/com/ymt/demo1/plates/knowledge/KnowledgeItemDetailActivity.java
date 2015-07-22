@@ -8,11 +8,17 @@ import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.knowledge.KnowledgeItemBZGF;
@@ -22,6 +28,9 @@ import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.main.PopActionListener;
 import com.ymt.demo1.main.PopActionUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by Dan on 2015/4/29
  */
@@ -29,17 +38,17 @@ public class KnowledgeItemDetailActivity extends BaseActivity {
     private KnowledgeItemBZGF itemBZGF;
     private KnowledgeItemKYWX itemKYWX;
     private boolean isBZGF = false;
+    private RequestQueue mQueue;
+    private final static String TABLE_COLLECT_KNOWLEDGE_BZGF = "xf_article_e_newadd";
+    private final static String TABLE_COLLECT_KNOWLEDGE_KYWX = "xf_article_e_kywx";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mQueue = Volley.newRequestQueue(this);
         itemBZGF = getIntent().getParcelableExtra("bzgf");
         itemKYWX = getIntent().getParcelableExtra("kywx");
-        if (itemBZGF == null) {
-            isBZGF = false;
-        } else {
-            isBZGF = true;
-        }
+        isBZGF = itemBZGF != null;
         setContentView(R.layout.activity_download_layout_pdf);
         initTitle();
         initView();
@@ -50,7 +59,7 @@ public class KnowledgeItemDetailActivity extends BaseActivity {
      */
     protected void initTitle() {
         final MyTitle title = (MyTitle) findViewById(R.id.my_title);
-        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
+        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L_R);
 
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
@@ -62,6 +71,11 @@ public class KnowledgeItemDetailActivity extends BaseActivity {
         title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
             public void onRightLClick() {
+                mQueue.add(doCollect());
+            }
+
+            @Override
+            public void onRightRClick() {
                 //弹出分享界面
                 //todo 分享内容
                 Intent intent = new Intent(Intent.ACTION_SEND);
@@ -70,11 +84,6 @@ public class KnowledgeItemDetailActivity extends BaseActivity {
                 intent.putExtra(Intent.EXTRA_TEXT, getIntent().getStringExtra("content"));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(Intent.createChooser(intent, getTitle()));
-            }
-
-            @Override
-            public void onRightRClick() {
-                //此视图，右边只包含L按钮
 
             }
         });
@@ -83,7 +92,7 @@ public class KnowledgeItemDetailActivity extends BaseActivity {
     protected void initView() {
         final TextView titleView = (TextView) findViewById(R.id.title);
         final TextView timeView = (TextView) findViewById(R.id.create_time);
-        final TextView contentView = (TextView) findViewById(R.id.content);
+        final WebView contentView = (WebView) findViewById(R.id.content);
         //所需积分
         final TextView scoreNeed = (TextView) findViewById(R.id.download_file_score_needed);
 
@@ -91,14 +100,15 @@ public class KnowledgeItemDetailActivity extends BaseActivity {
 
 
         if (isBZGF) {
-            titleView.setText(itemBZGF.getArticle_title() + ".pdf");
+            titleView.setText(itemBZGF.getArticle_title());
             timeView.setText(itemBZGF.getCreate_time());
             scoreNeed.setText(itemBZGF.getScore());
+            contentView.loadDataWithBaseURL(null, itemBZGF.getArticle_title() + ".pdf", "text/html", "utf-8", null);
         } else {
             titleView.setText(itemKYWX.getArticle_title());
             timeView.setText(itemKYWX.getCreate_time());
             scoreNeed.setText(itemKYWX.getScore());
-            contentView.setText(Html.fromHtml(itemKYWX.getContent()));
+            contentView.loadDataWithBaseURL(null, itemKYWX.getContent(), "text/html", "utf-8", null);
         }
 
 
@@ -202,6 +212,33 @@ public class KnowledgeItemDetailActivity extends BaseActivity {
 
         long id = downloadManager.enqueue(request);
         //TODO 把id保存好，在接收者里面要用，最好保存在Preferences里面
+    }
+
+    protected StringRequest doCollect() {
+        String url = null;
+        if (itemBZGF != null) {
+            url = BaseURLUtil.doCollect(TABLE_COLLECT_KNOWLEDGE_BZGF, itemBZGF.getThe_id());
+        } else if (itemKYWX != null) {
+            url = BaseURLUtil.doCollect(TABLE_COLLECT_KNOWLEDGE_KYWX, itemKYWX.getThe_id());
+        }
+        return new StringRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (jsonObject.getString("result").equals("Y")) {
+                        Toast.makeText(KnowledgeItemDetailActivity.this, "收藏成功！", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(KnowledgeItemDetailActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

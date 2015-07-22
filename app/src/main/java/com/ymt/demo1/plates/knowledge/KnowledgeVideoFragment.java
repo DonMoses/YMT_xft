@@ -1,17 +1,25 @@
 package com.ymt.demo1.plates.knowledge;
 
 import android.app.Activity;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -27,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +51,7 @@ public class KnowledgeVideoFragment extends BaseFragment {
     private PullToRefreshListView videoListView;
     private int pageSize;
     private int startIndex;
+    private MyHandler myHandler = new MyHandler(this);
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,6 +74,8 @@ public class KnowledgeVideoFragment extends BaseFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mQueue = ((KnowledgeMainActivity) activity).mQueue;
+
+
     }
 
     protected void initView(View view) {
@@ -143,6 +155,8 @@ public class KnowledgeVideoFragment extends BaseFragment {
                         videoListAdapter.setVideos(videoList);
                         videoListView.onRefreshComplete();
 
+                        myHandler.sendEmptyMessage(0);
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -155,4 +169,30 @@ public class KnowledgeVideoFragment extends BaseFragment {
             }
         });
     }
+
+    static class MyHandler extends Handler {
+        private WeakReference<KnowledgeVideoFragment> reference;
+
+        public MyHandler(KnowledgeVideoFragment activity) {
+            reference = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            KnowledgeVideoFragment activity = reference.get();
+            super.handleMessage(msg);
+            if (activity != null) {
+                switch (msg.what) {
+                    case 0:
+
+                        break;
+                    default:
+                        break;
+
+                }
+            }
+        }
+    }
+
+
 }

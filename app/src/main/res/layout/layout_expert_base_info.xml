@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="8dp">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:shrinkColumns="1"
+        android:stretchColumns="0,1,2,3">
+
+        <TableRow android:minHeight="26dp">
+
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center_vertical"
+                android:text="政治面貌"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:id="@+id/politic"
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center_vertical"
+                android:text="所在地区"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:id="@+id/addr"
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center"
+                android:textColor="@color/material_blue_grey_800" />
+
+        </TableRow>
+
+        <TableRow android:minHeight="26dp">
+
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center_vertical"
+                android:text="职务/职称"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:id="@+id/position_title"
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center_vertical"
+                android:text="从事专业年限"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:id="@+id/pro_life"
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center"
+                android:textColor="@color/material_blue_grey_800" />
+
+        </TableRow>
+
+        <TableRow android:minHeight="26dp">
+
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center_vertical"
+                android:text="从事专业类别"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:id="@+id/note"
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:layout_span="3"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center"
+                android:textColor="@color/material_blue_grey_800" />
+        </TableRow>
+
+        <TableRow android:minHeight="26dp">
+
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center_vertical"
+                android:text="最高学历"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:id="@+id/education"
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center_vertical"
+                android:text="最高学位"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:id="@+id/degree"
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center"
+                android:textColor="@color/material_blue_grey_800" />
+
+        </TableRow>
+
+        <TableRow android:minHeight="26dp">
+
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center_vertical"
+                android:text="执业资格"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:id="@+id/qualification"
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center_vertical"
+                android:text="所属行业"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:id="@+id/industry"
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center"
+                android:textColor="@color/material_blue_grey_800" />
+
+        </TableRow>
+
+        <TableRow android:minHeight="26dp">
+
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center_vertical"
+                android:text="申报方式"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:id="@+id/reporting_methods"
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center_vertical"
+                android:text="单位电话"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:id="@+id/tel"
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center"
+                android:textColor="@color/material_blue_grey_800" />
+
+        </TableRow>
+
+        <TableRow android:minHeight="26dp">
+
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center_vertical"
+                android:text="工作单位地址"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:id="@+id/work_addr"
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center_vertical"
+                android:text="邮编"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:id="@+id/work_zip_code"
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center"
+                android:textColor="@color/material_blue_grey_800" />
+
+        </TableRow>
+
+        <TableRow android:minHeight="26dp">
+
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center_vertical"
+                android:text="毕业院校及专业"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:id="@+id/school"
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:layout_span="3"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center"
+                android:textColor="@color/material_blue_grey_800" />
+
+        </TableRow>
+
+        <TableRow android:minHeight="26dp">
+
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center_vertical"
+                android:text="工作单位名称"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:id="@+id/work_name"
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:layout_span="3"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center"
+                android:textColor="@color/material_blue_grey_800" />
+
+        </TableRow>
+
+    </TableLayout>
+</merge>

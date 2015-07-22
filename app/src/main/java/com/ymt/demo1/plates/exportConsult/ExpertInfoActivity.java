@@ -94,20 +94,32 @@ public class ExpertInfoActivity extends BaseActivity {
 
         //todo 关注
 
-        //专家简介
-        TextView expertResumeView = (TextView) findViewById(R.id.expert_resume);
 
         //主要经历
         WebView experienceView = (WebView) findViewById(R.id.experience);
         experienceView.loadDataWithBaseURL(null, expert.getExperience(), "text/html", "utf-8", null);
-        //主攻方向
+        //工作经验
         WebView majorWorkView = (WebView) findViewById(R.id.major_works);
         majorWorkView.loadDataWithBaseURL(null, expert.getMajor_works(), "text/html", "utf-8", null);
-        //工作案例
+        //项目经验
         WebView workExpeView = (WebView) findViewById(R.id.work_experience);
         workExpeView.loadDataWithBaseURL(null, expert.getWork_experience(), "text/html", "utf-8", null);
-        //其他信息
-        TextView otherInfoView = (TextView) findViewById(R.id.other_infos);
+        //基本信息
+        ((TextView) findViewById(R.id.politic)).setText(expert.getPolitics());
+        ((TextView) findViewById(R.id.addr)).setText(expert.getAddr());
+        ((TextView) findViewById(R.id.position_title)).setText(expert.getPolitics());
+        ((TextView) findViewById(R.id.pro_life)).setText(expert.getPro_life());
+        ((TextView) findViewById(R.id.note)).setText(expert.getNote());
+        ((TextView) findViewById(R.id.education)).setText(expert.getEducation());
+        ((TextView) findViewById(R.id.degree)).setText(expert.getDegree());
+        ((TextView) findViewById(R.id.qualification)).setText(expert.getQualification());
+        ((TextView) findViewById(R.id.industry)).setText(expert.getIndustry());
+        ((TextView) findViewById(R.id.reporting_methods)).setText(expert.getReporting_methods());
+        ((TextView) findViewById(R.id.tel)).setText(expert.getTel());
+        ((TextView) findViewById(R.id.work_addr)).setText(expert.getWork_addr());
+        ((TextView) findViewById(R.id.work_zip_code)).setText(expert.getWork_zip_code());
+        ((TextView) findViewById(R.id.school)).setText(expert.getSchool());
+        ((TextView) findViewById(R.id.work_name)).setText(expert.getWork_name());
 
         /*
         点击事件监听

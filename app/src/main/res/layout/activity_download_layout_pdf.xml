@@ -13,8 +13,8 @@
         android:layout_height="52dp"
         android:background="@android:color/holo_blue_dark"
         mytitle:setLeftActionIcon="@drawable/back_normal"
-        mytitle:setRightIconL="@drawable/icon_share" />
-
+        mytitle:setRightActIconR="@drawable/icon_share"
+        mytitle:setRightIconL="@drawable/icon_collect_education" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
@@ -40,11 +40,10 @@
                 android:textColor="@android:color/darker_gray"
                 android:textSize="14sp" />
 
-            <TextView
+            <WebView
                 android:id="@+id/content"
-                android:textColor="@android:color/darker_gray"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:minHeight="61.8dp"
                 android:padding="8dp" />
         </LinearLayout>

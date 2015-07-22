@@ -7,11 +7,17 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.edu.PastExamItem;
@@ -20,17 +26,22 @@ import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.main.PopActionListener;
 import com.ymt.demo1.main.PopActionUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by Dan on 2015/4/29
  */
 public class PastExamDetailActivity extends BaseActivity {
     private PastExamItem examItem;
+    public static final String TABLE_PAST_EXAM_TYPE = "xf_article_e_history";
+    private RequestQueue mQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         examItem = getIntent().getParcelableExtra("exam");
-
+        mQueue = Volley.newRequestQueue(this);
         setContentView(R.layout.activity_download_layout_pdf);
         initTitle();
         initView();
@@ -41,8 +52,7 @@ public class PastExamDetailActivity extends BaseActivity {
      */
     protected void initTitle() {
         final MyTitle title = (MyTitle) findViewById(R.id.my_title);
-        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
-
+        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L_R);
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
             public void onClick() {
@@ -53,6 +63,12 @@ public class PastExamDetailActivity extends BaseActivity {
         title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
             public void onRightLClick() {
+                //收藏
+                mQueue.add(doCollect(examItem.getThe_id()));
+            }
+
+            @Override
+            public void onRightRClick() {
                 //弹出分享界面
                 //todo 分享内容
                 Intent intent = new Intent(Intent.ACTION_SEND);
@@ -62,19 +78,13 @@ public class PastExamDetailActivity extends BaseActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(Intent.createChooser(intent, getTitle()));
             }
-
-            @Override
-            public void onRightRClick() {
-                //此视图，右边只包含L按钮
-
-            }
         });
     }
 
     protected void initView() {
         final TextView titleView = (TextView) findViewById(R.id.title);
         final TextView timeView = (TextView) findViewById(R.id.create_time);
-        final TextView contentView = (TextView) findViewById(R.id.content);
+        final WebView contentView = (WebView) findViewById(R.id.content);
         //所需积分
         final TextView scoreNeed = (TextView) findViewById(R.id.download_file_score_needed);
 
@@ -83,7 +93,7 @@ public class PastExamDetailActivity extends BaseActivity {
         titleView.setText(examItem.getArticle_title());
         timeView.setText(examItem.getCreate_time());
         scoreNeed.setText("0");
-        contentView.setText(examItem.getArticle_title() + ".pdf");
+        contentView.loadDataWithBaseURL(null, examItem.getArticle_title() + ".pdf", "text/html", "utf-8", null);
 
 
 //        //热门话题GridView
@@ -152,6 +162,27 @@ public class PastExamDetailActivity extends BaseActivity {
 
         long id = downloadManager.enqueue(request);
         //TODO 把id保存好，在接收者里面要用，最好保存在Preferences里面
+    }
+
+    protected StringRequest doCollect(String article_id) {
+        return new StringRequest(BaseURLUtil.doCollect(TABLE_PAST_EXAM_TYPE, article_id), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (jsonObject.getString("result").equals("Y")) {
+                        Toast.makeText(PastExamDetailActivity.this, "收藏成功！", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(PastExamDetailActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

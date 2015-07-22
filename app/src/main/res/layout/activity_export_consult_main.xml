@@ -277,6 +277,7 @@
         <TextView
             android:id="@+id/nearly_consult_content"
             android:layout_width="wrap_content"
+            android:textColor="@color/material_blue_grey_800"
             android:layout_height="wrap_content"
             android:layout_below="@id/nearly_consult_title"
             android:textSize="12.5sp" />
@@ -343,6 +344,7 @@
         <TextView
             android:id="@+id/hot_consult_content"
             android:layout_width="wrap_content"
+            android:textColor="@color/material_blue_grey_800"
             android:layout_height="wrap_content"
             android:layout_below="@id/hot_consult_title"
             android:textSize="12.5sp" />

@@ -21,6 +21,7 @@ import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.BaseFloatActivity;
 import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.main.search.SearchActivity;
+import com.ymt.demo1.main.sign.SignInActivity;
 import com.ymt.demo1.main.sign.SignUpActivity;
 import com.ymt.demo1.plates.eduPlane.ExamsOrderYearActivity;
 
@@ -186,7 +187,7 @@ public class MockExamsMainActivity extends BaseFloatActivity {
                                         //todo (试卷的其他信息)
                                     } else {
                                         Toast.makeText(MockExamsMainActivity.this, "请登录！", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(MockExamsMainActivity.this, SignUpActivity.class);
+                                        Intent intent = new Intent(MockExamsMainActivity.this, SignInActivity.class);
                                         startActivity(intent);
                                     }
 

@@ -51,9 +51,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_above="@id/divider_bottom"
-        android:layout_below="@id/my_title"
-        android:layout_height="match_parent">
+        android:layout_below="@id/my_title">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,16 +71,11 @@
                 android:textColor="@color/material_blue_grey_950"
                 android:textSize="18sp" />
 
-            <TextView
+            <include
                 android:id="@+id/expert_resume"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:hint="xxx,四川人，中共党员，一级注册消防工程师。1992年毕业于重庆大学建筑环境专业，本科学历。"
-                android:minHeight="26dp"
-                android:textColor="@color/material_blue_grey_950"
-                android:textColorHint="@android:color/darker_gray"
-                android:textSize="18sp" />
+                layout="@layout/layout_expert_base_info" />
 
             <View
                 android:layout_width="match_parent"
@@ -101,10 +96,8 @@
                 android:id="@+id/experience"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:hint="在全国建筑给水排水委员会的任职和兼职领导力"
                 android:minHeight="26dp"
@@ -123,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:minHeight="26dp"
-                android:text="主攻方向"
+                android:text="工作经验"
                 android:textColor="@color/material_blue_grey_950"
                 android:textSize="18sp" />
 
@@ -131,10 +124,8 @@
                 android:id="@+id/major_works"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:hint="在全国建筑给水排水委员会的任职和兼职领导力"
                 android:minHeight="26dp"
@@ -153,7 +144,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:minHeight="26dp"
-                android:text="工作案例"
+                android:text="项目经验"
                 android:textColor="@color/material_blue_grey_950"
                 android:textSize="18sp" />
 
@@ -161,10 +152,8 @@
                 android:id="@+id/work_experience"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:hint="在全国建筑给水排水委员会的任职和兼职领导力"
                 android:minHeight="26dp"
@@ -178,29 +167,6 @@
                 android:layout_marginTop="3dp"
                 android:background="@android:color/holo_blue_dark" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:minHeight="26dp"
-                android:text="其他信息"
-                android:textColor="@color/material_blue_grey_950"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/other_infos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:hint="在全国建筑给水排水委员会的任职和兼职领导力"
-                android:minHeight="26dp"
-                android:textColor="@android:color/darker_gray"
-                android:textColorHint="@android:color/darker_gray"
-                android:textSize="16sp" />
         </LinearLayout>
     </ScrollView>
 

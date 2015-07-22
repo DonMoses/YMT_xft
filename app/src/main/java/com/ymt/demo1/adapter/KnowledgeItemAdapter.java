@@ -1,7 +1,6 @@
 package com.ymt.demo1.adapter;
 
 import android.content.Context;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,7 +98,6 @@ public class KnowledgeItemAdapter extends BaseAdapter {
                     myViewHolder = new MyViewHolder();
                     myViewHolder.titleView = (TextView) convertView.findViewById(R.id.subject);
                     myViewHolder.createTimeView = (TextView) convertView.findViewById(R.id.create_time);
-                    myViewHolder.contentView = (TextView) convertView.findViewById(R.id.content_text);
                     myViewHolder.downloadCount = (TextView) convertView.findViewById(R.id.download_count);
                     myViewHolder.viewCount = (TextView) convertView.findViewById(R.id.view_count);
                     convertView.setTag(myViewHolder);
@@ -138,7 +136,6 @@ public class KnowledgeItemAdapter extends BaseAdapter {
                 break;
             case KnowledgeItemListViewFragment.KNOWLEDGE_KYWX:
                 myViewHolder.titleView.setText(listKYWX.get(position).getArticle_title());
-                myViewHolder.contentView.setText(Html.fromHtml(listKYWX.get(position).getContent()));
                 myViewHolder.createTimeView.setText(listKYWX.get(position).getCreate_time());
                 myViewHolder.viewCount.setText(listKYWX.get(position).getHitnum());
                 myViewHolder.downloadCount.setVisibility(View.GONE);
@@ -202,7 +199,6 @@ public class KnowledgeItemAdapter extends BaseAdapter {
 
     class MyViewHolder {
         TextView titleView;
-        TextView contentView;
         TextView createTimeView;
         TextView viewCount;
         TextView downloadCount;

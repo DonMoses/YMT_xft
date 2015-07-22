@@ -63,6 +63,15 @@ public class BaseURLUtil {
     private static final String PAPER_INFO = "http://120.24.172.105/fw?t=app&controller=com.xfsm.action.ExamAction&m=goExam&id=";
     //提交答案、试卷
     public static final String SUB_ANSWER = "http://120.24.172.105/fw?controller=com.xfsm.action.UserExamAction";
+    //收藏
+    private static final String COLLECT_BASE = "http://120.24.172.105/fw?controller=com.mingsokj.action.XfCollectAction&method=collect&table=";
+
+    /**
+     * 收藏
+     */
+    public static String doCollect(String type, String article_id) {
+        return COLLECT_BASE + type + "&fk_article_id=" + article_id;
+    }
 
     /**
      * 获取试卷内容
