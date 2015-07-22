@@ -22,13 +22,13 @@
 
         <Spinner
             android:id="@+id/search_spinner"
-            android:layout_margin="0.618dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0.618dp"
             android:layout_weight="1.2"
             android:background="@android:color/holo_blue_dark"
-            android:spinnerMode="dropdown"
             android:popupBackground="@android:color/holo_blue_dark"
+            android:spinnerMode="dropdown"
             android:visibility="visible">
 
         </Spinner>
@@ -64,8 +64,8 @@
         </FrameLayout>
     </LinearLayout>
 
-
     <LinearLayout
+        android:id="@+id/his_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="6.18dp"
@@ -108,14 +108,14 @@
             android:id="@+id/search_history_gridView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:numColumns="3" />
+            android:numColumns="5" />
 
     </LinearLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_margin="6.18dp"
         android:layout_marginTop="10dp"
         android:background="@android:color/white"
@@ -142,9 +142,8 @@
             android:id="@+id/search_hot_gridView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:numColumns="3" />
+            android:numColumns="5" />
 
     </LinearLayout>
-
 
 </LinearLayout>

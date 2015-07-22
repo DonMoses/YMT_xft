@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.SearchString;
-import com.ymt.demo1.main.search.SearchActivity;
 
 import org.litepal.crud.DataSupport;
 
@@ -29,6 +28,8 @@ public class SearchViewUtil {
     private EditText inputView;
     private int updateIndex;
     SharedPreferences sharedPreferences;
+    public static final String SEARCH_PREFERENCES = "search_keywords_preferences";
+    public static final String UPDATE_SEARCH_INDEX = "search_keywords_index";
 
     /**
      * 数据库大小
@@ -36,8 +37,8 @@ public class SearchViewUtil {
     private int size;
 
     public void initSearchView(final Context context) {
-        sharedPreferences = context.getSharedPreferences(SearchActivity.SEARCH_PREFERENCES, Context.MODE_PRIVATE);
-        updateIndex = sharedPreferences.getInt(SearchActivity.UPDATE_SEARCH_INDEX, 0);
+        sharedPreferences = context.getSharedPreferences(SEARCH_PREFERENCES, Context.MODE_PRIVATE);
+        updateIndex = sharedPreferences.getInt(UPDATE_SEARCH_INDEX, 0);
 
         //输入框
         inputView = (EditText) ((Activity) context).findViewById(R.id.search_edit_text);
@@ -96,7 +97,7 @@ public class SearchViewUtil {
                         if (updateIndex > 10) {
                             updateIndex = 1;
                         }
-                        editor.putInt(SearchActivity.UPDATE_SEARCH_INDEX, updateIndex);
+                        editor.putInt(UPDATE_SEARCH_INDEX, updateIndex);
                         editor.apply();
                     } else {
                         saveString(inputView.getText().toString());

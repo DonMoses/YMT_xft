@@ -1,57 +1,83 @@
 package com.ymt.demo1.main.search;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.SearchString;
+import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.BaseFloatActivity;
+import com.ymt.demo1.main.BaseURLUtil;
 
-import org.litepal.crud.DataSupport;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Dan on 2015/4/9
  */
 public class SearchActivity extends BaseFloatActivity {
-    public static final String SEARCH_PREFERENCES = "update_search_index_preferences";
-    public static final String UPDATE_SEARCH_INDEX = "index";
-    private int updateIndex;
-    SharedPreferences sharedPreferences;
+    private ArrayList<String> hisList;
+    private ArrayList<String> hotList;
+    private ArrayAdapter<String> historyAdapter;
+    private ArrayAdapter<String> hotAdapter;
+    private MyHandler myHandler = new MyHandler(this);
+    private GridView historyView;
+    private GridView hotView;
+    private RequestQueue mQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mQueue = Volley.newRequestQueue(this);
+        hisList = new ArrayList<>();
+        hotList = new ArrayList<>();
         setContentView(R.layout.activity_search);
-        sharedPreferences = getSharedPreferences(SearchActivity.SEARCH_PREFERENCES, MODE_PRIVATE);
-        updateIndex = sharedPreferences.getInt(SearchActivity.UPDATE_SEARCH_INDEX, 0);
         initView();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (hisList.size() > 0) {
+            hisList.clear();
+        }
+        if (hotList.size() > 0) {
+            hotList.clear();
+        }
+        mQueue.add(getHisKW(AppContext.now_user_id, 0, 20));
+        mQueue.add(getHotKW(0, 12));
     }
 
     /**
      * activity动画
      */
 
-    private int size;
-
     protected void initView() {
         final Spinner spinner = (Spinner) findViewById(R.id.search_spinner);
-        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"全部", "专家", "科研", "规范", "视频", "咨询分类"});
+        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"全部", "咨询", "知识", "论坛", "教育", "商品"});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setVisibility(View.VISIBLE);//设置默认显示
@@ -60,22 +86,22 @@ public class SearchActivity extends BaseFloatActivity {
         ImageButton searchBtn = (ImageButton) findViewById(R.id.search_btn);
 
         /*
-        * 初始化适配器控件
+        * 历史搜索、热门搜索
         */
+        historyView = (GridView) findViewById(R.id.search_history_gridView);
+        hotView = (GridView) findViewById(R.id.search_hot_gridView);
+        AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(80, 80);
+        ProgressBar hisProgress = new ProgressBar(this);
+        hisProgress.setIndeterminate(true);
+        hisProgress.setLayoutParams(layoutParams);
+        historyView.setEmptyView(hisProgress);
+        ProgressBar hotProgress = new ProgressBar(this);
+        hotProgress.setIndeterminate(true);
+        hotProgress.setLayoutParams(layoutParams);
+        hotView.setEmptyView(hotProgress);
 
-        GridView historyView = (GridView) findViewById(R.id.search_history_gridView);
-        GridView hotView = (GridView) findViewById(R.id.search_hot_gridView);
-
-        final List<SearchString> searchedStrs = DataSupport.findAll(SearchString.class);
-        size = searchedStrs.size();
-        final ArrayList<String> searched = new ArrayList<>();
-        for (int i = 0; i < searchedStrs.size(); i++) {
-            searched.add(searchedStrs.get(i).getSearchedString());
-        }
-
-        String[] hotArray = new String[]{"超高层建筑防火", "中国消防通", "消防设备", "中国消防安全", "电影院疏散宽度", "第三方复核"};
-        final ArrayAdapter<String> historyAdapter = new ArrayAdapter<>(this, R.layout.item_text_pop_action, searched);
-        final ArrayAdapter<String> hotAdapter = new ArrayAdapter<>(this, R.layout.item_text_pop_action, hotArray);
+        historyAdapter = new ArrayAdapter<>(this, R.layout.item_text_pop_action, hisList);
+        hotAdapter = new ArrayAdapter<>(this, R.layout.item_text_pop_action, hotList);
 
         historyView.setAdapter(historyAdapter);
         hotView.setAdapter(hotAdapter);
@@ -88,48 +114,22 @@ public class SearchActivity extends BaseFloatActivity {
             public void onClick(View v) {
                 String kw = searchTxt.getText().toString();
                 if (!TextUtils.isEmpty(kw)) {
-                    //更新数据
-                    if (!searched.contains(kw)) {
-                        //获取输入框内容，搜索内容，加入搜索数据库表
-                        if (size >= 10) {
-                            ContentValues values = new ContentValues();
-                            values.put("searchedstring", kw);
 
-                            //更新index，则下次输入后更新到上一次的下一个坐标
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            DataSupport.update(SearchString.class, values, updateIndex + 1);
-                            updateIndex++;
-                            if (updateIndex > 10) {
-                                updateIndex = 1;
-                            }
-                            editor.putInt(SearchActivity.UPDATE_SEARCH_INDEX, updateIndex);
-                            editor.apply();
-                        } else {
-                            saveString(kw);
-                        }
+                    //跳转到搜索结果界面
+                    Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
+                    intent.putExtra("position", spinner.getSelectedItemPosition()); //搜索类型
+                    intent.putExtra("keyword", kw);             //搜索关键字
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);     //界面动画
 
-                        searched.add(kw);
-                        //刷新适配器
-                        historyAdapter.notifyDataSetChanged();
-
-                    }
-
+                    //清空输入内容， 输入框改变为不聚焦
+//                searchTxt.setText(null);
+                    searchTxt.clearFocus();
                 } else {
                     Toast.makeText(SearchActivity.this, "请输入搜索关键词...", Toast.LENGTH_SHORT).show();
                 }
 
-                 /*
-                    跳转到搜索结果界面
-                     */
-                Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
-                intent.putExtra("position", spinner.getSelectedItemPosition()); //搜索类型
-                intent.putExtra("keyword", kw);             //搜索关键字
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);     //界面动画
 
-                //清空输入内容， 输入框改变为不聚焦
-//                searchTxt.setText(null);
-                searchTxt.clearFocus();
             }
         });
 
@@ -154,7 +154,6 @@ public class SearchActivity extends BaseFloatActivity {
             }
         });
 
-
         /*
         清除历史记录
          */
@@ -162,22 +161,99 @@ public class SearchActivity extends BaseFloatActivity {
         clearHisView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DataSupport.deleteAll(SearchString.class);
-                searchedStrs.clear();
-                historyAdapter.clear();
+                hisList.clear();
+                historyAdapter.notifyDataSetChanged();
             }
         });
 
     }
 
-    public void saveString(String str) {
-        if (str != null && !str.equals("")) {
-            SearchString searchString = new SearchString();
-            searchString.setSearchedString(str);
-            searchString.save();            //加入数据库
-            size++;
+    protected StringRequest getHisKW(String user_id, int start, int limit) {
+        return new StringRequest(BaseURLUtil.getHistoryKW(user_id, start, limit), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (jsonObject.getInt("retCode") == 0) {
+                        JSONArray array = jsonObject.getJSONArray("data");
+                        int length = array.length();
+                        for (int i = 0; i < length; i++) {
+                            JSONObject object = array.getJSONObject(i);
+                            hisList.add(object.getString("attr"));
+                        }
+                        historyAdapter.notifyDataSetChanged();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    myHandler.sendEmptyMessage(0);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                myHandler.sendEmptyMessage(0);
+            }
+        });
+    }
+
+    protected StringRequest getHotKW(int start, int limit) {
+        return new StringRequest(BaseURLUtil.getHotKW(start, limit), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (jsonObject.getInt("retCode") == 0) {
+                        JSONArray array = jsonObject.getJSONArray("data");
+                        int length = array.length();
+                        for (int i = 0; i < length; i++) {
+                            JSONObject object = array.getJSONObject(i);
+                            hotList.add(object.getString("attr"));
+                        }
+                        hotAdapter.notifyDataSetChanged();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    myHandler.sendEmptyMessage(1);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                myHandler.sendEmptyMessage(1);
+            }
+        });
+    }
+
+    static class MyHandler extends Handler {
+        private WeakReference<SearchActivity> reference;
+
+        public MyHandler(SearchActivity activity) {
+            reference = new WeakReference<>(activity);
         }
 
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            SearchActivity activity = reference.get();
+            if (activity != null) {
+                switch (msg.what) {
+                    case 0:
+                        View view1 = activity.historyView.getEmptyView();
+                        if (view1 != null) {
+                            view1.setVisibility(View.GONE);
+                        }
+                        break;
+                    case 1:
+                        View view2 = activity.hotView.getEmptyView();
+                        if (view2 != null) {
+                            view2.setVisibility(View.GONE);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 
 }

@@ -65,6 +65,31 @@ public class BaseURLUtil {
     public static final String SUB_ANSWER = "http://120.24.172.105/fw?controller=com.xfsm.action.UserExamAction";
     //收藏
     private static final String COLLECT_BASE = "http://120.24.172.105/fw?controller=com.mingsokj.action.XfCollectAction&method=collect&table=";
+    //全文检索-热门词
+    public static final String HOT_KEY_WORDS = "http://120.24.172.105/webintf/search/getFullQueryHot?";
+    //搜索历史
+    private static final String HIS_KEY_WORDS = "http://120.24.172.105/webintf/search/getFullQueryHis?userId=";
+    //全文检索
+    private static final String SEARCH_BASE = "http://120.24.172.105/webintf/search/getFullQueryForKN";
+
+
+    public static String getQuerySearch(String user_id, int queryType, int start, int limit, String queryInfo) {
+        return SEARCH_BASE + "?userId=" + user_id + "&queryWay=app&queryType=" + String.valueOf(queryType) + "&start=" + String.valueOf(start) + "&limit=" + String.valueOf(limit) + "&queryInfo=" + queryInfo;
+    }
+
+    /**
+     * 历史搜索
+     */
+    public static String getHistoryKW(String user_id, int start, int limit) {
+        return HIS_KEY_WORDS + user_id + "&start=" + String.valueOf(start) + "&limit=" + String.valueOf(limit);
+    }
+
+    /**
+     * 热门搜索
+     */
+    public static String getHotKW(int start, int limit) {
+        return HOT_KEY_WORDS + String.valueOf(start) + "&limit=" + String.valueOf(limit);
+    }
 
     /**
      * 收藏

@@ -57,7 +57,7 @@ import java.util.List;
 /**
  * Created by Dan on 2015/7/8
  */
-public class SearchResultActivity extends BaseFloatActivity {
+public class SearchResultActivityCopy extends BaseFloatActivity {
     private int start;
     private int pageSize;
     private ExpertListAdapter expertListAdapter;
@@ -186,7 +186,7 @@ public class SearchResultActivity extends BaseFloatActivity {
                                                  }
 
                                              } else {
-                                                 Toast.makeText(SearchResultActivity.this, "请输入搜索关键词...", Toast.LENGTH_SHORT).show();
+                                                 Toast.makeText(SearchResultActivityCopy.this, "请输入搜索关键词...", Toast.LENGTH_SHORT).show();
                                              }
 
                                              //清空输入内容， 输入框改变为不聚焦
@@ -197,7 +197,7 @@ public class SearchResultActivity extends BaseFloatActivity {
 
         );
         searchBtn.callOnClick();
-        ProgressBar progressBar = new ProgressBar(SearchResultActivity.this);
+        ProgressBar progressBar = new ProgressBar(SearchResultActivityCopy.this);
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         progressBar.setLayoutParams(params);
@@ -255,7 +255,7 @@ public class SearchResultActivity extends BaseFloatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Expert expert = (Expert) expertGirdView.getRefreshableView().getAdapter().getItem(position);
-                Intent intent = new Intent(SearchResultActivity.this, ExpertInfoActivity.class);
+                Intent intent = new Intent(SearchResultActivityCopy.this, ExpertInfoActivity.class);
                 intent.putExtra("expert_info", expert);
                 startActivity(intent);
             }
@@ -287,25 +287,25 @@ public class SearchResultActivity extends BaseFloatActivity {
         String kword = searchTxt.getText().toString();
         switch (pos) {
             case 2:                 //知识平台-科研
-                knowledgeNormalAdapter = new KnowledgeItemAdapter(SearchResultActivity.this, KnowledgeItemListViewFragment.KNOWLEDGE_KYWX);
+                knowledgeNormalAdapter = new KnowledgeItemAdapter(SearchResultActivityCopy.this, KnowledgeItemListViewFragment.KNOWLEDGE_KYWX);
                 normalListView.setAdapter(knowledgeNormalAdapter);
                 knowledgeNormalAdapter.setKYWXList(kywxList);
                 mQueue.add(getKywxList(pageSize, start, kword));
                 break;
             case 3:                 //知识平台-标准
-                knowledgeNormalAdapter = new KnowledgeItemAdapter(SearchResultActivity.this, KnowledgeItemListViewFragment.KNOWLEDGE_BZGF);
+                knowledgeNormalAdapter = new KnowledgeItemAdapter(SearchResultActivityCopy.this, KnowledgeItemListViewFragment.KNOWLEDGE_BZGF);
                 normalListView.setAdapter(knowledgeNormalAdapter);
                 knowledgeNormalAdapter.setBZGFList(bzgfList);
                 mQueue.add(getBzgfList(pageSize, start, kword));
                 break;
             case 4:                 //知识平台-视频
-                videoListAdapter = new VideoListAdapter(SearchResultActivity.this, AppContext.screenWidth);
+                videoListAdapter = new VideoListAdapter(SearchResultActivityCopy.this, AppContext.screenWidth);
                 normalListView.setAdapter(videoListAdapter);
                 videoListAdapter.setVideos(spzlList);
                 mQueue.add(getKnowledgeVideo(pageSize, start, kword));
                 break;
             case 5:                 //咨询分类
-                searchedConsultAdapter = new SearchedConsultAdapter(SearchResultActivity.this);
+                searchedConsultAdapter = new SearchedConsultAdapter(SearchResultActivityCopy.this);
                 normalListView.setAdapter(searchedConsultAdapter);
                 searchedConsultAdapter.setList(consultList);
                 mQueue.add(getConsultRequest(pageSize, start, "", kword));
@@ -383,22 +383,22 @@ public class SearchResultActivity extends BaseFloatActivity {
                 switch (pos) {
 
                     case 2:
-                        Intent intent2 = new Intent(SearchResultActivity.this, KnowledgeItemDetailActivity.class);
+                        Intent intent2 = new Intent(SearchResultActivityCopy.this, KnowledgeItemDetailActivity.class);
                         intent2.putExtra("kywx", ((KnowledgeItemKYWX) parent.getAdapter().getItem(position)));
                         startActivity(intent2);
                         break;
                     case 3:
-                        Intent intent3 = new Intent(SearchResultActivity.this, KnowledgeItemDetailActivity.class);
+                        Intent intent3 = new Intent(SearchResultActivityCopy.this, KnowledgeItemDetailActivity.class);
                         intent3.putExtra("bzgf", ((KnowledgeItemBZGF) parent.getAdapter().getItem(position)));
                         startActivity(intent3);
                         break;
                     case 4:         //视频
-                        Intent intent = new Intent(SearchResultActivity.this, WebVideoActivity.class);
+                        Intent intent = new Intent(SearchResultActivityCopy.this, WebVideoActivity.class);
                         intent.putExtra("mp4_url", ((KnowledgeVideo) parent.getAdapter().getItem(position)).getAttachment());
                         startActivity(intent);
                         break;
                     case 5:         //咨询分类
-                        Intent intent5 = new Intent(SearchResultActivity.this, ConsultDetailActivity.class);
+                        Intent intent5 = new Intent(SearchResultActivityCopy.this, ConsultDetailActivity.class);
                         intent5.putExtra("title", ((SearchedConsult) parent.getAdapter().getItem(position)).getArticle_title());
                         intent5.putExtra("content", ((SearchedConsult) parent.getAdapter().getItem(position)).getArticle_content());
                         startActivity(intent5);
