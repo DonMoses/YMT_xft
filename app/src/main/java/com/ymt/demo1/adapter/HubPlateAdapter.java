@@ -5,11 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.hub.HubPlate;
-import com.ymt.demo1.beams.hub.HubSubject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,19 +17,18 @@ import java.util.List;
 /**
  * Created by Dan on 2015/5/4
  */
-public class HubExpandListAdapter extends BaseExpandableListAdapter {
-
-    List<HubPlate> parentList = new ArrayList<>();
-    List<List<HubSubject>> childList = new ArrayList<>();
+public class HubPlateAdapter extends BaseExpandableListAdapter {
     LayoutInflater inflater;
     Context context;
+    List<HubPlate> parentList = new ArrayList<>();
+    List<List<HubPlate>> childList = new ArrayList<>();
 
-    public HubExpandListAdapter(Context context) {
+    public HubPlateAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
     }
 
-    public void setList(List<HubPlate> parentList, List<List<HubSubject>> childList) {
+    public void setList(List<HubPlate> parentList, List<List<HubPlate>> childList) {
         this.parentList = parentList;
         this.childList = childList;
         notifyDataSetChanged();
@@ -77,31 +76,53 @@ public class HubExpandListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        TextView textView;
+        Level1ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.item_hub_parent, null);
-            textView = (TextView) convertView.findViewById(R.id.parent_view);
-            convertView.setTag(textView);
+            convertView = inflater.inflate(R.layout.item_expand_parent, null);
+            viewHolder = new Level1ViewHolder();
+            viewHolder.textView = (TextView) convertView.findViewById(android.R.id.text1);
+            viewHolder.imageView = (ImageView) convertView.findViewById(R.id.expan_parent_view);
+            convertView.setTag(viewHolder);
         } else {
-            textView = (TextView) convertView.getTag();
+            viewHolder = (Level1ViewHolder) convertView.getTag();
         }
-        textView.setText(parentList.get(groupPosition).getName());
+        viewHolder.textView.setText(parentList.get(groupPosition).getName());
+        viewHolder.textView.setTextColor(context.getResources().getColor(android.R.color.white));
+
+        if (isExpanded) {
+            viewHolder.imageView.setBackgroundResource(R.drawable.icon_arrows_b);
+        } else {
+            viewHolder.imageView.setBackgroundResource(R.drawable.icon_arrows_r);
+        }
+
+        convertView.setBackgroundColor(context.getResources().getColor(R.color.bg_view_blue));
         return convertView;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        TextView textView;
+        Level2Holder holder;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.item_hub_child, null);
-            textView = (TextView) convertView.findViewById(R.id.child_view);
-            convertView.setTag(textView);
+            convertView = inflater.inflate(R.layout.item_hub_parent, null);
+            holder = new Level2Holder();
+            holder.textView = (TextView) convertView.findViewById(android.R.id.text1);
+            convertView.setTag(holder);
         } else {
-            textView = (TextView) convertView.getTag();
+            holder = (Level2Holder) convertView.getTag();
         }
-        String txt = childList.get(groupPosition).get(childPosition).getThreadSubject();
-        textView.setText(txt);
+        holder.textView.setText(childList.get(groupPosition).get(childPosition).getName());
 
         return convertView;
     }
+
+    class Level1ViewHolder {
+        TextView textView;
+        ImageView imageView;
+    }
+
+    class Level2Holder {
+        TextView textView;
+    }
+
+
 }

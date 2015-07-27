@@ -21,13 +21,58 @@
     android:fillViewport="true"
     android:overScrollMode="never">
 
-    <ExpandableListView
-        android:id="@+id/hub_list_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:childDivider="@android:color/darker_gray"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="0.309dp">
+        android:orientation="vertical">
 
-    </ExpandableListView>
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#E7E6E3"
+            android:paddingBottom="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="20dp"
+            android:stretchColumns="*">
+
+            <TableRow>
+
+                <ImageView
+                    android:id="@+id/hub_act_post"
+                    android:src="@drawable/icon_hub_post_act" />
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/hub_act_top"-->
+                    <!--android:src="@drawable/icon_hub_top_act" />-->
+
+                <ImageView
+                    android:id="@+id/hub_act_new"
+                    android:src="@drawable/icon_hub_newest_act" />
+
+                <ImageView
+                    android:id="@+id/hub_act_hot"
+                    android:src="@drawable/icon_hub_hot_act" />
+
+                <ImageView
+                    android:id="@+id/hub_act_my"
+                    android:src="@drawable/icon_hub_my_post" />
+
+            </TableRow>
+
+        </TableLayout>
+
+        <ExpandableListView
+            android:id="@+id/hub_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:childDivider="@android:color/darker_gray"
+            android:divider="@android:color/darker_gray"
+            android:dividerHeight="2dp"
+            android:groupIndicator="@null">
+
+        </ExpandableListView>
+    </LinearLayout>
+
+
 </com.ymt.demo1.customViews.obsScrollview.ObservableScrollView>

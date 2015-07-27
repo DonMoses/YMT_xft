@@ -1,0 +1,64 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F0F0F0"
+    android:padding="8dp"
+    android:shrinkColumns="0,2"
+    android:stretchColumns="*">
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/subject_title"
+            android:layout_span="3"
+            android:hint="title"
+            android:singleLine="true"
+            android:textColor="@color/material_blue_grey_950"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="20sp" />
+    </TableRow>
+
+    <TableRow android:layout_marginTop="6.18dp">
+
+        <TextView
+            android:id="@+id/subject_content"
+            android:layout_span="3"
+            android:ellipsize="end"
+            android:hint="content content content content content content content content content content"
+            android:maxLines="2"
+            android:minHeight="38dp"
+            android:textColor="@color/material_blue_grey_800"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="16sp" />
+    </TableRow>
+
+    <TableRow android:layout_marginTop="12.36dp">
+
+        <TextView
+            android:id="@+id/subject_author"
+            android:ellipsize="end"
+            android:hint="author"
+            android:singleLine="true"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/subject_time"
+            android:hint="created_time hh_mm_ss"
+            android:singleLine="true"
+            android:textColor="@color/material_blue_grey_800"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/subject_followed_count"
+            android:gravity="end"
+            android:hint="followed_count"
+            android:singleLine="true"
+            android:textColor="@color/material_blue_grey_800"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="16sp" />
+    </TableRow>
+
+</TableLayout>

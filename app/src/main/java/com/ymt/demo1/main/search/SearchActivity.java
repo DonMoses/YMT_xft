@@ -120,7 +120,7 @@ public class SearchActivity extends BaseFloatActivity {
                     intent.putExtra("position", spinner.getSelectedItemPosition()); //搜索类型
                     intent.putExtra("keyword", kw);             //搜索关键字
                     startActivity(intent);
-                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);     //界面动画
+                    overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);    //界面动画
 
                     //清空输入内容， 输入框改变为不聚焦
 //                searchTxt.setText(null);

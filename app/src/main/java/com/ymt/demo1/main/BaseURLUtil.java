@@ -13,67 +13,86 @@ public class BaseURLUtil {
     public static final String BASE_URL = "http://120.24.172.105";
 
     //学习资料
-    public static final String STUDY_DATUM = BASE_URL+"/fw?controller=com.xfsm.action.ExamAction&m=book&order=new&start=";
+    public static final String STUDY_DATUM = BASE_URL + "/fw?controller=com.xfsm.action.ExamAction&m=book&order=new&start=";
 
     //最新考试时间
-    public static final String EARLIEST_EXAM_INFO = BASE_URL+"/fw?controller=com.xfsm.action.TypeAction&t=app&m=param&p=%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%9C%80%E6%96%B0%E8%80%83%E8%AF%95%E5%90%8D%E7%A7%B0,%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%9C%80%E6%96%B0%E8%80%83%E8%AF%95%E6%97%B6%E9%97%B4";
+    public static final String EARLIEST_EXAM_INFO = BASE_URL + "/fw?controller=com.xfsm.action.TypeAction&t=app&m=param&p=%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%9C%80%E6%96%B0%E8%80%83%E8%AF%95%E5%90%8D%E7%A7%B0,%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%9C%80%E6%96%B0%E8%80%83%E8%AF%95%E6%97%B6%E9%97%B4";
 
     //pdf
-    public static final String PDF_BASE = BASE_URL+"/public/pub/upload/down.jsp?id=";
+    public static final String PDF_BASE = BASE_URL + "/public/pub/upload/down.jsp?id=";
 
     //登录
-    private static final String SIGN_IN_BASE = BASE_URL+"/fw?controller=com.xfsm.action.LoginAction&loginname=";
+    private static final String SIGN_IN_BASE = BASE_URL + "/fw?controller=com.xfsm.action.LoginAction&loginname=";
     //注册
-    private static final String SIGN_UP_BASE = BASE_URL+"/fw?controller=com.xfsm.action.RegAction";
+    private static final String SIGN_UP_BASE = BASE_URL + "/fw?controller=com.xfsm.action.RegAction";
     //关注、粉丝
-    private static final String ATT_FANS_BASE = BASE_URL+"/fw?controller=com.xfsm.action.UserAction&t=app&SESSIONID=";
+    private static final String ATT_FANS_BASE = BASE_URL + "/fw?controller=com.xfsm.action.UserAction&t=app&SESSIONID=";
     //消息
-    private static final String QQ_MSG_BASE = BASE_URL+"/fw?controller=com.xfsm.action.ChatAction&SESSIONID=";
+    private static final String QQ_MSG_BASE = BASE_URL + "/fw?controller=com.xfsm.action.ChatAction&SESSIONID=";
     //分类
-    private static final String TYPE_ACTION_BASE = BASE_URL+"/fw?controller=com.xfsm.action.TypeAction&t=app&m=st&type=";
+    private static final String TYPE_ACTION_BASE = BASE_URL + "/fw?controller=com.xfsm.action.TypeAction&t=app&m=st&type=";
     //分类内容列表
-    private static final String TYPE_CONTENT_LIST_BASE = BASE_URL+"/fw?controller=com.xfsm.action.ArticleAction&t=app&m=chat&pagesize=";
+    private static final String TYPE_CONTENT_LIST_BASE = BASE_URL + "/fw?controller=com.xfsm.action.ArticleAction&t=app&m=chat&pagesize=";
     //知识平台（视频、标准规范、科研文献）
-    private static final String KNOWLEDGE_ITEM_BASE = BASE_URL+"/fw?controller=com.xfsm.action.KnowAction&t=app&m=";
+    private static final String KNOWLEDGE_ITEM_BASE = BASE_URL + "/fw?controller=com.xfsm.action.KnowAction&t=app&m=";
     //最近咨询
-    private static final String RECENT_CONSULT = BASE_URL+"/fw?controller=com.xfsm.action.ArticleAction&t=app&m=lastest&start=";
+    private static final String RECENT_CONSULT = BASE_URL + "/fw?controller=com.xfsm.action.ArticleAction&t=app&m=lastest&start=";
     //热点咨询
-    private static final String HOT_CONSULT = BASE_URL+"/fw?controller=com.xfsm.action.ArticleAction&t=app&m=hot&start=";
+    private static final String HOT_CONSULT = BASE_URL + "/fw?controller=com.xfsm.action.ArticleAction&t=app&m=hot&start=";
     //专家列表
-    private static final String EXPERT_LIST = BASE_URL+"/fw?controller=com.xfsm.action.ExpertAction&t=app&m=list&pagesize=";
+    private static final String EXPERT_LIST = BASE_URL + "/fw?controller=com.xfsm.action.ExpertAction&t=app&m=list&pagesize=";
     //自动分配账号
-    public static final String AUTO_CREATE_ACCOUNT = BASE_URL+"/fw?t=app&controller=com.xfsm.action.AutoRegAction&method=distributionAccount";
+    public static final String AUTO_CREATE_ACCOUNT = BASE_URL + "/fw?t=app&controller=com.xfsm.action.AutoRegAction&method=distributionAccount";
     //论坛基本接口
-    private static final String HUB_BASE = BASE_URL+"/xxfintf/";
+    private static final String HUB_BASE = BASE_URL + "/xxfintf/";
     //修改密码
-    private static final String CHANGE_PSW = BASE_URL+"/fw?t=app&controller=com.xfsm.action.PwdAction&loginname=";
+    private static final String CHANGE_PSW = BASE_URL + "/fw?t=app&controller=com.xfsm.action.PwdAction&loginname=";
     //退出账号
-    private static final String SIGN_OUT = BASE_URL+"/exit.jsp?sId=";
+    private static final String SIGN_OUT = BASE_URL + "/exit.jsp?sId=";
     //关注的专家列表
-    private static final String FOLLOWED_EXPERT_LIST = BASE_URL+"/fw?t=app&controller=com.xfsm.action.ExpertAction&m=myFcous&start=";
+    private static final String FOLLOWED_EXPERT_LIST = BASE_URL + "/fw?t=app&controller=com.xfsm.action.ExpertAction&m=myFcous&start=";
     //取消关注某专家
-    private static final String FOLLOW_UN_FOLLOW_EXPERT = BASE_URL+"/fw?controller=com.xfsm.action.PersonalAction&sId=";
+    private static final String FOLLOW_UN_FOLLOW_EXPERT = BASE_URL + "/fw?controller=com.xfsm.action.PersonalAction&sId=";
     //id获得基本信息
-    private static final String INFO_BY_ID = BASE_URL+"/fw?controller=com.xfsm.action.UserInfoAction&uid=";
+    private static final String INFO_BY_ID = BASE_URL + "/fw?controller=com.xfsm.action.UserInfoAction&uid=";
     //历年真题
-    private static final String PAST_EXAMS = BASE_URL+"/fw?controller=com.xfsm.action.ExamAction&m=histroy&order=new&start=";
+    private static final String PAST_EXAMS = BASE_URL + "/fw?controller=com.xfsm.action.ExamAction&m=histroy&order=new&start=";
     //模拟试题
-    private static final String MOCK_EXAMS = BASE_URL+"/fw?t=app&controller=com.xfsm.action.ExamAction&m=exams&jl=";
+    private static final String MOCK_EXAMS = BASE_URL + "/fw?t=app&controller=com.xfsm.action.ExamAction&m=exams&jl=";
     //试题信息
-    private static final String PAPER_INFO = BASE_URL+"/fw?t=app&controller=com.xfsm.action.ExamAction&m=goExam&id=";
+    private static final String PAPER_INFO = BASE_URL + "/fw?t=app&controller=com.xfsm.action.ExamAction&m=goExam&id=";
     //提交答案、试卷
-    public static final String SUB_ANSWER = BASE_URL+"/fw?controller=com.xfsm.action.UserExamAction";
+    public static final String SUB_ANSWER = BASE_URL + "/fw?controller=com.xfsm.action.UserExamAction";
     //收藏
-    private static final String COLLECT_BASE =BASE_URL+"/fw?controller=com.mingsokj.action.XfCollectAction&method=collect&table=";
+    private static final String COLLECT_BASE = BASE_URL + "/fw?controller=com.mingsokj.action.XfCollectAction&method=collect&table=";
     //全文检索-热门词
-    public static final String HOT_KEY_WORDS = BASE_URL+"/webintf/search/getFullQueryHot?";
+    public static final String HOT_KEY_WORDS = BASE_URL + "/webintf/search/getFullQueryHot?";
     //搜索历史
-    private static final String HIS_KEY_WORDS = BASE_URL+"/webintf/search/getFullQueryHis?userId=";
+    private static final String HIS_KEY_WORDS = BASE_URL + "/webintf/search/getFullQueryHis?userId=";
     //全文检索
-    private static final String SEARCH_BASE = BASE_URL+"/webintf/search/getFullQueryForKN";
+    private static final String SEARCH_BASE = BASE_URL + "/webintf/search/getFullQueryForKN";
     //建议
-    private static final String ADVICE_BASE = BASE_URL+"/fw?controller=com.xfsm.action.AdviceAPIAction&m=advice&sId=";
+    private static final String ADVICE_BASE = BASE_URL + "/fw?controller=com.xfsm.action.AdviceAPIAction&m=advice&sId=";
+    //论坛1
+    public static final String PLATE_REQUEST_URL = BASE_URL + "/bbs/bbs/getForumList.do";
+    private static final String SUBJECT_REQUEST_BASE_URL = BASE_URL + "/bbs/bbs/getSubjectListByFid.do";
+    private static final String POST_URL = BASE_URL + "/bbs/bbs/wirteSubject.do";
+    public static final String HUB_HOT_URL = BASE_URL + "/bbs/bbs/getHotPostList.do";
+    public static final String HUB_NEW_URL = BASE_URL + "/bbs/bbs/getLastSubject.do";
 
+    /**
+     * 发帖
+     */
+    public static String postHubSubject(String userName, int fid, String title, String content, int reqType) {
+        return POST_URL + "?user=" + userName + "&fid=" + String.valueOf(fid) + "&subject=" + title + "&msg=" + content + "&reqType=" + String.valueOf(reqType);
+    }
+
+    /**
+     * 论坛主题
+     */
+    public static String getSubjectsById(int fId) {
+        return SUBJECT_REQUEST_BASE_URL + "?fid=" + fId;
+    }
 
     /**
      * 建议
@@ -225,7 +244,7 @@ public class BaseURLUtil {
      * 值日专家表
      */
     public static String doGetDutyExpert() {
-        return BASE_URL+"/fw?controller=com.xfsm.action.ExpertAction&m=duty";
+        return BASE_URL + "/fw?controller=com.xfsm.action.ExpertAction&m=duty";
     }
 
     /**

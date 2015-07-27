@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mytitle="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <com.ymt.demo1.customViews.MyTitle
+        android:id="@id/my_title"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@android:color/holo_blue_dark"
+        mytitle:setLeftActionIcon="@drawable/back_normal"
+        mytitle:setRightIconL="@drawable/icon_search" />
+
+    <Spinner
+        android:id="@+id/spinner_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_light"
+        android:dropDownSelector="@android:color/white"
+        android:minHeight="40dp"
+        android:popupBackground="@android:color/darker_gray">
+
+
+    </Spinner>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
+
+    <Spinner
+        android:id="@+id/spinner_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_light"
+        android:dropDownSelector="@android:color/white"
+        android:minHeight="40dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:popupBackground="@android:color/darker_gray">
+
+    </Spinner>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
+
+    <EditText
+        android:id="@+id/post_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:gravity="start|center_vertical"
+        android:hint="标题"
+        android:maxLines="2"
+        android:minHeight="40dp"
+        android:textColor="@color/material_blue_grey_800"
+        android:textColorHint="@android:color/darker_gray"
+        android:textSize="22sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
+
+    <EditText
+        android:id="@+id/post_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:gravity="start"
+        android:hint="内容"
+        android:minHeight="40dp"
+        android:textColor="@color/material_blue_grey_800"
+        android:textColorHint="@android:color/darker_gray"
+        android:textSize="16sp" />
+
+
+</LinearLayout>
