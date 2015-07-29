@@ -2,7 +2,6 @@ package com.ymt.demo1.plates.exportConsult;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,7 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
-import com.ymt.demo1.adapter.QQChatListAdapter;
+import com.ymt.demo1.adapter.expertConsult.QQChatListAdapter;
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
 import com.ymt.demo1.launchpages.QQMsgService;
 import com.ymt.demo1.main.AppContext;
@@ -30,7 +29,6 @@ import com.ymt.demo1.main.BaseURLUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.litepal.crud.DataSupport;
 
 import java.io.BufferedReader;
 import java.io.IOException;

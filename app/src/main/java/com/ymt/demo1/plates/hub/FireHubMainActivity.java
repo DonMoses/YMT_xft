@@ -58,32 +58,33 @@ public class FireHubMainActivity extends BaseActivity {
 
     protected void initTitle() {
         final MyTitle title = (MyTitle) findViewById(R.id.my_title);
-        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L_R);
-
-        final PopActionListener actionListener = new PopActionListener() {
-            @Override
-            public void onAction(String action) {
-                switch (action) {
-                    case "我的收藏":
-                        Toast.makeText(FireHubMainActivity.this, action, Toast.LENGTH_SHORT).show();
-                        break;
-                    case "最近浏览":
-                        Toast.makeText(FireHubMainActivity.this, action, Toast.LENGTH_SHORT).show();
-                        break;
-                    case "问题申诉":
-                        Toast.makeText(FireHubMainActivity.this, action, Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        break;
-
-                }
-            }
-
-            @Override
-            public void onDismiss() {
-
-            }
-        };
+        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
+//        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L_R);
+//
+//        final PopActionListener actionListener = new PopActionListener() {
+//            @Override
+//            public void onAction(String action) {
+//                switch (action) {
+//                    case "我的收藏":
+//                        Toast.makeText(FireHubMainActivity.this, action, Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case "最近浏览":
+//                        Toast.makeText(FireHubMainActivity.this, action, Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case "问题申诉":
+//                        Toast.makeText(FireHubMainActivity.this, action, Toast.LENGTH_SHORT).show();
+//                        break;
+//                    default:
+//                        break;
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onDismiss() {
+//
+//            }
+//        };
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
             public void onClick() {
@@ -99,12 +100,12 @@ public class FireHubMainActivity extends BaseActivity {
 
             @Override
             public void onRightRClick() {
-                // 设置按钮Action
-                PopActionUtil popActionUtil = PopActionUtil.getInstance(FireHubMainActivity.this);
-                popActionUtil.setActions(new String[]{"我的收藏", "最近浏览", "问题申诉"});
-                popActionUtil.setActionListener(actionListener);
-                PopupWindow popupWindow = popActionUtil.getSimpleTxtPopActionMenu();
-                popupWindow.showAtLocation(title.getRootView(), Gravity.END | Gravity.TOP, 10, 100);
+//                // 设置按钮Action
+//                PopActionUtil popActionUtil = PopActionUtil.getInstance(FireHubMainActivity.this);
+//                popActionUtil.setActions(new String[]{"我的收藏", "最近浏览", "问题申诉"});
+//                popActionUtil.setActionListener(actionListener);
+//                PopupWindow popupWindow = popActionUtil.getSimpleTxtPopActionMenu();
+//                popupWindow.showAtLocation(title.getRootView(), Gravity.END | Gravity.TOP, 10, 100);
 
             }
         });

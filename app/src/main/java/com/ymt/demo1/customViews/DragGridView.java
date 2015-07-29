@@ -14,7 +14,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import com.ymt.demo1.adapter.AppGuideGridViewAdapter;
+import com.ymt.demo1.adapter.edu.AppGuideGridViewAdapter;
 import com.ymt.demo1.adapter.SimpleTextDragGridViewAdapter;
 
 public class DragGridView extends GridView {

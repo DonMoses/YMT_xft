@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -31,7 +32,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
-import com.ymt.demo1.adapter.HubPlateAdapter;
+import com.ymt.demo1.adapter.hub.HubPlateAdapter;
 import com.ymt.demo1.baseClasses.BaseFragment;
 import com.ymt.demo1.beams.hub.HubPlate;
 import com.ymt.demo1.main.BaseURLUtil;
@@ -90,7 +91,6 @@ public class FireHubMainFragment extends BaseFragment {
             }
         });
 
-
         ImageView doPostView = (ImageView) view.findViewById(R.id.hub_act_post);
 //        ImageView topPostView = (ImageView) view.findViewById(R.id.hub_act_top);
         ImageView newPostView = (ImageView) view.findViewById(R.id.hub_act_new);
@@ -134,7 +134,8 @@ public class FireHubMainFragment extends BaseFragment {
                         getActivity().overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                         break;
                     case R.id.hub_act_my:                                           //我的论坛
-
+                        startActivity(new Intent(getActivity(), MyHubTabActivity.class));
+                        getActivity().overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                         break;
                 }
             }
@@ -192,7 +193,7 @@ public class FireHubMainFragment extends BaseFragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Toast.makeText(getActivity(), volleyError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

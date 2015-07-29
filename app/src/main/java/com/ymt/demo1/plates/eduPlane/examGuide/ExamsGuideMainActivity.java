@@ -7,7 +7,7 @@ import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.adapter.ExamsGuideExpandListAdapter;
+import com.ymt.demo1.adapter.edu.ExamsGuideExpandListAdapter;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;
 import com.ymt.demo1.main.search.SearchActivity;

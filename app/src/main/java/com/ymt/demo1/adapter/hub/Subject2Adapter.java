@@ -1,4 +1,4 @@
-package com.ymt.demo1.adapter;
+package com.ymt.demo1.adapter.hub;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -55,7 +55,6 @@ public class Subject2Adapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.item_hub_subject, null);
             viewHolder = new MyViewHolder();
             viewHolder.title = (TextView) convertView.findViewById(R.id.subject_title);
-            viewHolder.content = (TextView) convertView.findViewById(R.id.subject_content);
             viewHolder.author = (TextView) convertView.findViewById(R.id.subject_author);
             viewHolder.time = (TextView) convertView.findViewById(R.id.subject_time);
             viewHolder.followCount = (TextView) convertView.findViewById(R.id.subject_followed_count);
@@ -66,7 +65,6 @@ public class Subject2Adapter extends BaseAdapter {
         }
 
         viewHolder.title.setText(subjects.get(position).getThreadSubject());
-        viewHolder.content.setText(subjects.get(position).getThreadSubject());
         viewHolder.author.setText(subjects.get(position).getAuthor());
         viewHolder.time.setText(subjects.get(position).getDateline());
         viewHolder.followCount.setText(subjects.get(position).getReplies() + "回复");
@@ -76,7 +74,6 @@ public class Subject2Adapter extends BaseAdapter {
 
     class MyViewHolder {
         TextView title;
-        TextView content;
         TextView author;
         TextView time;
         TextView followCount;

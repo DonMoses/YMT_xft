@@ -15,7 +15,7 @@ import com.android.volley.toolbox.Volley;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
-import com.ymt.demo1.adapter.PastExamsAdapter;
+import com.ymt.demo1.adapter.edu.PastExamsAdapter;
 import com.ymt.demo1.beams.edu.PastExamItem;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;

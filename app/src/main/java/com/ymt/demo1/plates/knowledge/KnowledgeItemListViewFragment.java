@@ -35,7 +35,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
-import com.ymt.demo1.adapter.KnowledgeItemAdapter;
+import com.ymt.demo1.adapter.knowledge.KnowledgeItemAdapter;
 import com.ymt.demo1.baseClasses.BaseFragment;
 import com.ymt.demo1.beams.knowledge.KnowledgeItemBZGF;
 import com.ymt.demo1.beams.knowledge.KnowledgeItemKYWX;

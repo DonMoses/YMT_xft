@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mytitle="http://schemas.android.com/apk/res-auto"
+    xmlns:ptr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -15,13 +16,29 @@
         mytitle:setRightIconL="@drawable/icon_more"
         mytitle:setTitleTxt="" />
 
-    <ListView
-        android:padding="6.18dp"
+    <TextView
+        android:id="@+id/subject_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#E8C8A8"
+        android:gravity="center"
+        android:textColor="@color/material_blue_grey_800"
+        android:textSize="19sp" />
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/content_listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="0.618dp"
+        android:background="@android:color/white"
         android:divider="@color/material_blue_grey_800"
-        android:background="@android:color/white" />
+        android:dividerHeight="0.618dp"
+        android:dividerPadding="0.2dp"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:padding="6.18dp"
+        android:smoothScrollbar="true"
+        ptr:ptrMode="both" />
 
 </LinearLayout>

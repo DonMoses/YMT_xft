@@ -306,6 +306,10 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".plates.hub.MyHubTabActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".plates.hub.SubjectsActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />

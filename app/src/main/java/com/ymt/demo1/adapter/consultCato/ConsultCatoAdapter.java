@@ -1,4 +1,4 @@
-package com.ymt.demo1.adapter;
+package com.ymt.demo1.adapter.consultCato;
 
 import android.content.Context;
 import android.view.LayoutInflater;

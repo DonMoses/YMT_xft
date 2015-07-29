@@ -24,8 +24,7 @@
         android:layout_height="52dp"
         android:background="@android:color/holo_blue_dark"
         mytitle:setLeftActionIcon="@drawable/back_normal"
-        mytitle:setRightIconL="@drawable/icon_search"
-        mytitle:setTitleTxt="论坛" />
+        mytitle:setTitleTxt="我的论坛" />
 
     <FrameLayout
         android:id="@+id/fragment"

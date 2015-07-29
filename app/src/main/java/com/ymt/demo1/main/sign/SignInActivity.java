@@ -208,12 +208,13 @@ public class SignInActivity extends Activity {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(SignInActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Toast.makeText(SignInActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

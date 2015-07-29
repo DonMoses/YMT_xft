@@ -1,4 +1,4 @@
-package com.ymt.demo1.adapter;
+package com.ymt.demo1.adapter.expertConsult;
 
 import android.content.Context;
 import android.text.Html;

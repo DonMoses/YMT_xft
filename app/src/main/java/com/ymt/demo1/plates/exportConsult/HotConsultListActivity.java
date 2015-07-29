@@ -19,7 +19,7 @@ import com.android.volley.toolbox.Volley;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
-import com.ymt.demo1.adapter.HotRecConsultAdapter;
+import com.ymt.demo1.adapter.expertConsult.HotRecConsultAdapter;
 import com.ymt.demo1.beams.expert_consult.HotConsult;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;

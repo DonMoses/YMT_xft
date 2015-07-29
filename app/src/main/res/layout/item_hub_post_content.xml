@@ -7,43 +7,29 @@
     android:padding="3dp">
 
     <TextView
-        android:id="@+id/content_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:hint="user"
-        android:minHeight="32dp"
-        android:textColor="@color/material_blue_grey_950"
-        android:textColorHint="@color/material_blue_grey_950"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/content_subject"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="6.18dp"
-        android:layout_marginStart="6.18dp"
-        android:layout_toEndOf="@id/content_user"
-        android:layout_toRightOf="@id/content_user"
-        android:gravity="center_vertical"
-        android:hint="subject"
-        android:minHeight="32dp"
-        android:textColor="@color/material_blue_grey_950"
-        android:textColorHint="@color/material_blue_grey_950"
-        android:textSize="16sp" />
-
-    <TextView
         android:id="@+id/content_msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/content_subject"
         android:ellipsize="end"
         android:hint="msg content"
         android:lineSpacingExtra="2dp"
         android:maxLines="2"
         android:textColor="@android:color/darker_gray"
         android:textColorHint="@color/material_blue_grey_950"
-        android:textSize="14sp" />
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/content_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:hint="user"
+        android:layout_toRightOf="@id/content_msg"
+        android:layout_toEndOf="@id/content_msg"
+        android:minHeight="28dp"
+        android:textColor="@color/material_blue_grey_950"
+        android:textColorHint="@color/material_blue_grey_950"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/content_tags"

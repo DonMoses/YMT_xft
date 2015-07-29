@@ -1,5 +1,6 @@
 package com.ymt.demo1.plates.hub;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,9 +13,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
-import com.ymt.demo1.adapter.Subject1Adapter;
+import com.ymt.demo1.adapter.hub.Subject1Adapter;
 import com.ymt.demo1.beams.hub.HubPlate;
 import com.ymt.demo1.beams.hub.HubSubjectI;
+import com.ymt.demo1.beams.hub.HubSubjectII;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;
 import com.ymt.demo1.main.BaseURLUtil;
@@ -91,7 +93,11 @@ public class SubjectsActivity extends BaseFloatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Intent intent = new Intent(SubjectsActivity.this, PostContentActivity.class);
+                intent.putExtra("tid", Integer.valueOf(((HubSubjectI) (parent.getAdapter().getItem(position))).getThreadTid()));
+                intent.putExtra("author", ((HubSubjectI) (parent.getAdapter().getItem(position))).getAuthor());
+                intent.putExtra("subject", ((HubSubjectI) (parent.getAdapter().getItem(position))).getThreadSubject());
+                startActivity(intent);
             }
         });
 

@@ -21,7 +21,6 @@ import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.BaseURLUtil;
 import com.ymt.demo1.main.sign.ChangePswActivity;
-import com.ymt.demo1.mainStyles.CircleMenuActivity;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.LongClickItemsAdapter;
 import com.ymt.demo1.main.sign.SignInActivity;
@@ -95,7 +94,7 @@ public class SettingActivity extends Activity {
                         Intent intent = new Intent(Intent.ACTION_SEND);
                         intent.setType("*/*");
                         intent.putExtra(Intent.EXTRA_SUBJECT, "好友推荐");
-                        intent.putExtra(Intent.EXTRA_TEXT, "嗨，我正在消防通，你也来试试！");
+                        intent.putExtra(Intent.EXTRA_TEXT, "嗨，我正在新消防，你也来试试！");
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(Intent.createChooser(intent, getTitle()));
                         finish();

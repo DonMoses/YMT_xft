@@ -289,7 +289,7 @@ public class EduMainActivity extends BaseFloatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Toast.makeText(EduMainActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

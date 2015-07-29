@@ -31,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -39,7 +40,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
-import com.ymt.demo1.adapter.DutyExpertAdapter;
+import com.ymt.demo1.adapter.expertConsult.DutyExpertAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.expert_consult.Expert;
 import com.ymt.demo1.beams.expert_consult.HotConsult;
@@ -401,7 +402,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Toast.makeText(ExportConsultMainActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -459,7 +460,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Toast.makeText(ExportConsultMainActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -537,7 +538,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Toast.makeText(ExportConsultMainActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -4,13 +4,11 @@ package com.ymt.demo1.main;
  * Created by Dan on 2015/6/10
  */
 public class BaseURLUtil {
-    public static final String EXPORT_ID = "export_id";
-    public static final String NOW_USER_ID = "now_user_id";
-    public static final String NOW_SESSION_ID = "now_session_id";
     public static final String XF_PUB_JZXF = "XF_PUB_JZXF";
     public static final String PUB_ZX_GJC = "PUB_ZX_GJC";
     public static final String PUB_ZX_ZY = "PUB_ZX_ZY";
-    public static final String BASE_URL = "http://120.24.172.105";
+    //    public static final String BASE_URL = "http://120.24.172.105";
+    public static final String BASE_URL = "http://101.204.236.5";
 
     //学习资料
     public static final String STUDY_DATUM = BASE_URL + "/fw?controller=com.xfsm.action.ExamAction&m=book&order=new&start=";
@@ -43,8 +41,8 @@ public class BaseURLUtil {
     private static final String EXPERT_LIST = BASE_URL + "/fw?controller=com.xfsm.action.ExpertAction&t=app&m=list&pagesize=";
     //自动分配账号
     public static final String AUTO_CREATE_ACCOUNT = BASE_URL + "/fw?t=app&controller=com.xfsm.action.AutoRegAction&method=distributionAccount";
-    //论坛基本接口
-    private static final String HUB_BASE = BASE_URL + "/xxfintf/";
+    //    //论坛基本接口
+//    private static final String HUB_BASE = BASE_URL + "/xxfintf/";
     //修改密码
     private static final String CHANGE_PSW = BASE_URL + "/fw?t=app&controller=com.xfsm.action.PwdAction&loginname=";
     //退出账号
@@ -79,6 +77,46 @@ public class BaseURLUtil {
     private static final String POST_URL = BASE_URL + "/bbs/bbs/wirteSubject.do";
     public static final String HUB_HOT_URL = BASE_URL + "/bbs/bbs/getHotPostList.do";
     public static final String HUB_NEW_URL = BASE_URL + "/bbs/bbs/getLastSubject.do";
+    private static final String HUB_MY_REPLIES = BASE_URL + "/bbs/bbs/getPostListByUser.do";
+    private static final String HUB_MY_POST = BASE_URL + "/bbs/bbs/getThreadListByUserName.do";
+    private static final String HUB_SYS_INFO = BASE_URL + "/bbs/bbs/getNotifiListByUser.do";
+    private static final String HUB_POST_CONTENT = BASE_URL + "/bbs/bbs/getPostListByTid.do";
+    private static final String HUB_POST_REPLY = BASE_URL + "/bbs/bbs/wirtePost.do";
+
+    /**
+     * 根据tid 获取帖子内容
+     */
+    public static String getPostContentUrl(int tid, int index) {
+        return HUB_POST_CONTENT + "?tid=" + String.valueOf(tid) + "&index=" + String.valueOf(index);
+    }
+
+    /**
+     * 回复帖子
+     */
+    public static String getReplyPostUrl(int tid, String msg, String user, int reqType) {
+        return HUB_POST_REPLY + "?tid=" + String.valueOf(tid) + "&user=" + user + "&msg=" + msg + "&reqType=" + String.valueOf(reqType);
+    }
+
+    /**
+     * 论坛系统消息
+     */
+    public static String getHubSysInfo(String userName) {
+        return HUB_SYS_INFO + "?user=" + userName;
+    }
+
+    /**
+     * 我的回帖
+     */
+    public static String getHubMyReplies(String userName, int index) {
+        return HUB_MY_REPLIES + "?user=" + userName + "&index=" + String.valueOf(index);
+    }
+
+    /**
+     * 我的发帖
+     */
+    public static String getHubMyPost(String userName, int index) {
+        return HUB_MY_POST + "?user=" + userName + "&index=" + String.valueOf(index);
+    }
 
     /**
      * 发帖
@@ -224,20 +262,6 @@ public class BaseURLUtil {
         //&old_pwd=222222&new_pwd=111111
 //        Log.e("TAG",">>>>>>>>>>url>>>>>"+CHANGE_PSW + loginName + "&old_pwd=" + oldPsw + "&new_pwd=" + newPsw);
         return CHANGE_PSW + loginName + "&old_pwd=" + oldPsw + "&new_pwd=" + newPsw;
-    }
-
-    /**
-     * 根据tid 获取帖子内容
-     */
-    public static String getPostContentUrl(int tid) {
-        return HUB_BASE + "bbs/getPostListByTid?tid=" + String.valueOf(tid);
-    }
-
-    /**
-     * 回复帖子
-     */
-    public static String getReplyPostUrl(int tid, String msg, String userName) {
-        return HUB_BASE + "bbs/wirtePost?tid=" + String.valueOf(tid) + "&user=" + userName + "&msg=" + msg;
     }
 
     /**

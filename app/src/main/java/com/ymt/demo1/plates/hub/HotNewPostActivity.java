@@ -1,15 +1,21 @@
 package com.ymt.demo1.plates.hub;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
-import com.ymt.demo1.adapter.Subject2Adapter;
+import com.ymt.demo1.adapter.hub.Subject2Adapter;
+import com.ymt.demo1.beams.hub.HubSubjectI;
 import com.ymt.demo1.beams.hub.HubSubjectII;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.BaseFloatActivity;
@@ -78,6 +84,29 @@ public class HotNewPostActivity extends BaseFloatActivity {
         subjectListView = (PullToRefreshListView) findViewById(R.id.subject_list_view);
         subject2Adapter = new Subject2Adapter(this);
         subjectListView.setAdapter(subject2Adapter);
+        subjectListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(HotNewPostActivity.this, PostContentActivity.class);
+                intent.putExtra("tid", ((HubSubjectII) (parent.getAdapter().getItem(position))).getTid());
+                intent.putExtra("author", ((HubSubjectII) (parent.getAdapter().getItem(position))).getAuthor());
+                intent.putExtra("subject", ((HubSubjectII) (parent.getAdapter().getItem(position))).getThreadSubject());
+                startActivity(intent);
+            }
+        });
+
+        subjectListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                mSubjects.clear();
+                mQueue.add(getHotPost());
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+            }
+        });
     }
 
     protected StringRequest getHotPost() {

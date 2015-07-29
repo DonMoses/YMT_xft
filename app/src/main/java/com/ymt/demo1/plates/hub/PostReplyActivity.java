@@ -59,7 +59,7 @@ public class PostReplyActivity extends BaseFloatActivity {
                 if (TextUtils.isEmpty(c)) {
                     Toast.makeText(PostReplyActivity.this, "回帖内容不能为空！", Toast.LENGTH_SHORT).show();
                 } else {
-                    mQueue.add(getPostReply(tid, c, AppContext.now_user_name));
+                    mQueue.add(getPostReply(tid, c, AppContext.now_user_name, 1));
                 }
             }
 
@@ -81,14 +81,14 @@ public class PostReplyActivity extends BaseFloatActivity {
                 if (TextUtils.isEmpty(c)) {
                     Toast.makeText(PostReplyActivity.this, "回帖内容不能为空！", Toast.LENGTH_SHORT).show();
                 } else {
-                    mQueue.add(getPostReply(tid, c, AppContext.now_user_name));
+                    mQueue.add(getPostReply(tid, c, AppContext.now_user_name, 1));
                 }
             }
         });
     }
 
-    protected StringRequest getPostReply(int tid, String msg, String user) {
-        return new StringRequest(BaseURLUtil.getReplyPostUrl(tid, msg, user), new Response.Listener<String>() {
+    protected StringRequest getPostReply(int tid, String msg, String user, int reqType) {
+        return new StringRequest(BaseURLUtil.getReplyPostUrl(tid, msg, user, reqType), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
 //                Log.e("TAG", ">>>>>>>>>>>>>>>>response s>>>>>>>>" + s);

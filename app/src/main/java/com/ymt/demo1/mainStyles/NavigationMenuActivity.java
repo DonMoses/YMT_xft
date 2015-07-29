@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -25,7 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
-import com.ymt.demo1.adapter.ConsultCatoAdapter;
+import com.ymt.demo1.adapter.consultCato.ConsultCatoAdapter;
 import com.ymt.demo1.adapter.CyclePagerAdapter;
 import com.ymt.demo1.beams.consult_cato.ConsultCato;
 import com.ymt.demo1.customViews.CircleImageView;
@@ -491,13 +492,13 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
 
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Toast.makeText(NavigationMenuActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Toast.makeText(NavigationMenuActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

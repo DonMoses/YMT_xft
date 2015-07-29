@@ -9,7 +9,7 @@ import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.adapter.ConsultCatoExpandListAdapter;
+import com.ymt.demo1.adapter.consultCato.ConsultCatoExpandListAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.consult_cato.ConsultCato;
 import com.ymt.demo1.customViews.MyTitle;

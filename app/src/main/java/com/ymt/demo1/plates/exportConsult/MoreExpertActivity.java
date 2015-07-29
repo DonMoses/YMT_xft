@@ -14,13 +14,12 @@ import com.android.volley.toolbox.Volley;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshGridView;
 import com.ymt.demo1.R;
-import com.ymt.demo1.adapter.ExpertListAdapter;
+import com.ymt.demo1.adapter.expertConsult.ExpertListAdapter;
 import com.ymt.demo1.beams.expert_consult.Expert;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.BaseFloatActivity;
 import com.ymt.demo1.main.BaseURLUtil;
-import com.ymt.demo1.main.SearchViewUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;

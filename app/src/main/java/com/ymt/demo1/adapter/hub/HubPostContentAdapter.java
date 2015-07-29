@@ -1,4 +1,4 @@
-package com.ymt.demo1.adapter;
+package com.ymt.demo1.adapter.hub;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -52,7 +52,6 @@ public class HubPostContentAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_hub_post_content, null);
             viewHolder = new ViewHolder();
-            viewHolder.subject = (TextView) convertView.findViewById(R.id.content_subject);
             viewHolder.msg = (TextView) convertView.findViewById(R.id.content_msg);
             viewHolder.dateline = (TextView) convertView.findViewById(R.id.content_dateline);
             viewHolder.user = (TextView) convertView.findViewById(R.id.content_user);
@@ -63,8 +62,7 @@ public class HubPostContentAdapter extends BaseAdapter {
         }
 
         PostContent content = mList.get(position);
-        viewHolder.subject.setText(content.getSubject());
-        viewHolder.msg.setText(content.getMessage());
+        viewHolder.msg.setText(content.getMessage() + " by ");
         viewHolder.dateline.setText(String.valueOf(content.getDateline()));
         viewHolder.user.setText(content.getAuthor());
         viewHolder.tags.setText(content.getTags());
@@ -72,7 +70,6 @@ public class HubPostContentAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
-        TextView subject;
         TextView msg;
         TextView dateline;
         TextView user;

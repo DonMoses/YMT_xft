@@ -21,7 +21,7 @@ import com.android.volley.toolbox.Volley;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
-import com.ymt.demo1.adapter.ChatMessageListAdapter;
+import com.ymt.demo1.adapter.expertConsult.ChatMessageListAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.HeaderById;
 import com.ymt.demo1.beams.expert_consult.Expert;

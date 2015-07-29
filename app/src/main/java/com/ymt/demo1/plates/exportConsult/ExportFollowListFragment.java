@@ -1,6 +1,5 @@
 package com.ymt.demo1.plates.exportConsult;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,8 +16,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
-import com.ymt.demo1.adapter.ExportFollowAdapter;
-import com.ymt.demo1.beams.expert_consult.Expert;
+import com.ymt.demo1.adapter.expertConsult.ExportFollowAdapter;
 import com.ymt.demo1.beams.expert_consult.FollowedExpert;
 import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.BaseURLUtil;
