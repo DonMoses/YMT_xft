@@ -2,6 +2,7 @@ package com.ymt.demo1.mainStyles;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -246,6 +247,10 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         View setting = findViewById(R.id.setting);
         //登录
         View singIn = findViewById(R.id.sign_in);
+        //推荐
+        View recommend = findViewById(R.id.recommend);
+        //卸载
+        View uninstall = findViewById(R.id.uninstall);
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -275,6 +280,23 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                         startActivity(new Intent(NavigationMenuActivity.this, SignInActivity.class));       //登录
                         mDrawerLayout.closeDrawers();
                         break;
+                    case R.id.recommend:
+                        Intent intent = new Intent(Intent.ACTION_SEND);                                      //登录
+                        intent.setType("*/*");
+//                        intent.putExtra(Intent.EXTRA_SUBJECT, NavigationMenuActivity.this.getResources().getString(R.string.recommend_info));
+//                        intent.putExtra(Intent.EXTRA_TEXT, R.string.recommend_info);
+                        intent.putExtra(Intent.EXTRA_TEXT, NavigationMenuActivity.this.getResources().getString(R.string.recommend_info) + "\n" + NavigationMenuActivity.this.getResources().getString(R.string.app_download_url));
+
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(Intent.createChooser(intent, getTitle()));
+                        mDrawerLayout.closeDrawers();
+                        break;
+                    case R.id.uninstall:
+                        Uri packageURI = Uri.parse("package:com.ymt.demo1");//通过程序的包名创建URI            //卸载
+                        Intent deleteIntent = new Intent(Intent.ACTION_DELETE, packageURI);
+                        startActivity(deleteIntent); //执行卸载程序
+                        mDrawerLayout.closeDrawers();
+                        break;
                     default:
                         break;
 
@@ -289,13 +311,13 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         advice.setOnClickListener(onClickListener);
         setting.setOnClickListener(onClickListener);
         singIn.setOnClickListener(onClickListener);
+        recommend.setOnClickListener(onClickListener);
+        uninstall.setOnClickListener(onClickListener);
     }
 
     protected void initMainView() {
         //咨询分类GridView
         GridView consultGrid = (GridView) findViewById(R.id.consult_cato_grid);
-        //咨询分类“显示全部”
-        TextView viewAllConsultBtn = (TextView) findViewById(R.id.all_consult_cato_text);
         //咨询平台 入口
         ImageView newsBtn = (ImageView) findViewById(R.id.img_news);
         //专家咨询 入口
@@ -313,9 +335,6 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.all_consult_cato_text:
-                        startActivity(new Intent(NavigationMenuActivity.this, ConsultCatoMainActivity.class));      //咨询分类
-                        break;
                     case R.id.img_news:
                         startActivity(new Intent(NavigationMenuActivity.this, NewsTabActivity.class));             //资讯平台
                         break;
@@ -340,7 +359,6 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                 }
             }
         };
-        viewAllConsultBtn.setOnClickListener(onClickListener);
         newsBtn.setOnClickListener(onClickListener);
         exportBtn.setOnClickListener(onClickListener);
         moreBtn.setOnClickListener(onClickListener);

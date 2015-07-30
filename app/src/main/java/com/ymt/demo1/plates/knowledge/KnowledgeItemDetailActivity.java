@@ -53,6 +53,10 @@ public class KnowledgeItemDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_download_layout_pdf);
         initTitle();
         initView();
+        if (!isBZGF) {
+            findViewById(R.id.download_info).setVisibility(View.GONE);
+            findViewById(R.id.download_btn).setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -156,9 +160,10 @@ public class KnowledgeItemDetailActivity extends BaseActivity {
                                 if (isBZGF) {
 //                                    downloadBZGFFile(111 + ".mp3", itemBZGF.getPdf_id());
                                     downloadBZGFFile(itemBZGF.getArticle_title() + ".pdf", itemBZGF.getPdf_id());
-                                } else {
-                                    downloadBZGFFile(itemKYWX.getArticle_title() + ".pdf", itemKYWX.getPdf_id());
                                 }
+//                                else {
+//                                    downloadBZGFFile(itemKYWX.getArticle_title() + ".jgp", itemKYWX.getPdf_id());
+//                                }
                                 break;
                             case "取消":
                                 Toast.makeText(KnowledgeItemDetailActivity.this, "取消", Toast.LENGTH_SHORT).show();

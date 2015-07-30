@@ -1,6 +1,7 @@
 package com.ymt.demo1.adapter.hub;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,9 +63,9 @@ public class HubPostContentAdapter extends BaseAdapter {
         }
 
         PostContent content = mList.get(position);
-        viewHolder.msg.setText(content.getMessage() + " by ");
+        viewHolder.msg.setText(Html.fromHtml(content.getMessage()));
         viewHolder.dateline.setText(String.valueOf(content.getDateline()));
-        viewHolder.user.setText(content.getAuthor());
+        viewHolder.user.setText("by  " + content.getAuthor());
         viewHolder.tags.setText(content.getTags());
         return convertView;
     }

@@ -51,6 +51,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -403,6 +405,16 @@ public class SearchResultActivity extends BaseFloatActivity {
                                 intent0.putExtra("bzgf", itemBZGF);
                                 startActivity(intent0);
                                 break;
+                            case "问答咨询":
+                                KnowledgeItemBZGF itemWd = new KnowledgeItemBZGF();
+                                itemWd.setCreate_time(item.getCreate_date());
+                                itemWd.setArticle_title(item.getDoc_title());
+                                itemWd.setPdf_id(item.getFile_path());
+                                itemWd.setContent(item.getDoc_content());
+                                Intent intent1 = new Intent(SearchResultActivity.this, KnowledgeItemDetailActivity.class);
+                                intent1.putExtra("bzgf", itemWd);
+                                startActivity(intent1);
+                                break;
                             case "论坛":
                             case "教育":
                             case "商品":
@@ -721,7 +733,7 @@ public class SearchResultActivity extends BaseFloatActivity {
      * 全部
      */
     protected StringRequest getAllSearch(String user_id, int start, int limit, final String queryInfo) {
-        return new StringRequest("http://120.24.172.105/webintf/search/getFullQueryForKN?userId=" + user_id + "&queryWay=app&queryType=&start=" + String.valueOf(start) + "&limit=" + String.valueOf(limit) + "&queryInfo=" + queryInfo, new Response.Listener<String>() {
+        return new StringRequest("http://120.24.172.105/webintf/search/getFullQueryForKN?userId=" + user_id + "&queryWay=app&queryType=&start=" + String.valueOf(start) + "&limit=" + String.valueOf(limit) + "&queryInfo=" + URLEncoder.encode(queryInfo), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {

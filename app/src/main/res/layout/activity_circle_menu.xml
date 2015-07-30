@@ -82,7 +82,7 @@
                 android:id="@+id/sign_icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@drawable/icon_sign_normal" />
+                android:background="@drawable/icon_sign_in_normal" />
 
             <TextView
                 android:id="@+id/sign_text"

@@ -47,13 +47,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="center"
                 android:orientation="vertical">
 
 
                 <com.ymt.demo1.customViews.CircleImageView
                     android:id="@+id/personal_icon_btn"
                     android:layout_width="64dp"
+                    android:layout_gravity="center"
                     android:layout_height="64dp"
                     android:src="@drawable/moses"
                     app:border_color="@android:color/holo_blue_light"
@@ -63,7 +63,7 @@
                     android:id="@+id/user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Moses"
+                    android:layout_gravity="center"
                     android:textColor="@android:color/white"
                     android:textColorHint="@android:color/darker_gray" />
 
@@ -85,7 +85,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
-                android:hint="发帖"
                 android:textColor="@color/material_blue_grey_800"
                 android:textColorHint="@android:color/darker_gray" />
 
@@ -95,7 +94,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:hint="回帖"
                 android:textColor="@color/material_blue_grey_800"
                 android:textColorHint="@android:color/darker_gray" />
 

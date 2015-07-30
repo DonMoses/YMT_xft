@@ -24,6 +24,7 @@ import com.ymt.demo1.main.sign.ChangePswActivity;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.LongClickItemsAdapter;
 import com.ymt.demo1.main.sign.SignInActivity;
+import com.ymt.demo1.main.sign.SignUpActivity;
 
 import org.litepal.crud.DataSupport;
 
@@ -76,21 +77,25 @@ public class SettingActivity extends Activity {
                         startActivity(new Intent(SettingActivity.this, SignInActivity.class));
                         finish();
                         break;
-                    case 1:            //修改登录密码
+                    case 1:            //注册
+                        startActivity(new Intent(SettingActivity.this, SignUpActivity.class));
+                        finish();
+                        break;
+                    case 2:            //修改登录密码
                         Intent intent1 = new Intent(SettingActivity.this, ChangePswActivity.class);
                         intent1.putExtra("loginName", AppContext.now_user_name);
                         startActivityForResult(intent1, 128);
                         finish();
                         break;
-                    case 2:            //自定义皮肤
+                    case 3:            //自定义皮肤
                         startActivity(new Intent(SettingActivity.this, ManageAppearanceActivity.class));
                         finish();
                         break;
-                    case 3:            //存储设置
+                    case 4:            //存储设置
                         startActivity(new Intent(SettingActivity.this, ManageStoreActivity.class));
                         finish();
                         break;
-                    case 4:            //推荐给好友
+                    case 5:            //推荐给好友
                         Intent intent = new Intent(Intent.ACTION_SEND);
                         intent.setType("*/*");
                         intent.putExtra(Intent.EXTRA_SUBJECT, "好友推荐");
@@ -98,15 +103,6 @@ public class SettingActivity extends Activity {
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(Intent.createChooser(intent, getTitle()));
                         finish();
-                        break;
-                    case 5:            //关于我们
-                        startActivity(new Intent(SettingActivity.this, AboutUsActivity.class));
-                        finish();
-                        break;
-                    case 6:            //软件卸载
-                        Uri packageURI = Uri.parse("package:com.ymt.demo1");//通过程序的包名创建URI
-                        Intent deleteIntent = new Intent(Intent.ACTION_DELETE, packageURI);
-                        startActivity(deleteIntent); //执行卸载程序
                         break;
                     default:
                         break;

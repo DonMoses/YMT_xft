@@ -175,7 +175,7 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
         if (event.getAction() == MotionEvent.ACTION_UP) {
             switch (v.getId()) {
                 case R.id.sign_layout:
-                    signIcon.setImageResource(R.drawable.icon_sign_normal);
+                    signIcon.setImageResource(R.drawable.icon_sign_in_normal);
                     signText.setTextColor(getResources().getColor(android.R.color.darker_gray));
                     break;
                 case R.id.advice_layout:

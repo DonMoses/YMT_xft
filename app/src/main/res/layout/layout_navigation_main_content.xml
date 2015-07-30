@@ -9,77 +9,43 @@
     <FrameLayout
         android:id="@+id/pager_layout"
         android:layout_width="match_parent"
-        android:layout_height="126.5dp">
+        android:layout_height="wrap_content">
 
         <android.support.v4.view.ViewPager
             android:id="@+id/ad_viewPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/holo_red_light" />
+            android:layout_height="165dp" />
 
         <com.ymt.demo1.customViews.IndicatorView
             android:id="@+id/myPointIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="5dp"
             myIndicator:active="@drawable/indicator_red"
             myIndicator:space="5dp"
             myIndicator:unActive="@drawable/indicator_white" />
 
     </FrameLayout>
 
-    <RelativeLayout
+    <GridView
+        android:id="@+id/consult_cato_grid"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="6dp"
         android:layout_marginTop="3dp"
-        android:background="@android:color/white">
-
-        <TextView
-            android:id="@+id/consult_title_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:minHeight="38dp"
-            android:text="咨询分类"
-            android:textColor="@color/material_blue_grey_900"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/all_consult_cato_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center"
-            android:minHeight="38dp"
-            android:text="显示全部"
-            android:textColor="@color/material_blue_grey_900"
-            android:textSize="12sp" />
-
-        <GridView
-            android:id="@+id/consult_cato_grid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/consult_title_txt"
-            android:horizontalSpacing="3dp"
-            android:numColumns="5"
-            android:verticalSpacing="2dp" />
-    </RelativeLayout>
+        android:horizontalSpacing="3dp"
+        android:numColumns="5"
+        android:verticalSpacing="2dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="6dp"
         android:layout_marginTop="3dp"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
         <ImageView
@@ -111,10 +77,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="6dp"
         android:layout_marginTop="3dp"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
         <ImageView
@@ -145,10 +111,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="6dp"
         android:layout_marginTop="3dp"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
         <ImageView

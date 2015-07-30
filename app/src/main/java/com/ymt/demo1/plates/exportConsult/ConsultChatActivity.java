@@ -35,7 +35,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -161,6 +163,7 @@ public class ConsultChatActivity extends BaseActivity {
                 String sendInfo = inputView.getText().toString();
                 if (!TextUtils.isEmpty(sendInfo)) {
                     String info = sendInfo.replaceAll(" ", "%20");
+//                    String info = URLEncoder.encode(sendInfo,"utf-8");
                     //todo exportID 和userId
                     sendMsg(info);
                     //todo 保存chat 到数据库
@@ -267,6 +270,7 @@ public class ConsultChatActivity extends BaseActivity {
                     for (int i = 0; i < length; i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
                         String content = obj.optString("content");
+//                        String content = URLEncoder.encode(obj.optString("content"), "utf-8");
 
                         QQMsg qqMsg = new QQMsg();
                         qqMsg.setContent(content);

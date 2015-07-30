@@ -8,6 +8,7 @@ import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -73,7 +74,7 @@ public class StudyItemDetailActivity extends BaseActivity {
     protected void initView() {
         final TextView titleView = (TextView) findViewById(R.id.title);
         final TextView timeView = (TextView) findViewById(R.id.create_time);
-        final TextView contentView = (TextView) findViewById(R.id.content);
+        final WebView contentView = (WebView) findViewById(R.id.content);
         //所需积分
         final TextView scoreNeed = (TextView) findViewById(R.id.download_file_score_needed);
 
@@ -88,7 +89,7 @@ public class StudyItemDetailActivity extends BaseActivity {
         }
 
         if (!studyItem.getArticle_title().equals(studyItem.getContent())) {
-            contentView.setText(Html.fromHtml(studyItem.getContent()));
+            contentView.loadDataWithBaseURL(null, studyItem.getContent() + ".pdf", "text/html", "utf-8", null);
         }
         //todo 下载积分
         scoreNeed.setText(String.valueOf(0));
