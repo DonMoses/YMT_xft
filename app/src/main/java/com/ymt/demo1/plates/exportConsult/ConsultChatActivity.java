@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -18,7 +18,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.expertConsult.ChatMessageListAdapter;
@@ -35,9 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +53,7 @@ public class ConsultChatActivity extends BaseActivity {
     private String qq_id;
 
     private MyHandler myHandler = new MyHandler(this);
+    private ChatMsgRefreshThread refreshTread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,37 +71,7 @@ public class ConsultChatActivity extends BaseActivity {
         initTitle();
         initView();
 
-        infoListView.setRefreshing(true);
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (!ConsultChatActivity.this.isFinishing()) {
-                    myHandler.sendEmptyMessage(0);
-                    try {
-                        Thread.sleep(1200);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-
-        infoListView.getRefreshableView().setSelection(infoListView.getBottom());
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        infoListView.setRefreshing(true);
-//        infoListView.getRefreshableView().setSelection(infoListView.getBottom());
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        infoListView.setRefreshing(true);
-//        infoListView.getRefreshableView().setSelection(infoListView.getBottom());
+        infoListView.getRefreshableView().setSelection(infoListView.getRefreshableView().getBottom());
     }
 
     protected void initTitle() {
@@ -180,34 +148,47 @@ public class ConsultChatActivity extends BaseActivity {
         messageListAdapter.setMessages(mQQMsgs);
         infoListView.getRefreshableView().setSelection(infoListView.getBottom());
 
-        /*
-        todo 刷新消息数据
-         */
-        infoListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                requestQueue.add(getQQMsgs(qq_id));
-                myHandler.removeMessages(0);
-//                infoListView.getRefreshableView().setSelection(0);
-            }
+        //开启刷新线程
+        refreshTread = new ChatMsgRefreshThread(myHandler);
+        refreshTread.start();
 
+        infoListView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                requestQueue.add(getQQMsgs(qq_id));
-                myHandler.removeMessages(0);
-//                infoListView.getRefreshableView().setSelection(infoListView.getBottom());
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        refreshTread.setStopState(true);
+                        break;
+//                    case MotionEvent.ACTION_UP:
+//                        refreshTread.setStopState(false);
+//                        break;
+                    default:
+                        break;
+                }
+
+                return false;
             }
         });
 
         infoListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-
+                switch (scrollState) {
+                    case SCROLL_STATE_IDLE:
+                        refreshTread.setStopState(false);
+                        break;
+                    case SCROLL_STATE_FLING:
+                    case SCROLL_STATE_TOUCH_SCROLL:
+                        refreshTread.setStopState(true);
+                        break;
+                    default:
+                        break;
+                }
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                myHandler.removeMessages(0);
+
             }
         });
 
@@ -252,6 +233,7 @@ public class ConsultChatActivity extends BaseActivity {
      * @param qq_id ： QQ会话id
      */
     protected StringRequest getQQMsgs(final String qq_id) {
+        refreshTread.setStopState(true);
         return new StringRequest(BaseURLUtil.getMyAllQQMsgUrl(AppContext.now_session_id, qq_id), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -294,8 +276,12 @@ public class ConsultChatActivity extends BaseActivity {
                         }
                     }
 
-                    mQQMsgs = DataSupport.where("fk_qq_id = ?", qq_id).find(QQMsg.class);
-                    messageListAdapter.setMessages(mQQMsgs);
+                    List<QQMsg> msgs = DataSupport.where("fk_qq_id = ?", qq_id).find(QQMsg.class);
+                    if (mQQMsgs != msgs) {
+                        mQQMsgs.clear();
+                        mQQMsgs.addAll(msgs);
+                        messageListAdapter.setMessages(mQQMsgs);
+                    }
 
                     /*
                     清空未读记录
@@ -308,12 +294,13 @@ public class ConsultChatActivity extends BaseActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                infoListView.onRefreshComplete();
+
+                refreshTread.setStopState(false);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                infoListView.onRefreshComplete();
+                refreshTread.setStopState(false);
             }
         });
     }
@@ -351,18 +338,16 @@ public class ConsultChatActivity extends BaseActivity {
     }
 
     protected void doRefresh() {
-        if ((!infoListView.isRefreshing()) && (!infoListView.isPressed())) {
-            requestQueue.add(getQQMsgs(qq_id));
-        }
+        requestQueue.add(getQQMsgs(qq_id));
 
         int size = mQQMsgs.size();
         for (int i = 0; i < size; i++) {
             requestQueue.add(getHeader(mQQMsgs.get(i).getFk_reply_user_id()));
         }
-//        infoListView.getRefreshableView().setSelection(infoListView.getBottom());
+
     }
 
-    static class MyHandler extends Handler {
+    public static class MyHandler extends Handler {
         private WeakReference<ConsultChatActivity> reference;
 
         public MyHandler(ConsultChatActivity activity) {
@@ -427,6 +412,40 @@ public class ConsultChatActivity extends BaseActivity {
             }
         });
 
+    }
+
+    public class ChatMsgRefreshThread extends Thread {
+        private boolean stopKey;
+        private ConsultChatActivity.MyHandler myHandler;
+
+        public ChatMsgRefreshThread(ConsultChatActivity.MyHandler myHandler) {
+            this.myHandler = myHandler;
+            stopKey = false;
+        }
+
+        public void setStopState(boolean stopKey) {
+            this.stopKey = stopKey;
+        }
+
+        @Override
+        public void run() {
+            while (!ConsultChatActivity.this.isFinishing()) {
+                if (!this.stopKey) {
+                    doRefresh(myHandler);
+                }
+
+                try {
+                    Thread.sleep(1200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+        private void doRefresh(ConsultChatActivity.MyHandler myHandler) {
+            myHandler.sendEmptyMessage(0);
+        }
     }
 
 }

@@ -1,7 +1,9 @@
 package com.ymt.demo1.plates.exportConsult;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,13 +24,14 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.expertConsult.QQChatListAdapter;
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
-import com.ymt.demo1.launchpages.QQMsgService;
+import com.ymt.demo1.launchpages.QQUnreadMsgService;
 import com.ymt.demo1.main.AppContext;
 import com.ymt.demo1.main.BaseURLUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,6 +54,7 @@ public class ExportChatListFragment extends Fragment {
     private int start = 1;
     private PullToRefreshListView qqListView;
     private List<QQChatInfo> chatInfos;
+    private SharedPreferences unreadPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,7 +68,7 @@ public class ExportChatListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Intent intent = new Intent(getActivity(), QQMsgService.class);
+        Intent intent = new Intent(getActivity(), QQUnreadMsgService.class);
         getActivity().startService(intent);
 
         qqListView.setRefreshing(true);
@@ -99,9 +103,8 @@ public class ExportChatListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         chatInfos = new ArrayList<>();
-//        chatInfos.addAll(DataSupport.findAll(QQChatInfo.class));
-//        Bundle bundle = getArguments();
-//        String emptyInfo = bundle.getString("empty_info");
+        chatInfos.addAll(DataSupport.findAll(QQChatInfo.class));
+        unreadPreferences = getActivity().getSharedPreferences("unread_info", Context.MODE_PRIVATE);
     }
 
     @Override
@@ -124,7 +127,6 @@ public class ExportChatListFragment extends Fragment {
         chatAdapter = new QQChatListAdapter(getActivity());
         qqListView.setAdapter(chatAdapter);
         chatAdapter.setList(chatInfos);
-//        getMsgs(chatInfos);
 
         /*
          * todo 会话列表点击事件
@@ -147,6 +149,7 @@ public class ExportChatListFragment extends Fragment {
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 start = 1;
                 chatInfos.clear();
+                chatInfos.addAll(DataSupport.findAll(QQChatInfo.class));
                 chatAdapter.setList(chatInfos);
                 mQueue.add(getMyQQMsgs());
             }
@@ -195,19 +198,22 @@ public class ExportChatListFragment extends Fragment {
                             qqChatInfo.setFk_pro_id(obj.optString("fk_pro_id"));
                             qqChatInfo.setMsg_num(obj.optInt("msg_num"));
                             qqChatInfo.setFk_contract_id(obj.optString("fk_contract_id"));
-//                            int size = DataSupport.where("qq_id = ?", qq_id).find(QQChatInfo.class).size();
-//                            if (size == 0) {
-//                                qqChatInfo.save();
-//                                chatInfos.add(qqChatInfo);
-//                            } else {
-//                                qqChatInfo.updateAll("qq_id = ?", qq_id);
-//                            }
-                            chatInfos.add(qqChatInfo);
+                            int size = DataSupport.where("qq_id = ?", qq_id).find(QQChatInfo.class).size();
+                            if (size == 0) {
+                                qqChatInfo.save();
+                                chatInfos.add(qqChatInfo);
+                            } else {
+                                qqChatInfo.updateAll("qq_id = ?", qq_id);
+                            }
+
+                            Message msg = Message.obtain();
+                            msg.obj = qq_id;
+                            msg.what = 1024;
+                            myHandler.sendMessage(msg);
 
                         }
 
                         chatAdapter.setList(chatInfos);
-//                        getMsgs(chatInfos);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -239,11 +245,17 @@ public class ExportChatListFragment extends Fragment {
     }
 
     protected void doRefresh() {
-        if (!qqListView.isRefreshing() && !qqListView.isScrollingWhileRefreshingEnabled()) {
+        if ((!qqListView.isRefreshing()) && (!qqListView.isScrollingWhileRefreshingEnabled())) {
             mQueue.add(getMyQQMsgs());
         }
 
 //        infoListView.getRefreshableView().setSelection(infoListView.getBottom());
+    }
+
+    protected void doGetUnreadInfo(String qq_id) {
+        if ((!qqListView.isRefreshing()) && (!qqListView.isScrollingWhileRefreshingEnabled())) {
+            getUnreadCount(qq_id);
+        }
     }
 
     static class MyHandler extends Handler {
@@ -262,6 +274,10 @@ public class ExportChatListFragment extends Fragment {
                     case 0:
                         activity.doRefresh();
                         break;
+                    case 1024:
+                        String qq_id = msg.obj.toString();
+                        activity.doGetUnreadInfo(qq_id);
+                        break;
                     default:
                         break;
                 }
@@ -272,7 +288,7 @@ public class ExportChatListFragment extends Fragment {
     /**
      * 未读消息
      */
-    protected void unreadMsg(String qq_id) {
+    protected void getUnreadCount(String qq_id) {
         final String urlStr = BaseURLUtil.getMyUnreadQQMsgUrl(AppContext.now_session_id, qq_id, AppContext.now_user_id);
         HttpURLConnection connection = null;
         StringBuilder response = new StringBuilder();
@@ -280,9 +296,8 @@ public class ExportChatListFragment extends Fragment {
             URL url = new URL(urlStr);
             connection = (HttpURLConnection) url.openConnection();
             connection.setConnectTimeout(30000);
-            connection.setReadTimeout(300000);
+            connection.setReadTimeout(30000);
             connection.setDoOutput(true);
-            connection.setDoInput(true);
             connection.setRequestMethod("GET");
             InputStream ins = connection.getInputStream();
 
@@ -291,16 +306,16 @@ public class ExportChatListFragment extends Fragment {
             while ((line = reader.readLine()) != null) {
                 response.append(line);
             }
-//            Log.e("TAG", " >>>>>>>>>>>>>> s>>>>>>>>>>" + response);
-
 
             try {
                 JSONObject jsonObject = new JSONObject(String.valueOf(response));
                 JSONObject jsonObject1 = jsonObject.getJSONObject("datas");
                 int unReadCount = jsonObject1.getInt("size");
-//                SharedPreferences.Editor editor = preferences.edit();
-//                editor.putInt(qq_id, unReadCount);
-//                editor.apply();
+                SharedPreferences.Editor editor = unreadPreferences.edit();
+                editor.putInt(qq_id, unReadCount);
+                editor.apply();
+
+                chatAdapter.notifyDataSetChanged();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

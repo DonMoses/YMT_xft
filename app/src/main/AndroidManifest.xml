@@ -326,7 +326,7 @@
 
         <service android:name=".main.floatWindow.FloatWindowService" />
         <service
-            android:name=".launchpages.QQMsgService"
+            android:name=".launchpages.QQUnreadMsgService"
             android:exported="false" />
     </application>
 

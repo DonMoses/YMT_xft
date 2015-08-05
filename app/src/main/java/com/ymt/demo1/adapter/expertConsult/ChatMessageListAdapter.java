@@ -60,7 +60,8 @@ public class ChatMessageListAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (messages.get(position).getReply_role().equals("001")) {
+        String role = messages.get(position).getReply_role();
+        if (role.equals("002") || role.equals("001")) {
             return INFO_OUT;
         } else {
             return INFO_IN;

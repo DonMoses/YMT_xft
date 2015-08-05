@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
 import com.ymt.demo1.customViews.CircleImageView;
-import com.ymt.demo1.launchpages.QQMsgService;
+import com.ymt.demo1.launchpages.QQUnreadMsgService;
 import com.ymt.demo1.main.BaseURLUtil;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class QQChatListAdapter extends BaseAdapter {
     public void setList(List<QQChatInfo> mList) {
         this.mList = mList;
         notifyDataSetChanged();
-        Intent intent = new Intent(context, QQMsgService.class);
+        Intent intent = new Intent(context, QQUnreadMsgService.class);
         context.startService(intent);
     }
 
