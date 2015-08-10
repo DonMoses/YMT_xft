@@ -6,6 +6,8 @@ import android.view.View;
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 
+import cn.sharesdk.framework.ShareSDK;
+
 
 /**
  * Created by Dan on 2015/4/28

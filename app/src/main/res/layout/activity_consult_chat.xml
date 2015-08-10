@@ -67,4 +67,5 @@
         android:headerDividersEnabled="false"
         android:smoothScrollbar="true"
         ptr:ptrMode="disabled" />
+    
 </RelativeLayout>

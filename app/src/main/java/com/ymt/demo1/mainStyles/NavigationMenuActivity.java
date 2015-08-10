@@ -2,6 +2,7 @@ package com.ymt.demo1.mainStyles;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,13 +12,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
+//import android.widget.ActionMenuView;
+//import android.widget.AdapterView;
+//import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
-import com.ymt.demo1.adapter.consultCato.ConsultCatoAdapter;
+//import com.ymt.demo1.adapter.consultCato.ConsultCatoAdapter;
 import com.ymt.demo1.adapter.CyclePagerAdapter;
 import com.ymt.demo1.beams.consult_cato.ConsultCato;
 import com.ymt.demo1.customViews.CircleImageView;
@@ -71,15 +75,15 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
     private ViewPager adViewPager;
     private final MyHandler myHandler = new MyHandler(this);
     public static ManageAppearanceActivity.StyleChangeListener styleChangeListener;
-    private List<ConsultCato> catoList;
-    private ConsultCatoAdapter catoAdapter;
+    //    private List<ConsultCato> catoList;
+//    private ConsultCatoAdapter catoAdapter;
     private CircleImageView personIconBtn;
     private TextView userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        catoList = new ArrayList<>();
+//        catoList = new ArrayList<>();
         RequestQueue mQueue = Volley.newRequestQueue(this);
         mQueue.add(getCatoRequest(BaseURLUtil.XF_PUB_JZXF));
         mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_ZY));
@@ -317,7 +321,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
 
     protected void initMainView() {
         //咨询分类GridView
-        GridView consultGrid = (GridView) findViewById(R.id.consult_cato_grid);
+//        GridView consultGrid = (GridView) findViewById(R.id.consult_cato_table);
         //咨询平台 入口
         ImageView newsBtn = (ImageView) findViewById(R.id.img_news);
         //专家咨询 入口
@@ -369,48 +373,50 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         /*
         咨询分类列表数据
          */
-        catoAdapter = new ConsultCatoAdapter(this);
-        consultGrid.setAdapter(catoAdapter);
-        List<ConsultCato> allCatoDQ = DataSupport.where("code like ?", "jz%").limit(5).find(ConsultCato.class);
-        List<ConsultCato> allCatoZY = DataSupport.where("code like ?", "z%").limit(5).find(ConsultCato.class);
-        List<ConsultCato> allCatoGJC = DataSupport.where("code like ?", "g%").limit(5).find(ConsultCato.class);
-        catoList.addAll(allCatoDQ);
-        catoList.addAll(allCatoZY);
-        catoList.addAll(allCatoGJC);
-        catoAdapter.setList(catoList);
+
+        setCatoView();
+//        catoAdapter = new ConsultCatoAdapter(this);
+//        consultGrid.setAdapter(catoAdapter);
+//        List<ConsultCato> allCatoDQ = DataSupport.where("code like ?", "jz%").limit(5).find(ConsultCato.class);
+//        List<ConsultCato> allCatoZY = DataSupport.where("code like ?", "z%").limit(5).find(ConsultCato.class);
+//        List<ConsultCato> allCatoGJC = DataSupport.where("code like ?", "g%").limit(5).find(ConsultCato.class);
+//        catoList.addAll(allCatoDQ);
+//        catoList.addAll(allCatoZY);
+//        catoList.addAll(allCatoGJC);
+//        catoAdapter.setList(catoList);
 
         /*
         咨询分类表格item 点击事件
          */
-        consultGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:                         //建筑
-                        Intent intent1 = new Intent(NavigationMenuActivity.this, ConsultCatoMainActivity.class);
-                        intent1.putExtra("expand_index", 0);
-                        startActivity(intent1);
-                        break;
-                    case 5:                         //专业
-                        Intent intent2 = new Intent(NavigationMenuActivity.this, ConsultCatoMainActivity.class);
-                        intent2.putExtra("expand_index", 1);
-                        startActivity(intent2);
-                        break;
-                    case 10:                        //关键词
-                        Intent intent3 = new Intent(NavigationMenuActivity.this, ConsultCatoMainActivity.class);
-                        intent3.putExtra("expand_index", 2);
-                        startActivity(intent3);
-                        break;
-                    default:
-                        ConsultCato consultCato = (ConsultCato) parent.getAdapter().getItem(position);
-                        Intent intent = new Intent(NavigationMenuActivity.this, CatoConsultListActivity.class);
-                        intent.putExtra("search_key_word", consultCato.getNote());
-                        intent.putExtra("code", consultCato.getCode());
-                        startActivity(intent);
-                        break;
-                }
-            }
-        });
+//        consultGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                switch (position) {
+//                    case 0:                         //建筑
+//                        Intent intent1 = new Intent(NavigationMenuActivity.this, ConsultCatoMainActivity.class);
+//                        intent1.putExtra("expand_index", 0);
+//                        startActivity(intent1);
+//                        break;
+//                    case 5:                         //专业
+//                        Intent intent2 = new Intent(NavigationMenuActivity.this, ConsultCatoMainActivity.class);
+//                        intent2.putExtra("expand_index", 1);
+//                        startActivity(intent2);
+//                        break;
+//                    case 10:                        //关键词
+//                        Intent intent3 = new Intent(NavigationMenuActivity.this, ConsultCatoMainActivity.class);
+//                        intent3.putExtra("expand_index", 2);
+//                        startActivity(intent3);
+//                        break;
+//                    default:
+//                        ConsultCato consultCato = (ConsultCato) parent.getAdapter().getItem(position);
+//                        Intent intent = new Intent(NavigationMenuActivity.this, CatoConsultListActivity.class);
+//                        intent.putExtra("search_key_word", consultCato.getNote());
+//                        intent.putExtra("code", consultCato.getCode());
+//                        startActivity(intent);
+//                        break;
+//                }
+//            }
+//        });
 
     }
 
@@ -499,14 +505,15 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                                 DataSupport.updateAll(ConsultCato.class, contentValues, "code = ?", jsonObject.getString("code"));
                             }
                         }
-                        List<ConsultCato> cList = new ArrayList<>();
-                        List<ConsultCato> allCatoDQ = DataSupport.where("code like ?", "jz%").limit(5).find(ConsultCato.class);
-                        List<ConsultCato> allCatoZY = DataSupport.where("code like ?", "z%").limit(5).find(ConsultCato.class);
-                        List<ConsultCato> allCatoGJC = DataSupport.where("code like ?", "g%").limit(5).find(ConsultCato.class);
-                        cList.addAll(allCatoDQ);
-                        cList.addAll(allCatoZY);
-                        cList.addAll(allCatoGJC);
-                        catoAdapter.setList(cList);
+//                        List<ConsultCato> cList = new ArrayList<>();
+//                        List<ConsultCato> allCatoDQ = DataSupport.where("code like ?", "jz%").limit(5).find(ConsultCato.class);
+//                        List<ConsultCato> allCatoZY = DataSupport.where("code like ?", "z%").limit(5).find(ConsultCato.class);
+//                        List<ConsultCato> allCatoGJC = DataSupport.where("code like ?", "g%").limit(5).find(ConsultCato.class);
+//                        cList.addAll(allCatoDQ);
+//                        cList.addAll(allCatoZY);
+//                        cList.addAll(allCatoGJC);
+//                        catoAdapter.setList(cList);
+                        setCatoView();
 
                     }
                 } catch (JSONException e) {
@@ -519,6 +526,134 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                 Toast.makeText(NavigationMenuActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+
+    protected void setCatoView() {
+        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                AppContext.screenWidth / 5, LinearLayout.LayoutParams.MATCH_PARENT);
+        params.setMargins(0, 0, 2, 3);
+
+        TextView jzTxt = (TextView) findViewById(R.id.cato_jz);
+        TextView zyTxt = (TextView) findViewById(R.id.cato_zy);
+        TextView kwTxt = (TextView) findViewById(R.id.cato_kw);
+        jzTxt.setLayoutParams(params);
+        jzTxt.setText("建筑");
+        jzTxt.setGravity(Gravity.CENTER);
+        jzTxt.setBackgroundResource(R.drawable.bg_cato_parent);
+        zyTxt.setLayoutParams(params);
+        zyTxt.setText("专业");
+        zyTxt.setGravity(Gravity.CENTER);
+        zyTxt.setBackgroundResource(R.drawable.bg_cato_parent);
+        kwTxt.setLayoutParams(params);
+        kwTxt.setText("关键词");
+        kwTxt.setGravity(Gravity.CENTER);
+        kwTxt.setBackgroundResource(R.drawable.bg_cato_parent);
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.cato_jz:                         //建筑
+                        Intent intent1 = new Intent(NavigationMenuActivity.this, ConsultCatoMainActivity.class);
+                        intent1.putExtra("expand_index", 0);
+                        startActivity(intent1);
+                        break;
+                    case R.id.cato_zy:                         //专业
+                        Intent intent2 = new Intent(NavigationMenuActivity.this, ConsultCatoMainActivity.class);
+                        intent2.putExtra("expand_index", 1);
+                        startActivity(intent2);
+                        break;
+                    case R.id.cato_kw:                        //关键词
+                        Intent intent3 = new Intent(NavigationMenuActivity.this, ConsultCatoMainActivity.class);
+                        intent3.putExtra("expand_index", 2);
+                        startActivity(intent3);
+                        break;
+                    default:
+                        break;
+
+                }
+            }
+        };
+        jzTxt.setOnClickListener(onClickListener);
+        zyTxt.setOnClickListener(onClickListener);
+        kwTxt.setOnClickListener(onClickListener);
+
+        LinearLayout jzLayout = (LinearLayout) findViewById(R.id.jz_layout);
+        LinearLayout zyLayout = (LinearLayout) findViewById(R.id.zy_layout);
+        LinearLayout kwLayout = (LinearLayout) findViewById(R.id.kw_layout);
+        if (jzLayout.getChildCount() > 0) {
+            jzLayout.removeAllViews();
+        }
+        if (zyLayout.getChildCount() > 0) {
+            zyLayout.removeAllViews();
+        }
+        if (kwLayout.getChildCount() > 0) {
+            kwLayout.removeAllViews();
+        }
+
+        final List<ConsultCato> allCatoJZ = DataSupport.where("code like ?", "jz%").find(ConsultCato.class);
+        List<ConsultCato> allCatoZY = DataSupport.where("code like ?", "z%").find(ConsultCato.class);
+        List<ConsultCato> allCatoKW = DataSupport.where("code like ?", "g%").find(ConsultCato.class);
+        int length1 = allCatoJZ.size();
+        for (int i = 0; i < length1; i++) {
+            TextView textView = new TextView(this);
+            textView.setLayoutParams(params);
+            textView.setTextColor(Color.WHITE);
+            final ConsultCato consultCato = allCatoJZ.get(i);
+            textView.setText(consultCato.getNote());
+            textView.setGravity(Gravity.CENTER);
+            textView.setBackgroundResource(R.drawable.bg_cato_child);
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(NavigationMenuActivity.this, CatoConsultListActivity.class);
+                    intent.putExtra("search_key_word", consultCato.getNote());
+                    intent.putExtra("code", consultCato.getCode());
+                    startActivity(intent);
+                }
+            });
+            jzLayout.addView(textView);
+        }
+        int length2 = allCatoZY.size();
+        for (int i = 0; i < length2; i++) {
+            TextView textView = new TextView(this);
+            textView.setLayoutParams(params);
+            textView.setTextColor(Color.WHITE);
+            final ConsultCato consultCato = allCatoZY.get(i);
+            textView.setText(consultCato.getNote());
+            textView.setGravity(Gravity.CENTER);
+            textView.setBackgroundResource(R.drawable.bg_cato_child);
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(NavigationMenuActivity.this, CatoConsultListActivity.class);
+                    intent.putExtra("search_key_word", consultCato.getNote());
+                    intent.putExtra("code", consultCato.getCode());
+                    startActivity(intent);
+                }
+            });
+            zyLayout.addView(textView);
+        }
+        int length3 = allCatoKW.size();
+        for (int i = 0; i < length3; i++) {
+            TextView textView = new TextView(this);
+            textView.setLayoutParams(params);
+            textView.setTextColor(Color.WHITE);
+            final ConsultCato consultCato = allCatoKW.get(i);
+            textView.setText(consultCato.getNote());
+            textView.setGravity(Gravity.CENTER);
+            textView.setBackgroundResource(R.drawable.bg_cato_child);
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(NavigationMenuActivity.this, CatoConsultListActivity.class);
+                    intent.putExtra("search_key_word", consultCato.getNote());
+                    intent.putExtra("code", consultCato.getCode());
+                    startActivity(intent);
+                }
+            });
+            kwLayout.addView(textView);
+        }
     }
 
 }

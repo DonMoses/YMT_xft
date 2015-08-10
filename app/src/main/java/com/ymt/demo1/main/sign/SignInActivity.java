@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -168,7 +169,7 @@ public class SignInActivity extends Activity {
     protected StringRequest signInRequest(final String account, final String psw) {
         String url = BaseURLUtil.doSignIn(account, psw);
 
-        return new StringRequest(url, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -217,6 +218,9 @@ public class SignInActivity extends Activity {
                 Toast.makeText(SignInActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        request.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 1, 1));
+        return request;
     }
 
     @Override

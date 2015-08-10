@@ -28,16 +28,19 @@
 
     </FrameLayout>
 
-    <GridView
-        android:id="@+id/consult_cato_grid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginTop="3dp"
-        android:horizontalSpacing="3dp"
-        android:numColumns="5"
-        android:verticalSpacing="2dp" />
+    <!--<GridView-->
+        <!--android:id="@+id/consult_cato_table"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="6dp"-->
+        <!--android:layout_marginRight="6dp"-->
+        <!--android:layout_marginTop="3dp"-->
+        <!--android:horizontalSpacing="3dp"-->
+        <!--android:numColumns="5"-->
+        <!--android:verticalSpacing="2dp" />-->
+
+    <include
+        layout="@layout/layout_consult_cato_table" />
 
     <LinearLayout
         android:layout_width="match_parent"

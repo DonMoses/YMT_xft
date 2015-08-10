@@ -141,6 +141,7 @@ public class ConsultChatActivity extends BaseActivity {
                 inputView.setText("");
             }
         });
+
         //message ListView列表
         infoListView = (PullToRefreshListView) findViewById(R.id.list_view_chat);
         //适配器
@@ -149,7 +150,7 @@ public class ConsultChatActivity extends BaseActivity {
         infoListView.getRefreshableView().setSelection(infoListView.getBottom());
 
         //开启刷新线程
-        refreshTread = new ChatMsgRefreshThread(myHandler);
+        refreshTread = new ChatMsgRefreshThread(this);
         refreshTread.start();
 
         infoListView.setOnTouchListener(new View.OnTouchListener() {
@@ -358,7 +359,7 @@ public class ConsultChatActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             ConsultChatActivity activity = reference.get();
-            if (activity != null) {
+            if (activity != null && (!activity.isFinishing())) {
                 switch (msg.what) {
                     case 0:
                         activity.doRefresh();
@@ -414,12 +415,12 @@ public class ConsultChatActivity extends BaseActivity {
 
     }
 
-    public class ChatMsgRefreshThread extends Thread {
+    public static class ChatMsgRefreshThread extends Thread {
         private boolean stopKey;
-        private ConsultChatActivity.MyHandler myHandler;
+        private WeakReference<ConsultChatActivity> reference;
 
-        public ChatMsgRefreshThread(ConsultChatActivity.MyHandler myHandler) {
-            this.myHandler = myHandler;
+        public ChatMsgRefreshThread(ConsultChatActivity activity) {
+            reference = new WeakReference<>(activity);
             stopKey = false;
         }
 
@@ -429,9 +430,10 @@ public class ConsultChatActivity extends BaseActivity {
 
         @Override
         public void run() {
-            while (!ConsultChatActivity.this.isFinishing()) {
+            ConsultChatActivity activity = reference.get();
+            while (activity != null) {
                 if (!this.stopKey) {
-                    doRefresh(myHandler);
+                    doRefresh(activity.myHandler);
                 }
 
                 try {
@@ -447,5 +449,6 @@ public class ConsultChatActivity extends BaseActivity {
             myHandler.sendEmptyMessage(0);
         }
     }
+
 
 }

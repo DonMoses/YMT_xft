@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -110,7 +111,7 @@ public class LoadingPageActivity extends Activity {
     protected StringRequest signInRequest(final String userName, final String psw) {
         String url = BaseURLUtil.doSignIn(userName, psw);
 
-        return new StringRequest(url, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -174,6 +175,10 @@ public class LoadingPageActivity extends Activity {
                 }).start();
             }
         });
+
+        request.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 1, 1));
+
+        return request;
     }
 
 
