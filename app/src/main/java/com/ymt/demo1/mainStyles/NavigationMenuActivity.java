@@ -6,11 +6,13 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -79,6 +81,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
 //    private ConsultCatoAdapter catoAdapter;
     private CircleImageView personIconBtn;
     private TextView userName;
+    private boolean doAutoChange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +92,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_ZY));
         mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_GJC));
         styleChangeListener = this;
+        doAutoChange = true;
         setContentView(R.layout.activity_navigation_menu);
         initView();
     }
@@ -156,16 +160,20 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         /*
         更新数据源（Views）
          */
+
         LayoutInflater inflater = LayoutInflater.from(this);
-        ArrayList<View> views = new ArrayList<>();
+        final ArrayList<View> views = new ArrayList<>();
+        views.add(inflater.inflate(R.layout.edu_pager3, null));
         views.add(inflater.inflate(R.layout.edu_pager1, null));
         views.add(inflater.inflate(R.layout.edu_pager2, null));
         views.add(inflater.inflate(R.layout.edu_pager3, null));
+        views.add(inflater.inflate(R.layout.edu_pager1, null));
+
 //        views.add(inflater.inflate(R.layout.edu_pager4, null));
         adPagerAdapter.setViews(views);
         //指示器Indicator
         final IndicatorView indicator = (IndicatorView) findViewById(R.id.myPointIndicator);
-        indicator.updateTotal(adPagerAdapter.getCount());   //设置指示器显示item个数（适配adapter中元素个数）
+        indicator.updateTotal(adPagerAdapter.getCount() - 2);   //设置指示器显示item个数（适配adapter中元素个数）
         indicator.setCurr(0);
         /*
         pager 滑动事件
@@ -178,17 +186,29 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
 
             @Override
             public void onPageSelected(int position) {
-                indicator.setCurr(position);
+                int pageIndex = position;
+                int indicatorIndex;
+                if (position == 0) {
+                    pageIndex = views.size() - 2;
+                    indicatorIndex = 2;
+                } else if (position == views.size() - 1) {
+                    pageIndex = 1;
+                    indicatorIndex = 0;
+                } else {
+                    indicatorIndex = position - 1;
+                }
+                adViewPager.setCurrentItem(pageIndex, false);
+                indicator.setCurr(indicatorIndex);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
                 switch (state) {
                     case ViewPager.SCROLL_STATE_DRAGGING:
-
+                        doAutoChange = false;
                         break;
                     case ViewPager.SCROLL_STATE_IDLE:
-
+                        doAutoChange = true;
                         break;
                     default:
                         break;
@@ -209,23 +229,22 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                         continue;
                     }
 
-                    int toPosition;
-                    int curPosition = adViewPager.getCurrentItem();
-                    if (curPosition < adViewPager.getChildCount() - 1) {
+                    if (doAutoChange) {
+
+                        int toPosition;
+                        int curPosition = adViewPager.getCurrentItem();
                         toPosition = curPosition + 1;
-                    } else {
-                        toPosition = 0;             //从page尾跳到page头
-                    }
 
-                    Message msg = Message.obtain();
-                    msg.what = SHOW_NEXT_PAGE;
-                    msg.arg1 = toPosition;
-                    myHandler.sendMessage(msg);
+                        Message msg = Message.obtain();
+                        msg.what = SHOW_NEXT_PAGE;
+                        msg.arg1 = toPosition;
+                        myHandler.sendMessage(msg);
 
-                    try {
-                        Thread.sleep(6000);         //每6 s切换到下一page
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        try {
+                            Thread.sleep(6000);         //每6 s切换到下一page
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                 }
@@ -539,14 +558,17 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         TextView kwTxt = (TextView) findViewById(R.id.cato_kw);
         jzTxt.setLayoutParams(params);
         jzTxt.setText("建筑");
+        jzTxt.setTextColor(Color.WHITE);
         jzTxt.setGravity(Gravity.CENTER);
         jzTxt.setBackgroundResource(R.drawable.bg_cato_parent);
         zyTxt.setLayoutParams(params);
         zyTxt.setText("专业");
+        zyTxt.setTextColor(Color.WHITE);
         zyTxt.setGravity(Gravity.CENTER);
         zyTxt.setBackgroundResource(R.drawable.bg_cato_parent);
         kwTxt.setLayoutParams(params);
         kwTxt.setText("关键词");
+        kwTxt.setTextColor(Color.WHITE);
         kwTxt.setGravity(Gravity.CENTER);
         kwTxt.setBackgroundResource(R.drawable.bg_cato_parent);
         View.OnClickListener onClickListener = new View.OnClickListener() {

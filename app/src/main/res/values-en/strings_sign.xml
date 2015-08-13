@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="should_sign_up_1st">请先注册！</string>
+    <string name="sign_in_ok">登录成功！</string>
+    <string name="account_psw_wrong">用户名或密码输入错误，请检查后重新输入</string>
+    <string name="phone_signed_up">手机号已经存在，注册失败!</string>
+    <string name="account_signed_up">用户名已经存在，注册失败!</string>
+    <string name="psw_wrong_input">密码输入错误!</string>
+    <string name="license">我已阅读并同意《新消防安全协议》</string>
+</resources>

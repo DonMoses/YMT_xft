@@ -110,7 +110,7 @@ public class HotRecConsultAdapter extends BaseAdapter {
             case HOT:
                 viewHolder.title.setText(hotList.get(position).getArticle_title());
                 viewHolder.time.setText(hotList.get(position).getCreate_time());
-                viewHolder.content.setText(Html.fromHtml(hotList.get(position).getContent()));
+                viewHolder.content.setText(StringUtils.replaceBlank(Html.fromHtml(hotList.get(position).getContent()).toString()));
                 break;
             case RECENT:
                 viewHolder.title.setText(recList.get(position).getArticle_title());

@@ -390,7 +390,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
 
                             if (i == 0) {
                                 hotConsultTitle.setText(consult.getArticle_title());
-                                hotConsultContent.setText(Html.fromHtml(consult.getContent()));
+                                hotConsultContent.setText(StringUtils.replaceBlank(Html.fromHtml(consult.getContent()).toString()));
                                 hotConsultTime.setText(consult.getCreate_time().substring(0, 10));
                             }
                         }
@@ -447,7 +447,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
 
                             if (i == 0) {
                                 nearlyConsultTitle.setText(consult.getArticle_title());
-                                nearlyConsultContent.setText(Html.fromHtml(consult.getContent()));
+                                nearlyConsultContent.setText(StringUtils.replaceBlank(Html.fromHtml(consult.getContent()).toString()));
                                 nearlyConsultTime.setText(consult.getCreate_time().substring(0, 10));
                             }
                         }

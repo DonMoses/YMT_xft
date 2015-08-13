@@ -1,0 +1,138 @@
+<resources>
+    <string name="app_name">新消防</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="item_sign">立即注册</string>
+    <string name="item_advice">意见反馈</string>
+    <string name="item_help">帮注中心</string>
+    <string name="item_setting">设置</string>
+
+    <string-array name="circle_menu_array">
+
+        <item>个人中心</item>
+        <item>更多内容</item>
+        <item>消防论坛</item>
+        <item>知识平台</item>
+        <item>专家咨询</item>
+        <item>资讯平台</item>
+        <item>我的收藏</item>
+    </string-array>
+
+    <string-array name="common_quest_array">
+
+        <item>涂料、壁纸、地板如何选购？</item>
+        <item>如何鉴别假冒伪劣的消防产品？</item>
+        <item>干粉灭火器夏天能放在汽车上吗？会不会发生爆炸？</item>
+        <item>商家堵塞安全疏散通道堆放货物被罚5万元，合理吗？</item>
+        <item>成都目前消防重点单位的界定标准是什么？</item>
+        <item>消防安全岗位证书培训应由哪些机构组织，单位可否自行组织？</item>
+        <item>什么是构筑社会消防安全“防火墙”工程，具体要求有哪些？</item>
+        <item>当前正在开展的社会单位消防安全“四个能力”建设的具体内容有哪些？</item>
+        <item>2015年公安边防消防安全警卫部队接收普通高等学校毕业生政策问答？</item>
+        <item>公民应该掌握的消防安全尝试究竟包括哪些方面的内容？</item>
+        <item>哪些情形属于火灾隐患？</item>
+        <item>消防备案是怎么一回事？操作的流程是怎样的？</item>
+        <item>涂料、壁纸、地板如何选购？</item>
+        <item>如何鉴别假冒伪劣的消防产品？</item>
+        <item>干粉灭火器夏天能放在汽车上吗？会不会发生爆炸？</item>
+        <item>商家堵塞安全疏散通道堆放货物被罚5万元，合理吗？</item>
+        <item>成都目前消防重点单位的界定标准是什么？</item>
+        <item>消防安全岗位证书培训应由哪些机构组织，单位可否自行组织？</item>
+        <item>什么是构筑社会消防安全“防火墙”工程，具体要求有哪些？</item>
+        <item>当前正在开展的社会单位消防安全“四个能力”建设的具体内容有哪些？</item>
+        <item>2015年公安边防消防安全警卫部队接收普通高等学校毕业生政策问答？</item>
+        <item>公民应该掌握的消防安全尝试究竟包括哪些方面的内容？</item>
+        <item>哪些情形属于火灾隐患？</item>
+        <item>消防备案是怎么一回事？操作的流程是怎样的？</item>
+
+    </string-array>
+
+    <string-array name="setting_array">
+
+        <item>账号登录</item>
+        <item>注册</item>
+        <item>修改登录密码</item>
+        <item>自定义皮肤</item>
+        <item>储存设置</item>
+        <item>关于我们</item>
+
+    </string-array>
+
+    <string name="supervisor">监管方：公安部消防局</string>
+    <string name="authority">主官方：公安部四川消防研究所</string>
+    <string name="sponsor">主办方：四川法斯特安全性能评估有限公司</string>
+    <string name="operator">运营方：四川开新科技有限公司</string>
+    <string name="title_activity_navigation_menu">NavigationMenuActivity</string>
+
+
+    <string name="drawer_open_content_desc">菜单</string>
+    <string name="drawer_close_content_desc">新消防</string>
+
+    <string name="style_circle">转盘风格</string>
+    <string name="style_slide">侧滑风格</string>
+    <string name="style_tab">选项卡风格</string>
+
+
+    <string-array name="cato_array_part">
+
+        <item>建筑</item>
+        <item>高层</item>
+        <item>超高层</item>
+        <item>商业综合</item>
+        <item>文体</item>
+        <item>专业</item>
+        <item>建筑定性</item>
+        <item>防火区分</item>
+        <item>平面布置</item>
+        <item>疏散避难</item>
+        <item>关键词</item>
+        <item>防火分隔</item>
+        <item>防烟分区</item>
+        <item>疏散距离</item>
+        <item>疏散宽度</item>
+
+    </string-array>
+
+    <string name="study_datum_title_for_test">二O一四年一级消防工程师考试真题与解析</string>
+    <string name="study_datum_content_for_test">消防工作贯彻预防为主、防消结合的方针，按照政府统一领导、部门依法监管、单位全面负责、公民积极参与的原则，实行消防安全责任制，建立健全社会化的消防工作网络。</string>
+
+    <string name="about_us_in">\t\t\t\t公安部四川消防研究所是部直属消防科研机构，是国内最早成立的综合性建筑防火研究所。\n\t\t\t\t主要从事建筑防火、建筑火灾理论、建筑消防性能化评估、结构防火、防排烟、自动喷水灭火、材料阻燃、火灾烟气毒性、安全疏散、火灾物证鉴定、防火材料检测、
+    火灾烧损鉴定及放火建筑构（配）件和材料开发与消防标准、规范的制修订工作。拥有30多个专业实验室，一直承担着国家级和部省级重大科研项目，并积极与社会单位联合开展项目研究。\n\t\t\t\t经50余年的建设和发展，已形成以建筑防火为核心，向相关领域辐射发展的科研格局。培养了一批高素质的消防科研人才，
+    建立了一直以博士、硕士为主的高学历、高素质、年轻化的科技攻关队伍。截止2013年，享受国务院政府津贴专家6人、公安部津贴专家6人、省学术带头人2人、突出贡献专家1人。取得300多项部省级以上科研成果，获科技奖140余项，其中国家级11项，部省级80余项。
+    \n\t\t\t\t四川所得大批特色成果，在理论和应用方面均取得重大突破，得到广泛应用，为营造安全、健康的社会经济环境做出了积极贡献。</string>
+
+    <string name="about_us_maj">\t\t\t\t主要从事建筑防火、建筑火灾理论、建筑消防性能化评估、结构防火、防排烟、自动喷水灭火、材料阻燃、火灾烟气毒性、安全疏散、火灾物证鉴定、防火材料检测、
+    火灾烧损鉴定及放火建筑构（配）件和材料开发与消防标准、规范的制修订工作。拥有30多个专业实验室，一直承担着国家级和部省级重大科研项目，并积极与社会单位联合开展项目研究。</string>
+
+
+    <string-array name="exam_years_array">
+
+        <item>全部</item>
+        <item>2015</item>
+        <item>2014</item>
+        <item>2013</item>
+        <item>2012</item>
+        <item>2011</item>
+        <item>2010</item>
+        <item>2009</item>
+        <item>2008</item>
+        <item>2007</item>
+        <item>2006</item>
+
+    </string-array>
+
+
+    <string name="recommend_info">嗨，我正在使用新消防，你也来试试！</string>
+    <string name="app_download_url">http://101.204.236.5:10010/static/files/app/app.apk</string>
+
+</resources>
