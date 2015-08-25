@@ -59,7 +59,8 @@ public class ConsultActivity extends BaseActivity {
                 }
 
                 int screenContentBarHeight = tempLess;
-                AScreenSizeUtil = AScreenSizeUtil.getInstance(ConsultActivity.this, screenHeight, screenContentBarHeight);
+                AScreenSizeUtil = com.ymt.demo1.customKeyBoard.AScreenSizeUtil
+                        .getInstance(ConsultActivity.this, screenHeight, screenContentBarHeight);
                 AScreenSizeUtil.initSize();
             }
         });

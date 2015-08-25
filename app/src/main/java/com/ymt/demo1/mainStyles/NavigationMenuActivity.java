@@ -6,22 +6,17 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-//import android.widget.ActionMenuView;
-//import android.widget.AdapterView;
-//import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,13 +28,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
-//import com.ymt.demo1.adapter.consultCato.ConsultCatoAdapter;
 import com.ymt.demo1.adapter.CyclePagerAdapter;
 import com.ymt.demo1.beams.consult_cato.ConsultCato;
 import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.customViews.IndicatorView;
-import com.ymt.demo1.main.AppContext;
-import com.ymt.demo1.main.BaseURLUtil;
+import com.ymt.demo1.utils.AppContext;
+import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.main.search.SearchActivity;
 import com.ymt.demo1.main.advice.AdviceActivity;
 import com.ymt.demo1.main.help.HelpActivity;
@@ -77,8 +71,6 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
     private ViewPager adViewPager;
     private final MyHandler myHandler = new MyHandler(this);
     public static ManageAppearanceActivity.StyleChangeListener styleChangeListener;
-    //    private List<ConsultCato> catoList;
-//    private ConsultCatoAdapter catoAdapter;
     private CircleImageView personIconBtn;
     private TextView userName;
     private boolean doAutoChange;
@@ -152,15 +144,16 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
      */
     protected void initAdViewPager() {
         adViewPager = (ViewPager) findViewById(R.id.ad_viewPager);
+
         /*
         设置适配器
          */
         final CyclePagerAdapter adPagerAdapter = new CyclePagerAdapter();
         adViewPager.setAdapter(adPagerAdapter);
+
         /*
         更新数据源（Views）
          */
-
         LayoutInflater inflater = LayoutInflater.from(this);
         final ArrayList<View> views = new ArrayList<>();
         views.add(inflater.inflate(R.layout.edu_pager3, null));
@@ -175,6 +168,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         final IndicatorView indicator = (IndicatorView) findViewById(R.id.myPointIndicator);
         indicator.updateTotal(adPagerAdapter.getCount() - 2);   //设置指示器显示item个数（适配adapter中元素个数）
         indicator.setCurr(0);
+
         /*
         pager 滑动事件
          */
@@ -281,7 +275,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                 switch (v.getId()) {
                     case R.id.personal_icon_btn:
                         startActivity(new Intent(NavigationMenuActivity.this, PersonalPagerTabActivity.class));
-                        mDrawerLayout.closeDrawers();                             //个人中心
+                        mDrawerLayout.closeDrawers();                                                       //个人中心
                         break;
                     case R.id.sign_up:
                         startActivity(new Intent(NavigationMenuActivity.this, SignUpActivity.class));       //注册
@@ -304,7 +298,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                         mDrawerLayout.closeDrawers();
                         break;
                     case R.id.recommend:
-                        Intent intent = new Intent(Intent.ACTION_SEND);                                      //登录
+                        Intent intent = new Intent(Intent.ACTION_SEND);                                     //分享
                         intent.setType("*/*");
 //                        intent.putExtra(Intent.EXTRA_SUBJECT, NavigationMenuActivity.this.getResources().getString(R.string.recommend_info));
 //                        intent.putExtra(Intent.EXTRA_TEXT, R.string.recommend_info);
@@ -315,7 +309,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                         mDrawerLayout.closeDrawers();
                         break;
                     case R.id.uninstall:
-                        Uri packageURI = Uri.parse("package:com.ymt.demo1");//通过程序的包名创建URI            //卸载
+                        Uri packageURI = Uri.parse("package:com.ymt.demo1");//通过程序的包名创建URI           //卸载
                         Intent deleteIntent = new Intent(Intent.ACTION_DELETE, packageURI);
                         startActivity(deleteIntent); //执行卸载程序
                         mDrawerLayout.closeDrawers();
@@ -392,50 +386,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         /*
         咨询分类列表数据
          */
-
         setCatoView();
-//        catoAdapter = new ConsultCatoAdapter(this);
-//        consultGrid.setAdapter(catoAdapter);
-//        List<ConsultCato> allCatoDQ = DataSupport.where("code like ?", "jz%").limit(5).find(ConsultCato.class);
-//        List<ConsultCato> allCatoZY = DataSupport.where("code like ?", "z%").limit(5).find(ConsultCato.class);
-//        List<ConsultCato> allCatoGJC = DataSupport.where("code like ?", "g%").limit(5).find(ConsultCato.class);
-//        catoList.addAll(allCatoDQ);
-//        catoList.addAll(allCatoZY);
-//        catoList.addAll(allCatoGJC);
-//        catoAdapter.setList(catoList);
-
-        /*
-        咨询分类表格item 点击事件
-         */
-//        consultGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                switch (position) {
-//                    case 0:                         //建筑
-//                        Intent intent1 = new Intent(NavigationMenuActivity.this, ConsultCatoMainActivity.class);
-//                        intent1.putExtra("expand_index", 0);
-//                        startActivity(intent1);
-//                        break;
-//                    case 5:                         //专业
-//                        Intent intent2 = new Intent(NavigationMenuActivity.this, ConsultCatoMainActivity.class);
-//                        intent2.putExtra("expand_index", 1);
-//                        startActivity(intent2);
-//                        break;
-//                    case 10:                        //关键词
-//                        Intent intent3 = new Intent(NavigationMenuActivity.this, ConsultCatoMainActivity.class);
-//                        intent3.putExtra("expand_index", 2);
-//                        startActivity(intent3);
-//                        break;
-//                    default:
-//                        ConsultCato consultCato = (ConsultCato) parent.getAdapter().getItem(position);
-//                        Intent intent = new Intent(NavigationMenuActivity.this, CatoConsultListActivity.class);
-//                        intent.putExtra("search_key_word", consultCato.getNote());
-//                        intent.putExtra("code", consultCato.getCode());
-//                        startActivity(intent);
-//                        break;
-//                }
-//            }
-//        });
 
     }
 
@@ -492,7 +443,6 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         }
     }
 
-
     @Override
     public void onStyleChanged() {
         finish();
@@ -524,14 +474,6 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                                 DataSupport.updateAll(ConsultCato.class, contentValues, "code = ?", jsonObject.getString("code"));
                             }
                         }
-//                        List<ConsultCato> cList = new ArrayList<>();
-//                        List<ConsultCato> allCatoDQ = DataSupport.where("code like ?", "jz%").limit(5).find(ConsultCato.class);
-//                        List<ConsultCato> allCatoZY = DataSupport.where("code like ?", "z%").limit(5).find(ConsultCato.class);
-//                        List<ConsultCato> allCatoGJC = DataSupport.where("code like ?", "g%").limit(5).find(ConsultCato.class);
-//                        cList.addAll(allCatoDQ);
-//                        cList.addAll(allCatoZY);
-//                        cList.addAll(allCatoGJC);
-//                        catoAdapter.setList(cList);
                         setCatoView();
 
                     }
@@ -656,6 +598,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
             });
             zyLayout.addView(textView);
         }
+
         int length3 = allCatoKW.size();
         for (int i = 0; i < length3; i++) {
             TextView textView = new TextView(this);

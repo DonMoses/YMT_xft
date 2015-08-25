@@ -3,19 +3,17 @@ package com.ymt.demo1.plates;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.BaseFloatActivity;
+import com.ymt.demo1.baseClasses.BaseFloatActivity;
 
 import java.util.ArrayList;
 
@@ -30,7 +28,6 @@ public class MoreCatoActivity extends BaseFloatActivity {
         setContentView(R.layout.activity_more);
         initTitle();
         initView();
-
     }
 
     protected void initTitle() {

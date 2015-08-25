@@ -20,7 +20,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +36,8 @@ import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseFragment;
 import com.ymt.demo1.beams.news.NewsSummary;
-import com.ymt.demo1.main.BaseURLUtil;
-import com.ymt.demo1.main.StringUtils;
+import com.ymt.demo1.utils.BaseURLUtil;
+import com.ymt.demo1.utils.StringUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;

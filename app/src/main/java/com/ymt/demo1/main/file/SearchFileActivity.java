@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +21,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
-import com.ymt.demo1.main.BaseFloatActivity;
+import com.ymt.demo1.baseClasses.BaseFloatActivity;
 
 import java.io.File;
 import java.lang.ref.WeakReference;

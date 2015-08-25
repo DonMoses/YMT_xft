@@ -7,8 +7,8 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
-import com.ymt.demo1.main.AppContext;
-import com.ymt.demo1.main.BaseURLUtil;
+import com.ymt.demo1.utils.AppContext;
+import com.ymt.demo1.utils.BaseURLUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;

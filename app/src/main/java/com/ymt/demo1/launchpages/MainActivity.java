@@ -16,6 +16,7 @@ public class MainActivity extends Activity {
     public static final String LAUNCH_STYLE_KEY = "launch_style_key";
     public static final int LAUNCH_STYLE_CIRCLE_MODE = 0;
     public static final int LAUNCH_STYLE_SLIDE_MODE = 1;
+    public static final int LAUNCH_STYLE_TAB = 2;
     public static final String FIRST_LAUNCH_KEY = "first_launch_key";
 
     @Override

@@ -4,7 +4,6 @@ import android.app.DownloadManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -18,8 +17,8 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.edu.StudyDatumItem;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.PopActionListener;
-import com.ymt.demo1.main.PopActionUtil;
+import com.ymt.demo1.utils.PopActionListener;
+import com.ymt.demo1.utils.PopActionUtil;
 
 /**
  * Created by Dan on 2015/4/29

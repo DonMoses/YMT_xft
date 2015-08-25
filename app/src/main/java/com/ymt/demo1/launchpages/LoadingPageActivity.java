@@ -19,8 +19,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
-import com.ymt.demo1.main.AppContext;
-import com.ymt.demo1.main.BaseURLUtil;
+import com.ymt.demo1.mainStyles.TabMenuActivity;
+import com.ymt.demo1.utils.AppContext;
+import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.mainStyles.CircleMenuActivity;
 import com.ymt.demo1.mainStyles.NavigationMenuActivity;
 
@@ -100,6 +101,10 @@ public class LoadingPageActivity extends Activity {
                 startActivity(new Intent(this, NavigationMenuActivity.class));
                 finish();
                 break;
+            case MainActivity.LAUNCH_STYLE_TAB:
+                startActivity(new Intent(this, TabMenuActivity.class));
+                finish();
+                break;
             default:
                 break;
         }
@@ -176,7 +181,7 @@ public class LoadingPageActivity extends Activity {
             }
         });
 
-        request.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 1, 1));
+        request.setRetryPolicy(new DefaultRetryPolicy(8 * 1000, 1, 1));
 
         return request;
     }

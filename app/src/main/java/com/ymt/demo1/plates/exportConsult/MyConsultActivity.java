@@ -11,7 +11,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.BaseFloatActivity;
+import com.ymt.demo1.baseClasses.BaseFloatActivity;
 import com.ymt.demo1.main.search.SearchActivity;
 
 /**

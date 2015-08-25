@@ -13,7 +13,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 
-import com.ymt.demo1.main.AppContext;
+import com.ymt.demo1.utils.AppContext;
 
 public class FloatWindowService extends Service {
 

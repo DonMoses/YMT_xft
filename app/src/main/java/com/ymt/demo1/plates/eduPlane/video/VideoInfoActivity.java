@@ -1,10 +1,9 @@
 package com.ymt.demo1.plates.eduPlane.video;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.main.BaseFloatActivity;
+import com.ymt.demo1.baseClasses.BaseFloatActivity;
 
 /**
  * Created by Dan on 2015/5/22

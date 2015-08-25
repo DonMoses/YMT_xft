@@ -28,7 +28,6 @@ import android.widget.ListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.SimpleHeaderRecyclerAdapter;
 import com.ymt.demo1.adapter.SimpleRecyclerAdapter;
-import com.ymt.demo1.main.BaseFloatActivity;
 
 import java.util.ArrayList;
 

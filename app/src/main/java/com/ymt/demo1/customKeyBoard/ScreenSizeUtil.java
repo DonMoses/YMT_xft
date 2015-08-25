@@ -3,7 +3,7 @@ package com.ymt.demo1.customKeyBoard;
 import android.content.res.Resources;
 import android.util.Log;
 
-import com.ymt.demo1.main.AppContext;
+import com.ymt.demo1.utils.AppContext;
 
 /**
  * Created by Dan on 2015/4/29

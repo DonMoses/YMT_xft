@@ -7,7 +7,7 @@ import android.view.Gravity;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 
-import com.ymt.demo1.main.AppContext;
+import com.ymt.demo1.utils.AppContext;
 
 public class MyWindowManager {
 

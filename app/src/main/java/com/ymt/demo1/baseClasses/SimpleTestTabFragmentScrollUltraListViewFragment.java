@@ -31,8 +31,8 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.SimpleTxtItemAdapter;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollView;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollViewCallbacks;
-import com.ymt.demo1.main.PopActionListener;
-import com.ymt.demo1.main.PopActionUtil;
+import com.ymt.demo1.utils.PopActionListener;
+import com.ymt.demo1.utils.PopActionUtil;
 
 import java.util.ArrayList;
 

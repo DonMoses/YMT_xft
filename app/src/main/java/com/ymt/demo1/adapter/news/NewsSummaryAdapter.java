@@ -3,19 +3,17 @@ package com.ymt.demo1.adapter.news;
 import android.content.Context;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.news.NewsSummary;
-import com.ymt.demo1.main.StringUtils;
+import com.ymt.demo1.utils.StringUtils;
 
 import java.util.ArrayList;
 

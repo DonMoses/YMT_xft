@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.ymt.demo1.R;
 
+import com.ymt.demo1.customKeyBoard.ConsultActivity;
 import com.ymt.demo1.main.setting.ManageAppearanceActivity;
 import com.ymt.demo1.plates.consultCato.ConsultCatoMainActivity;
 import com.ymt.demo1.plates.eduPlane.EduMainActivity;
@@ -145,23 +146,23 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             switch (v.getId()) {
                 case R.id.sign_layout:
-                    signIcon.setImageResource(R.drawable.icon_sign_pressed);
+                    signIcon.setImageResource(R.drawable.icon_register_click);
                     signText.setTextColor(getResources().getColor(android.R.color.holo_blue_bright));
                     break;
                 case R.id.advice_layout:
-                    adviceIcon.setImageResource(R.drawable.icon_advice_pressed);
+                    adviceIcon.setImageResource(R.drawable.icon_suggest_click);
                     adviceText.setTextColor(getResources().getColor(android.R.color.holo_blue_bright));
                     break;
                 case R.id.help_layout:
-                    helpIcon.setImageResource(R.drawable.icon_help_pressed);
+                    helpIcon.setImageResource(R.drawable.icon_help_cilck);
                     helpText.setTextColor(getResources().getColor(android.R.color.holo_blue_bright));
                     break;
                 case R.id.setting_layout:
-                    settingIcon.setImageResource(R.drawable.icon_setting_pressed);
+                    settingIcon.setImageResource(R.drawable.icon_setup_click);
                     settingText.setTextColor(getResources().getColor(android.R.color.holo_blue_bright));
                     break;
                 case R.id.collection_layout:
-                    collectionIcon.setImageResource(R.drawable.icon_collection_pressed);
+                    collectionIcon.setImageResource(R.drawable.icon_collect_click);
                     collectionText.setTextColor(getResources().getColor(android.R.color.holo_blue_bright));
                 default:
                     break;
@@ -175,23 +176,23 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
         if (event.getAction() == MotionEvent.ACTION_UP) {
             switch (v.getId()) {
                 case R.id.sign_layout:
-                    signIcon.setImageResource(R.drawable.icon_sign_in_normal);
+                    signIcon.setImageResource(R.drawable.icon_register);
                     signText.setTextColor(getResources().getColor(android.R.color.darker_gray));
                     break;
                 case R.id.advice_layout:
-                    adviceIcon.setImageResource(R.drawable.icon_advice_normal);
+                    adviceIcon.setImageResource(R.drawable.icon_suggest);
                     adviceText.setTextColor(getResources().getColor(android.R.color.darker_gray));
                     break;
                 case R.id.help_layout:
-                    helpIcon.setImageResource(R.drawable.icon_help_normal);
+                    helpIcon.setImageResource(R.drawable.icon_help);
                     helpText.setTextColor(getResources().getColor(android.R.color.darker_gray));
                     break;
                 case R.id.setting_layout:
-                    settingIcon.setImageResource(R.drawable.icon_setting_normal);
+                    settingIcon.setImageResource(R.drawable.icon_setup);
                     settingText.setTextColor(getResources().getColor(android.R.color.darker_gray));
                     break;
                 case R.id.collection_layout:
-                    collectionIcon.setImageResource(R.drawable.icon_collection_normal);
+                    collectionIcon.setImageResource(R.drawable.icon_collect);
                     collectionText.setTextColor(getResources().getColor(android.R.color.darker_gray));
                 default:
                     break;
@@ -223,9 +224,8 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
                 break;
             case R.id.collection_layout:
                 //跳转到收藏
-
+                startActivity(new Intent(this, ConsultActivity.class));
                 //todo 这里放入一个测试界面，方便开发中测验。 最后修改为收藏界面
-
 
                 break;
             default:

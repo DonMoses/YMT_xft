@@ -82,7 +82,7 @@
                 android:id="@+id/sign_icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@drawable/icon_sign_in_normal" />
+                android:background="@drawable/icon_register" />
 
             <TextView
                 android:id="@+id/sign_text"
@@ -111,7 +111,7 @@
                 android:id="@+id/advice_icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/icon_advice_normal" />
+                android:src="@drawable/icon_suggest" />
 
             <TextView
                 android:id="@+id/advice_text"
@@ -140,7 +140,7 @@
                 android:id="@+id/help_icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/icon_help_normal" />
+                android:src="@drawable/icon_help" />
 
             <TextView
                 android:id="@+id/help_text"
@@ -169,7 +169,7 @@
                 android:id="@+id/setting_icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/icon_setting_normal" />
+                android:src="@drawable/icon_setup" />
 
             <TextView
                 android:id="@+id/setting_text"
@@ -198,7 +198,7 @@
                 android:id="@+id/collection_icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/icon_collection_normal" />
+                android:src="@drawable/icon_collect" />
 
             <TextView
                 android:id="@+id/collection_text"

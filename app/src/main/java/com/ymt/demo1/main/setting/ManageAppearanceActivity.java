@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.MyStyleAdapter;
@@ -17,6 +16,7 @@ import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.launchpages.MainActivity;
 import com.ymt.demo1.mainStyles.CircleMenuActivity;
 import com.ymt.demo1.mainStyles.NavigationMenuActivity;
+import com.ymt.demo1.mainStyles.TabMenuActivity;
 
 import java.util.ArrayList;
 
@@ -93,7 +93,16 @@ public class ManageAppearanceActivity extends Activity {
                         }
                         break;
                     case "选项卡风格":
-                        Toast.makeText(ManageAppearanceActivity.this, "选项卡风格暂时不可用...", Toast.LENGTH_SHORT).show();
+                        Intent intent3 = new Intent();
+                        intent3.setClass(ManageAppearanceActivity.this, TabMenuActivity.class);
+                        intent3.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent3);
+                        editor.putInt(MainActivity.LAUNCH_STYLE_KEY, MainActivity.LAUNCH_STYLE_TAB);      //保存风格设置
+                        editor.apply();
+                        finish();
+                        if (TabMenuActivity.styleChangeListener != null) {
+                            TabMenuActivity.styleChangeListener.onStyleChanged();
+                        }
                         break;
                     default:
                         break;

@@ -29,8 +29,8 @@ import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.PopActionListener;
-import com.ymt.demo1.main.PopActionUtil;
+import com.ymt.demo1.utils.PopActionListener;
+import com.ymt.demo1.utils.PopActionUtil;
 import com.ymt.demo1.main.search.SearchActivity;
 
 /**

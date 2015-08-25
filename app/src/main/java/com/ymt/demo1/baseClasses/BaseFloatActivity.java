@@ -1,7 +1,9 @@
-package com.ymt.demo1.main;
+package com.ymt.demo1.baseClasses;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+
+import com.ymt.demo1.utils.AppContext;
 
 /**
  * Created by Dan on 2015/4/17

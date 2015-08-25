@@ -1,4 +1,4 @@
-package com.ymt.demo1.main;
+package com.ymt.demo1.utils;
 
 import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;

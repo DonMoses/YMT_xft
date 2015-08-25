@@ -20,16 +20,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Gravity;
-import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.PopActionListener;
 import com.ymt.demo1.main.search.SearchActivity;
-import com.ymt.demo1.main.PopActionUtil;
 
 /**
  * This activity just provides a toolbar.

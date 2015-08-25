@@ -40,7 +40,7 @@
         <!--android:verticalSpacing="2dp" />-->
 
     <include
-        layout="@layout/layout_consult_cato_table" />
+        layout="@layout/layout_slide_consult_cato_table" />
 
     <LinearLayout
         android:layout_width="match_parent"

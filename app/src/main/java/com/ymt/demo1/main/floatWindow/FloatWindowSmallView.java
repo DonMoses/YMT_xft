@@ -11,7 +11,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.main.AppContext;
+import com.ymt.demo1.utils.AppContext;
 
 public class FloatWindowSmallView extends LinearLayout {
 

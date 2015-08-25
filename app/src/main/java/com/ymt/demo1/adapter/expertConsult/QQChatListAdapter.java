@@ -14,7 +14,7 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
 import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.launchpages.QQUnreadMsgService;
-import com.ymt.demo1.main.BaseURLUtil;
+import com.ymt.demo1.utils.BaseURLUtil;
 
 import java.util.ArrayList;
 import java.util.List;

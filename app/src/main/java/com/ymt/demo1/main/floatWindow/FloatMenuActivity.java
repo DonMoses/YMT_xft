@@ -2,12 +2,14 @@ package com.ymt.demo1.main.floatWindow;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.main.AppContext;
+import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.plates.MoreCatoActivity;
 import com.ymt.demo1.plates.consultCato.ConsultCatoMainActivity;
 import com.ymt.demo1.plates.eduPlane.EduMainActivity;
@@ -61,7 +63,7 @@ public class FloatMenuActivity extends Activity {
                 R.drawable.icon_float_edu, R.drawable.icon_float_personal_cen,
                 R.drawable.icon_float_news, R.drawable.icon_float_expert};
 
-        CircleMenuLayout circleMenuLayout = (CircleMenuLayout) findViewById(R.id.float_circle_menu_layout);
+        final CircleMenuLayout circleMenuLayout = (CircleMenuLayout) findViewById(R.id.float_circle_menu_layout);
         viewWidth = circleMenuLayout.getLayoutParams().width;
         viewHeight = circleMenuLayout.getLayoutParams().height;
 
@@ -112,7 +114,7 @@ public class FloatMenuActivity extends Activity {
                         break;
                     case 6:
                         MyWindowManager.removeBigWindow();
-                        startActivity( new Intent(FloatMenuActivity.this, NewsTabActivity.class)); //资讯平台;
+                        startActivity(new Intent(FloatMenuActivity.this, NewsTabActivity.class)); //资讯平台;
                         break;
                     case 7:
                         MyWindowManager.removeBigWindow();
@@ -133,8 +135,16 @@ public class FloatMenuActivity extends Activity {
                 MyWindowManager.removeBigWindow();
                 MyWindowManager.removeSmallWindow(AppContext.getContext());
                 MyWindowManager.createSmallWindow(AppContext.getContext());
+
             }
+
         });
 
+    }
+
+    private int getStatusBarHeight() {
+        Resources resources = this.getResources();
+        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+        return resources.getDimensionPixelSize(resourceId);
     }
 }

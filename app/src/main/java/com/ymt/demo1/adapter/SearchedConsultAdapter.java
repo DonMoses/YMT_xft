@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.consult_cato.SearchedConsult;
-import com.ymt.demo1.main.StringUtils;
+import com.ymt.demo1.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;

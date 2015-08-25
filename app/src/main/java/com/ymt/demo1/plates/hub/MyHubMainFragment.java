@@ -41,7 +41,7 @@ import com.ymt.demo1.customViews.obsScrollview.ScrollUtils;
 import com.ymt.demo1.customViews.obsScrollview.Scrollable;
 import com.ymt.demo1.customViews.obsScrollview.TouchInterceptionFrameLayout;
 import com.ymt.demo1.customViews.widget.PagerSlidingTabStrip;
-import com.ymt.demo1.main.AppContext;
+import com.ymt.demo1.utils.AppContext;
 
 /**
  * This fragment manages ViewPager and its child Fragments.

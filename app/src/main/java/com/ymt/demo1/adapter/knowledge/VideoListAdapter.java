@@ -7,19 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
-import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.knowledge.KnowledgeVideo;
-import com.ymt.demo1.main.BaseURLUtil;
-import com.ymt.demo1.main.BitmapCache;
+import com.ymt.demo1.utils.BaseURLUtil;
+import com.ymt.demo1.utils.BitmapCache;
 
 import java.util.ArrayList;
 import java.util.List;

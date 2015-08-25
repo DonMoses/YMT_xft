@@ -18,8 +18,8 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.edu.PastExamsAdapter;
 import com.ymt.demo1.beams.edu.PastExamItem;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.BaseFloatActivity;
-import com.ymt.demo1.main.BaseURLUtil;
+import com.ymt.demo1.baseClasses.BaseFloatActivity;
+import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.main.search.SearchActivity;
 
 import org.json.JSONArray;

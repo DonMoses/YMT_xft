@@ -18,8 +18,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.expertConsult.ExportFollowAdapter;
 import com.ymt.demo1.beams.expert_consult.FollowedExpert;
-import com.ymt.demo1.main.AppContext;
-import com.ymt.demo1.main.BaseURLUtil;
+import com.ymt.demo1.utils.AppContext;
+import com.ymt.demo1.utils.BaseURLUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;

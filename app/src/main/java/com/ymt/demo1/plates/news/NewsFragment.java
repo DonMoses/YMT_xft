@@ -41,9 +41,9 @@ import com.ymt.demo1.baseClasses.BaseFragment;
 import com.ymt.demo1.beams.news.NewsSummary;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollView;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollViewCallbacks;
-import com.ymt.demo1.main.BaseURLUtil;
-import com.ymt.demo1.main.PopActionListener;
-import com.ymt.demo1.main.PopActionUtil;
+import com.ymt.demo1.utils.BaseURLUtil;
+import com.ymt.demo1.utils.PopActionListener;
+import com.ymt.demo1.utils.PopActionUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;

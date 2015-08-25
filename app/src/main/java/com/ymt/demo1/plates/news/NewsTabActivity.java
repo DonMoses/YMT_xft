@@ -1,17 +1,13 @@
 package com.ymt.demo1.plates.news;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.customViews.obsScrollview.CacheFragmentStatePagerAdapter;
-import com.ymt.demo1.main.BaseFloatActivity;
-import com.ymt.demo1.main.PopActionListener;
-import com.ymt.demo1.plates.knowledge.KnowledgePagerTabParentFragment;
+import com.ymt.demo1.baseClasses.BaseFloatActivity;
 
 /**
  * Created by Dan on 2015/6/8

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_corner_6_white"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="6dp"
+    android:paddingLeft="18dp"
+    android:paddingRight="18dp"
+    android:paddingTop="6dp"
+    android:shrinkColumns="*"
+    android:stretchColumns="*">
+
+    <TableRow
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp">
+
+        <LinearLayout
+            android:id="@+id/news_layout"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/icon_banner_news" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="资讯平台"
+                android:textColor="@color/material_blue_grey_800" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/expert_layout"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_banner_expert" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="专家咨询"
+                android:textColor="@color/material_blue_grey_800" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/edu_layout"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_banner_edu" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="教育平台"
+                android:textColor="@color/material_blue_grey_800" />
+        </LinearLayout>
+    </TableRow>
+
+    <TableRow
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="8dp">
+
+        <LinearLayout
+            android:id="@+id/knowledge_layout"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/icon_banner_knowledge" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="知识平台"
+                android:textColor="@color/material_blue_grey_800" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/hub_layout"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_banner_hub" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="论坛"
+                android:textColor="@color/material_blue_grey_800" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/more_layout"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_banner_more" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="更多"
+                android:textColor="@color/material_blue_grey_800" />
+        </LinearLayout>
+    </TableRow>
+
+</TableLayout>

@@ -27,10 +27,10 @@ import com.ymt.demo1.beams.expert_consult.QQChatInfo;
 import com.ymt.demo1.beams.expert_consult.QQMsg;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.launchpages.MainActivity;
-import com.ymt.demo1.main.AppContext;
-import com.ymt.demo1.main.BaseURLUtil;
-import com.ymt.demo1.main.PopActionListener;
-import com.ymt.demo1.main.PopActionUtil;
+import com.ymt.demo1.utils.AppContext;
+import com.ymt.demo1.utils.BaseURLUtil;
+import com.ymt.demo1.utils.PopActionListener;
+import com.ymt.demo1.utils.PopActionUtil;
 import com.ymt.demo1.mainStyles.CircleMenuActivity;
 import com.ymt.demo1.mainStyles.NavigationMenuActivity;
 
@@ -219,7 +219,7 @@ public class SignInActivity extends Activity {
             }
         });
 
-        request.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 1, 1));
+        request.setRetryPolicy(new DefaultRetryPolicy(8 * 1000, 1, 1));
         return request;
     }
 

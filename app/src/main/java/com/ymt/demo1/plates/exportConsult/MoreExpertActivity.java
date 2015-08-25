@@ -17,9 +17,9 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.expertConsult.ExpertListAdapter;
 import com.ymt.demo1.beams.expert_consult.Expert;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.AppContext;
-import com.ymt.demo1.main.BaseFloatActivity;
-import com.ymt.demo1.main.BaseURLUtil;
+import com.ymt.demo1.utils.AppContext;
+import com.ymt.demo1.baseClasses.BaseFloatActivity;
+import com.ymt.demo1.utils.BaseURLUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;

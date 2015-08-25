@@ -14,9 +14,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.AppContext;
-import com.ymt.demo1.main.BaseFloatActivity;
-import com.ymt.demo1.main.BaseURLUtil;
+import com.ymt.demo1.utils.AppContext;
+import com.ymt.demo1.baseClasses.BaseFloatActivity;
+import com.ymt.demo1.utils.BaseURLUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;

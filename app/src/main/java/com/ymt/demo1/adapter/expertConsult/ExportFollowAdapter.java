@@ -1,7 +1,6 @@
 package com.ymt.demo1.adapter.expertConsult;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +14,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.expert_consult.Expert;
 import com.ymt.demo1.beams.expert_consult.FollowedExpert;
 import com.ymt.demo1.customViews.CircleImageView;
-import com.ymt.demo1.main.AppContext;
-import com.ymt.demo1.main.BaseURLUtil;
-import com.ymt.demo1.plates.exportConsult.ExpertInfoActivity;
+import com.ymt.demo1.utils.AppContext;
+import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.plates.exportConsult.MyConsultActivity;
 
 import org.json.JSONException;

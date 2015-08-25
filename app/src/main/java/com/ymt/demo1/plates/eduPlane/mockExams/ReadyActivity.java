@@ -3,11 +3,10 @@ package com.ymt.demo1.plates.eduPlane.mockExams;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.BaseFloatActivity;
+import com.ymt.demo1.baseClasses.BaseFloatActivity;
 
 /**
  * Created by Dan on 2015/7/17

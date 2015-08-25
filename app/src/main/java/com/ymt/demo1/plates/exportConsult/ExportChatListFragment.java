@@ -25,8 +25,8 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.expertConsult.QQChatListAdapter;
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
 import com.ymt.demo1.launchpages.QQUnreadMsgService;
-import com.ymt.demo1.main.AppContext;
-import com.ymt.demo1.main.BaseURLUtil;
+import com.ymt.demo1.utils.AppContext;
+import com.ymt.demo1.utils.BaseURLUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -2,7 +2,6 @@ package com.ymt.demo1.main.setting;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,8 +17,8 @@ import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
 import com.ymt.demo1.beams.expert_consult.QQMsg;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.AppContext;
-import com.ymt.demo1.main.BaseURLUtil;
+import com.ymt.demo1.utils.AppContext;
+import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.main.sign.ChangePswActivity;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.LongClickItemsAdapter;

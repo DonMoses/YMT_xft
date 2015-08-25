@@ -8,7 +8,6 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -21,8 +20,8 @@ import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.expert_consult.Expert;
 import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.AppContext;
-import com.ymt.demo1.main.BaseURLUtil;
+import com.ymt.demo1.utils.AppContext;
+import com.ymt.demo1.utils.BaseURLUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;

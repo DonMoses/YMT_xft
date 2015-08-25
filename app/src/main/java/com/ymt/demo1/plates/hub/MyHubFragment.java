@@ -37,14 +37,13 @@ import com.ymt.demo1.adapter.hub.MyHubPostAdapter;
 import com.ymt.demo1.adapter.hub.MyHubReplyAdapter;
 import com.ymt.demo1.adapter.hub.MyHubSysInfoAdapter;
 import com.ymt.demo1.baseClasses.BaseFragment;
-import com.ymt.demo1.beams.hub.HubSubjectII;
 import com.ymt.demo1.beams.hub.MyHubPost;
 import com.ymt.demo1.beams.hub.MyHubReply;
 import com.ymt.demo1.beams.hub.MyHubSysInfo;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollView;
 import com.ymt.demo1.customViews.obsScrollview.ObservableScrollViewCallbacks;
-import com.ymt.demo1.main.AppContext;
-import com.ymt.demo1.main.BaseURLUtil;
+import com.ymt.demo1.utils.AppContext;
+import com.ymt.demo1.utils.BaseURLUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;

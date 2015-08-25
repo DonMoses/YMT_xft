@@ -15,11 +15,10 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.hub.Subject2Adapter;
-import com.ymt.demo1.beams.hub.HubSubjectI;
 import com.ymt.demo1.beams.hub.HubSubjectII;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.BaseFloatActivity;
-import com.ymt.demo1.main.BaseURLUtil;
+import com.ymt.demo1.baseClasses.BaseFloatActivity;
+import com.ymt.demo1.utils.BaseURLUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -35,7 +35,7 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.hub.HubPlateAdapter;
 import com.ymt.demo1.baseClasses.BaseFragment;
 import com.ymt.demo1.beams.hub.HubPlate;
-import com.ymt.demo1.main.BaseURLUtil;
+import com.ymt.demo1.utils.BaseURLUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;

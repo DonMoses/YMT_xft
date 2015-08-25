@@ -1,4 +1,4 @@
-package com.ymt.demo1.main;
+package com.ymt.demo1.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,8 @@ import org.litepal.LitePalApplication;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * Created by Dan on 2015/4/16
  */
@@ -25,6 +27,8 @@ public class AppContext extends LitePalApplication {
     public static String now_session_id;
     public static String now_user_name;
     public static int screenWidth;
+    public static int sysKeyBoardWidth;
+    public static int sysKeyBoardHeight;
     public static Bitmap headerPic;
 
     public static SharedPreferences getSaveAccountPrefecences(Context context) {
@@ -37,10 +41,14 @@ public class AppContext extends LitePalApplication {
 
     @Override
     public final void onCreate() {
+        super.onCreate();
         if (yActivities == null) {
             yActivities = new ArrayList<>();
         }
         appContext = this;
+
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
 
     }
 
