@@ -52,7 +52,7 @@ import com.ymt.demo1.utils.PopActionListener;
 import com.ymt.demo1.utils.PopActionUtil;
 import com.ymt.demo1.utils.StringUtils;
 import com.ymt.demo1.main.search.SearchActivity;
-import com.ymt.demo1.main.sign.SignInActivity;
+import com.ymt.demo1.main.sign.SignInFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -124,7 +124,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
                     case "我的咨询":
                         if (TextUtils.isEmpty(AppContext.now_session_id)) {
                             //先登录
-                            startActivity(new Intent(ExportConsultMainActivity.this, SignInActivity.class));
+                            startActivity(new Intent(ExportConsultMainActivity.this, SignInFragment.class));
                         } else {
                             //我的咨询
                             startActivity(new Intent(ExportConsultMainActivity.this, MyConsultActivity.class));

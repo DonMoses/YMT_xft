@@ -1,7 +1,10 @@
 package com.ymt.demo1.adapter;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.utils.AppContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +64,10 @@ public class LongClickItemsAdapter extends BaseAdapter {
         }
 
         textView.setText(mList.get(position));
+        if (mList.get(position).equals("软件更新")) {
+            textView.setText(mList.get(position) + "      当前版本：" + AppContext.version);
+        }
+
         if (selectedPosition != position) {
             convertView.setBackgroundColor(Color.WHITE);
             textView.setTextColor(Color.DKGRAY);

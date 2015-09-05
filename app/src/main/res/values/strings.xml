@@ -59,12 +59,14 @@
 
     <string-array name="setting_array">
 
-        <item>账号登录</item>
-        <item>注册</item>
+        <item>登录注册</item>
         <item>修改登录密码</item>
         <item>自定义皮肤</item>
         <item>储存设置</item>
+        <item>分享</item>
         <item>关于我们</item>
+        <item>软件更新</item>
+        <item>卸载</item>
 
     </string-array>
 

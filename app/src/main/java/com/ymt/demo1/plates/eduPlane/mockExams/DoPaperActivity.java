@@ -32,7 +32,7 @@ import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.utils.PopActionListener;
 import com.ymt.demo1.utils.PopActionUtil;
-import com.ymt.demo1.main.sign.SignInActivity;
+import com.ymt.demo1.main.sign.SignInFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -297,7 +297,7 @@ public class DoPaperActivity extends BaseActivity {
 
     protected StringRequest getPaper(String exam_id) {
         if (TextUtils.isEmpty(AppContext.now_session_id)) {
-            startActivity(new Intent(this, SignInActivity.class));
+            startActivity(new Intent(this, SignInFragment.class));
             return null;
         } else {
             return new StringRequest(BaseURLUtil.getPaperContent(exam_id), new Response.Listener<String>() {

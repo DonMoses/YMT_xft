@@ -111,7 +111,7 @@ public class ChangePswActivity extends Activity {
                         queue.add(signOutAction(AppContext.now_session_id));
 
                         //跳转登录界面
-                        Intent intent = new Intent(ChangePswActivity.this, SignInActivity.class);
+                        Intent intent = new Intent(ChangePswActivity.this, SignInFragment.class);
                         intent.putExtra("change", true);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("account", loginName);

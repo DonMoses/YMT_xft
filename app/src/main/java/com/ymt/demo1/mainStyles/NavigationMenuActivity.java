@@ -39,8 +39,6 @@ import com.ymt.demo1.main.advice.AdviceActivity;
 import com.ymt.demo1.main.help.HelpActivity;
 import com.ymt.demo1.main.setting.ManageAppearanceActivity;
 import com.ymt.demo1.main.setting.SettingActivity;
-import com.ymt.demo1.main.sign.SignInActivity;
-import com.ymt.demo1.main.sign.SignUpActivity;
 import com.ymt.demo1.plates.MoreCatoActivity;
 import com.ymt.demo1.plates.consultCato.CatoConsultListActivity;
 import com.ymt.demo1.plates.consultCato.ConsultCatoMainActivity;
@@ -80,7 +78,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         super.onCreate(savedInstanceState);
 //        catoList = new ArrayList<>();
         RequestQueue mQueue = Volley.newRequestQueue(this);
-        mQueue.add(getCatoRequest(BaseURLUtil.XF_PUB_JZXF));
+        mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_JZ));
         mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_ZY));
         mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_GJC));
         styleChangeListener = this;
@@ -254,16 +252,12 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         //头像
         personIconBtn = (CircleImageView) findViewById(R.id.personal_icon_btn);
         userName = (TextView) findViewById(R.id.user_name);
-        //注册
-        View signUp = findViewById(R.id.sign_up);
         //帮助
         View help = findViewById(R.id.help);
         //建议
         View advice = findViewById(R.id.advice);
         //设置
         View setting = findViewById(R.id.setting);
-        //登录
-        View singIn = findViewById(R.id.sign_in);
         //推荐
         View recommend = findViewById(R.id.recommend);
         //卸载
@@ -277,10 +271,6 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                         startActivity(new Intent(NavigationMenuActivity.this, PersonalPagerTabActivity.class));
                         mDrawerLayout.closeDrawers();                                                       //个人中心
                         break;
-                    case R.id.sign_up:
-                        startActivity(new Intent(NavigationMenuActivity.this, SignUpActivity.class));       //注册
-                        mDrawerLayout.closeDrawers();
-                        break;
                     case R.id.help:
                         startActivity(new Intent(NavigationMenuActivity.this, HelpActivity.class));         //帮助
                         mDrawerLayout.closeDrawers();
@@ -291,10 +281,6 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                         break;
                     case R.id.setting:
                         startActivity(new Intent(NavigationMenuActivity.this, SettingActivity.class));      //设置
-                        mDrawerLayout.closeDrawers();
-                        break;
-                    case R.id.sign_in:
-                        startActivity(new Intent(NavigationMenuActivity.this, SignInActivity.class));       //登录
                         mDrawerLayout.closeDrawers();
                         break;
                     case R.id.recommend:
@@ -323,11 +309,9 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         };
 
         personIconBtn.setOnClickListener(onClickListener);
-        signUp.setOnClickListener(onClickListener);
         help.setOnClickListener(onClickListener);
         advice.setOnClickListener(onClickListener);
         setting.setOnClickListener(onClickListener);
-        singIn.setOnClickListener(onClickListener);
         recommend.setOnClickListener(onClickListener);
         uninstall.setOnClickListener(onClickListener);
     }
@@ -555,7 +539,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
             kwLayout.removeAllViews();
         }
 
-        final List<ConsultCato> allCatoJZ = DataSupport.where("code like ?", "jz%").find(ConsultCato.class);
+        final List<ConsultCato> allCatoJZ = DataSupport.where("code like ?", "j%").find(ConsultCato.class);
         List<ConsultCato> allCatoZY = DataSupport.where("code like ?", "z%").find(ConsultCato.class);
         List<ConsultCato> allCatoKW = DataSupport.where("code like ?", "g%").find(ConsultCato.class);
         int length1 = allCatoJZ.size();

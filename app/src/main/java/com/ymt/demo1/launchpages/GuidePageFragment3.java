@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.main.sign.SignInActivity;
-import com.ymt.demo1.main.sign.SignUpActivity;
+import com.ymt.demo1.main.sign.SignInFragment;
+import com.ymt.demo1.main.sign.SignUpFragment;
 
 /**
  * Created by Moses on 2015
@@ -58,11 +58,11 @@ public class GuidePageFragment3 extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.guide_sign_in:
-                        startActivity(new Intent(getActivity(), SignInActivity.class));
+                        startActivity(new Intent(getActivity(), SignInFragment.class));
                         getActivity().finish();
                         break;
                     case R.id.guide_sign_up:
-                        startActivity(new Intent(getActivity(), SignUpActivity.class));
+                        startActivity(new Intent(getActivity(), SignUpFragment.class));
                         getActivity().finish();
                         break;
                     case R.id.guide_try_now:

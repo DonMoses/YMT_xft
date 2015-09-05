@@ -4,7 +4,7 @@ package com.ymt.demo1.utils;
  * Created by Dan on 2015/6/10
  */
 public class BaseURLUtil {
-    public static final String XF_PUB_JZXF = "XF_PUB_JZXF";
+    public static final String PUB_ZX_JZ = "PUB_ZX_JZ";
     public static final String PUB_ZX_GJC = "PUB_ZX_GJC";
     public static final String PUB_ZX_ZY = "PUB_ZX_ZY";
     //    public static final String BASE_URL = "http://120.24.172.105";

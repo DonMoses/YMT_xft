@@ -37,7 +37,7 @@ import com.ymt.demo1.main.help.HelpActivity;
 import com.ymt.demo1.main.search.SearchActivity;
 import com.ymt.demo1.main.setting.ManageAppearanceActivity;
 import com.ymt.demo1.main.setting.SettingActivity;
-import com.ymt.demo1.main.sign.SignUpActivity;
+import com.ymt.demo1.main.sign.SignUpFragment;
 import com.ymt.demo1.plates.MoreCatoActivity;
 import com.ymt.demo1.plates.consultCato.CatoConsultListActivity;
 import com.ymt.demo1.plates.consultCato.ConsultCatoMainActivity;
@@ -79,7 +79,7 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
         super.onCreate(savedInstanceState);
 //        catoList = new ArrayList<>();
         RequestQueue mQueue = Volley.newRequestQueue(this);
-        mQueue.add(getCatoRequest(BaseURLUtil.XF_PUB_JZXF));
+        mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_JZ));
         mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_ZY));
         mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_GJC));
         styleChangeListener = this;
@@ -392,7 +392,7 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
         switch (v.getId()) {
             case R.id.sign_layout:
                 //跳转到注册界面
-                startActivity(new Intent(this, SignUpActivity.class));
+                startActivity(new Intent(this, SignUpFragment.class));
                 break;
             case R.id.advice_layout:
                 //跳转到意见反馈
@@ -623,7 +623,7 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
             kwLayout.removeAllViews();
         }
 
-        final List<ConsultCato> allCatoJZ = DataSupport.where("code like ?", "jz%").find(ConsultCato.class);
+        final List<ConsultCato> allCatoJZ = DataSupport.where("code like ?", "j%").find(ConsultCato.class);
         List<ConsultCato> allCatoZY = DataSupport.where("code like ?", "z%").find(ConsultCato.class);
         List<ConsultCato> allCatoKW = DataSupport.where("code like ?", "g%").find(ConsultCato.class);
         int length1 = allCatoJZ.size();

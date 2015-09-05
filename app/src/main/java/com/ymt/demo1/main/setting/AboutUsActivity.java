@@ -15,15 +15,10 @@ public class AboutUsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
-        initTitle();
+        initView();
     }
 
     protected void initView() {
-
-
-    }
-
-    protected void initTitle() {
         MyTitle title = (MyTitle) findViewById(R.id.my_title);
         title.setTitleStyle(MyTitle.TitleStyle.LEFT_ICON);
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {

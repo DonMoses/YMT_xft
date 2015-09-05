@@ -1,12 +1,16 @@
 package com.ymt.demo1.main.sign;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,7 +29,6 @@ import com.ymt.demo1.beams.SearchString;
 import com.ymt.demo1.beams.consult_cato.SearchedConsult;
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
 import com.ymt.demo1.beams.expert_consult.QQMsg;
-import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.launchpages.MainActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
@@ -42,7 +45,7 @@ import org.litepal.crud.DataSupport;
 /**
  * Created by Dan on 2015/4/2
  */
-public class SignInActivity extends Activity {
+public class SignInFragment extends Fragment {
     String account;
     String psw;
 
@@ -54,35 +57,20 @@ public class SignInActivity extends Activity {
     private Button signInBtn;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        isFromConsult = getIntent().getBooleanExtra("isFromConsult", false);
-        queue = Volley.newRequestQueue(this);
-        setContentView(R.layout.activity_sign_in);
-        initTitle();
-        initView();
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_sign_in, container, false);
+        isFromConsult = getActivity().getIntent().getBooleanExtra("isFromConsult", false);
+        queue = Volley.newRequestQueue(getActivity());
+        initView(view);
+        return view;
     }
 
-    protected void initTitle() {
-        MyTitle title = (MyTitle) findViewById(R.id.my_title);
-        title.setTitleStyle(MyTitle.TitleStyle.LEFT_ICON);
-        title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
-            @Override
-            public void onClick() {
-                finish();
-            }
-        });
-    }
+    protected void initView(View view) {
+        final Button autoAccBtn = (Button) view.findViewById(R.id.auto_create_account_btn);
+        accountETxt = (EditText) view.findViewById(R.id.sign_in_account_text);
+        pswETxt = (EditText) view.findViewById(R.id.sign_in_psw_text);
 
-    protected void initView() {
-        final Button signUpBtn = (Button) findViewById(R.id.jump_sign_up);
-//        final Button foundPswBtn = (Button) findViewById(R.id.jump_found_psw);
-        final Button autoAccBtn = (Button) findViewById(R.id.auto_create_account_btn);
-        accountETxt = (EditText) findViewById(R.id.sign_in_account_text);
-        pswETxt = (EditText) findViewById(R.id.sign_in_psw_text);
-
-        sharedPreferences = AppContext.getSaveAccountPrefecences(this);
+        sharedPreferences = AppContext.getSaveAccountPrefecences(getActivity());
 
               /*
         从sharedPreference获取保存到本地的账号信息
@@ -94,32 +82,20 @@ public class SignInActivity extends Activity {
         pswETxt.setText(savedPsw);
 
         //登录按钮
-        signInBtn = (Button) findViewById(R.id.sign_in_btn);
-        final ImageButton wechatBtn = (ImageButton) findViewById(R.id.sign_in_wechat);
-        final ImageButton qqBtn = (ImageButton) findViewById(R.id.sign_in_qq);
-        final ImageButton sinaBtn = (ImageButton) findViewById(R.id.sign_in_sina);
+        signInBtn = (Button) view.findViewById(R.id.sign_in_btn);
+        final ImageButton wechatBtn = (ImageButton) view.findViewById(R.id.sign_in_wechat);
+        final ImageButton qqBtn = (ImageButton) view.findViewById(R.id.sign_in_qq);
+        final ImageButton sinaBtn = (ImageButton) view.findViewById(R.id.sign_in_sina);
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //todo 获取网络账号密码信息
                 switch (v.getId()) {
-                    case R.id.jump_sign_up:
-                        //跳转到注册界面
-                        startActivityForResult(new Intent(SignInActivity.this, SignUpActivity.class), 0);
-                        break;
                     case R.id.auto_create_account_btn:
                         //自动分配账号
                         queue.add(getAutoAccount());
                         break;
-//                    case R.id.jump_found_psw:
-//                        //找回密码逻辑
-////                        foundPswBtn.setBackgroundColor(Color.BLUE);
-////                        foundPswBtn.setTextColor(Color.WHITE);
-//                        Intent intent = new Intent(SignInActivity.this, ChangePswActivity.class);
-//                        intent.putExtra("loginName", accountETxt.getText().toString());
-//                        startActivityForResult(intent, 128);
-//                        break;
                     case R.id.sign_in_btn:
                         /*获取用户名和密码，匹配则登录（跳转到个人界面），不匹配弹出提示框*/
                         account = accountETxt.getText().toString();
@@ -156,9 +132,7 @@ public class SignInActivity extends Activity {
             }
         };
 
-        signUpBtn.setOnClickListener(onClickListener);
         autoAccBtn.setOnClickListener(onClickListener);
-//        foundPswBtn.setOnClickListener(onClickListener);
         signInBtn.setOnClickListener(onClickListener);
         wechatBtn.setOnClickListener(onClickListener);
         qqBtn.setOnClickListener(onClickListener);
@@ -176,7 +150,7 @@ public class SignInActivity extends Activity {
                     JSONObject jsonObject = new JSONObject(s);
                     if (jsonObject.getString("result").equals("Y")) {
                         //登录成功
-                        Toast.makeText(SignInActivity.this, R.string.sign_in_ok, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.sign_in_ok, Toast.LENGTH_SHORT).show();
                         String userId = jsonObject.optString("id");
                         String userSId = jsonObject.optString("sId");
 
@@ -195,7 +169,7 @@ public class SignInActivity extends Activity {
 
                         chooseLaunchStyle();
                     } else {
-                        Toast.makeText(SignInActivity.this, jsonObject.getString("result"), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), jsonObject.getString("result"), Toast.LENGTH_SHORT).show();
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("account", account);
                         editor.putString("password", psw);
@@ -209,13 +183,13 @@ public class SignInActivity extends Activity {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(SignInActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(SignInActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), volleyError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -224,11 +198,11 @@ public class SignInActivity extends Activity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //这里不能调用super的方法，如果调用则下面代码失效
         switch (requestCode) {
             case 0:
-                if (resultCode == RESULT_OK) {      //从注册界面返回的账号和密码
+                if (resultCode == Activity.RESULT_OK) {      //从注册界面返回的账号和密码
                     accountETxt.setText(data.getStringExtra("account"));
                     pswETxt.setText(data.getStringExtra("password"));
                     Log.e("TAG", "account>>>" + data.getStringExtra("account"));
@@ -236,7 +210,7 @@ public class SignInActivity extends Activity {
                 }
                 break;
             case 128:
-                if (resultCode == RESULT_OK) {      //从注册界面返回的账号和密码
+                if (resultCode == Activity.RESULT_OK) {      //从注册界面返回的账号和密码
                     accountETxt.setText(data.getStringExtra("loginName"));
                     pswETxt.setText(data.getStringExtra("psw"));
                     Log.e("TAG", "account>>>" + data.getStringExtra("account"));
@@ -249,7 +223,7 @@ public class SignInActivity extends Activity {
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         //保存成功的信息到本地sharedPreference
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("account", account);
@@ -260,16 +234,16 @@ public class SignInActivity extends Activity {
 
     protected void chooseLaunchStyle() {
         SharedPreferences sharedPreferences =
-                getSharedPreferences(MainActivity.SETTING_PREFERENCES, MODE_PRIVATE);
+                getActivity().getSharedPreferences(MainActivity.SETTING_PREFERENCES, Context.MODE_PRIVATE);
         int style = sharedPreferences.getInt(MainActivity.LAUNCH_STYLE_KEY, 0);
         switch (style) {
             case MainActivity.LAUNCH_STYLE_CIRCLE_MODE:
-                startActivity(new Intent(this, CircleMenuActivity.class));
-                finish();
+                startActivity(new Intent(getActivity(), CircleMenuActivity.class));
+                getActivity().finish();
                 break;
             case MainActivity.LAUNCH_STYLE_SLIDE_MODE:
-                startActivity(new Intent(this, NavigationMenuActivity.class));
-                finish();
+                startActivity(new Intent(getActivity(), NavigationMenuActivity.class));
+                getActivity().finish();
                 break;
             default:
                 break;
@@ -315,10 +289,10 @@ public class SignInActivity extends Activity {
      */
     protected void popAutoAccountInfo(String login_name, String pwd) {
         final WindowManager.LayoutParams lp =
-                SignInActivity.this.getWindow().getAttributes();
+                getActivity().getWindow().getAttributes();
         lp.alpha = 0.3f;
-        SignInActivity.this.getWindow().setAttributes(lp);
-        PopActionUtil popActionUtil = PopActionUtil.getInstance(SignInActivity.this);
+        getActivity().getWindow().setAttributes(lp);
+        PopActionUtil popActionUtil = PopActionUtil.getInstance(getActivity());
         popActionUtil.setActionListener(new PopActionListener() {
             @Override
             public void onAction(String action) {
@@ -335,7 +309,7 @@ public class SignInActivity extends Activity {
             @Override
             public void onDismiss() {
                 lp.alpha = 1f;
-                SignInActivity.this.getWindow().setAttributes(lp);
+                getActivity().getWindow().setAttributes(lp);
             }
         });
         //todo 获取服务器返回的随机账号和密码

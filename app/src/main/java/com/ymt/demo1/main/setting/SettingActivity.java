@@ -2,6 +2,7 @@ package com.ymt.demo1.main.setting;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,13 +18,13 @@ import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
 import com.ymt.demo1.beams.expert_consult.QQMsg;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.sign.SignInUpActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.main.sign.ChangePswActivity;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.LongClickItemsAdapter;
-import com.ymt.demo1.main.sign.SignInActivity;
-import com.ymt.demo1.main.sign.SignUpActivity;
+import com.ymt.demo1.main.sign.SignInFragment;
 
 import org.litepal.crud.DataSupport;
 
@@ -72,35 +73,44 @@ public class SettingActivity extends Activity {
 
                 //跳转到设置详细页面
                 switch (position) {
-                    case 0:            //账号登陆
-                        startActivity(new Intent(SettingActivity.this, SignInActivity.class));
+                    case 0:            //登录、注册
+                        startActivity(new Intent(SettingActivity.this, SignInUpActivity.class));
                         finish();
                         break;
-                    case 1:            //注册
-                        startActivity(new Intent(SettingActivity.this, SignUpActivity.class));
-                        finish();
-                        break;
-                    case 2:            //修改登录密码
+                    case 1:            //修改登录密码
                         Intent intent1 = new Intent(SettingActivity.this, ChangePswActivity.class);
                         intent1.putExtra("loginName", AppContext.now_user_name);
                         startActivityForResult(intent1, 128);
                         finish();
                         break;
-                    case 3:            //自定义皮肤
+                    case 2:            //自定义皮肤
                         startActivity(new Intent(SettingActivity.this, ManageAppearanceActivity.class));
                         finish();
                         break;
-                    case 4:            //存储设置
+                    case 3:            //存储设置
                         startActivity(new Intent(SettingActivity.this, ManageStoreActivity.class));
                         finish();
                         break;
-                    case 5:            //推荐给好友
+                    case 4:            //推荐给好友
                         Intent intent = new Intent(Intent.ACTION_SEND);
                         intent.setType("*/*");
                         intent.putExtra(Intent.EXTRA_SUBJECT, "好友推荐");
                         intent.putExtra(Intent.EXTRA_TEXT, "嗨，我正在新消防，你也来试试！");
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(Intent.createChooser(intent, getTitle()));
+                        finish();
+                        break;
+                    case 5:             //关于我们
+                        startActivity(new Intent(SettingActivity.this, AboutUsActivity.class));
+                        finish();
+                        break;
+                    case 6:             //软件更新
+                        //todo 检查更新
+                        break;
+                    case 7:             //卸载
+                        Uri packageURI = Uri.parse("package:com.ymt.demo1");//通过程序的包名创建URI           //卸载
+                        Intent deleteIntent = new Intent(Intent.ACTION_DELETE, packageURI);
+                        startActivity(deleteIntent); //执行卸载程序
                         finish();
                         break;
                     default:
@@ -124,7 +134,7 @@ public class SettingActivity extends Activity {
                 DataSupport.deleteAll(QQMsg.class);
                 DataSupport.deleteAll(QQChatInfo.class);
                 mQueue.add(signOutAction(AppContext.now_session_id));
-                Intent intent = new Intent(SettingActivity.this, SignInActivity.class);
+                Intent intent = new Intent(SettingActivity.this, SignInFragment.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);                //清楚前面所有Activity
                 startActivity(intent);
                 //结束本活动

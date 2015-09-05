@@ -13,6 +13,7 @@ import com.ymt.demo1.R;
 
 import com.ymt.demo1.customKeyBoard.ConsultActivity;
 import com.ymt.demo1.main.setting.ManageAppearanceActivity;
+import com.ymt.demo1.main.sign.SignInUpActivity;
 import com.ymt.demo1.plates.consultCato.ConsultCatoMainActivity;
 import com.ymt.demo1.plates.eduPlane.EduMainActivity;
 import com.ymt.demo1.plates.exportConsult.ExportConsultMainActivity;
@@ -21,7 +22,6 @@ import com.ymt.demo1.plates.MoreCatoActivity;
 import com.ymt.demo1.main.advice.AdviceActivity;
 import com.ymt.demo1.main.help.HelpActivity;
 import com.ymt.demo1.main.setting.SettingActivity;
-import com.ymt.demo1.main.sign.SignUpActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
 import com.ymt.demo1.plates.news.NewsTabActivity;
 import com.ymt.demo1.plates.personal.PersonalPagerTabActivity;
@@ -208,23 +208,28 @@ public class CircleMenuActivity extends Activity implements View.OnTouchListener
         switch (v.getId()) {
             case R.id.sign_layout:
                 //跳转到注册界面
-                startActivity(new Intent(this, SignUpActivity.class));
+                startActivity(new Intent(this, SignInUpActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
                 break;
             case R.id.advice_layout:
                 //跳转到意见反馈
                 startActivity(new Intent(this, AdviceActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
                 break;
             case R.id.help_layout:
                 //跳转到帮助中心
                 startActivity(new Intent(this, HelpActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
                 break;
             case R.id.setting_layout:
                 //跳转到设置
                 startActivity(new Intent(this, SettingActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
                 break;
             case R.id.collection_layout:
                 //跳转到收藏
                 startActivity(new Intent(this, ConsultActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
                 //todo 这里放入一个测试界面，方便开发中测验。 最后修改为收藏界面
 
                 break;

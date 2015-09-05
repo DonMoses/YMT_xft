@@ -9,4 +9,6 @@
     <item name="search_edit_text" type="id" />
     <item name="search_btn" type="id" />
     <item name="search_history_gridView" type="id" />
+    <item name="sign_in" type="id"/>
+    <item name="sign_up" type="id"/>
 </resources>

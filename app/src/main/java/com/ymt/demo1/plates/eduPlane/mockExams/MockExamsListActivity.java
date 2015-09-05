@@ -24,7 +24,7 @@ import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.baseClasses.BaseFloatActivity;
 import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.main.search.SearchActivity;
-import com.ymt.demo1.main.sign.SignInActivity;
+import com.ymt.demo1.main.sign.SignInFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -131,7 +131,7 @@ public class MockExamsListActivity extends BaseFloatActivity {
                     //todo (其他试卷信息)
                 } else {
                     Toast.makeText(MockExamsListActivity.this, "请登录!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(MockExamsListActivity.this, SignInActivity.class));
+                    startActivity(new Intent(MockExamsListActivity.this, SignInFragment.class));
                 }
 
             }

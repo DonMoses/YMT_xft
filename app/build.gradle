@@ -15,6 +15,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/2'] } }
     sourceSets { main { jniLibs.srcDirs = ['libs'] } } // <-- Set your folder here!
     productFlavors {

@@ -82,6 +82,7 @@ public class LoadingPageActivity extends Activity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+        AppContext.version = version;
         return "版本号" + version;
     }
 

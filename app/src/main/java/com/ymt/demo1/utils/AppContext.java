@@ -30,6 +30,7 @@ public class AppContext extends LitePalApplication {
     public static int sysKeyBoardWidth;
     public static int sysKeyBoardHeight;
     public static Bitmap headerPic;
+    public static String version;
 
     public static SharedPreferences getSaveAccountPrefecences(Context context) {
         return context.getSharedPreferences("saved_account", MODE_PRIVATE);

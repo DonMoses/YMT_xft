@@ -43,65 +43,30 @@
         android:orientation="vertical">
 
         <TableRow
-            android:layout_marginTop="14dp"
-            android:id="@+id/sign_up"
-            android:background="@null">
-
-            <ImageView
-                android:src="@drawable/icon_sign_up_normal" />
-
-            <TextView
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:text="注册"
-                android:textColor="@android:color/white" />
-        </TableRow>
-
-        <TableRow
-            android:layout_marginTop="14dp"
-            android:id="@+id/sign_in"
-            android:background="@null">
-
-            <ImageView
-                android:src="@drawable/icon_sign_in_normal" />
-
-            <TextView
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_gravity="center_vertical"
-                android:text="登录"
-                android:textColor="@android:color/white" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_marginTop="14dp"
             android:id="@+id/help"
+            android:layout_marginTop="14dp"
             android:background="@null">
 
-            <ImageView
-                android:src="@drawable/icon_help_normal" />
+            <ImageView android:src="@drawable/icon_help_normal" />
 
             <TextView
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_gravity="center_vertical"
                 android:text="帮助"
                 android:textColor="@android:color/white" />
         </TableRow>
 
         <TableRow
-            android:layout_marginTop="14dp"
             android:id="@+id/advice"
+            android:layout_marginTop="14dp"
             android:background="@null">
 
-            <ImageView
-                android:src="@drawable/icon_advice_normal" />
+            <ImageView android:src="@drawable/icon_advice_normal" />
 
             <TextView
-                android:layout_marginLeft="16dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:text="建议"
                 android:textColor="@android:color/white" />
@@ -109,16 +74,15 @@
 
 
         <TableRow
-            android:layout_marginTop="14dp"
             android:id="@+id/setting"
+            android:layout_marginTop="14dp"
             android:background="@null">
 
-            <ImageView
-                android:src="@drawable/icon_setting_normal" />
+            <ImageView android:src="@drawable/icon_setting_normal" />
 
             <TextView
-                android:layout_marginLeft="16dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:text="设置"
                 android:textColor="@android:color/white" />
@@ -126,28 +90,26 @@
 
 
         <TableRow
-            android:layout_marginTop="14dp"
             android:id="@+id/recommend"
+            android:layout_marginTop="14dp"
             android:background="@null">
 
-            <ImageView
-                android:src="@drawable/icon_recommend_normal" />
+            <ImageView android:src="@drawable/icon_recommend_normal" />
 
             <TextView
-                android:layout_marginLeft="16dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:text="推荐"
                 android:textColor="@android:color/white" />
         </TableRow>
 
         <TableRow
-            android:layout_marginTop="14dp"
             android:id="@+id/uninstall"
+            android:layout_marginTop="14dp"
             android:background="@null">
 
-            <ImageView
-                android:src="@drawable/icon_uninstall_normal" />
+            <ImageView android:src="@drawable/icon_uninstall_normal" />
 
             <TextView
                 android:layout_gravity="center_vertical"
@@ -180,8 +142,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:text="网址链接: www.xxf3.com" />
     </LinearLayout>
 

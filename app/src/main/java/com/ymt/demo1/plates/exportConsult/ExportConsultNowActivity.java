@@ -33,7 +33,7 @@ import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.utils.PopActionListener;
 import com.ymt.demo1.utils.PopActionUtil;
 import com.ymt.demo1.main.file.SearchFileActivity;
-import com.ymt.demo1.main.sign.SignInActivity;
+import com.ymt.demo1.main.sign.SignInFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -208,7 +208,7 @@ public class ExportConsultNowActivity extends BaseFloatActivity {
 //                                popupWindow.showAtLocation(titleTxt.getRootView(), Gravity.CENTER, 0, 0);
                                 Toast.makeText(ExportConsultNowActivity.this,
                                         "请先登录...", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(ExportConsultNowActivity.this, SignInActivity.class);
+                                Intent intent = new Intent(ExportConsultNowActivity.this, SignInFragment.class);
                                 intent.putExtra("isFromConsult", true);
                                 startActivity(intent);
                             }
