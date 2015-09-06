@@ -39,7 +39,7 @@ public class ChangePswActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Connector.getDatabase();
-        sharedPreferences = AppContext.getSaveAccountPrefecences(this);
+        sharedPreferences = AppContext.getSaveAccountPreferences(this);
         queue = Volley.newRequestQueue(this);
         setContentView(R.layout.activity_change_psw);
         initTitle();

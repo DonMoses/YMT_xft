@@ -191,7 +191,7 @@
             android:background="@android:color/holo_blue_bright" />
 
         <LinearLayout
-            android:id="@+id/collection_layout"
+            android:id="@+id/collect_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -200,13 +200,13 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/collection_icon"
+                android:id="@+id/collect_icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/icon_collect" />
 
             <TextView
-                android:id="@+id/collection_text"
+                android:id="@+id/collect_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="收藏"

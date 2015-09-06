@@ -21,42 +21,6 @@
             android:gravity="center_vertical"
             android:minHeight="38dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="28dp"
-                android:gravity="center_vertical"
-                android:text="+86"
-                android:textColor="#4169E1" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="19dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:background="#7B68EE" />
-
-            <EditText
-                android:id="@+id/input_phone_num"
-                android:layout_width="wrap_content"
-                android:layout_height="28dp"
-                android:background="@null"
-                android:gravity="center_vertical"
-                android:hint="请输入手机号码"
-                android:inputType="phone"
-                android:textColor="@color/material_blue_grey_800"
-                android:textColorHint="#008080"
-                android:textSize="14sp" />
-        </TableRow>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/holo_blue_light" />
-
-        <TableRow
-            android:gravity="center_vertical"
-            android:minHeight="38dp">
-
             <ImageView
                 android:layout_width="19dp"
                 android:layout_height="19dp"
@@ -75,7 +39,7 @@
                 android:layout_height="28dp"
                 android:background="@null"
                 android:gravity="center_vertical"
-                android:hint="账号为4~20位字符"
+                android:hint="请输入你的昵称"
                 android:inputType="textPersonName"
                 android:textColor="@color/material_blue_grey_800"
                 android:textColorHint="#008080"
@@ -109,7 +73,7 @@
                 android:layout_height="28dp"
                 android:background="@null"
                 android:gravity="center_vertical"
-                android:hint="密码为6~18位数字和字母组合"
+                android:hint="请输入你的密码"
                 android:inputType="textPassword"
                 android:textColor="@color/material_blue_grey_800"
                 android:textColorHint="#008080"
@@ -143,41 +107,143 @@
                 android:layout_height="28dp"
                 android:background="@null"
                 android:gravity="center_vertical"
-                android:hint="确认密码"
+                android:hint="请再次输入你的密码"
                 android:inputType="textPassword"
                 android:textColor="@color/material_blue_grey_800"
                 android:textColorHint="#008080"
                 android:textSize="14sp" />
         </TableRow>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/holo_blue_light" />
+
+        <TableRow
+            android:gravity="center_vertical"
+            android:minHeight="38dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:gravity="center_vertical"
+                android:text="+86"
+                android:textColor="#4169E1" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="19dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="#7B68EE" />
+
+            <EditText
+                android:id="@+id/input_phone_num"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="请输入你的手机号"
+                android:inputType="phone"
+                android:textColor="@color/material_blue_grey_800"
+                android:textColorHint="#008080"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/get_check_nums"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3.09dp"
+                android:layout_marginRight="3.09dp"
+                android:background="@android:color/holo_blue_dark"
+                android:paddingBottom="6.18dp"
+                android:paddingLeft="3.09dp"
+                android:paddingRight="3.09dp"
+                android:paddingTop="6.18dp"
+                android:text="获取验证码"
+                android:textColor="@android:color/white" />
+        </TableRow>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/holo_blue_light" />
+
+        <TableRow
+            android:gravity="center_vertical"
+            android:minHeight="38dp">
+
+            <ImageView
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:src="@drawable/icon_check_num" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="19dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="#7B68EE" />
+
+            <EditText
+                android:id="@+id/input_check_nums"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="请输入你的验证码"
+                android:inputType="phone"
+                android:textColor="@color/material_blue_grey_800"
+                android:textColorHint="#008080"
+                android:textSize="14sp" />
+        </TableRow>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/holo_blue_light" />
+
     </TableLayout>
 
-    <TextView
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="25dp"-->
+    <!--android:layout_marginRight="25dp"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:lineSpacingExtra="8dp"-->
+    <!--android:text="注:本平台为消防安全平台，所有内容均为国家发行的合规规定，请认真阅读《新消防安全协议》再进行下一步注册操作。"-->
+    <!--android:textColor="#4169E1"-->
+    <!--android:textSize="12sp" />-->
+
+    <Button
+        android:id="@+id/do_sign_btn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="32dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginTop="20dp"
-        android:gravity="center_vertical"
-        android:lineSpacingExtra="8dp"
-        android:text="注:本平台为消防安全平台，所有内容均为国家发行的合规规定，请认真阅读《新消防安全协议》再进行下一步注册操作。"
-        android:textColor="#4169E1"
-        android:textSize="12sp" />
+        android:background="#06A1D9"
+        android:text="注 册" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/liscense_layout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp">
 
         <com.ymt.demo1.customViews.MyCheckView
             android:id="@+id/switch_liscense"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            mycheckview:backgroundIcon="@drawable/corner_text_shape1o4"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            mycheckview:backgroundIcon="@drawable/corner_text_white_shape1o4"
             mycheckview:checkIcon="@drawable/icon_checked" />
 
         <TextView
@@ -194,59 +260,52 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/do_sign_btn"
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:layout_margin="25dp"
-        android:background="#06A1D9"
-        android:text="注 册" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="25dp"
         android:layout_marginBottom="6.18dp"
+        android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:gravity="bottom">
+        android:gravity="bottom"
+        android:visibility="invisible">
 
-        <TextView
-            android:id="@+id/supervisor_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/supervisor"
-            android:textColor="@color/material_blue_grey_800"
-            android:textSize="9sp" />
+        <!--<TextView-->
+        <!--android:id="@+id/supervisor_txt"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/supervisor"-->
+        <!--android:textColor="@color/material_blue_grey_800"-->
+        <!--android:textSize="9sp" />-->
 
-        <TextView
-            android:id="@+id/authority_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:text="@string/authority"
-            android:textColor="@color/material_blue_grey_800"
-            android:textSize="9sp" />
+        <!--<TextView-->
+        <!--android:id="@+id/authority_txt"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:text="@string/authority"-->
+        <!--android:textColor="@color/material_blue_grey_800"-->
+        <!--android:textSize="9sp" />-->
 
-        <TextView
-            android:id="@+id/sponsor_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/supervisor_txt"
-            android:text="@string/sponsor"
-            android:textColor="@color/material_blue_grey_800"
-            android:textSize="9sp" />
+        <!--<TextView-->
+        <!--android:id="@+id/sponsor_txt"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/supervisor_txt"-->
+        <!--android:text="@string/sponsor"-->
+        <!--android:textColor="@color/material_blue_grey_800"-->
+        <!--android:textSize="9sp" />-->
 
-        <TextView
-            android:id="@+id/operator_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/authority_txt"
-            android:text="@string/operator"
-            android:textColor="@color/material_blue_grey_800"
-            android:textSize="9sp" />
+        <!--<TextView-->
+        <!--android:id="@+id/operator_txt"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_below="@id/authority_txt"-->
+        <!--android:text="@string/operator"-->
+        <!--android:textColor="@color/material_blue_grey_800"-->
+        <!--android:textSize="9sp" />-->
 
     </RelativeLayout>
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.view.WindowManager;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -32,7 +33,7 @@ public class AppContext extends LitePalApplication {
     public static Bitmap headerPic;
     public static String version;
 
-    public static SharedPreferences getSaveAccountPrefecences(Context context) {
+    public static SharedPreferences getSaveAccountPreferences(Context context) {
         return context.getSharedPreferences("saved_account", MODE_PRIVATE);
     }
 
@@ -51,6 +52,10 @@ public class AppContext extends LitePalApplication {
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
 
+        SharedPreferences preferences = getSharedPreferences("screen_width", MODE_PRIVATE);
+//        screenWidth = preferences.getInt("screen_width", 0);
+        WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+        screenWidth = wm.getDefaultDisplay().getWidth();//屏幕宽度
     }
 
     /**
@@ -81,7 +86,6 @@ public class AppContext extends LitePalApplication {
     public List<Activity> getyActivities() {
         return yActivities;
     }
-
 
     /**
      * 获得当前浮动窗所在的Activity，用于响应浮动窗中的事件

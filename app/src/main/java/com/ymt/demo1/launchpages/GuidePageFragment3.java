@@ -1,6 +1,8 @@
 package com.ymt.demo1.launchpages;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,8 +13,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.main.sign.SignInFragment;
-import com.ymt.demo1.main.sign.SignUpFragment;
+import com.ymt.demo1.mainStyles.CircleMenuActivity;
+import com.ymt.demo1.mainStyles.NavigationMenuActivity;
+import com.ymt.demo1.mainStyles.TabMenuActivity;
 
 /**
  * Created by Moses on 2015
@@ -49,34 +52,43 @@ public class GuidePageFragment3 extends Fragment {
         ImageView imageView = (ImageView) view.findViewById(R.id.simple_image_view);
         imageView.setBackgroundResource(imageId);
 
-        Button signIn = (Button) view.findViewById(R.id.guide_sign_in);
-        Button signUp = (Button) view.findViewById(R.id.guide_sign_up);
         Button tryNow = (Button) view.findViewById(R.id.guide_try_now);
 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.guide_sign_in:
-                        startActivity(new Intent(getActivity(), SignInFragment.class));
-                        getActivity().finish();
-                        break;
-                    case R.id.guide_sign_up:
-                        startActivity(new Intent(getActivity(), SignUpFragment.class));
-                        getActivity().finish();
-                        break;
                     case R.id.guide_try_now:
-                        startActivity(new Intent(getActivity(), LoadingPageActivity.class));
-                        getActivity().finish();
+                        chooseLaunchStyle();
                         break;
                     default:
                         break;
                 }
             }
         };
-        signIn.setOnClickListener(listener);
-        signUp.setOnClickListener(listener);
         tryNow.setOnClickListener(listener);
+    }
 
+    protected void chooseLaunchStyle() {
+        //屏幕尺寸这这里保存到AppContext供全局使用
+        SharedPreferences sharedPreferences =
+                getActivity().getSharedPreferences(MainActivity.SETTING_PREFERENCES, Activity.MODE_PRIVATE);
+        int style = sharedPreferences.getInt(MainActivity.LAUNCH_STYLE_KEY, 0);
+        switch (style) {
+            case MainActivity.LAUNCH_STYLE_CIRCLE_MODE:
+                startActivity(new Intent(getActivity(), CircleMenuActivity.class));
+                getActivity().finish();
+                break;
+            case MainActivity.LAUNCH_STYLE_SLIDE_MODE:
+                startActivity(new Intent(getActivity(), NavigationMenuActivity.class));
+                getActivity().finish();
+                break;
+            case MainActivity.LAUNCH_STYLE_TAB:
+                startActivity(new Intent(getActivity(), TabMenuActivity.class));
+                getActivity().finish();
+                break;
+            default:
+                break;
+        }
     }
 }

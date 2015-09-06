@@ -21,7 +21,7 @@
         android:layout_height="0dp"
         android:layout_margin="6.18dp"
         android:layout_weight="2"
-        android:background="@drawable/corner_text_shape1o4"
+        android:background="@drawable/corner_text_white_shape1o4"
         android:gravity="start"
         android:hint="请输入..."
         android:textColor="@color/material_blue_grey_800"
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="6.18dp"
-        android:background="@drawable/corner_text_shape1o4"
+        android:background="@drawable/corner_text_white_shape1o4"
         android:text="确定"
         android:textColor="@color/material_blue_grey_800" />
 

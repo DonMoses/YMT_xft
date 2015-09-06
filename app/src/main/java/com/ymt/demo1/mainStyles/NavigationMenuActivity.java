@@ -3,7 +3,6 @@ package com.ymt.demo1.mainStyles;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -32,6 +31,8 @@ import com.ymt.demo1.adapter.CyclePagerAdapter;
 import com.ymt.demo1.beams.consult_cato.ConsultCato;
 import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.customViews.IndicatorView;
+import com.ymt.demo1.main.CollectActivity;
+import com.ymt.demo1.main.ShareActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.main.search.SearchActivity;
@@ -95,7 +96,8 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
     }
 
     protected void initView() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
 //        toolbar.setLogo(R.drawable.icon_float_logo72);
         toolbar.setTitle("");// 标题的文字需在setSupportActionBar之前，不然会无效
         toolbar.setLogo(R.drawable.logo_tb);
@@ -154,13 +156,14 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
          */
         LayoutInflater inflater = LayoutInflater.from(this);
         final ArrayList<View> views = new ArrayList<>();
-        views.add(inflater.inflate(R.layout.edu_pager3, null));
-        views.add(inflater.inflate(R.layout.edu_pager1, null));
-        views.add(inflater.inflate(R.layout.edu_pager2, null));
-        views.add(inflater.inflate(R.layout.edu_pager3, null));
-        views.add(inflater.inflate(R.layout.edu_pager1, null));
+        views.add(inflater.inflate(R.layout.banner_page_5, null));
+        views.add(inflater.inflate(R.layout.banner_page_1, null));
+        views.add(inflater.inflate(R.layout.banner_page_2, null));
+        views.add(inflater.inflate(R.layout.banner_page_3, null));
+        views.add(inflater.inflate(R.layout.banner_page_4, null));
+        views.add(inflater.inflate(R.layout.banner_page_5, null));
+        views.add(inflater.inflate(R.layout.banner_page_1, null));
 
-//        views.add(inflater.inflate(R.layout.edu_pager4, null));
         adPagerAdapter.setViews(views);
         //指示器Indicator
         final IndicatorView indicator = (IndicatorView) findViewById(R.id.myPointIndicator);
@@ -182,7 +185,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                 int indicatorIndex;
                 if (position == 0) {
                     pageIndex = views.size() - 2;
-                    indicatorIndex = 2;
+                    indicatorIndex = adPagerAdapter.getCount() - 2 - 1;
                 } else if (position == views.size() - 1) {
                     pageIndex = 1;
                     indicatorIndex = 0;
@@ -252,16 +255,16 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         //头像
         personIconBtn = (CircleImageView) findViewById(R.id.personal_icon_btn);
         userName = (TextView) findViewById(R.id.user_name);
+        //分享
+        View recommend = findViewById(R.id.recommend);
         //帮助
         View help = findViewById(R.id.help);
+        //收藏
+        View collect = findViewById(R.id.collect);
         //建议
         View advice = findViewById(R.id.advice);
         //设置
         View setting = findViewById(R.id.setting);
-        //推荐
-        View recommend = findViewById(R.id.recommend);
-        //卸载
-        View uninstall = findViewById(R.id.uninstall);
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -271,33 +274,24 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                         startActivity(new Intent(NavigationMenuActivity.this, PersonalPagerTabActivity.class));
                         mDrawerLayout.closeDrawers();                                                       //个人中心
                         break;
-                    case R.id.help:
+                    case R.id.recommend:            //分享
+                        startActivity(new Intent(NavigationMenuActivity.this, ShareActivity.class));         //分享
+                        mDrawerLayout.closeDrawers();
+                        break;
+                    case R.id.help:                 //帮助
                         startActivity(new Intent(NavigationMenuActivity.this, HelpActivity.class));         //帮助
                         mDrawerLayout.closeDrawers();
                         break;
-                    case R.id.advice:
+                    case R.id.collect:              //收藏
+                        startActivity(new Intent(NavigationMenuActivity.this, CollectActivity.class));
+                        mDrawerLayout.closeDrawers();
+                        break;
+                    case R.id.advice:               //建议
                         startActivity(new Intent(NavigationMenuActivity.this, AdviceActivity.class));       //建议
                         mDrawerLayout.closeDrawers();
                         break;
-                    case R.id.setting:
+                    case R.id.setting:              //设置
                         startActivity(new Intent(NavigationMenuActivity.this, SettingActivity.class));      //设置
-                        mDrawerLayout.closeDrawers();
-                        break;
-                    case R.id.recommend:
-                        Intent intent = new Intent(Intent.ACTION_SEND);                                     //分享
-                        intent.setType("*/*");
-//                        intent.putExtra(Intent.EXTRA_SUBJECT, NavigationMenuActivity.this.getResources().getString(R.string.recommend_info));
-//                        intent.putExtra(Intent.EXTRA_TEXT, R.string.recommend_info);
-                        intent.putExtra(Intent.EXTRA_TEXT, NavigationMenuActivity.this.getResources().getString(R.string.recommend_info) + "\n" + NavigationMenuActivity.this.getResources().getString(R.string.app_download_url));
-
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(Intent.createChooser(intent, getTitle()));
-                        mDrawerLayout.closeDrawers();
-                        break;
-                    case R.id.uninstall:
-                        Uri packageURI = Uri.parse("package:com.ymt.demo1");//通过程序的包名创建URI           //卸载
-                        Intent deleteIntent = new Intent(Intent.ACTION_DELETE, packageURI);
-                        startActivity(deleteIntent); //执行卸载程序
                         mDrawerLayout.closeDrawers();
                         break;
                     default:
@@ -313,7 +307,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         advice.setOnClickListener(onClickListener);
         setting.setOnClickListener(onClickListener);
         recommend.setOnClickListener(onClickListener);
-        uninstall.setOnClickListener(onClickListener);
+        collect.setOnClickListener(onClickListener);
     }
 
     protected void initMainView() {
@@ -367,11 +361,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         knowledgeBtn.setOnClickListener(onClickListener);
         hubBtn.setOnClickListener(onClickListener);
 
-        /*
-        咨询分类列表数据
-         */
         setCatoView();
-
     }
 
     /**
@@ -394,6 +384,14 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         switch (item.getTitle().toString()) {
             case "action_search":
                 startActivity(new Intent(this, SearchActivity.class));
+                break;
+        }
+    }
+
+    public void onScanBtnClicked(MenuItem item) {
+        switch (item.getTitle().toString()) {
+            case "action_scan":
+                Toast.makeText(this, "扫二维码", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -473,10 +471,10 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         });
     }
 
-
     protected void setCatoView() {
         final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 AppContext.screenWidth / 5, LinearLayout.LayoutParams.MATCH_PARENT);
+//        Log.e("TAG", "screenWidth>>>>>>>>>>" + AppContext.screenWidth);
         params.setMargins(0, 0, 2, 3);
 
         TextView jzTxt = (TextView) findViewById(R.id.cato_jz);

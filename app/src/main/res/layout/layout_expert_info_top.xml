@@ -61,7 +61,7 @@
         android:layout_marginStart="6.18dp"
         android:layout_toEndOf="@id/export_header"
         android:layout_toRightOf="@id/export_header"
-        android:background="@drawable/corner_text_shape1o4"
+        android:background="@drawable/corner_text_white_shape1o4"
         android:gravity="center"
         android:hint="+关注"
         android:minHeight="25dp"

@@ -4,12 +4,21 @@
     tools:context=".MainActivity">
 
     <item
+        android:id="@+id/ab_scan"
+        android:icon="@drawable/icon_richscan"
+        android:onClick="onScanBtnClicked"
+        android:orderInCategory="80"
+        android:title="action_scan"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/ab_search"
         android:icon="@drawable/icon_search"
         android:onClick="onSearchBtnClicked"
         android:orderInCategory="80"
         android:title="action_search"
         app:showAsAction="ifRoom" />
+
     <!--<item-->
     <!--android:id="@+id/action_share"-->
     <!--android:orderInCategory="90"-->

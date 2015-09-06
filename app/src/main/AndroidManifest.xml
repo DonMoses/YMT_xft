@@ -167,10 +167,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".launchpages.LoadingPageActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".mainStyles.TabMenuActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -206,6 +202,14 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".main.ShareActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".main.CollectActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".main.help.HelpActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
@@ -215,6 +219,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".main.setting.SettingActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" /> <activity
+            android:name=".main.setting.VoiceSettingActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity

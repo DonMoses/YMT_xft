@@ -140,6 +140,23 @@ public class FloatMenuActivity extends Activity {
 
         });
 
+        //todo 浮动窗口拖动、释放效果
+        circleMenuLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
+                        circleMenuLayout.setX(event.getRawX() - circleMenuLayout.getWidth() / 2);
+                        circleMenuLayout.setY(event.getRawY() - getStatusBarHeight() - circleMenuLayout.getHeight() / 2);
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
+
+
     }
 
     private int getStatusBarHeight() {

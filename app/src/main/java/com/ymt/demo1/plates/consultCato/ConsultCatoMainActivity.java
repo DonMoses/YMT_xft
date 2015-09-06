@@ -1,5 +1,6 @@
 package com.ymt.demo1.plates.consultCato;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,14 +8,24 @@ import android.os.Message;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.consultCato.ConsultCatoExpandListAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.consult_cato.ConsultCato;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.search.SearchActivity;
+import com.ymt.demo1.utils.BaseURLUtil;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
 import java.lang.ref.WeakReference;
@@ -36,12 +47,14 @@ public class ConsultCatoMainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consult_cato_main);
-
+        RequestQueue mQueue = Volley.newRequestQueue(this);
+        mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_JZ));
+        mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_ZY));
+        mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_GJC));
         expandIndex = getIntent().getIntExtra("expand_index", 0);
         myHandler = new MyHandler(this);
         initTitle();
         initView();
-
     }
 
     /**
@@ -82,7 +95,7 @@ public class ConsultCatoMainActivity extends BaseActivity {
         parentList.add("关键词");
         //二级列表
         childList = new ArrayList<>();
-        List<ConsultCato> constList = DataSupport.where("code like ?", "jz%").find(ConsultCato.class);
+        List<ConsultCato> constList = DataSupport.where("code like ?", "j%").find(ConsultCato.class);
         List<ConsultCato> profList = DataSupport.where("code like ?", "z%").find(ConsultCato.class);
         List<ConsultCato> keyWordList = DataSupport.where("code like ?", "g%").find(ConsultCato.class);
 
@@ -158,6 +171,46 @@ public class ConsultCatoMainActivity extends BaseActivity {
                 }
             }
         }
+    }
+
+    /**
+     * 获取分类列表
+     */
+    protected StringRequest getCatoRequest(String type) {
+        return new StringRequest(BaseURLUtil.doTypeAction(type), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject object = new JSONObject(s);
+                    if (object.getString("result").equals("Y")) {
+                        JSONArray jsonArray = object.getJSONArray("listData");
+                        int length = jsonArray.length();
+                        for (int i = 0; i < length; i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            ConsultCato consultCato = new ConsultCato();
+                            consultCato.setCode(jsonObject.getString("code"));
+                            consultCato.setNote(jsonObject.getString("note"));
+                            int savedSize = DataSupport.where("code = ?", jsonObject.getString("code")).find(ConsultCato.class).size();
+                            if (savedSize == 0) {
+                                consultCato.save();
+                            } else {
+                                ContentValues contentValues = new ContentValues();
+                                contentValues.put("note", jsonObject.getString("note"));
+                                DataSupport.updateAll(ConsultCato.class, contentValues, "code = ?", jsonObject.getString("code"));
+                            }
+                        }
+
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(ConsultCatoMainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(ConsultCatoMainActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 

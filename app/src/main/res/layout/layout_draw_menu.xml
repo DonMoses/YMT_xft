@@ -16,7 +16,6 @@
         android:layout_height="58dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="6.18dp"
-        android:src="@drawable/moses"
         app:border_color="@android:color/white"
         app:border_width="0.3dp" />
 
@@ -43,11 +42,26 @@
         android:orientation="vertical">
 
         <TableRow
-            android:id="@+id/help"
-            android:layout_marginTop="14dp"
+            android:id="@+id/recommend"
+            android:layout_marginTop="16dp"
             android:background="@null">
 
-            <ImageView android:src="@drawable/icon_help_normal" />
+            <ImageView android:src="@drawable/icon_share_normal" />
+
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:text="分享"
+                android:textColor="@android:color/white" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/help"
+            android:layout_marginTop="16dp"
+            android:background="@null">
+
+            <ImageView android:src="@drawable/icon_advice_normal" />
 
             <TextView
                 android:layout_gravity="center_vertical"
@@ -58,11 +72,26 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/advice"
-            android:layout_marginTop="14dp"
+            android:id="@+id/collect"
+            android:layout_marginTop="16dp"
             android:background="@null">
 
-            <ImageView android:src="@drawable/icon_advice_normal" />
+            <ImageView android:src="@drawable/icon_collect_normal" />
+
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:text="收藏"
+                android:textColor="@android:color/white" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/advice"
+            android:layout_marginTop="16dp"
+            android:background="@null">
+
+            <ImageView android:src="@drawable/icon_help_normal" />
 
             <TextView
                 android:layout_gravity="center_vertical"
@@ -72,10 +101,9 @@
                 android:textColor="@android:color/white" />
         </TableRow>
 
-
         <TableRow
             android:id="@+id/setting"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="16dp"
             android:background="@null">
 
             <ImageView android:src="@drawable/icon_setting_normal" />
@@ -88,38 +116,7 @@
                 android:textColor="@android:color/white" />
         </TableRow>
 
-
-        <TableRow
-            android:id="@+id/recommend"
-            android:layout_marginTop="14dp"
-            android:background="@null">
-
-            <ImageView android:src="@drawable/icon_recommend_normal" />
-
-            <TextView
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:text="推荐"
-                android:textColor="@android:color/white" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/uninstall"
-            android:layout_marginTop="14dp"
-            android:background="@null">
-
-            <ImageView android:src="@drawable/icon_uninstall_normal" />
-
-            <TextView
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:text="卸载"
-                android:textColor="@android:color/white" />
-        </TableRow>
     </TableLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -131,20 +128,23 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="咨询热线: 400-028-56888" />
+            android:text="咨询热线: 400-028-56888"
+            android:textColor="@android:color/white" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="咨询QQ: 289001567" />
+            android:text="咨询QQ: 289001567"
+            android:textColor="@android:color/white" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:text="网址链接: www.xxf3.com" />
+            android:text="网址链接: www.xxf3.com"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
 </LinearLayout>

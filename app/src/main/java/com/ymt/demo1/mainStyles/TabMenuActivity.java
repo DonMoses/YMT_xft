@@ -89,7 +89,8 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
     }
 
     protected void initView() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         toolbar.setTitle("");// 标题的文字需在setSupportActionBar之前，不然会无效
         toolbar.setLogo(R.drawable.logo_tb_rect);
         // toolbar.setSubtitle("副标题");
@@ -142,14 +143,13 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
          */
         LayoutInflater inflater = LayoutInflater.from(this);
         final ArrayList<View> views = new ArrayList<>();
-//        views.add(inflater.inflate(R.layout.edu_pager3, null));
         TableLayout gateView = (TableLayout) inflater.inflate(R.layout.tab_pager_gate, null);
         //顶部板块入口
         initPagerGate(gateView);
         views.add(gateView);         //各个板块的入口
-        views.add(inflater.inflate(R.layout.edu_pager1, null));
-        views.add(inflater.inflate(R.layout.edu_pager2, null));
-        views.add(inflater.inflate(R.layout.edu_pager3, null));
+        views.add(inflater.inflate(R.layout.banner_page_1, null));
+        views.add(inflater.inflate(R.layout.banner_page_2, null));
+        views.add(inflater.inflate(R.layout.banner_page_3, null));
 
         adPagerAdapter.setViews(views);
         adViewPager.setCurrentItem(0);
@@ -338,7 +338,7 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
         View menuAdvice = findViewById(R.id.advice_layout);
         View menuHelp = findViewById(R.id.help_layout);
         View menuSetting = findViewById(R.id.setting_layout);
-        View menuCollection = findViewById(R.id.collection_layout);
+        View menuCollection = findViewById(R.id.collect_layout);
 
         signIcon = (ImageView) menuSign.findViewById(R.id.sign_icon);
         signText = (TextView) menuSign.findViewById(R.id.sign_text);
@@ -348,8 +348,8 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
         helpText = (TextView) menuHelp.findViewById(R.id.help_text);
         settingIcon = (ImageView) menuSetting.findViewById(R.id.setting_icon);
         settingText = (TextView) menuSetting.findViewById(R.id.setting_text);
-        collectionIcon = (ImageView) findViewById(R.id.collection_icon);
-        collectionText = (TextView) findViewById(R.id.collection_text);
+        collectionIcon = (ImageView) findViewById(R.id.collect_icon);
+        collectionText = (TextView) findViewById(R.id.collect_text);
 
         menuSign.setOnTouchListener(this);
         menuAdvice.setOnTouchListener(this);
@@ -406,7 +406,7 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
                 //跳转到设置
                 startActivity(new Intent(this, SettingActivity.class));
                 break;
-            case R.id.collection_layout:
+            case R.id.collect_layout:
                 //跳转到收藏
                 startActivity(new Intent(this, ConsultActivity.class));
                 //todo 这里放入一个测试界面，方便开发中测验。 最后修改为收藏界面
@@ -440,7 +440,7 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
                     settingIcon.setImageResource(R.drawable.icon_setup_click);
                     settingText.setTextColor(getResources().getColor(android.R.color.holo_blue_bright));
                     break;
-                case R.id.collection_layout:
+                case R.id.collect_layout:
                     collectionIcon.setImageResource(R.drawable.icon_collect_click);
                     collectionText.setTextColor(getResources().getColor(android.R.color.holo_blue_bright));
                 default:
@@ -470,7 +470,7 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
                     settingIcon.setImageResource(R.drawable.icon_setup);
                     settingText.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
                     break;
-                case R.id.collection_layout:
+                case R.id.collect_layout:
                     collectionIcon.setImageResource(R.drawable.icon_collect);
                     collectionText.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
                 default:

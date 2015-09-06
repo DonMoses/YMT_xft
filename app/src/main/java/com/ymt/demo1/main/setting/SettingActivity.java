@@ -18,6 +18,7 @@ import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
 import com.ymt.demo1.beams.expert_consult.QQMsg;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.ShareActivity;
 import com.ymt.demo1.main.sign.SignInUpActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
@@ -77,37 +78,41 @@ public class SettingActivity extends Activity {
                         startActivity(new Intent(SettingActivity.this, SignInUpActivity.class));
                         finish();
                         break;
-                    case 1:            //修改登录密码
+                    case 1:
+                        //todo          //修改信息
+                        break;
+                    case 2:            //修改登录密码
                         Intent intent1 = new Intent(SettingActivity.this, ChangePswActivity.class);
                         intent1.putExtra("loginName", AppContext.now_user_name);
                         startActivityForResult(intent1, 128);
                         finish();
                         break;
-                    case 2:            //自定义皮肤
+                    case 3:            //自定义皮肤
                         startActivity(new Intent(SettingActivity.this, ManageAppearanceActivity.class));
                         finish();
                         break;
-                    case 3:            //存储设置
+                    case 4:            //消息声音
+                        startActivity(new Intent(SettingActivity.this, VoiceSettingActivity.class));
+                        break;
+                    case 5:            //存储设置
                         startActivity(new Intent(SettingActivity.this, ManageStoreActivity.class));
                         finish();
                         break;
-                    case 4:            //推荐给好友
-                        Intent intent = new Intent(Intent.ACTION_SEND);
-                        intent.setType("*/*");
-                        intent.putExtra(Intent.EXTRA_SUBJECT, "好友推荐");
-                        intent.putExtra(Intent.EXTRA_TEXT, "嗨，我正在新消防，你也来试试！");
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(Intent.createChooser(intent, getTitle()));
+                    case 6:            //分享
+                        startActivity(new Intent(SettingActivity.this, ShareActivity.class));
                         finish();
                         break;
-                    case 5:             //关于我们
+                    case 7:
+                        //todo          //扫一扫
+                        break;
+                    case 8:             //关于我们
                         startActivity(new Intent(SettingActivity.this, AboutUsActivity.class));
                         finish();
                         break;
-                    case 6:             //软件更新
-                        //todo 检查更新
+                    case 9:
+                        //todo          //软件更新
                         break;
-                    case 7:             //卸载
+                    case 10:             //卸载
                         Uri packageURI = Uri.parse("package:com.ymt.demo1");//通过程序的包名创建URI           //卸载
                         Intent deleteIntent = new Intent(Intent.ACTION_DELETE, packageURI);
                         startActivity(deleteIntent); //执行卸载程序

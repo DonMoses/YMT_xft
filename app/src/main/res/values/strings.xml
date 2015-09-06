@@ -60,13 +60,43 @@
     <string-array name="setting_array">
 
         <item>登录注册</item>
+        <item>修改信息</item>
         <item>修改登录密码</item>
         <item>自定义皮肤</item>
+        <item>消息声音</item>
         <item>储存设置</item>
         <item>分享</item>
+        <item>扫一扫</item>
         <item>关于我们</item>
         <item>软件更新</item>
         <item>卸载</item>
+
+    </string-array>
+
+    <string-array name="about_us">
+        <item>使用指南</item>
+        <item>新消防介绍</item>
+        <item>关注新消防的新浪微博</item>
+        <item>协议及申明</item>
+
+    </string-array>
+
+    <string-array name="collect">
+        <item>咨询收藏</item>
+        <item>知识收藏</item>
+        <item>教育收藏</item>
+        <item>商品收藏</item>
+
+    </string-array>
+
+    <string-array name="voice_settings">
+        <item>通知消息内容显示</item>
+        <item>锁屏显示消息弹窗</item>
+        <item>退出后仍接受消息通知</item>
+        <item>群消息</item>
+        <item>声音</item>
+        <item>群振动</item>
+        <item>振动</item>
 
     </string-array>
 

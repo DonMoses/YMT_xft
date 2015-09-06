@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import com.ymt.demo1.beams.SearchString;
 import com.ymt.demo1.beams.consult_cato.SearchedConsult;
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
 import com.ymt.demo1.beams.expert_consult.QQMsg;
+import com.ymt.demo1.customViews.MyCheckView;
 import com.ymt.demo1.launchpages.MainActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
@@ -56,6 +58,12 @@ public class SignInFragment extends Fragment {
     private boolean isFromConsult;
     private Button signInBtn;
 
+    /**
+     * 记住昵称、密码
+     */
+    private MyCheckView rememberNameCheck;
+    private MyCheckView rememberPswCheck;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_sign_in, container, false);
@@ -70,7 +78,7 @@ public class SignInFragment extends Fragment {
         accountETxt = (EditText) view.findViewById(R.id.sign_in_account_text);
         pswETxt = (EditText) view.findViewById(R.id.sign_in_psw_text);
 
-        sharedPreferences = AppContext.getSaveAccountPrefecences(getActivity());
+        sharedPreferences = AppContext.getSaveAccountPreferences(getActivity());
 
               /*
         从sharedPreference获取保存到本地的账号信息
@@ -86,6 +94,17 @@ public class SignInFragment extends Fragment {
         final ImageButton wechatBtn = (ImageButton) view.findViewById(R.id.sign_in_wechat);
         final ImageButton qqBtn = (ImageButton) view.findViewById(R.id.sign_in_qq);
         final ImageButton sinaBtn = (ImageButton) view.findViewById(R.id.sign_in_sina);
+
+        /*
+        记住昵称、记住密码
+         */
+        rememberNameCheck = (MyCheckView) view.findViewById(R.id.remember_name);
+        rememberPswCheck = (MyCheckView) view.findViewById(R.id.remember_psw);
+        /*
+        记住昵称、密码外部layout
+         */
+        LinearLayout nameCheckLayout = (LinearLayout) view.findViewById(R.id.remember_name_layout);
+        LinearLayout pswCheckLayout = (LinearLayout) view.findViewById(R.id.remember_psw_layout);
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -114,16 +133,24 @@ public class SignInFragment extends Fragment {
                         queue.add(signInRequest(account, psw));
                         break;
                     case R.id.sign_in_wechat:
-                        //使用微信账号登录
+                        //todo 使用微信账号登录
 
                         break;
                     case R.id.sign_in_qq:
-                        //使用qq账号登录
+                        //todo 使用qq账号登录
 
                         break;
                     case R.id.sign_in_sina:
-                        //使用sina账号登录
+                        //todo 使用sina账号登录
 
+                        break;
+                    case R.id.remember_name_layout:
+                        //todo
+                        rememberNameCheck.callOnClick();            //记住昵称
+                        break;
+                    case R.id.remember_psw_layout:
+                        //todo
+                        rememberPswCheck.callOnClick();             //记住密码
                         break;
                     default:
                         break;
@@ -132,6 +159,8 @@ public class SignInFragment extends Fragment {
             }
         };
 
+        nameCheckLayout.setOnClickListener(onClickListener);
+        pswCheckLayout.setOnClickListener(onClickListener);
         autoAccBtn.setOnClickListener(onClickListener);
         signInBtn.setOnClickListener(onClickListener);
         wechatBtn.setOnClickListener(onClickListener);
