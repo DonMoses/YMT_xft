@@ -3,6 +3,7 @@ package com.ymt.demo1.mainStyles;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -49,6 +50,7 @@ import com.ymt.demo1.plates.hub.FireHubMainActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
 import com.ymt.demo1.plates.news.NewsTabActivity;
 import com.ymt.demo1.plates.personal.PersonalPagerTabActivity;
+import com.ymt.demo1.zxing.activity.CaptureActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -392,6 +394,9 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         switch (item.getTitle().toString()) {
             case "action_scan":
                 Toast.makeText(this, "扫二维码", Toast.LENGTH_SHORT).show();
+                //todo 二维码扫描
+                Intent scanIntent = new Intent(NavigationMenuActivity.this, CaptureActivity.class);
+                startActivityForResult(scanIntent, 12345);
                 break;
         }
     }
@@ -600,6 +605,22 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                 }
             });
             kwLayout.addView(textView);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 12345 && resultCode == RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            String scanResult = bundle.getString("result");
+            if (scanResult == null)
+                return;
+            String url = scanResult; // web address
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
         }
     }
 

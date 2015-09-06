@@ -135,7 +135,6 @@ public class FloatMenuActivity extends Activity {
                 MyWindowManager.removeBigWindow();
                 MyWindowManager.removeSmallWindow(AppContext.getContext());
                 MyWindowManager.createSmallWindow(AppContext.getContext());
-
             }
 
         });
@@ -155,7 +154,6 @@ public class FloatMenuActivity extends Activity {
                 return true;
             }
         });
-
 
     }
 

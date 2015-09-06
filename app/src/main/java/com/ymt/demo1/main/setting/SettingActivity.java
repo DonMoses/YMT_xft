@@ -26,6 +26,7 @@ import com.ymt.demo1.main.sign.ChangePswActivity;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.LongClickItemsAdapter;
 import com.ymt.demo1.main.sign.SignInFragment;
+import com.ymt.demo1.zxing.activity.CaptureActivity;
 
 import org.litepal.crud.DataSupport;
 
@@ -104,6 +105,9 @@ public class SettingActivity extends Activity {
                         break;
                     case 7:
                         //todo          //扫一扫
+                        //todo 二维码扫描
+                        Intent scanIntent = new Intent(SettingActivity.this, CaptureActivity.class);
+                        startActivityForResult(scanIntent, 12345);
                         break;
                     case 8:             //关于我们
                         startActivity(new Intent(SettingActivity.this, AboutUsActivity.class));
@@ -164,5 +168,21 @@ public class SettingActivity extends Activity {
 
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 12345 && resultCode == RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            String scanResult = bundle.getString("result");
+            if (scanResult == null)
+                return;
+            String url = scanResult; // web address
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
+        }
     }
 }

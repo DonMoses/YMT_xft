@@ -9,6 +9,19 @@
     <item name="search_edit_text" type="id" />
     <item name="search_btn" type="id" />
     <item name="search_history_gridView" type="id" />
-    <item name="sign_in" type="id"/>
-    <item name="sign_up" type="id"/>
+    <item name="sign_in" type="id" />
+    <item name="sign_up" type="id" />
+
+    <item type="id" name="auto_focus"/>
+    <item type="id" name="decode"/>
+    <item type="id" name="decode_failed"/>
+    <item type="id" name="decode_succeeded"/>
+    <item type="id" name="encode_failed"/>
+    <item type="id" name="encode_succeeded"/>
+    <item type="id" name="launch_product_query"/>
+    <item type="id" name="quit"/>
+    <item type="id" name="restart_preview"/>
+    <item type="id" name="return_scan_result"/>
+    <item type="id" name="search_book_contents_failed"/>
+    <item type="id" name="search_book_contents_succeeded"/>
 </resources>
