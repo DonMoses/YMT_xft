@@ -32,6 +32,7 @@ import com.ymt.demo1.beams.expert_consult.QQChatInfo;
 import com.ymt.demo1.beams.expert_consult.QQMsg;
 import com.ymt.demo1.customViews.MyCheckView;
 import com.ymt.demo1.launchpages.MainActivity;
+import com.ymt.demo1.mainStyles.TabMenuActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.utils.PopActionListener;
@@ -58,6 +59,13 @@ public class SignInFragment extends Fragment {
     private boolean isFromConsult;
     private Button signInBtn;
 
+    public static final String SIGN_IN_SETTING = "sign_in_setting";
+    public static final String DO_REMEMBER_NAME = "0";
+    public static final String DO_REMEMBER_PSW = "1";
+    public static final String REMEMBERED_NAME = "name";
+    public static final String REMEMBERED_PSW = "psw";
+    private SharedPreferences preferences;
+
     /**
      * 记住昵称、密码
      */
@@ -80,15 +88,6 @@ public class SignInFragment extends Fragment {
 
         sharedPreferences = AppContext.getSaveAccountPreferences(getActivity());
 
-              /*
-        从sharedPreference获取保存到本地的账号信息
-         */
-
-        String savedAccount = sharedPreferences.getString("account", "");
-        String savedPsw = sharedPreferences.getString("password", "");
-        accountETxt.setText(savedAccount);
-        pswETxt.setText(savedPsw);
-
         //登录按钮
         signInBtn = (Button) view.findViewById(R.id.sign_in_btn);
         final ImageButton wechatBtn = (ImageButton) view.findViewById(R.id.sign_in_wechat);
@@ -100,6 +99,7 @@ public class SignInFragment extends Fragment {
          */
         rememberNameCheck = (MyCheckView) view.findViewById(R.id.remember_name);
         rememberPswCheck = (MyCheckView) view.findViewById(R.id.remember_psw);
+
         /*
         记住昵称、密码外部layout
          */
@@ -123,7 +123,6 @@ public class SignInFragment extends Fragment {
                         如果更改账号登录，则删除前一账号的QQ信息
                          */
                         String savedUserAccount = sharedPreferences.getString("account", "");
-                        assert savedUserAccount != null;
                         if (!savedUserAccount.equals(account)) {
                             DataSupport.deleteAll(QQChatInfo.class);
                             DataSupport.deleteAll(QQMsg.class);
@@ -145,12 +144,16 @@ public class SignInFragment extends Fragment {
 
                         break;
                     case R.id.remember_name_layout:
-                        //todo
                         rememberNameCheck.callOnClick();            //记住昵称
+                        if ((!rememberNameCheck.isChecked()) && rememberPswCheck.isChecked()) {
+                            rememberPswCheck.callOnClick();       //必须记住昵称才能记住密码
+                        }
                         break;
                     case R.id.remember_psw_layout:
-                        //todo
-                        rememberPswCheck.callOnClick();             //记住密码
+                        rememberPswCheck.callOnClick();
+                        if (!rememberNameCheck.isChecked()) {
+                            rememberNameCheck.callOnClick();         //必须记住昵称才能记住密码
+                        }
                         break;
                     default:
                         break;
@@ -166,6 +169,47 @@ public class SignInFragment extends Fragment {
         wechatBtn.setOnClickListener(onClickListener);
         qqBtn.setOnClickListener(onClickListener);
         sinaBtn.setOnClickListener(onClickListener);
+
+        if (preferences.getBoolean(DO_REMEMBER_NAME, false)) {
+            accountETxt.setText(preferences.getString(REMEMBERED_NAME, ""));
+            rememberNameCheck.setIsChecked(true);
+        }
+        if (preferences.getBoolean(DO_REMEMBER_PSW, false)) {
+            pswETxt.setText(preferences.getString(REMEMBERED_PSW, ""));
+            rememberPswCheck.setIsChecked(true);
+        }
+
+
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        preferences = getActivity().getSharedPreferences(SIGN_IN_SETTING, Context.MODE_PRIVATE);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        //保存设置
+        SharedPreferences.Editor editor = preferences.edit();
+        if (rememberNameCheck.isChecked()) {
+            editor.putBoolean(DO_REMEMBER_NAME, true);
+            editor.putString(REMEMBERED_NAME, accountETxt.getText().toString());
+            editor.apply();
+        } else {
+            editor.clear();
+            editor.apply();
+        }
+        if (rememberPswCheck.isChecked()) {
+            editor.putBoolean(DO_REMEMBER_PSW, true);
+            editor.putString(REMEMBERED_PSW, pswETxt.getText().toString());
+            editor.apply();
+        } else {
+            editor.remove(REMEMBERED_PSW);
+            editor.remove(DO_REMEMBER_PSW);
+            editor.apply();
+        }
 
     }
 
@@ -195,6 +239,26 @@ public class SignInFragment extends Fragment {
                         AppContext.now_user_name = account;
 
                         queue.add(AppContext.getHeader(jsonObject.optString("headPic")));
+
+                        //保存设置
+                        SharedPreferences.Editor editor1 = preferences.edit();
+                        if (rememberNameCheck.isChecked()) {
+                            editor1.putBoolean(DO_REMEMBER_NAME, true);
+                            editor1.putString(REMEMBERED_NAME, accountETxt.getText().toString());
+                            editor1.apply();
+                        } else {
+                            editor1.clear();
+                            editor1.apply();
+                        }
+                        if (rememberPswCheck.isChecked()) {
+                            editor1.putBoolean(DO_REMEMBER_PSW, true);
+                            editor1.putString(REMEMBERED_PSW, pswETxt.getText().toString());
+                            editor1.apply();
+                        } else {
+                            editor1.remove(REMEMBERED_PSW);
+                            editor1.remove(DO_REMEMBER_PSW);
+                            editor1.apply();
+                        }
 
                         chooseLaunchStyle();
                     } else {
@@ -274,6 +338,10 @@ public class SignInFragment extends Fragment {
                 startActivity(new Intent(getActivity(), NavigationMenuActivity.class));
                 getActivity().finish();
                 break;
+            case MainActivity.LAUNCH_STYLE_TAB_MODE:
+                startActivity(new Intent(getActivity(), TabMenuActivity.class));
+                getActivity().finish();
+                break;
             default:
                 break;
         }
@@ -293,7 +361,7 @@ public class SignInFragment extends Fragment {
                         JSONArray jsonArray = jsonObject1.getJSONArray("listData");
                         JSONObject obj = jsonArray.getJSONObject(0);
                         String account = obj.optString("login_name");
-                        String psw = obj.optString("pwd");
+//                        String psw = obj.optString("pwd");
                         accountETxt.setText(account);
 //                        pswETxt.setText(psw);
 //                        popAutoAccountInfo(account, psw);
