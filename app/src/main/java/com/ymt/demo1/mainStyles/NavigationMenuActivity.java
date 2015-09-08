@@ -617,9 +617,8 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
             String scanResult = bundle.getString("result");
             if (scanResult == null)
                 return;
-            String url = scanResult; // web address
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(url));
+            intent.setData(Uri.parse(scanResult));
             startActivity(intent);
         }
     }

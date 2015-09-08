@@ -30,14 +30,14 @@ import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.CyclePagerAdapter;
 import com.ymt.demo1.beams.consult_cato.ConsultCato;
-import com.ymt.demo1.customKeyBoard.ConsultActivity;
 import com.ymt.demo1.customViews.IndicatorView;
+import com.ymt.demo1.main.CollectActivity;
+import com.ymt.demo1.main.ShareActivity;
 import com.ymt.demo1.main.advice.AdviceActivity;
 import com.ymt.demo1.main.help.HelpActivity;
 import com.ymt.demo1.main.search.SearchActivity;
 import com.ymt.demo1.main.setting.ManageAppearanceActivity;
 import com.ymt.demo1.main.setting.SettingActivity;
-import com.ymt.demo1.main.sign.SignUpFragment;
 import com.ymt.demo1.plates.MoreCatoActivity;
 import com.ymt.demo1.plates.consultCato.CatoConsultListActivity;
 import com.ymt.demo1.plates.consultCato.ConsultCatoMainActivity;
@@ -48,6 +48,7 @@ import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
 import com.ymt.demo1.plates.news.NewsTabActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
+import com.ymt.demo1.zxing.activity.CaptureActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -150,6 +151,8 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
         views.add(inflater.inflate(R.layout.banner_page_1, null));
         views.add(inflater.inflate(R.layout.banner_page_2, null));
         views.add(inflater.inflate(R.layout.banner_page_3, null));
+        views.add(inflater.inflate(R.layout.banner_page_4, null));
+        views.add(inflater.inflate(R.layout.banner_page_5, null));
 
         adPagerAdapter.setViews(views);
         adViewPager.setCurrentItem(0);
@@ -334,14 +337,14 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
      * 底部tab
      */
     private void initTab() {
-        View menuSign = findViewById(R.id.sign_layout);
+        View menuShare = findViewById(R.id.share_layout);
         View menuAdvice = findViewById(R.id.advice_layout);
         View menuHelp = findViewById(R.id.help_layout);
         View menuSetting = findViewById(R.id.setting_layout);
-        View menuCollection = findViewById(R.id.collect_layout);
+        View menuCollect = findViewById(R.id.collect_layout);
 
-        signIcon = (ImageView) menuSign.findViewById(R.id.sign_icon);
-        signText = (TextView) menuSign.findViewById(R.id.sign_text);
+        signIcon = (ImageView) menuShare.findViewById(R.id.share_icon);
+        signText = (TextView) menuShare.findViewById(R.id.share_text);
         adviceIcon = (ImageView) menuAdvice.findViewById(R.id.advice_icon);
         adviceText = (TextView) menuAdvice.findViewById(R.id.advice_text);
         helpIcon = (ImageView) menuHelp.findViewById(R.id.help_icon);
@@ -351,16 +354,16 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
         collectionIcon = (ImageView) findViewById(R.id.collect_icon);
         collectionText = (TextView) findViewById(R.id.collect_text);
 
-        menuSign.setOnTouchListener(this);
+        menuShare.setOnTouchListener(this);
         menuAdvice.setOnTouchListener(this);
         menuHelp.setOnTouchListener(this);
         menuSetting.setOnTouchListener(this);
-        menuCollection.setOnTouchListener(this);
-        menuSign.setOnClickListener(this);
+        menuCollect.setOnTouchListener(this);
+        menuShare.setOnClickListener(this);
         menuAdvice.setOnClickListener(this);
         menuHelp.setOnClickListener(this);
         menuSetting.setOnClickListener(this);
-        menuCollection.setOnClickListener(this);
+        menuCollect.setOnClickListener(this);
     }
 
     /**
@@ -372,13 +375,6 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
         return super.onCreateOptionsMenu(menu);
     }
 
-    /**
-     * ViewPager轮播
-     */
-    protected void autoNextPage(int toPosition) {
-        adViewPager.setCurrentItem(toPosition);
-    }
-
     public void onSearchBtnClicked(MenuItem item) {
         switch (item.getTitle().toString()) {
             case "action_search":
@@ -387,28 +383,51 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
         }
     }
 
+    public void onScanBtnClicked(MenuItem item) {
+        switch (item.getTitle().toString()) {
+            case "action_scan":
+                Toast.makeText(this, "扫二维码", Toast.LENGTH_SHORT).show();
+                //todo 二维码扫描
+                Intent scanIntent = new Intent(TabMenuActivity.this, CaptureActivity.class);
+                startActivityForResult(scanIntent, 12345);
+                break;
+        }
+    }
+
+    /**
+     * ViewPager轮播
+     */
+    protected void autoNextPage(int toPosition) {
+        adViewPager.setCurrentItem(toPosition);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.sign_layout:
+            case R.id.share_layout:
                 //跳转到注册界面
-                startActivity(new Intent(this, SignUpFragment.class));
+                startActivity(new Intent(this, ShareActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
                 break;
             case R.id.advice_layout:
                 //跳转到意见反馈
                 startActivity(new Intent(this, AdviceActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
                 break;
             case R.id.help_layout:
                 //跳转到帮助中心
                 startActivity(new Intent(this, HelpActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
                 break;
             case R.id.setting_layout:
                 //跳转到设置
                 startActivity(new Intent(this, SettingActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
                 break;
             case R.id.collect_layout:
                 //跳转到收藏
-                startActivity(new Intent(this, ConsultActivity.class));
+                startActivity(new Intent(this, CollectActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
                 //todo 这里放入一个测试界面，方便开发中测验。 最后修改为收藏界面
 
                 break;
@@ -419,13 +438,43 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-         /*
+        /*
         触摸时改变tab 背景 和字体颜色
+         */
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            switch (v.getId()) {
+                case R.id.share_layout:
+                    signIcon.setImageResource(R.drawable.icon_share_grey);
+                    signText.setTextColor(getResources().getColor(android.R.color.darker_gray));
+                    break;
+                case R.id.advice_layout:
+                    adviceIcon.setImageResource(R.drawable.icon_suggest);
+                    adviceText.setTextColor(getResources().getColor(android.R.color.darker_gray));
+                    break;
+                case R.id.help_layout:
+                    helpIcon.setImageResource(R.drawable.icon_help);
+                    helpText.setTextColor(getResources().getColor(android.R.color.darker_gray));
+                    break;
+                case R.id.setting_layout:
+                    settingIcon.setImageResource(R.drawable.icon_setup);
+                    settingText.setTextColor(getResources().getColor(android.R.color.darker_gray));
+                    break;
+                case R.id.collect_layout:
+                    collectionIcon.setImageResource(R.drawable.icon_collect);
+                    collectionText.setTextColor(getResources().getColor(android.R.color.darker_gray));
+                default:
+                    break;
+            }
+
+        }
+
+        /*
+        触摸释放后改变 tab背景和 字体颜色
          */
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             switch (v.getId()) {
-                case R.id.sign_layout:
-                    signIcon.setImageResource(R.drawable.icon_register_click);
+                case R.id.share_layout:
+                    signIcon.setImageResource(R.drawable.icon_share_click);
                     signText.setTextColor(getResources().getColor(android.R.color.holo_blue_bright));
                     break;
                 case R.id.advice_layout:
@@ -449,35 +498,6 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
 
         }
 
-        /*
-        触摸释放后改变 tab背景和 字体颜色
-         */
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            switch (v.getId()) {
-                case R.id.sign_layout:
-                    signIcon.setImageResource(R.drawable.icon_register);
-                    signText.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
-                    break;
-                case R.id.advice_layout:
-                    adviceIcon.setImageResource(R.drawable.icon_suggest);
-                    adviceText.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
-                    break;
-                case R.id.help_layout:
-                    helpIcon.setImageResource(R.drawable.icon_help);
-                    helpText.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
-                    break;
-                case R.id.setting_layout:
-                    settingIcon.setImageResource(R.drawable.icon_setup);
-                    settingText.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
-                    break;
-                case R.id.collect_layout:
-                    collectionIcon.setImageResource(R.drawable.icon_collect);
-                    collectionText.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
-                default:
-                    break;
-            }
-
-        }
         return false;
     }
 

@@ -12,13 +12,13 @@
         android:textColor="@color/material_blue_grey_800"
         android:textSize="14sp" />
 
-    <Switch
-        android:id="@+id/switch_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.ymt.demo1.customViews.IOSSwitchView
+        android:id="@+id/setting_switch_view"
+        android:layout_width="37.5dp"
+        android:layout_height="21dp"
         android:layout_gravity="end|center_vertical"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp">
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp">
 
-    </Switch>
+    </com.ymt.demo1.customViews.IOSSwitchView>
 </FrameLayout>

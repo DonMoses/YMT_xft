@@ -114,6 +114,7 @@
     <string name="style_slide">侧滑风格</string>
     <string name="style_tab">选项卡风格</string>
 
+
     <string name="study_datum_title_for_test">二O一四年一级消防工程师考试真题与解析</string>
     <string name="study_datum_content_for_test">消防工作贯彻预防为主、防消结合的方针，按照政府统一领导、部门依法监管、单位全面负责、公民积极参与的原则，实行消防安全责任制，建立健全社会化的消防工作网络。</string>
 
@@ -146,4 +147,28 @@
     <string name="recommend_info">嗨，我正在使用新消防，你也来试试！</string>
     <string name="app_download_url">http://101.204.236.5:10010/static/files/app/app.apk</string>
 
+    <!--<string name="about_menu">About</string>-->
+    <!--<string name="about_message">A utility written by the ZXing Team to help with the development of Barcode Scanner. http://code.google.com/p/zxing</string>-->
+    <!--<string name="benchmark_name">ZXing Benchmark</string>-->
+    <!--<string name="benchmark_help">Place images in /sdcard/zxingbenchmark, then check \"adb logcat\" for results. Turn on Airplane Mode first for more reliable results.</string>-->
+    <!--<string name="benchmark_run">Run benchmark</string>-->
+    <!--<string name="benchmark_running">Benchmark running\u2026</string>-->
+    <!--<string name="encode_bad_data">Encode bad data</string>-->
+    <!--<string name="encode_contact">Encode contact</string>-->
+    <!--<string name="encode_email">Encode email</string>-->
+    <!--<string name="encode_hidden_data">Encode hidden data</string>-->
+    <!--<string name="encode_location">Encode location</string>-->
+    <!--<string name="encode_phone">Encode phone</string>-->
+    <!--<string name="encode_sms">Encode SMS</string>-->
+    <!--<string name="encode_url">Encode URL</string>-->
+    <!--<string name="get_camera_parameters">Get camera parameters</string>-->
+    <!--<string name="ok_button">OK</string>-->
+    <!--<string name="result_failed">No barcode found</string>-->
+    <!--<string name="result_failed_why">"The user gave up and pressed Back"</string>-->
+    <!--<string name="result_succeeded">Found barcode</string>-->
+    <!--<string name="scan_anything">Scan anything</string>-->
+    <!--<string name="scan_product">Scan product</string>-->
+    <!--<string name="scan_qr_code">Scan QR Code</string>-->
+    <!--<string name="search_book_contents">Search Book Contents</string>-->
+    <!--<string name="share_via_barcode">Share via barcode</string>-->
 </resources>

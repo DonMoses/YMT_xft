@@ -83,7 +83,7 @@ public class GuidePageFragment3 extends Fragment {
                 startActivity(new Intent(getActivity(), NavigationMenuActivity.class));
                 getActivity().finish();
                 break;
-            case MainActivity.LAUNCH_STYLE_TAB:
+            case MainActivity.LAUNCH_STYLE_TAB_MODE:
                 startActivity(new Intent(getActivity(), TabMenuActivity.class));
                 getActivity().finish();
                 break;

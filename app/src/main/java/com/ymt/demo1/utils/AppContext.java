@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.WindowManager;
 
 import com.android.volley.Response;
@@ -32,8 +31,8 @@ public class AppContext extends LitePalApplication implements VoiceSettingActivi
     public static String now_session_id;
     public static String now_user_name;
     public static int screenWidth;
-    public static int sysKeyBoardWidth;
-    public static int sysKeyBoardHeight;
+    //    public static int sysKeyBoardWidth;
+//    public static int sysKeyBoardHeight;
     public static Bitmap headerPic;
     public static String version;
 
@@ -56,8 +55,6 @@ public class AppContext extends LitePalApplication implements VoiceSettingActivi
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
 
-        SharedPreferences preferences = getSharedPreferences("screen_width", MODE_PRIVATE);
-//        screenWidth = preferences.getInt("screen_width", 0);
         WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
         screenWidth = wm.getDefaultDisplay().getWidth();//屏幕宽度
 

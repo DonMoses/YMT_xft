@@ -44,7 +44,6 @@ public class NewsTabActivity extends BaseFloatActivity {
     }
 
     protected void initView() {
-        PullToRefreshListView picsListView = (PullToRefreshListView) findViewById(R.id.pics_news_listview);
         //todo 适配图片新闻数据
     }
 

@@ -105,6 +105,7 @@
                 android:id="@+id/remember_name"
                 android:layout_width="13dp"
                 android:layout_height="13dp"
+                android:focusable="false"
                 mycheckview:backgroundIcon="@drawable/corner_text_blue_shape1o4"
                 mycheckview:checkIcon="@drawable/icon_submit" />
 

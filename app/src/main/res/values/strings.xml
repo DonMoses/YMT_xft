@@ -115,26 +115,6 @@
     <string name="style_tab">选项卡风格</string>
 
 
-    <string-array name="cato_array_part">
-
-        <item>建筑</item>
-        <item>高层</item>
-        <item>超高层</item>
-        <item>商业综合</item>
-        <item>文体</item>
-        <item>专业</item>
-        <item>建筑定性</item>
-        <item>防火区分</item>
-        <item>平面布置</item>
-        <item>疏散避难</item>
-        <item>关键词</item>
-        <item>防火分隔</item>
-        <item>防烟分区</item>
-        <item>疏散距离</item>
-        <item>疏散宽度</item>
-
-    </string-array>
-
     <string name="study_datum_title_for_test">二O一四年一级消防工程师考试真题与解析</string>
     <string name="study_datum_content_for_test">消防工作贯彻预防为主、防消结合的方针，按照政府统一领导、部门依法监管、单位全面负责、公民积极参与的原则，实行消防安全责任制，建立健全社会化的消防工作网络。</string>
 
