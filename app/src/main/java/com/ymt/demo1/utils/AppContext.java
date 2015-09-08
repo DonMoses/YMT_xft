@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
+import com.ymt.demo1.R;
+import com.ymt.demo1.launchpages.MainActivity;
+import com.ymt.demo1.main.setting.VoiceSettingActivity;
 
 import org.litepal.LitePalApplication;
 
@@ -20,7 +24,7 @@ import cn.jpush.android.api.JPushInterface;
 /**
  * Created by Dan on 2015/4/16
  */
-public class AppContext extends LitePalApplication {
+public class AppContext extends LitePalApplication implements VoiceSettingActivity.VoiceSettingListener {
     private static List<Activity> yActivities;
     private static Activity floatActivity;
     private static AppContext appContext;
@@ -56,6 +60,9 @@ public class AppContext extends LitePalApplication {
 //        screenWidth = preferences.getInt("screen_width", 0);
         WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
         screenWidth = wm.getDefaultDisplay().getWidth();//屏幕宽度
+
+        //消息设置
+        sharedPreferences = getSharedPreferences(MainActivity.SETTING_PREFERENCES, MODE_PRIVATE);
     }
 
     /**
@@ -138,4 +145,65 @@ public class AppContext extends LitePalApplication {
         });
     }
 
+    /**
+     * 消息声音等设置
+     */
+    private SharedPreferences sharedPreferences;
+
+    protected void initVoiceSetting() {
+        String[] array = getResources().getStringArray(R.array.voice_settings);
+        for (String anArray : array) {
+            switch (anArray) {
+                case "通知消息内容显示":
+                    if (sharedPreferences.getBoolean(anArray, false)) {
+                        //todo
+//                        Log.e("TAG", "setting " + anArray + "is" + sharedPreferences.getBoolean(anArray, false));
+                    }
+                    break;
+                case "锁屏显示消息弹窗":
+                    if (sharedPreferences.getBoolean(anArray, false)) {
+                        //todo
+//                        Log.e("TAG", "setting " + anArray + "is" + sharedPreferences.getBoolean(anArray, false));
+                    }
+                    break;
+                case "退出后仍接受消息通知":
+                    if (sharedPreferences.getBoolean(anArray, false)) {
+                        //todo
+//                        Log.e("TAG", "setting " + anArray + "is" + sharedPreferences.getBoolean(anArray, false));
+                    }
+                    break;
+                case "群消息":
+                    if (sharedPreferences.getBoolean(anArray, false)) {
+                        //todo
+//                        Log.e("TAG", "setting " + anArray + "is" + sharedPreferences.getBoolean(anArray, false));
+                    }
+                    break;
+                case "声音":
+                    if (sharedPreferences.getBoolean(anArray, false)) {
+                        //todo
+//                        Log.e("TAG", "setting " + anArray + "is" + sharedPreferences.getBoolean(anArray, false));
+                    }
+                    break;
+                case "群振动":
+                    if (sharedPreferences.getBoolean(anArray, false)) {
+                        //todo
+//                        Log.e("TAG", "setting " + anArray + "is" + sharedPreferences.getBoolean(anArray, false));
+                    }
+                    break;
+                case "振动":
+                    if (sharedPreferences.getBoolean(anArray, false)) {
+                        //todo
+//                        Log.e("TAG", "setting " + anArray + "is" + sharedPreferences.getBoolean(anArray, false));
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onSettingDone() {
+        initVoiceSetting();
+    }
 }
