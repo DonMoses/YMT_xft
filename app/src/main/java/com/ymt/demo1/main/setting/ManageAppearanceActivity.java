@@ -79,6 +79,10 @@ public class ManageAppearanceActivity extends Activity {
                         if (NavigationMenuActivity.styleChangeListener != null) {
                             NavigationMenuActivity.styleChangeListener.onStyleChanged();
                         }
+                        if (TabMenuActivity.styleChangeListener != null) {
+                            TabMenuActivity.styleChangeListener.onStyleChanged();
+                        }
+
                         break;
                     case "侧滑风格":
                         Intent intent1 = new Intent();
@@ -91,17 +95,23 @@ public class ManageAppearanceActivity extends Activity {
                         if (CircleMenuActivity.styleChangeListener != null) {
                             CircleMenuActivity.styleChangeListener.onStyleChanged();
                         }
+                        if (TabMenuActivity.styleChangeListener != null) {
+                            TabMenuActivity.styleChangeListener.onStyleChanged();
+                        }
                         break;
                     case "选项卡风格":
                         Intent intent3 = new Intent();
                         intent3.setClass(ManageAppearanceActivity.this, TabMenuActivity.class);
                         intent3.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent3);
-                        editor.putInt(MainActivity.LAUNCH_STYLE_KEY, MainActivity.LAUNCH_STYLE_TAB);      //保存风格设置
+                        editor.putInt(MainActivity.LAUNCH_STYLE_KEY, MainActivity.LAUNCH_STYLE_TAB_MODE);      //保存风格设置
                         editor.apply();
                         finish();
-                        if (TabMenuActivity.styleChangeListener != null) {
-                            TabMenuActivity.styleChangeListener.onStyleChanged();
+                        if (NavigationMenuActivity.styleChangeListener != null) {
+                            NavigationMenuActivity.styleChangeListener.onStyleChanged();
+                        }
+                        if (CircleMenuActivity.styleChangeListener != null) {
+                            CircleMenuActivity.styleChangeListener.onStyleChanged();
                         }
                         break;
                     default:
