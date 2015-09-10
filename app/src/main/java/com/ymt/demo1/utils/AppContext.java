@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.os.Vibrator;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.android.volley.Response;
@@ -55,8 +58,10 @@ public class AppContext extends LitePalApplication implements VoiceSettingActivi
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
 
+        DisplayMetrics dm = new DisplayMetrics();
         WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
-        screenWidth = wm.getDefaultDisplay().getWidth();//屏幕宽度
+        wm.getDefaultDisplay().getMetrics(dm);
+        screenWidth = dm.widthPixels;//屏幕宽度
 
         //消息设置
         sharedPreferences = getSharedPreferences(MainActivity.SETTING_PREFERENCES, MODE_PRIVATE);

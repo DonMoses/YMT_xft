@@ -2,6 +2,7 @@ package com.ymt.demo1.main.setting;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,6 @@ public class VoiceSettingActivity extends BaseFloatActivity {
         setContentView(R.layout.activity_voice_setting);
         initTitle();
         initView();
-
     }
 
     protected void initTitle() {
@@ -44,11 +44,12 @@ public class VoiceSettingActivity extends BaseFloatActivity {
                 finish();
             }
         });
+
     }
 
     private void initView() {
         ListView settingListView = (ListView) findViewById(R.id.voice_setting_list_view);
-        String[] array = getResources().getStringArray(R.array.voice_settings);
+        final String[] array = getResources().getStringArray(R.array.voice_settings);
         VoiceSettingAdapter adapter = new VoiceSettingAdapter(this);
         adapter.setArray(array);
         settingListView.setAdapter(adapter);
@@ -58,7 +59,40 @@ public class VoiceSettingActivity extends BaseFloatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //todo 消息声音设置里的各个开关
                 IOSSwitchView switchView = (IOSSwitchView) view.findViewById(R.id.setting_switch_view);
+                if (!switchView.isChecked()) {
+                    switch (array[position]) {
+                        case "通知消息内容显示":
+
+                            break;
+                        case "锁屏显示消息弹窗":
+
+                            break;
+                        case "退出后仍接受消息通知":
+
+                            break;
+                        case "群消息":
+                            //todo 发出一下声音
+                            break;
+                        case "声音":
+                            //todo 发出一下声音
+                            break;
+                        case "群振动":
+                            //todo 振动一下
+                            Vibrator vibrator1 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                            vibrator1.vibrate(200);
+                            break;
+                        case "振动":
+                            //todo 振动一下
+                            Vibrator vibrator2 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                            vibrator2.vibrate(200);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
                 switchView.callOnClick();
+
             }
         });
 
@@ -106,6 +140,7 @@ public class VoiceSettingActivity extends BaseFloatActivity {
             }
             holder.settingName.setText(array[position]);
             holder.settingSwitch.setCheckedKey(array[position]);
+            holder.settingSwitch.setFocusable(false);
             return convertView;
         }
 
