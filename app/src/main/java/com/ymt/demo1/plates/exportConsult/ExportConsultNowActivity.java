@@ -27,6 +27,7 @@ import com.ymt.demo1.adapter.SimpleTxtItemAdapter;
 import com.ymt.demo1.beams.expert_consult.Expert;
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.sign.SignInUpActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.baseClasses.BaseFloatActivity;
 import com.ymt.demo1.utils.BaseURLUtil;
@@ -208,7 +209,7 @@ public class ExportConsultNowActivity extends BaseFloatActivity {
 //                                popupWindow.showAtLocation(titleTxt.getRootView(), Gravity.CENTER, 0, 0);
                                 Toast.makeText(ExportConsultNowActivity.this,
                                         "请先登录...", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(ExportConsultNowActivity.this, SignInFragment.class);
+                                Intent intent = new Intent(ExportConsultNowActivity.this, SignInUpActivity.class);
                                 intent.putExtra("isFromConsult", true);
                                 startActivity(intent);
                             }
@@ -350,7 +351,7 @@ public class ExportConsultNowActivity extends BaseFloatActivity {
 
         StringRequest stringRequest = null;
         if (!TextUtils.isEmpty(saveSID)) {
-            stringRequest = new StringRequest(BaseURLUtil.getMyQQMsgs(saveSID,0), new Response.Listener<String>() {
+            stringRequest = new StringRequest(BaseURLUtil.getMyQQMsgs(saveSID, 0), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String s) {
                     try {

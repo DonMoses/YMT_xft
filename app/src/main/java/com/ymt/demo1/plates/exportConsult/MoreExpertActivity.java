@@ -67,9 +67,7 @@ public class MoreExpertActivity extends BaseFloatActivity {
     }
 
     protected void initView() {
-//        searchViewUtil.initSearchView(this);
         expertGirdView = (PullToRefreshGridView) findViewById(R.id.expert_grid_view);
-
         expertListAdapter = new ExpertListAdapter(this, AppContext.screenWidth);
         expertGirdView.setAdapter(expertListAdapter);
         final List<Expert> experts = DataSupport.findAll(Expert.class);

@@ -68,9 +68,12 @@ public class ExpertListAdapter extends BaseAdapter {
             viewHolder = (MyViewHolder) convertView.getTag();
         }
         viewHolder.name.setText(experts.get(position).getUser_name());
-        viewHolder.type.setText(experts.get(position).getCapacity());
-        viewHolder.consultingCount.setText("咨询人数：" + experts.get(position).getCount());
-        viewHolder.waitingCount.setText("等待人数：" + experts.get(position).getCount());
+        String cap = experts.get(position).getCapacity();
+        if (cap.equals(String.valueOf(1))) {
+            viewHolder.type.setText("资深专家");
+        }
+        viewHolder.consultingCount.setText("咨询人数：" + experts.get(position).getCount() + "人");
+        viewHolder.waitingCount.setText("等待人数：" + experts.get(position).getCount() + "人");
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(width, height);
         viewHolder.header.setLayoutParams(params);

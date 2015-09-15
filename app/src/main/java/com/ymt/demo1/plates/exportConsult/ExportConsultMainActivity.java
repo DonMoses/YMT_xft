@@ -22,6 +22,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -44,8 +45,10 @@ import com.ymt.demo1.adapter.expertConsult.DutyExpertAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.expert_consult.Expert;
 import com.ymt.demo1.beams.expert_consult.HotConsult;
+import com.ymt.demo1.beams.expert_consult.OnDutyExpert;
 import com.ymt.demo1.beams.expert_consult.RecentConsult;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.sign.SignInUpActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.utils.PopActionListener;
@@ -61,7 +64,9 @@ import org.litepal.crud.DataSupport;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * 专家咨询界面
@@ -69,7 +74,6 @@ import java.util.List;
 public class ExportConsultMainActivity extends BaseActivity implements View.OnClickListener {
     private PopActionListener actionListener;
     private Handler mHandler = new MyHandler(this);
-    private RequestQueue mQueue;
     private TextView nearlyConsultTitle;
     TextView nearlyConsultContent;
     TextView hotConsultTitle;
@@ -85,13 +89,19 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
     private TextView tomorrowExportName;
     private TextView tomorrowExportMajor;
 
+    private List<OnDutyExpert> onDutyAmExperts = new ArrayList<>();
+    private List<OnDutyExpert> onDutyPmExperts = new ArrayList<>();
+    private DutyExpertAdapter amAdapter;
+    private DutyExpertAdapter pmAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mQueue = Volley.newRequestQueue(this);
+        RequestQueue mQueue = Volley.newRequestQueue(this);
         mQueue.add(hotConsultRequest(1, 10));
         mQueue.add(recentConsultRequest(1, 10));
         mQueue.add(getExperts(6, 1, ""));
+        mQueue.add(getOnDutyExperts());
         setContentView(R.layout.activity_export_consult_main);
         initTitle();
         initView();
@@ -124,7 +134,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
                     case "我的咨询":
                         if (TextUtils.isEmpty(AppContext.now_session_id)) {
                             //先登录
-                            startActivity(new Intent(ExportConsultMainActivity.this, SignInFragment.class));
+                            startActivity(new Intent(ExportConsultMainActivity.this, SignInUpActivity.class));
                         } else {
                             //我的咨询
                             startActivity(new Intent(ExportConsultMainActivity.this, MyConsultActivity.class));
@@ -160,7 +170,6 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
                 PopupWindow popupWindow = popActionUtil.getSimpleTxtPopActionMenu();
                 popupWindow.showAtLocation(title.getRootView(),
                         Gravity.TOP | Gravity.END, 10, 100);
-
                 popActionUtil.setActionListener(actionListener);
             }
         });
@@ -169,26 +178,12 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
     protected void initView() {
         TextView moreExpert = (TextView) findViewById(R.id.more_export);
         moreExpert.setOnClickListener(this);
-        /**
-         * 先加载view，然后测量才能获得视图尺寸
-         */
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                mHandler.sendEmptyMessage(0);
-            }
-        }).start();
-
+        TextView dutyTime = (TextView) findViewById(R.id.nearly_export);
+        String str = dutyTime.getText().toString();
+        dutyTime.setText(str + "(" + getDay() + ")");
         initTodTomExport();
-
         initNearlyHotConsult();
-
-
+        initOnDutyExpertView();
     }
 
     /**
@@ -216,9 +211,9 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
      * 最近、 热门咨询信息
      */
     protected void initNearlyHotConsult() {
-        //todo 最近咨询info
+        // 最近咨询info
         RecentConsult recentConsult = DataSupport.findFirst(RecentConsult.class);
-        // todo 热门咨询info
+        //  热门咨询info
         HotConsult hotConsult = DataSupport.findFirst(HotConsult.class);
 
         //设置info 到控件
@@ -251,42 +246,34 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
     /**
      * 初始化专家值守列表
      */
-    protected void initExportTable() {
+    protected void initOnDutyExpertView() {
         GridView amDutyView = (GridView) findViewById(R.id.am_expert_gridView);
         GridView pmDutyView = (GridView) findViewById(R.id.pm_expert_gridView);
-        DutyExpertAdapter amAdapter = new DutyExpertAdapter(this);
-        DutyExpertAdapter pmAdapter = new DutyExpertAdapter(this);
+        amAdapter = new DutyExpertAdapter(this);
+        pmAdapter = new DutyExpertAdapter(this);
+        amAdapter.setExpertList(onDutyAmExperts);
+        pmAdapter.setExpertList(onDutyPmExperts);
         amDutyView.setAdapter(amAdapter);
         pmDutyView.setAdapter(pmAdapter);
-        List<Expert> experts = DataSupport.findAll(Expert.class);
-        int length = experts.size();
-        List<Expert> pmExperts = new ArrayList<>();
-        List<Expert> amExperts = new ArrayList<>();
-        for (int i = 0; i < length; i++) {
-            if (i < 3) {
-                amExperts.add(experts.get(i));
-            } else if (i < 8) {
-                pmExperts.add(experts.get(i));
-            }
-        }
-
-        amAdapter.setExpertList(amExperts);
-        pmAdapter.setExpertList(pmExperts);
-
-        mHandler.sendEmptyMessage(1);
 
         AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Expert expert = (Expert) parent.getAdapter().getItem(position);
-                Intent intent = new Intent(ExportConsultMainActivity.this, ExpertInfoActivity.class);
-                intent.putExtra("expert_info", expert);
-                startActivity(intent);
+//                Expert expert = (Expert) parent.getAdapter().getItem(position);
+//                Intent intent = new Intent(ExportConsultMainActivity.this, ExpertInfoActivity.class);
+//                intent.putExtra("expert_info", expert);
+//                startActivity(intent);
             }
         };
         amDutyView.setOnItemClickListener(itemClickListener);
         pmDutyView.setOnItemClickListener(itemClickListener);
 
+    }
+
+    private void onDutyGet() {
+        amAdapter.setExpertList(onDutyAmExperts);
+        pmAdapter.setExpertList(onDutyPmExperts);
+//        Log.e("TAG", ">>>>>>>>>>>duty_list>>>>>>>");
     }
 
     @Override
@@ -336,11 +323,9 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
             ExportConsultMainActivity activity = reference.get();
             if (activity != null) {
                 switch (msg.what) {
-                    case 0:
-                        activity.initExportTable();
-                        break;
                     case 1:          //值日表
                         ((LinearLayout) activity.findViewById(R.id.duty_parent_view)).getChildAt(1).setVisibility(View.GONE);
+                        activity.onDutyGet();
                         break;
                     case 2:         //专家表
                         ((LinearLayout) activity.findViewById(R.id.expert_parent_view)).getChildAt(0).setVisibility(View.GONE);
@@ -465,6 +450,9 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         });
     }
 
+    /**
+     * 获取专家列表
+     */
     protected StringRequest getExperts(int pageSize, int start, String searchWho) {
         return new StringRequest(BaseURLUtil.doGetExpertList(pageSize, start, searchWho), new Response.Listener<String>() {
             @Override
@@ -543,4 +531,79 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         });
     }
 
+    /**
+     * 获取值班专家表
+     */
+    protected StringRequest getOnDutyExperts() {
+        return new StringRequest(BaseURLUtil.getOnDutyExpert(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (jsonObject.getString("result").equals("Y")) {
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("datas");
+                        JSONArray jsonArray = jsonObject1.getJSONArray("listData");
+                        int length = jsonArray.length();
+                        for (int i = 0; i < length; i++) {
+                            JSONObject obj = jsonArray.getJSONObject(i);
+                            String flag = obj.optString("flag");
+                            String day = obj.optString("day");
+                            JSONArray jsonArray1 = obj.getJSONArray("users");
+                            int length1 = jsonArray1.length();
+                            for (int j = 0; j < length1; j++) {
+                                JSONObject object = jsonArray1.getJSONObject(j);
+                                OnDutyExpert expert = new OnDutyExpert();
+                                expert.setName(object.optString("name"));
+                                expert.setUserId(object.optString("userId"));
+                                expert.setFlag(flag);
+                                expert.setDay(day);
+                                if (flag.equals("上午") && day.equals(getDay())) {
+                                    onDutyAmExperts.add(expert);
+                                } else if (flag.equals("下午") && day.equals(getDay())) {
+                                    onDutyPmExperts.add(expert);
+                                }
+                            }
+                        }
+
+                        mHandler.sendEmptyMessage(1);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(ExportConsultMainActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 获取当前星期几
+     */
+    public String getDay() {
+        final Calendar c = Calendar.getInstance();
+        c.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+//        String mYear = String.valueOf(c.get(Calendar.YEAR)); // 获取当前年份
+//        String mMonth = String.valueOf(c.get(Calendar.MONTH) + 1);// 获取当前月份
+//        String mDay = String.valueOf(c.get(Calendar.DAY_OF_MONTH));// 获取当前月份的日期号码
+        String mWay = String.valueOf(c.get(Calendar.DAY_OF_WEEK));
+        if ("1".equals(mWay)) {
+            mWay = "天";
+        } else if ("2".equals(mWay)) {
+            mWay = "1";
+        } else if ("3".equals(mWay)) {
+            mWay = "2";
+        } else if ("4".equals(mWay)) {
+            mWay = "3";
+        } else if ("5".equals(mWay)) {
+            mWay = "4";
+        } else if ("6".equals(mWay)) {
+            mWay = "5";
+        } else if ("7".equals(mWay)) {
+            mWay = "六";
+        }
+        return "星期" + mWay;
+    }
 }

@@ -143,7 +143,7 @@ public class SettingActivity extends Activity {
                 DataSupport.deleteAll(QQMsg.class);
                 DataSupport.deleteAll(QQChatInfo.class);
                 mQueue.add(signOutAction(AppContext.now_session_id));
-                Intent intent = new Intent(SettingActivity.this, SignInFragment.class);
+                Intent intent = new Intent(SettingActivity.this, SignInUpActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);                //清楚前面所有Activity
                 startActivity(intent);
                 //结束本活动

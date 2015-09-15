@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.expert_consult.Expert;
+import com.ymt.demo1.beams.expert_consult.OnDutyExpert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
  * Created by Dan on 2015/6/17
  */
 public class DutyExpertAdapter extends BaseAdapter {
-    List<Expert> expertList = new ArrayList<>();
+    List<OnDutyExpert> expertList = new ArrayList<>();
     Context context;
     LayoutInflater inflater;
 
@@ -26,7 +27,7 @@ public class DutyExpertAdapter extends BaseAdapter {
         this.inflater = LayoutInflater.from(context);
     }
 
-    public void setExpertList(List<Expert> expertList) {
+    public void setExpertList(List<OnDutyExpert> expertList) {
         this.expertList = expertList;
         notifyDataSetChanged();
     }
@@ -56,7 +57,7 @@ public class DutyExpertAdapter extends BaseAdapter {
         } else {
             expertName = (TextView) convertView.getTag();
         }
-        expertName.setText(expertList.get(position).getUser_name());
+        expertName.setText(expertList.get(position).getName());
 
         return convertView;
     }

@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="当天值班表（星期六）"
+            android:text="当天值班表"
             android:textColor="@color/material_blue_grey_800"
             android:textSize="18sp" />
 
@@ -62,7 +62,6 @@
             layout="@layout/layout_duty_expert"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
     </LinearLayout>
 
     <View
@@ -279,9 +278,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/nearly_consult_title"
+            android:layout_marginBottom="2dp"
             android:ellipsize="middle"
             android:maxLines="4"
-            android:layout_marginBottom="2dp"
             android:textColor="@color/material_blue_grey_800"
             android:textSize="12.5sp" />
 
@@ -349,8 +348,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/hot_consult_title"
-            android:ellipsize="middle"
             android:layout_marginBottom="2dp"
+            android:ellipsize="middle"
             android:maxLines="4"
             android:textColor="@color/material_blue_grey_800"
             android:textSize="12.5sp" />

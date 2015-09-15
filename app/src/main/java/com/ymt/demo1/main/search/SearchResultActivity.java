@@ -732,7 +732,7 @@ public class SearchResultActivity extends BaseFloatActivity {
      * 全部
      */
     protected StringRequest getAllSearch(String user_id, int start, int limit, final String queryInfo) {
-        return new StringRequest("http://120.24.172.105/webintf/search/getFullQueryForKN?userId=" + user_id + "&queryWay=app&queryType=&start=" + String.valueOf(start) + "&limit=" + String.valueOf(limit) + "&queryInfo=" + URLEncoder.encode(queryInfo), new Response.Listener<String>() {
+        return new StringRequest("http://101.204.236.5/webintf/search/getFullQueryForKN?userId=" + user_id + "&queryWay=app&start=" + String.valueOf(start) + "&limit=" + String.valueOf(limit) + "&queryInfo=" + URLEncoder.encode(queryInfo), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {

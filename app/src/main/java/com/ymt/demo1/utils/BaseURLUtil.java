@@ -1,5 +1,9 @@
 package com.ymt.demo1.utils;
 
+import android.util.Log;
+
+import java.net.URLEncoder;
+
 /**
  * Created by Dan on 2015/6/10
  */
@@ -7,14 +11,14 @@ public class BaseURLUtil {
     public static final String PUB_ZX_JZ = "PUB_ZX_JZ";
     public static final String PUB_ZX_GJC = "PUB_ZX_GJC";
     public static final String PUB_ZX_ZY = "PUB_ZX_ZY";
-    //    public static final String BASE_URL = "http://120.24.172.105";
+    public static final String BASE_URL_test = "http://120.24.172.105";
     public static final String BASE_URL = "http://101.204.236.5";
 
     //学习资料
     public static final String STUDY_DATUM = BASE_URL + "/fw?controller=com.xfsm.action.ExamAction&m=book&order=new&start=";
 
     //最新考试时间
-    public static final String EARLIEST_EXAM_INFO = BASE_URL + "/fw?controller=com.xfsm.action.TypeAction&t=app&m=param&p=%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%9C%80%E6%96%B0%E8%80%83%E8%AF%95%E5%90%8D%E7%A7%B0,%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E6%9C%80%E6%96%B0%E8%80%83%E8%AF%95%E6%97%B6%E9%97%B4";
+    public static final String EARLIEST_EXAM_INFO = BASE_URL + "/fw?controller=com.xfsm.action.TypeAction&t=app&m=param&p=" + "教育平台最新考试名称" + "," + "教育平台最新考试时间";
 
     //pdf
     public static final String PDF_BASE = BASE_URL + "/public/pub/upload/down.jsp?id=";
@@ -88,6 +92,13 @@ public class BaseURLUtil {
      */
     public static String getPostContentUrl(int tid, int index) {
         return HUB_POST_CONTENT + "?tid=" + String.valueOf(tid) + "&index=" + String.valueOf(index);
+    }
+
+    /**
+     * 专家值班表
+     */
+    public static String getOnDutyExpert() {
+        return BASE_URL + "/fw?controller=com.xfsm.action.ExpertAction&m=duty";
     }
 
     /**
@@ -317,14 +328,17 @@ public class BaseURLUtil {
      * 登录
      */
     public static String doSignIn(String admin, String pwd) {
-        return SIGN_IN_BASE + admin + "&pwd=" + pwd + "&t=app";
+//        String str = SIGN_IN_BASE + admin + "&pwd=" + pwd + "&t=app";
+//        Log.e("TAG","..sign Str>>>>>>>>>>>"+str);
+        return SIGN_IN_BASE + URLEncoder.encode(admin) + "&pwd=" + pwd + "&t=app";
+
     }
 
     /**
      * 注册
      */
     public static String doSignUp(String loginName, String pwd, String phone, String type) {
-        return SIGN_UP_BASE + "&loginname=" + loginName + "&pwd=" + pwd + "&phone=" + phone + "&t=" + type;
+        return SIGN_UP_BASE + "&loginname=" + URLEncoder.encode(loginName) + "&pwd=" + pwd + "&phone=" + phone + "&t=" + type;
     }
 
     /**

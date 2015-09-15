@@ -17,6 +17,7 @@ import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.edu.MockExamItem;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.sign.SignInUpActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.baseClasses.BaseFloatActivity;
 import com.ymt.demo1.utils.BaseURLUtil;
@@ -186,7 +187,7 @@ public class MockExamsMainActivity extends BaseFloatActivity {
                                         //todo (试卷的其他信息)
                                     } else {
                                         Toast.makeText(MockExamsMainActivity.this, "请登录！", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(MockExamsMainActivity.this, SignInFragment.class);
+                                        Intent intent = new Intent(MockExamsMainActivity.this, SignInUpActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(intent);
                                     }
 

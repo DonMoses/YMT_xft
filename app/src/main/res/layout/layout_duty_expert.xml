@@ -3,14 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TableLayout android:layout_width="match_parent"
-        android:background="@android:color/white"
+    <TableLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
         android:stretchColumns="1">
 
-        <TableRow android:gravity="center" android:layout_weight="1">
+        <TableRow
+            android:layout_weight="1"
+            android:background="@android:color/darker_gray"
+            android:gravity="center">
 
-            <LinearLayout android:orientation="vertical" android:gravity="center">
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_marginTop="0.618dp"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -30,18 +39,36 @@
             <GridView
                 android:id="@+id/am_expert_gridView"
                 android:layout_height="match_parent"
-                android:padding="10dp"
-                android:numColumns="5">
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="0.618dp"
+                android:layout_marginStart="0.618dp"
+                android:layout_marginTop="0.618dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:numColumns="4"
+                android:paddingLeft="3.19dp"
+                android:paddingRight="3.19dp">
 
             </GridView>
         </TableRow>
 
-        <TableRow android:gravity="center" android:layout_weight="1">
-            <LinearLayout android:orientation="vertical" android:gravity="center">
+        <TableRow
+            android:layout_weight="1"
+            android:background="@android:color/darker_gray"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_marginBottom="0.618dp"
+                android:layout_marginTop="0.618dp"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@android:color/white"
                     android:text="下午"
                     android:textColor="@color/material_blue_grey_800"
                     android:textSize="12sp" />
@@ -49,6 +76,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@android:color/white"
                     android:text="14:00-18:00"
                     android:textColor="@color/material_blue_grey_800"
                     android:textSize="12sp" />
@@ -56,9 +84,17 @@
 
             <GridView
                 android:id="@+id/pm_expert_gridView"
-                android:padding="10dp"
                 android:layout_height="match_parent"
-                android:numColumns="5">
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="0.618dp"
+                android:layout_marginLeft="0.618dp"
+                android:layout_marginStart="0.618dp"
+                android:layout_marginTop="0.618dp"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:numColumns="4"
+                android:paddingLeft="3.19dp"
+                android:paddingRight="3.19dp">
 
             </GridView>
         </TableRow>

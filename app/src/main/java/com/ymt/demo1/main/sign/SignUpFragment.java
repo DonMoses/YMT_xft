@@ -8,6 +8,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,8 @@ import com.ymt.demo1.utils.BaseURLUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.litepal.tablemanager.Connector;
+
+import java.net.URLEncoder;
 
 /**
  * Created by Moses on 2015
@@ -141,7 +144,7 @@ public class SignUpFragment extends Fragment {
     protected void jumpToSignIn(String account, String psw) {
         Toast.makeText(getActivity(), "注册成功！", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent();
-        intent.putExtra("account", account);
+        intent.putExtra("account", URLEncoder.encode(account));
         intent.putExtra("password", psw);
         getActivity().setResult(Activity.RESULT_OK, intent);
 
@@ -158,10 +161,8 @@ public class SignUpFragment extends Fragment {
      * @return : VOLLEY Request
      */
     protected StringRequest signUpRequest(final String account, final String psw, final String phone, final String user_type) {
-        String loginBaseUrl = BaseURLUtil.BASE_URL + "/fw?controller=com.xfsm.action.RegAction";
-        String url = loginBaseUrl + "&loginname=" + account + "&pwd=" + psw + "&phone=" + phone + "&t=" + user_type;
-
-        return new StringRequest(url, new Response.Listener<String>() {
+        String loginBaseUrl = BaseURLUtil.doSignUp(account, psw, phone, user_type);
+        return new StringRequest(loginBaseUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -173,6 +174,7 @@ public class SignUpFragment extends Fragment {
                     } else {
                         //sign unsuccessfully
                         Toast.makeText(getActivity(), jsonObject.getString("result"), Toast.LENGTH_SHORT).show();
+                        Log.e("TAG", "sign_up_result>>>>>" + jsonObject.getString("result"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,7 +42,6 @@ import java.util.Locale;
 public class EduMainActivity extends BaseFloatActivity {
     private static final int DO_REFRESH = 0;
     private static final int SHOW_NEXT_PAGE = 1;
-    private RequestQueue mQueue;
     /*
     考试时间倒计时提示views
      */
@@ -53,6 +53,7 @@ public class EduMainActivity extends BaseFloatActivity {
     private TextView examYear;
     private TextView examMonth;
     private TextView examDay;
+    private TextView examName;
 
     private static boolean ALWAYS_ON = true;
     /*
@@ -65,7 +66,7 @@ public class EduMainActivity extends BaseFloatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mQueue = Volley.newRequestQueue(this);
+        RequestQueue mQueue = Volley.newRequestQueue(this);
         setContentView(R.layout.activity_edu_main);
         initTitle();
         initView();
@@ -167,6 +168,7 @@ public class EduMainActivity extends BaseFloatActivity {
         examYear = (TextView) findViewById(R.id.next_exam_year);
         examMonth = (TextView) findViewById(R.id.next_exam_month);
         examDay = (TextView) findViewById(R.id.next_exam_day);
+        examName = (TextView) findViewById(R.id.next_exam_name);
 
         timeDay = (TextView) findViewById(R.id.time_day);
         timeHour = (TextView) findViewById(R.id.time_hour);
@@ -222,7 +224,7 @@ public class EduMainActivity extends BaseFloatActivity {
      * 刷新考试时间提示
      */
     protected void freshTimer() {
-        timeDay.setText(String.valueOf(showDay));
+        timeDay.setText("还有 " + String.valueOf(showDay));
         timeHour.setText(String.valueOf(showHour));
         timeMinute.setText(String.valueOf(showMin));
         timeSecond.setText(String.valueOf(showSec));
@@ -271,13 +273,17 @@ public class EduMainActivity extends BaseFloatActivity {
                         JSONObject timeObj = array.getJSONObject(1);
                         String time = timeObj.optString("val");
                         String name = nameObj.optString("val");
+
                         year = Integer.valueOf(time.substring(0, 4));
                         month = Integer.valueOf(time.substring(5, 7));
                         day = Integer.valueOf(time.substring(8, 10));
 
                         examYear.setText(String.valueOf(year));
                         examMonth.setText(String.valueOf(month));
-                        examDay.setText(String.valueOf(day) + "日  " + name);
+                        examDay.setText(String.valueOf(day) + "日");
+                        if (name.length() > 5) {
+                            examName.setText(name.substring(5));
+                        }
 
                         examTimer();
 

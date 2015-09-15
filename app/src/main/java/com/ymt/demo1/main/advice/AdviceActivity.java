@@ -1,6 +1,7 @@
 package com.ymt.demo1.main.advice;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.sign.SignInUpActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 
@@ -60,6 +62,12 @@ public class AdviceActivity extends Activity {
             public void onClick(View v) {
                 String adviceTxt = editAdviceContent.getText().toString();
                 String adviceTitle = editAdviceTitle.getText().toString();
+                if (TextUtils.isEmpty(AppContext.now_session_id)) {
+                    //先登录
+                    Toast.makeText(AdviceActivity.this, "请先登录!", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(AdviceActivity.this, SignInUpActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                    return;
+                }
                 if ((!TextUtils.isEmpty(adviceTxt)) && (!TextUtils.isEmpty(adviceTitle))) {
                     mQueue.add(doAdvice(AppContext.now_session_id, adviceTitle, adviceTxt, ""));
                 } else {
