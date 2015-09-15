@@ -72,6 +72,28 @@ public class SignInFragment extends Fragment {
     private MyCheckView rememberNameCheck;
     private MyCheckView rememberPswCheck;
 
+    private static SignInFragment fragment;
+    private boolean isBackToMain;
+
+    public SignInFragment() {
+    }
+
+    public static SignInFragment getInstance(boolean backToMain) {
+        if (fragment == null) {
+            fragment = new SignInFragment();
+        }
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("is_back_to_main", backToMain);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        isBackToMain = getArguments().getBoolean("is_back_to_main");
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_sign_in, container, false);
@@ -260,7 +282,13 @@ public class SignInFragment extends Fragment {
                             editor1.apply();
                         }
 
-                        chooseLaunchStyle();
+                        if (isBackToMain) {
+                            chooseLaunchStyle();
+                            getActivity().finish();
+                        } else {
+                            getActivity().setResult(0);
+                            getActivity().finish();
+                        }
                     } else {
                         Toast.makeText(getActivity(), jsonObject.getString("result"), Toast.LENGTH_SHORT).show();
                         SharedPreferences.Editor editor = sharedPreferences.edit();

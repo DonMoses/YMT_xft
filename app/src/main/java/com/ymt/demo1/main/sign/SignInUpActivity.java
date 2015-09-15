@@ -16,10 +16,12 @@ import com.ymt.demo1.customViews.UnScrollableViewPager;
  */
 public class SignInUpActivity extends BaseFloatActivity implements SignSwitchView.SignSwitchListener {
     private UnScrollableViewPager contentPager;
+    private boolean isBackToMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isBackToMain = getIntent().getBooleanExtra("is_back_to_main", true);
         setContentView(R.layout.activity_sign_in_up);
         initBack();
         initView();
@@ -67,7 +69,11 @@ public class SignInUpActivity extends BaseFloatActivity implements SignSwitchVie
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new SignInFragment();
+                if (isBackToMain) {
+                    return SignInFragment.getInstance(true);
+                } else {
+                    return SignInFragment.getInstance(false);
+                }
             } else {
                 return new SignUpFragment();
             }

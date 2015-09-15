@@ -135,6 +135,8 @@ public class MockExamsMainActivity extends BaseFloatActivity {
         level002Layout = (LinearLayout) findViewById(R.id.layout_level002);
     }
 
+    private View target;
+
     protected StringRequest getExamInfo(int start, int year, final String level, String searchWhat) {
         return new StringRequest(BaseURLUtil.getMockExams(start, level, year, searchWhat), new Response.Listener<String>() {
             @Override
@@ -160,7 +162,7 @@ public class MockExamsMainActivity extends BaseFloatActivity {
                             exam.setType(obj.optString("type"));
                             exam.setExam_title(obj.optString("exam_title"));
 
-                            View itemView = inflater.inflate(R.layout.item_mock_exams_content, null);
+                            final View itemView = inflater.inflate(R.layout.item_mock_exams_content, null);
                             TextView examName = (TextView) itemView.findViewById(R.id.content);
                             TextView totalItem = (TextView) itemView.findViewById(R.id.total_item);
                             TextView totalTime = (TextView) itemView.findViewById(R.id.total_time);
@@ -187,8 +189,10 @@ public class MockExamsMainActivity extends BaseFloatActivity {
                                         //todo (试卷的其他信息)
                                     } else {
                                         Toast.makeText(MockExamsMainActivity.this, "请登录！", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(MockExamsMainActivity.this, SignInUpActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                        startActivity(intent);
+                                        target = itemView;
+                                        Intent intent = new Intent(MockExamsMainActivity.this, SignInUpActivity.class);
+                                        intent.putExtra("is_back_to_main", false);
+                                        startActivityForResult(intent, 0);
                                     }
 
                                 }
@@ -225,6 +229,21 @@ public class MockExamsMainActivity extends BaseFloatActivity {
             public void onErrorResponse(VolleyError volleyError) {
             }
         });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            switch (resultCode) {
+                case 0:
+                    target.callOnClick();
+                    break;
+                default:
+                    break;
+            }
+        }
 
     }
 }

@@ -55,7 +55,6 @@ import com.ymt.demo1.utils.PopActionListener;
 import com.ymt.demo1.utils.PopActionUtil;
 import com.ymt.demo1.utils.StringUtils;
 import com.ymt.demo1.main.search.SearchActivity;
-import com.ymt.demo1.main.sign.SignInFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -134,11 +133,12 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
                     case "我的咨询":
                         if (TextUtils.isEmpty(AppContext.now_session_id)) {
                             //先登录
-                            startActivity(new Intent(ExportConsultMainActivity.this, SignInUpActivity.class));
+                            Intent intent = new Intent(ExportConsultMainActivity.this, SignInUpActivity.class);
+                            intent.putExtra("is_back_to_main", false);
+                            startActivityForResult(intent, 0);
                         } else {
                             //我的咨询
                             startActivity(new Intent(ExportConsultMainActivity.this, MyConsultActivity.class));
-
                         }
                         break;
 //                    case "咨询历史":
@@ -173,6 +173,21 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
                 popActionUtil.setActionListener(actionListener);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            switch (resultCode) {
+                case 0:
+                    actionListener.onAction("我的咨询");
+                    break;
+                default:
+                    break;
+            }
+        }
+
     }
 
     protected void initView() {

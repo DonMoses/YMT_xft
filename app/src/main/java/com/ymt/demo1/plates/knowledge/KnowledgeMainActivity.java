@@ -63,7 +63,9 @@ public class KnowledgeMainActivity extends BaseActivity {
 
     protected void initTitle() {
         final MyTitle title = (MyTitle) findViewById(R.id.my_title);
-        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L_R);
+//        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L_R);
+        //todo 接口没有完善， 暂时屏蔽一些UI
+        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
             public void onClick() {
