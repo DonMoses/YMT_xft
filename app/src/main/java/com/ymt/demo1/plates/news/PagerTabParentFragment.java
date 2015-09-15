@@ -77,7 +77,10 @@ public class PagerTabParentFragment extends BaseFragment {
      */
     private static class NavigationAdapter extends CacheFragmentStatePagerAdapter {
 
-        private static final String[] TITLES = new String[]{"消防新闻", "消防公告", "教育资讯"};
+        private static final String[] TITLES = new String[]{"消防新闻"
+                , "消防公告"
+//                , "教育资讯"  todo 教育咨询没有内容，暂时屏蔽
+        };
 
         public NavigationAdapter(FragmentManager fm) {
             super(fm);
