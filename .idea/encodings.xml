@@ -3,6 +3,7 @@
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/app/build.gradle" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/ymt/demo1/adapter/LongClickItemsAdapter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/ymt/demo1/beams/consult_cato/SearchedConsult.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/ymt/demo1/customViews/SignSwitchView.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/ymt/demo1/customViews/SimpleSwitchView.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/ymt/demo1/demos/TestActivity.java" charset="UTF-8" />
@@ -12,6 +13,7 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/ymt/demo1/main/ShareActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/ymt/demo1/main/setting/VoiceSettingActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/ymt/demo1/main/sign/SignInUpActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/ymt/demo1/plates/knowledge/KnowledgeHyFragment.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/ymt/demo1/utils/MosesJPushReceiver.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/ymt/demo1/zxing/activity/CaptureActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/ymt/demo1/zxing/camera/AutoFocusCallback.java" charset="UTF-8" />
