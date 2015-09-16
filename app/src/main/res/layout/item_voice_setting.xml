@@ -18,7 +18,9 @@
         android:layout_height="21dp"
         android:layout_gravity="end|center_vertical"
         android:layout_marginLeft="18dp"
-        android:layout_marginRight="18dp">
+        android:layout_marginRight="18dp"
+        android:clickable="false"
+        android:focusable="false">
 
     </com.ymt.demo1.customViews.IOSSwitchView>
 </FrameLayout>

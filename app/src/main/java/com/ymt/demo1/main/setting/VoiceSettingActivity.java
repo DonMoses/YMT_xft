@@ -3,6 +3,7 @@ package com.ymt.demo1.main.setting;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,6 +81,7 @@ public class VoiceSettingActivity extends BaseFloatActivity {
                             //todo 振动一下
                             Vibrator vibrator1 = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                             vibrator1.vibrate(200);
+                            Log.e("TAG", "vibrate>>>>>>>>>>>>.");
                             break;
                         case "振动":
                             //todo 振动一下
@@ -141,6 +143,7 @@ public class VoiceSettingActivity extends BaseFloatActivity {
             holder.settingName.setText(array[position]);
             holder.settingSwitch.setCheckedKey(array[position]);
             holder.settingSwitch.setFocusable(false);
+            holder.settingSwitch.setClickable(false);
             return convertView;
         }
 

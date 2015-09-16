@@ -1,14 +1,13 @@
 package com.ymt.demo1.main.sign;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,12 +30,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.litepal.tablemanager.Connector;
 
-import java.net.URLEncoder;
-
 /**
  * Created by Moses on 2015
  */
 public class SignUpFragment extends Fragment {
+    public static final String FLAG = "SignUpFragment";
     public static final String NORMAL_USER = "001";
     //    public static final String EXPORT_USER = "002";
 //    public static final String MEMBER_USER = "003";
@@ -44,12 +42,19 @@ public class SignUpFragment extends Fragment {
     private RequestQueue queue;
     private MyCheckView myCheckView;
     //&loginname=moses&pwd=123&phone=333&t=001(t表示用户类型，包括001，002，003，004)
+    private SharedPreferences sharedPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_sign_up, container, false);
         initView(view);
         return view;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sharedPreferences = getActivity().getSharedPreferences(SignInFragment.SIGN_IN_SETTING, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -143,12 +148,15 @@ public class SignUpFragment extends Fragment {
 
     protected void jumpToSignIn(String account, String psw) {
         Toast.makeText(getActivity(), "注册成功！", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent();
-        intent.putExtra("account", URLEncoder.encode(account));
-        intent.putExtra("password", psw);
-        getActivity().setResult(Activity.RESULT_OK, intent);
+        onDestroyView();
+        //保存成功的信息到本地sharedPreference
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(SignInFragment.REMEMBERED_NAME, account);
+        editor.putString(SignInFragment.REMEMBERED_PSW, psw);
+        editor.apply();
 
-        getActivity().finish();
+        SignInUpActivity activity = (SignInUpActivity) getActivity();
+        activity.setSelect(0);
     }
 
     /**
@@ -174,7 +182,7 @@ public class SignUpFragment extends Fragment {
                     } else {
                         //sign unsuccessfully
                         Toast.makeText(getActivity(), jsonObject.getString("result"), Toast.LENGTH_SHORT).show();
-                        Log.e("TAG", "sign_up_result>>>>>" + jsonObject.getString("result"));
+//                        Log.e("TAG", "sign_up_result>>>>>" + jsonObject.getString("result"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

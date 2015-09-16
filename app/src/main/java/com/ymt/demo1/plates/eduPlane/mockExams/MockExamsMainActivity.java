@@ -192,7 +192,7 @@ public class MockExamsMainActivity extends BaseFloatActivity {
                                         target = itemView;
                                         Intent intent = new Intent(MockExamsMainActivity.this, SignInUpActivity.class);
                                         intent.putExtra("is_back_to_main", false);
-                                        startActivityForResult(intent, 0);
+                                        startActivityForResult(intent, 1024);
                                     }
 
                                 }
@@ -234,10 +234,9 @@ public class MockExamsMainActivity extends BaseFloatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0) {
+        if (requestCode == 1024) {
             switch (resultCode) {
-                case 0:
+                case RESULT_OK:
                     target.callOnClick();
                     break;
                 default:

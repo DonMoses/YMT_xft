@@ -135,7 +135,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
                             //先登录
                             Intent intent = new Intent(ExportConsultMainActivity.this, SignInUpActivity.class);
                             intent.putExtra("is_back_to_main", false);
-                            startActivityForResult(intent, 0);
+                            startActivityForResult(intent, 1024);
                         } else {
                             //我的咨询
                             startActivity(new Intent(ExportConsultMainActivity.this, MyConsultActivity.class));
@@ -177,10 +177,9 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0) {
+        if (requestCode == 1024) {
             switch (resultCode) {
-                case 0:
+                case RESULT_OK:
                     actionListener.onAction("我的咨询");
                     break;
                 default:

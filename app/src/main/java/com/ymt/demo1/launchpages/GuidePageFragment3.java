@@ -73,7 +73,7 @@ public class GuidePageFragment3 extends Fragment {
         //屏幕尺寸这这里保存到AppContext供全局使用
         SharedPreferences sharedPreferences =
                 getActivity().getSharedPreferences(MainActivity.SETTING_PREFERENCES, Activity.MODE_PRIVATE);
-        int style = sharedPreferences.getInt(MainActivity.LAUNCH_STYLE_KEY, 0);
+        int style = sharedPreferences.getInt(MainActivity.LAUNCH_STYLE_KEY, MainActivity.LAUNCH_STYLE_SLIDE_MODE);
         switch (style) {
             case MainActivity.LAUNCH_STYLE_CIRCLE_MODE:
                 startActivity(new Intent(getActivity(), CircleMenuActivity.class));

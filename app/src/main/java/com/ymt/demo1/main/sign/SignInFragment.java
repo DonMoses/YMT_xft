@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,14 +30,10 @@ import com.ymt.demo1.beams.consult_cato.SearchedConsult;
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
 import com.ymt.demo1.beams.expert_consult.QQMsg;
 import com.ymt.demo1.customViews.MyCheckView;
-import com.ymt.demo1.launchpages.MainActivity;
-import com.ymt.demo1.mainStyles.TabMenuActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.utils.PopActionListener;
 import com.ymt.demo1.utils.PopActionUtil;
-import com.ymt.demo1.mainStyles.CircleMenuActivity;
-import com.ymt.demo1.mainStyles.NavigationMenuActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,8 +44,9 @@ import org.litepal.crud.DataSupport;
  * Created by Dan on 2015/4/2
  */
 public class SignInFragment extends Fragment {
-    String account;
-    String psw;
+    public static final String FLAG = "SignInFragment";
+    private String account;
+    private String psw;
 
     private EditText accountETxt;
     private EditText pswETxt;
@@ -71,28 +67,6 @@ public class SignInFragment extends Fragment {
      */
     private MyCheckView rememberNameCheck;
     private MyCheckView rememberPswCheck;
-
-    private static SignInFragment fragment;
-    private boolean isBackToMain;
-
-    public SignInFragment() {
-    }
-
-    public static SignInFragment getInstance(boolean backToMain) {
-        if (fragment == null) {
-            fragment = new SignInFragment();
-        }
-        Bundle bundle = new Bundle();
-        bundle.putBoolean("is_back_to_main", backToMain);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        isBackToMain = getArguments().getBoolean("is_back_to_main");
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -281,14 +255,8 @@ public class SignInFragment extends Fragment {
                             editor1.remove(DO_REMEMBER_PSW);
                             editor1.apply();
                         }
+                        getActivity().finish();
 
-                        if (isBackToMain) {
-                            chooseLaunchStyle();
-                            getActivity().finish();
-                        } else {
-                            getActivity().setResult(0);
-                            getActivity().finish();
-                        }
                     } else {
                         Toast.makeText(getActivity(), jsonObject.getString("result"), Toast.LENGTH_SHORT).show();
                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -301,7 +269,9 @@ public class SignInFragment extends Fragment {
                         AppContext.now_session_id = "";
                         AppContext.now_user_id = "";
                         AppContext.now_user_name = "";
+
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -326,16 +296,16 @@ public class SignInFragment extends Fragment {
                 if (resultCode == Activity.RESULT_OK) {      //从注册界面返回的账号和密码
                     accountETxt.setText(data.getStringExtra("account"));
                     pswETxt.setText(data.getStringExtra("password"));
-                    Log.e("TAG", "account>>>" + data.getStringExtra("account"));
-                    Log.e("TAG", "password>>>" + data.getStringExtra("password"));
+//                    Log.e("TAG", "account>>>" + data.getStringExtra("account"));
+//                    Log.e("TAG", "password>>>" + data.getStringExtra("password"));
                 }
                 break;
             case 128:
                 if (resultCode == Activity.RESULT_OK) {      //从注册界面返回的账号和密码
                     accountETxt.setText(data.getStringExtra("loginName"));
                     pswETxt.setText(data.getStringExtra("psw"));
-                    Log.e("TAG", "account>>>" + data.getStringExtra("account"));
-                    Log.e("TAG", "password>>>" + data.getStringExtra("password"));
+//                    Log.e("TAG", "account>>>" + data.getStringExtra("account"));
+//                    Log.e("TAG", "password>>>" + data.getStringExtra("password"));
                 }
                 break;
             default:
@@ -351,28 +321,6 @@ public class SignInFragment extends Fragment {
         editor.putString("password", psw);
         editor.apply();
         super.onPause();
-    }
-
-    protected void chooseLaunchStyle() {
-        SharedPreferences sharedPreferences =
-                getActivity().getSharedPreferences(MainActivity.SETTING_PREFERENCES, Context.MODE_PRIVATE);
-        int style = sharedPreferences.getInt(MainActivity.LAUNCH_STYLE_KEY, 0);
-        switch (style) {
-            case MainActivity.LAUNCH_STYLE_CIRCLE_MODE:
-                startActivity(new Intent(getActivity(), CircleMenuActivity.class));
-                getActivity().finish();
-                break;
-            case MainActivity.LAUNCH_STYLE_SLIDE_MODE:
-                startActivity(new Intent(getActivity(), NavigationMenuActivity.class));
-                getActivity().finish();
-                break;
-            case MainActivity.LAUNCH_STYLE_TAB_MODE:
-                startActivity(new Intent(getActivity(), TabMenuActivity.class));
-                getActivity().finish();
-                break;
-            default:
-                break;
-        }
     }
 
     /**

@@ -34,6 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -239,8 +240,15 @@ public class ConsultChatActivity extends BaseActivity {
             @Override
             public void onResponse(String s) {
 //                Log.e("TAG", "chat>>>>>>>>>>>>>>...s" + s);
+                String ss = null;
                 try {
-                    JSONObject jsonObject = new JSONObject(s);
+                    ss = new String(s.getBytes(), "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    JSONObject jsonObject = new JSONObject(ss);
                     if (jsonObject.getString("result").equals("Y")) {
                         Intent intent = new Intent();
                         intent.putExtra("unread_count", 0);
@@ -335,17 +343,14 @@ public class ConsultChatActivity extends BaseActivity {
 
             }
         });
-
     }
 
     protected void doRefresh() {
         requestQueue.add(getQQMsgs(qq_id));
-
         int size = mQQMsgs.size();
         for (int i = 0; i < size; i++) {
             requestQueue.add(getHeader(mQQMsgs.get(i).getFk_reply_user_id()));
         }
-
     }
 
     public static class MyHandler extends Handler {
