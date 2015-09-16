@@ -177,16 +177,10 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1024) {
-            switch (resultCode) {
-                case RESULT_OK:
-                    actionListener.onAction("我的咨询");
-                    break;
-                default:
-                    break;
-            }
+        if (requestCode == 1024 && resultCode == RESULT_OK) {
+//            Log.e("TAG", ">>>>>>>>>>>>>>.onAction》》我的咨询");
+            actionListener.onAction("我的咨询");
         }
-
     }
 
     protected void initView() {

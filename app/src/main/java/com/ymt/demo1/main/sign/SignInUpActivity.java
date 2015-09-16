@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseFloatActivity;
@@ -20,6 +21,7 @@ import com.ymt.demo1.mainStyles.TabMenuActivity;
  */
 public class SignInUpActivity extends BaseFloatActivity implements SignSwitchView.SignSwitchListener {
     private boolean isBackToMain;
+    public boolean isSigned = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,7 @@ public class SignInUpActivity extends BaseFloatActivity implements SignSwitchVie
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
             public void onClick() {
-                onBackPressed();
+                finish();
             }
         });
     }
@@ -78,13 +80,19 @@ public class SignInUpActivity extends BaseFloatActivity implements SignSwitchVie
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    protected void onDestroy() {
+        super.onDestroy();
         if (isBackToMain) {
             chooseLaunchStyle();
         } else {
-            setResult(RESULT_OK);
+            if (isSigned) {
+                setResult(RESULT_OK);
+            } else {
+                setResult(RESULT_CANCELED);
+            }
+
         }
+
     }
 
     protected void chooseLaunchStyle() {

@@ -47,6 +47,15 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences preferences = getSharedPreferences(SETTING_PREFERENCES, MODE_PRIVATE);
+        boolean isFirstLaunch = preferences.getBoolean(MainActivity.FIRST_LAUNCH_KEY, true);
+        if (isFirstLaunch) {
+            startActivity(new Intent(this, GuideActivity.class));       //第一次启动
+            finish();
+        } else {
+            chooseLaunchStyle();                                        //常规启动
+        }
+        
         startService(new Intent(this, FloatWindowService.class));
 
         Connector.getDatabase();
@@ -60,15 +69,6 @@ public class MainActivity extends Activity {
             //将等路请求加入Volley队列
             mQueue.add(signInRequest(admin, psw));
 //            Log.e("TAG", "userName>>>>>>>>>>>." + admin);
-        }
-
-        SharedPreferences sharedPreferences = getSharedPreferences(SETTING_PREFERENCES, MODE_PRIVATE);
-        boolean isFirstLaunch = sharedPreferences.getBoolean(MainActivity.FIRST_LAUNCH_KEY, true);
-        if (isFirstLaunch) {
-            startActivity(new Intent(this, GuideActivity.class));       //第一次启动
-            finish();
-        } else {
-            chooseLaunchStyle();                                        //常规启动
         }
 
         getVersion();           //版本号

@@ -217,6 +217,7 @@ public class SignInFragment extends Fragment {
             public void onResponse(String s) {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
+                    SignInUpActivity activity = (SignInUpActivity) getActivity();
                     if (jsonObject.getString("result").equals("Y")) {
                         //登录成功
                         Toast.makeText(getActivity(), R.string.sign_in_ok, Toast.LENGTH_SHORT).show();
@@ -255,7 +256,9 @@ public class SignInFragment extends Fragment {
                             editor1.remove(DO_REMEMBER_PSW);
                             editor1.apply();
                         }
-                        getActivity().finish();
+
+                        activity.isSigned = true;
+                        activity.finish();
 
                     } else {
                         Toast.makeText(getActivity(), jsonObject.getString("result"), Toast.LENGTH_SHORT).show();
@@ -270,6 +273,7 @@ public class SignInFragment extends Fragment {
                         AppContext.now_user_id = "";
                         AppContext.now_user_name = "";
 
+                        activity.isSigned = false;
                     }
 
                 } catch (JSONException e) {
@@ -288,30 +292,30 @@ public class SignInFragment extends Fragment {
         return request;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //这里不能调用super的方法，如果调用则下面代码失效
-        switch (requestCode) {
-            case 0:
-                if (resultCode == Activity.RESULT_OK) {      //从注册界面返回的账号和密码
-                    accountETxt.setText(data.getStringExtra("account"));
-                    pswETxt.setText(data.getStringExtra("password"));
-//                    Log.e("TAG", "account>>>" + data.getStringExtra("account"));
-//                    Log.e("TAG", "password>>>" + data.getStringExtra("password"));
-                }
-                break;
-            case 128:
-                if (resultCode == Activity.RESULT_OK) {      //从注册界面返回的账号和密码
-                    accountETxt.setText(data.getStringExtra("loginName"));
-                    pswETxt.setText(data.getStringExtra("psw"));
-//                    Log.e("TAG", "account>>>" + data.getStringExtra("account"));
-//                    Log.e("TAG", "password>>>" + data.getStringExtra("password"));
-                }
-                break;
-            default:
-                break;
-        }
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        //这里不能调用super的方法，如果调用则下面代码失效
+//        switch (requestCode) {
+//            case 0:
+//                if (resultCode == Activity.RESULT_OK) {      //从注册界面返回的账号和密码
+//                    accountETxt.setText(data.getStringExtra("account"));
+//                    pswETxt.setText(data.getStringExtra("password"));
+////                    Log.e("TAG", "account>>>" + data.getStringExtra("account"));
+////                    Log.e("TAG", "password>>>" + data.getStringExtra("password"));
+//                }
+//                break;
+//            case 128:
+//                if (resultCode == Activity.RESULT_OK) {      //从注册界面返回的账号和密码
+//                    accountETxt.setText(data.getStringExtra("loginName"));
+//                    pswETxt.setText(data.getStringExtra("psw"));
+////                    Log.e("TAG", "account>>>" + data.getStringExtra("account"));
+////                    Log.e("TAG", "password>>>" + data.getStringExtra("password"));
+//                }
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 
     @Override
     public void onPause() {

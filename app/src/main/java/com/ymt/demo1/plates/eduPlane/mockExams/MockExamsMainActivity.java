@@ -234,15 +234,8 @@ public class MockExamsMainActivity extends BaseFloatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1024) {
-            switch (resultCode) {
-                case RESULT_OK:
-                    target.callOnClick();
-                    break;
-                default:
-                    break;
-            }
+        if(requestCode == 1024 && resultCode == RESULT_OK){
+            target.callOnClick();
         }
-
     }
 }
