@@ -1,20 +1,29 @@
 package com.ymt.demo1.mainStyles;
 
+import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,11 +34,13 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.CyclePagerAdapter;
 import com.ymt.demo1.beams.consult_cato.ConsultCato;
+import com.ymt.demo1.beams.news.NewsSummary;
 import com.ymt.demo1.customViews.IndicatorView;
 import com.ymt.demo1.main.CollectActivity;
 import com.ymt.demo1.main.ShareActivity;
@@ -45,9 +56,13 @@ import com.ymt.demo1.plates.eduPlane.EduMainActivity;
 import com.ymt.demo1.plates.exportConsult.ExportConsultMainActivity;
 import com.ymt.demo1.plates.hub.FireHubMainActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
+import com.ymt.demo1.plates.news.NewsDetailActivity;
 import com.ymt.demo1.plates.news.NewsTabActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
+import com.ymt.demo1.utils.BitmapCutUtil;
+import com.ymt.demo1.utils.StringUtils;
+import com.ymt.demo1.utils.textAround.MyLeadingMarginSpan2;
 import com.ymt.demo1.zxing.activity.CaptureActivity;
 
 import org.json.JSONArray;
@@ -75,14 +90,22 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
     private ImageView signIcon, adviceIcon, helpIcon, settingIcon, collectionIcon;
     private TextView signText, adviceText, helpText, settingText, collectionText;
 
+    private RequestQueue mQueue;
+    private NewsSummary imgSummary1;
+    private NewsSummary imgSummary2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        catoList = new ArrayList<>();
-        RequestQueue mQueue = Volley.newRequestQueue(this);
+        mQueue = Volley.newRequestQueue(this);
+        imgSummary1 = new NewsSummary();
+        imgSummary2 = new NewsSummary();
         mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_JZ));
         mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_ZY));
         mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_GJC));
+        mQueue.add(getImageNewsPic(BaseURLUtil.BASE_URL + "/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_news_photo" + "&order=new&start=" + String.valueOf(1)));
+
         styleChangeListener = this;
         doAutoChange = true;
         setContentView(R.layout.activity_tab_menu);
@@ -274,9 +297,49 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
     protected void initMainView() {
         //咨询分类列表数据
         setCatoView();
-
+        //图片新闻混编
+        initImgNew();
         //底部tab
         initTab();
+    }
+
+    /**
+     * 图片新闻的混编展示
+     */
+    private void initImgNew() {
+        newsTextI = (TextView) findViewById(R.id.img_news_text1);
+        newsTextII = (TextView) findViewById(R.id.img_news_text2);
+        newsViewI = (ImageView) findViewById(R.id.img_news1);
+        newsViewII = (ImageView) findViewById(R.id.img_news2);
+        View new1Layout = findViewById(R.id.new1_layout);
+        View new2Layout = findViewById(R.id.new2_layout);
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.new1_layout:
+                        if (TextUtils.isEmpty(imgSummary1.getArticle_title())) {
+                            return;
+                        }
+                        Intent intent1 = new Intent(TabMenuActivity.this, NewsDetailActivity.class);
+                        intent1.putExtra("summary", imgSummary1);
+                        startActivity(intent1);
+                        break;
+                    case R.id.new2_layout:
+                        if (TextUtils.isEmpty(imgSummary2.getArticle_title())) {
+                            return;
+                        }
+                        Intent intent2 = new Intent(TabMenuActivity.this, NewsDetailActivity.class);
+                        intent2.putExtra("summary", imgSummary2);
+                        startActivity(intent2);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+        new1Layout.setOnClickListener(onClickListener);
+        new2Layout.setOnClickListener(onClickListener);
 
     }
 
@@ -707,6 +770,172 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
             });
             kwLayout.addView(textView);
         }
+    }
+
+    private ImageView newsViewI, newsViewII;
+    private TextView newsTextI, newsTextII;
+    private int finalH1, finalW1, finalH2, finalW2;
+
+    /**
+     * 测量需要图文混编的view
+     */
+    private void doAroundTxt(final ImageView imageView, final int viewNum) {
+        final ViewTreeObserver vto = imageView.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onGlobalLayout() {
+                imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                if (viewNum == 0) {
+                    finalH1 = imageView.getMeasuredHeight();
+                    finalW1 = imageView.getMeasuredWidth();
+                    makeSpan(newsTextI, newsTextI.getText().toString(), finalW1, finalH1);
+                } else {
+                    finalH2 = imageView.getMeasuredHeight();
+                    finalW2 = imageView.getMeasuredWidth();
+                    makeSpan(newsTextII, newsTextII.getText().toString(), finalW2, finalH2);
+                }
+            }
+        });
+    }
+
+    /**
+     * This method builds the text layout
+     */
+    private void makeSpan(TextView textView, String targetTxt, int oViewFinalW, int oViewFinalH) {
+
+        /**
+         * Get the text
+         */
+        Spanned htmlText = Html.fromHtml(targetTxt);
+        SpannableString mSpannableString = new SpannableString(htmlText);
+
+        int allTextStart = 0;
+        int allTextEnd = htmlText.length() - 1;
+
+        /**
+         * Calculate the lines number = image height.
+         * You can improve it... it is just an example
+         */
+        int lines;
+        Rect bounds = new Rect();
+        textView.getPaint().getTextBounds(targetTxt.substring(0, 10), 0, 1, bounds);
+
+        //float textLineHeight = mTextView.getPaint().getTextSize();
+        float fontSpacing = textView.getPaint().getFontSpacing();
+        lines = (int) (oViewFinalH / (fontSpacing));
+
+        /**
+         * Build the layout with LeadingMarginSpan2
+         */
+        MyLeadingMarginSpan2 span = new MyLeadingMarginSpan2(lines, oViewFinalW + 10);
+        mSpannableString.setSpan(span, allTextStart, allTextEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        textView.setText(mSpannableString);
+
+    }
+
+    private String[] imgUrls = new String[3];
+
+    /**
+     * 最近的三张图片新闻（显示在主界面）
+     */
+    private StringRequest getImageNewsPic(String urlStr) {
+
+        return new StringRequest(urlStr, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONArray summaryArray = jsonObject.getJSONObject("datas").getJSONArray("listData");
+                    //图片
+                    int length = summaryArray.length();
+                    for (int i = 0; i < length; i++) {
+                        JSONObject object = summaryArray.getJSONObject(i);
+                        NewsSummary summary = new NewsSummary();
+                        summary.setContent(object.optString("content"));
+                        summary.setCreate_time(object.optString("create_time"));
+                        summary.setArticle_title(object.optString("article_title"));
+                        summary.setHitnum(object.optString("hitnum"));
+                        summary.setThe_id(object.optString("id"));
+                        summary.setFk_create_user_id(object.optString("fk_create_user_id"));
+                        summary.setSource(object.optString("source"));
+                        summary.setEditor(object.optString("editor"));
+                        summary.setAuthor(object.optString("author"));
+                        summary.setStatus(object.optString("status"));
+                        summary.setPic(BaseURLUtil.BASE_URL + object.opt("pic"));
+
+                        if (i == 0) {
+                            imgSummary1 = summary;
+                            imgUrls[0] = summary.getPic();
+                            String str = StringUtils.replaceBlank(Html.fromHtml(summary.getContent()).toString());
+                            newsTextI.setText(str);
+                        } else if (i == 1) {
+                            imgSummary2 = summary;
+                            imgUrls[1] = summary.getPic();
+                            String str = StringUtils.replaceBlank(Html.fromHtml(summary.getContent()).toString());
+                            newsTextII.setText(str);
+                        } else {
+                            break;
+                        }
+                    }
+                    //读取图片
+                    getImageNews();
+
+                } catch (JSONException e) {
+//                    e.printStackTrace();
+                    Toast.makeText(TabMenuActivity.this, "网络错误，请稍后重试！", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+    }
+
+    //读取、截图
+    private void getImageNews() {
+        //todo 根据控件、图片的尺寸进行剪裁。   【目前的方式值适用于控件宽:控件高 近似于 图片宽:图片高】
+        for (int i = 0; i < 2; i++) {
+            String urls = imgUrls[i];
+            if (i == 0) {
+                ImageRequest request = new ImageRequest(urls, new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        Bitmap bitmap1 = BitmapCutUtil.getBitmapCutByViewSize(newsViewI, bitmap);
+                        newsViewI.setImageBitmap(bitmap1);
+                    }
+                }, newsViewI.getWidth(), newsViewI.getHeight(), Bitmap.Config.RGB_565, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                });
+                mQueue.add(request);
+            } else if (i == 1) {
+                ImageRequest request = new ImageRequest(urls, new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        Bitmap bitmap1 = BitmapCutUtil.getBitmapCutByViewSize(newsViewII, bitmap);
+                        newsViewII.setImageBitmap(bitmap1);
+                    }
+                }, newsViewII.getWidth(), newsViewII.getHeight(), Bitmap.Config.RGB_565, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                });
+                mQueue.add(request);
+            }
+
+        }
+        //todo 图文混编前测量
+        doAroundTxt(newsViewI, 0);
+        doAroundTxt(newsViewII, 1);
+
     }
 
 }

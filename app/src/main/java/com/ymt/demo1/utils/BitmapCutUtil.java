@@ -3,20 +3,21 @@ package com.ymt.demo1.utils;
 import android.graphics.Bitmap;
 import android.view.View;
 
+// ç”¨äºå›¾ç‰‡å‰ªåˆ‡çš„ç±»
 /**
- * Created by DonMoses on 2015/9/17 [ÓÃÓÚÍ¼Æ¬¼ôÇĞµÄÀà]
+ * Created by DonMoses on 2015/9/17
  */
 public class BitmapCutUtil {
-    //¸ù¾İ¿Ø¼ş´óĞ¡¾ÓÖĞ¼ôÇĞÍ¼Æ¬
+    //æ ¹æ®æ§ä»¶å¤§å°å±…ä¸­å‰ªåˆ‡å›¾ç‰‡
     public static Bitmap getBitmapCutByViewSize(View target, Bitmap bitmap) {
         Bitmap bitmap1;
         int viewW = target.getWidth();        //
         int viewH = target.getHeight();       //
         int imgW = bitmap.getWidth();           //
         int imgH = bitmap.getHeight();          //
-        if ((float) viewW / viewH > (float) imgW / imgH) {        //»ùÓÚ¿í
+        if ((float) viewW / viewH > (float) imgW / imgH) {        //åŸºäºå®½
             bitmap1 = Bitmap.createBitmap(bitmap, 0, (imgH - imgW * viewH / viewW) / 2, imgW, imgW * viewH / viewW);
-        } else {                                             //»ùÓÚ¸ß
+        } else {                                             //åŸºäºé«˜
             bitmap1 = Bitmap.createBitmap(bitmap, (imgW - imgH * viewW / viewH) / 2, 0, imgH, imgH * viewW / viewH);
         }
 
@@ -26,7 +27,7 @@ public class BitmapCutUtil {
 
 
 /*
-* »ñµÃÉÏÃæµÄbitmap
+* è·å¾—ä¸Šé¢çš„bitmap
  ImageRequest request = new ImageRequest(urls, new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap bitmap) {
