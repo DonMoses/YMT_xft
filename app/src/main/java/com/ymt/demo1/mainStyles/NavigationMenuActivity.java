@@ -2,7 +2,10 @@ package com.ymt.demo1.mainStyles;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,15 +29,18 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.CyclePagerAdapter;
 import com.ymt.demo1.beams.consult_cato.ConsultCato;
+import com.ymt.demo1.beams.news.NewsSummary;
 import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.customViews.IndicatorView;
 import com.ymt.demo1.main.CollectActivity;
 import com.ymt.demo1.main.ShareActivity;
+import com.ymt.demo1.plates.news.NewsDetailActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.main.search.SearchActivity;
@@ -50,6 +57,8 @@ import com.ymt.demo1.plates.hub.FireHubMainActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
 import com.ymt.demo1.plates.news.NewsTabActivity;
 import com.ymt.demo1.plates.personal.PersonalPagerTabActivity;
+import com.ymt.demo1.utils.BitmapCutUtil;
+import com.ymt.demo1.utils.ConnectionActReceiver;
 import com.ymt.demo1.zxing.activity.CaptureActivity;
 
 import org.json.JSONArray;
@@ -64,7 +73,7 @@ import java.util.List;
 /**
  * Created by Dan on 2015/5/8
  */
-public class NavigationMenuActivity extends ActionBarActivity implements ManageAppearanceActivity.StyleChangeListener {
+public class NavigationMenuActivity extends ActionBarActivity implements ManageAppearanceActivity.StyleChangeListener, ConnectionActReceiver.OnConnectionChangeListener {
 
     private DrawerLayout mDrawerLayout;
     private static boolean ALWAYS_ON = true;
@@ -75,19 +84,40 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
     private CircleImageView personIconBtn;
     private TextView userName;
     private boolean doAutoChange;
+    private RequestQueue mQueue;
+    private ConnectionActReceiver connectionActReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        catoList = new ArrayList<>();
-        RequestQueue mQueue = Volley.newRequestQueue(this);
+        mQueue = Volley.newRequestQueue(this);
+        //3个显示在主页的图片新闻
+        imgSummary1 = new NewsSummary();
+        imgSummary2 = new NewsSummary();
+        imgSummary3 = new NewsSummary();
+        //注册网络广播监听
+        connectionActReceiver = new ConnectionActReceiver();
+        connectionActReceiver.setOnConnectionChangeListener(this);
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(connectionActReceiver, filter);
+
         mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_JZ));
         mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_ZY));
         mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_GJC));
+//        mQueue.add(getImageNewsPic(BaseURLUtil.BASE_URL + "/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_news_photo" + "&order=new&start=" + String.valueOf(1)));
+        //界面风格
         styleChangeListener = this;
+        //自动轮播开关
         doAutoChange = true;
         setContentView(R.layout.activity_navigation_menu);
         initView();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(connectionActReceiver);
     }
 
     @Override
@@ -313,6 +343,10 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
     }
 
     protected void initMainView() {
+        picViewI = (ImageView) findViewById(R.id.img_news1);
+        picViewII = (ImageView) findViewById(R.id.img_news2);
+        picViewIII = (ImageView) findViewById(R.id.img_news3);
+
         //咨询分类GridView
 //        GridView consultGrid = (GridView) findViewById(R.id.consult_cato_table);
         //咨询平台 入口
@@ -350,6 +384,30 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                     case R.id.img_more:
                         startActivity(new Intent(NavigationMenuActivity.this, MoreCatoActivity.class));             //更多
                         break;
+                    case R.id.img_news1:
+                        if (TextUtils.isEmpty(imgSummary1.getArticle_title())) {
+                            return;
+                        }
+                        Intent intent1 = new Intent(NavigationMenuActivity.this, NewsDetailActivity.class);
+                        intent1.putExtra("summary", imgSummary1);
+                        startActivity(intent1);
+                        break;
+                    case R.id.img_news2:
+                        if (TextUtils.isEmpty(imgSummary2.getArticle_title())) {
+                            return;
+                        }
+                        Intent intent2 = new Intent(NavigationMenuActivity.this, NewsDetailActivity.class);
+                        intent2.putExtra("summary", imgSummary2);
+                        startActivity(intent2);
+                        break;
+                    case R.id.img_news3:
+                        if (TextUtils.isEmpty(imgSummary3.getArticle_title())) {
+                            return;
+                        }
+                        Intent intent3 = new Intent(NavigationMenuActivity.this, NewsDetailActivity.class);
+                        intent3.putExtra("summary", imgSummary3);
+                        startActivity(intent3);
+                        break;
                     default:
                         break;
 
@@ -362,6 +420,9 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         eduBtn.setOnClickListener(onClickListener);
         knowledgeBtn.setOnClickListener(onClickListener);
         hubBtn.setOnClickListener(onClickListener);
+        picViewI.setOnClickListener(onClickListener);
+        picViewII.setOnClickListener(onClickListener);
+        picViewIII.setOnClickListener(onClickListener);
 
         setCatoView();
     }
@@ -465,13 +526,13 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
 
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(NavigationMenuActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NavigationMenuActivity.this, "数据错误，请稍后重试！", Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(NavigationMenuActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(NavigationMenuActivity.this, "网络错误，请稍后重试！", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -620,6 +681,140 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse(scanResult));
             startActivity(intent);
+        }
+    }
+
+
+    private ImageView picViewI;
+    private ImageView picViewII;
+    private ImageView picViewIII;
+    private NewsSummary imgSummary1;
+    private NewsSummary imgSummary2;
+    private NewsSummary imgSummary3;
+
+    private String[] imgUrls = new String[3];
+
+    /**
+     * 最近的三张图片新闻（显示在主界面）
+     */
+    private StringRequest getImageNewsPic(String urlStr) {
+
+        return new StringRequest(urlStr, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONArray summaryArray = jsonObject.getJSONObject("datas").getJSONArray("listData");
+                    //图片
+                    int length = summaryArray.length();
+                    for (int i = 0; i < length; i++) {
+                        JSONObject object = summaryArray.getJSONObject(i);
+                        NewsSummary summary = new NewsSummary();
+                        summary.setContent(object.optString("content"));
+                        summary.setCreate_time(object.optString("create_time"));
+                        summary.setArticle_title(object.optString("article_title"));
+                        summary.setHitnum(object.optString("hitnum"));
+                        summary.setThe_id(object.optString("id"));
+                        summary.setFk_create_user_id(object.optString("fk_create_user_id"));
+                        summary.setSource(object.optString("source"));
+                        summary.setEditor(object.optString("editor"));
+                        summary.setAuthor(object.optString("author"));
+                        summary.setStatus(object.optString("status"));
+                        summary.setPic(BaseURLUtil.BASE_URL + object.opt("pic"));
+
+                        if (i == 0) {
+                            imgSummary1 = summary;
+                            if (picViewI.getBackground() != null) {
+                                picViewI.setBackgroundDrawable(null);
+                            }
+                            imgUrls[0] = summary.getPic();
+                        } else if (i == 1) {
+                            imgSummary2 = summary;
+                            if (picViewII.getBackground() != null) {
+                                picViewII.setBackgroundDrawable(null);
+                            }
+                            imgUrls[1] = summary.getPic();
+                        } else if (i == 2) {
+                            imgSummary3 = summary;
+                            if (picViewIII.getBackground() != null) {
+                                picViewIII.setBackgroundDrawable(null);
+                            }
+                            imgUrls[2] = summary.getPic();
+                        } else {
+                            break;
+                        }
+                    }
+                    //读取图片
+                    getImageNews();
+
+                } catch (JSONException e) {
+//                    e.printStackTrace();
+                    Toast.makeText(NavigationMenuActivity.this, "网络错误，请稍后重试！", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onConnected() {
+        mQueue.add(getImageNewsPic(BaseURLUtil.BASE_URL + "/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_news_photo" + "&order=new&start=" + String.valueOf(1)));
+    }
+
+    //读取、截图
+    private void getImageNews() {
+        //todo 根据控件、图片的尺寸进行剪裁。   【目前的方式值适用于控件宽:控件高 近似于 图片宽:图片高】
+        for (int i = 0; i < 3; i++) {
+            String urls = imgUrls[i];
+            if (i == 0) {
+                ImageRequest request = new ImageRequest(urls, new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        Bitmap bitmap1 = BitmapCutUtil.getBitmapCutByViewSize(picViewI, bitmap);
+                        picViewI.setImageBitmap(bitmap1);
+                    }
+                }, picViewI.getWidth(), picViewI.getHeight(), Bitmap.Config.RGB_565, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                });
+                mQueue.add(request);
+            } else if (i == 1) {
+                ImageRequest request = new ImageRequest(urls, new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        Bitmap bitmap1 = BitmapCutUtil.getBitmapCutByViewSize(picViewII, bitmap);
+                        picViewII.setImageBitmap(bitmap1);
+                    }
+                }, picViewII.getWidth(), picViewII.getHeight(), Bitmap.Config.RGB_565, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                });
+                mQueue.add(request);
+            } else if (i == 2) {
+                ImageRequest request = new ImageRequest(urls, new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        Bitmap bitmap1 = BitmapCutUtil.getBitmapCutByViewSize(picViewIII, bitmap);
+                        picViewIII.setImageBitmap(bitmap1);
+                    }
+                }, picViewIII.getWidth(), picViewIII.getHeight(), Bitmap.Config.RGB_565, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                });
+                mQueue.add(request);
+            }
+
         }
     }
 

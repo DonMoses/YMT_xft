@@ -17,6 +17,7 @@
 package com.ymt.demo1.plates.news;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
@@ -37,6 +39,7 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseFragment;
 import com.ymt.demo1.beams.news.NewsSummary;
 import com.ymt.demo1.utils.BaseURLUtil;
+import com.ymt.demo1.utils.BitmapCutUtil;
 import com.ymt.demo1.utils.StringUtils;
 
 import org.json.JSONArray;
@@ -69,6 +72,7 @@ public class FireNewsFragment extends BaseFragment {
     private NewsSummary imgSummary1;
     private NewsSummary imgSummary2;
     private NewsSummary imgSummary3;
+    private RequestQueue mQueue;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -81,10 +85,10 @@ public class FireNewsFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RequestQueue mQueue = Volley.newRequestQueue(getActivity());
-        mQueue.add(newsRequest(BaseURLUtil.BASE_URL+"/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_news_photo" + "&order=new&start=" + String.valueOf(1), 0));
-        mQueue.add(newsRequest(BaseURLUtil.BASE_URL+"/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_news" + "&order=hot&start=" + String.valueOf(1), 1));
-        mQueue.add(newsRequest(BaseURLUtil.BASE_URL+"/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_notice" + "&order=new&start=" + String.valueOf(1), 2));
+        mQueue = Volley.newRequestQueue(getActivity());
+        mQueue.add(newsRequest(BaseURLUtil.BASE_URL + "/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_news_photo" + "&order=new&start=" + String.valueOf(1), 0));
+        mQueue.add(newsRequest(BaseURLUtil.BASE_URL + "/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_news" + "&order=hot&start=" + String.valueOf(1), 1));
+        mQueue.add(newsRequest(BaseURLUtil.BASE_URL + "/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_notice" + "&order=new&start=" + String.valueOf(1), 2));
     }
 
     protected void initView(View view) {
@@ -199,18 +203,20 @@ public class FireNewsFragment extends BaseFragment {
 
                                 if (i == 0) {
                                     imgSummary1 = summary;
-                                    Picasso.with(getActivity()).load(summary.getPic()).into(imgNewI);
+                                    imgUrls[0] = summary.getPic();
                                 } else if (i == 1) {
                                     imgSummary2 = summary;
-                                    Picasso.with(getActivity()).load(summary.getPic()).into(imgNewII);
+                                    imgUrls[1] = summary.getPic();
                                 } else if (i == 2) {
                                     imgSummary3 = summary;
-                                    Picasso.with(getActivity()).load(summary.getPic()).into(imgNewIII);
+                                    imgUrls[2] = summary.getPic();
                                 } else {
-                                    return;
+                                    break;
                                 }
 
                             }
+                            //读取图片
+                            getImageNews();
                             break;
                         case 1:         //hot
                             JSONObject object1 = summaryArray.getJSONObject(0);
@@ -281,5 +287,60 @@ public class FireNewsFragment extends BaseFragment {
         });
 
     }
+
+    private String[] imgUrls = new String[3];
+
+    //读取、截图
+    private void getImageNews() {
+        //todo 根据控件、图片的尺寸进行剪裁。   【目前的方式值适用于控件宽:控件高 近似于 图片宽:图片高】
+        for (int i = 0; i < 3; i++) {
+            String urls = imgUrls[i];
+            if (i == 0) {
+                ImageRequest request = new ImageRequest(urls, new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        Bitmap bitmap1 = BitmapCutUtil.getBitmapCutByViewSize(imgNewI, bitmap);
+                        imgNewI.setImageBitmap(bitmap1);
+                    }
+                }, imgNewI.getWidth(), imgNewI.getHeight(), Bitmap.Config.RGB_565, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                });
+                mQueue.add(request);
+            } else if (i == 1) {
+                ImageRequest request = new ImageRequest(urls, new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        Bitmap bitmap1 = BitmapCutUtil.getBitmapCutByViewSize(imgNewII, bitmap);
+                        imgNewII.setImageBitmap(bitmap1);
+                    }
+                }, imgNewII.getWidth(), imgNewII.getHeight(), Bitmap.Config.RGB_565, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                });
+                mQueue.add(request);
+            } else if (i == 2) {
+                ImageRequest request = new ImageRequest(urls, new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        Bitmap bitmap1 = BitmapCutUtil.getBitmapCutByViewSize(imgNewIII, bitmap);
+                        imgNewIII.setImageBitmap(bitmap1);
+                    }
+                }, imgNewIII.getWidth(), imgNewIII.getHeight(), Bitmap.Config.RGB_565, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                });
+                mQueue.add(request);
+            }
+
+        }
+    }
+
 
 }

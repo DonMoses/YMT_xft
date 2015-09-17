@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseFragment;
@@ -57,6 +58,7 @@ public class PersonalPagerTabParentFragment extends BaseFragment implements Obse
     private boolean mScrolled;
     private ScrollState mLastScrollState;
     private CircleImageView header;
+    private TextView nameView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,6 +85,8 @@ public class PersonalPagerTabParentFragment extends BaseFragment implements Obse
 
         header = (CircleImageView) view.findViewById(R.id.personal_icon_btn);
         header.setImageBitmap(AppContext.headerPic);
+        nameView = (TextView) view.findViewById(R.id.personal_name);
+        nameView.setText(AppContext.now_user_name);
 
         return view;
     }

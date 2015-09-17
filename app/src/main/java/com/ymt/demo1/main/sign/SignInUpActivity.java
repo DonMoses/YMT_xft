@@ -90,9 +90,7 @@ public class SignInUpActivity extends BaseFloatActivity implements SignSwitchVie
             } else {
                 setResult(RESULT_CANCELED);
             }
-
         }
-
     }
 
     protected void chooseLaunchStyle() {

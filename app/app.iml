@@ -99,6 +99,7 @@
     <orderEntry type="library" exported="" name="zxing" level="project" />
     <orderEntry type="library" exported="" name="litepal-1.2.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-6.5.87" level="project" />
+    <orderEntry type="library" exported="" name="universal-image-loader-1.9.4" level="project" />
     <orderEntry type="module" module-name="library_pulltorefresh" exported="" />
     <orderEntry type="module" module-name="library_zhy_CircleMenu" exported="" />
     <orderEntry type="module" module-name="library_ptr" exported="" />
