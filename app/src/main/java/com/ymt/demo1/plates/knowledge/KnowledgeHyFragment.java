@@ -18,6 +18,5 @@ public class KnowledgeHyFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_knowledge_hy, container, false);
         return view;
 
-
     }
 }

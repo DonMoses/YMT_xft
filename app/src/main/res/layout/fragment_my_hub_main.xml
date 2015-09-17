@@ -30,6 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <FrameLayout
@@ -53,8 +54,8 @@
                 <com.ymt.demo1.customViews.CircleImageView
                     android:id="@+id/personal_icon_btn"
                     android:layout_width="64dp"
-                    android:layout_gravity="center"
                     android:layout_height="64dp"
+                    android:layout_gravity="center"
                     android:src="@drawable/moses"
                     app:border_color="@android:color/holo_blue_light"
                     app:border_width="0.8dp" />
@@ -107,7 +108,7 @@
 
         <com.ymt.demo1.customViews.widget.PagerSlidingTabStrip
             android:id="@+id/sliding_tabs"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/tab_height"
             android:background="#FFFFFF" />
 

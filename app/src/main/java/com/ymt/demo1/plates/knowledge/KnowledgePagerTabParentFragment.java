@@ -62,7 +62,13 @@ public class KnowledgePagerTabParentFragment extends BaseFragment {
      */
     private static class NavigationAdapter extends CacheFragmentStatePagerAdapter {
 
-        private static final String[] TITLES = new String[]{"机构", "行业", "系统", "科研", "规范", "视频"};
+        private static final String[] TITLES = new String[]{
+//                "机构",             // TODO: 2015/9/17 暂时屏蔽三个tab项
+//                "行业",
+//                "系统",
+                "科研",
+                "规范",
+                "视频"};
 
         public NavigationAdapter(FragmentManager fm) {
             super(fm);
@@ -72,21 +78,23 @@ public class KnowledgePagerTabParentFragment extends BaseFragment {
         protected Fragment createItem(int position) {
             //todo 根据类型返回不同接口的内容。 这里使用KnowledgeTabScrollUltraListViewFragment演示
             Fragment f;
-            switch (position) {
-                case 0:
+            switch (TITLES[position]) {
+                case "机构":
                     f = new KnowledgeJgFragment();
                     break;
-                case 1:
-                case 2:
+                case "行业":
                     f = new KnowledgeHyFragment();
                     break;
-                case 3:
+                case "系统":
+                    f = new KnowledgeHyFragment();
+                    break;
+                case "科研":
                     f = KnowledgeItemListViewFragment.getNewInstance(KnowledgeItemListViewFragment.KNOWLEDGE_KYWX);
                     break;
-                case 4:
+                case "规范":
                     f = KnowledgeItemListViewFragment.getNewInstance(KnowledgeItemListViewFragment.KNOWLEDGE_BZGF);
                     break;
-                case 5:
+                case "视频":
                     f = new KnowledgeVideoFragment();
                     break;
                 default:

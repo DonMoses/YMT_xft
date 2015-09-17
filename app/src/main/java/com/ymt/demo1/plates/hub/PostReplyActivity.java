@@ -2,6 +2,7 @@ package com.ymt.demo1.plates.hub;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -91,14 +92,13 @@ public class PostReplyActivity extends BaseFloatActivity {
         return new StringRequest(BaseURLUtil.getReplyPostUrl(tid, msg, user, reqType), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-//                Log.e("TAG", ">>>>>>>>>>>>>>>>response s>>>>>>>>" + s);
+                Log.e("TAG", ">>>>>>>>>>>>>>>>response s>>>>>>>>" + s);
                 try {
                     JSONObject jsonObject = new JSONObject(s);
-                    if (jsonObject.optInt("retCode") == 0 && jsonObject.optBoolean("data")) {
+                    if (jsonObject.optInt("retCode") == 0) {
                         Toast.makeText(PostReplyActivity.this, "回帖成功！", Toast.LENGTH_SHORT).show();
                         setResult(RESULT_OK);
                         finish();
-
                     } else {
                         Toast.makeText(PostReplyActivity.this, "回帖失败，请稍后重试！", Toast.LENGTH_SHORT).show();
                     }

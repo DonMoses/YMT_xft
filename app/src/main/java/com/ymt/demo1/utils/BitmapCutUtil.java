@@ -4,8 +4,7 @@ import android.graphics.Bitmap;
 import android.view.View;
 
 /**
- * Created by DonMoses on 2015/9/17
- * 用于图片剪切的类
+ * Created by DonMoses on 2015/9/17 [用于图片剪切的类]
  */
 public class BitmapCutUtil {
     //根据控件大小居中剪切图片
