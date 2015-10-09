@@ -2,7 +2,6 @@ package com.ymt.demo1.main.sign;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -386,7 +385,10 @@ public class SignInFragment extends Fragment {
             @Override
             public void onDismiss() {
                 lp.alpha = 1f;
-                getActivity().getWindow().setAttributes(lp);
+                Activity activity = getActivity();
+                if (activity != null) {
+                    activity.getWindow().setAttributes(lp);
+                }
             }
         });
         //todo 获取服务器返回的随机账号和密码

@@ -200,6 +200,7 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+
             }
 
             @Override
@@ -227,7 +228,6 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
                 }
 
                 pagerParentLayout.setLayoutParams(pagerParams);
-
             }
 
             @Override
@@ -238,13 +238,29 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
                         break;
                     case ViewPager.SCROLL_STATE_IDLE:
                         doAutoChange = true;
-
                         break;
                     default:
                         break;
 
                 }
 
+            }
+        });
+
+        adViewPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        ALWAYS_ON = false;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        ALWAYS_ON = true;
+                        break;
+                    default:
+                        break;
+                }
+                return false;
             }
         });
 
@@ -580,7 +596,6 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
             TabMenuActivity navigationMenuActivity = navigationMenuActivityWeakReference.get();
             if (navigationMenuActivity != null) {
                 switch (msg.what) {
-
                     case SHOW_NEXT_PAGE:
                         navigationMenuActivity.autoNextPage(msg.arg1);
                         break;

@@ -53,14 +53,14 @@
         <ImageView
             android:id="@+id/img_news"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/img_news" />
 
         <ImageView
             android:id="@+id/img_export"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="1dp"
             android:layout_marginRight="1dp"
             android:layout_weight="1"
@@ -68,10 +68,10 @@
 
         <ImageView
             android:id="@+id/img_news1"
-            android:background="@drawable/img_new_test"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2" />
+            android:layout_weight="2"
+            android:background="@drawable/img_new_test" />
 
 
     </LinearLayout>
@@ -87,15 +87,15 @@
 
         <ImageView
             android:id="@+id/img_news2"
-            android:background="@drawable/img_new_test"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2" />
+            android:layout_weight="2"
+            android:background="@drawable/img_new_test" />
 
         <ImageView
             android:id="@+id/img_edu"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="1dp"
             android:layout_marginRight="1dp"
             android:layout_weight="1"
@@ -104,7 +104,7 @@
         <ImageView
             android:id="@+id/img_knowledge"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/img_knowledge" />
 
@@ -123,22 +123,23 @@
             android:id="@+id/img_news3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@drawable/img_new_test"
-            android:layout_weight="2" />
+            android:layout_weight="2"
+            android:background="@drawable/img_new_test" />
 
         <ImageView
             android:id="@+id/img_hub"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="1dp"
             android:layout_marginRight="1dp"
             android:layout_weight="1"
             android:background="@drawable/img_hub" />
 
+
         <ImageView
             android:id="@+id/img_more"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/img_more" />
 

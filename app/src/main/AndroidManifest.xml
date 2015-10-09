@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ymt.demo1"
-    android:versionCode="2">
+    android:versionCode="3">
     <!--极光推送-->
     <permission
         android:name="com.ymt.demo1.permission.JPUSH_MESSAGE"

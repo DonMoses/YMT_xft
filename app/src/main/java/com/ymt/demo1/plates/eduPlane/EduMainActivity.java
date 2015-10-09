@@ -274,9 +274,15 @@ public class EduMainActivity extends BaseFloatActivity {
                         String time = timeObj.optString("val");
                         String name = nameObj.optString("val");
 
-                        year = Integer.valueOf(time.substring(0, 4));
-                        month = Integer.valueOf(time.substring(5, 7));
-                        day = Integer.valueOf(time.substring(8, 10));
+                        if (time.length() >= 4) {
+                            year = Integer.valueOf(time.substring(0, 4));
+                        }
+                        if (time.length() >= 7) {
+                            month = Integer.valueOf(time.substring(5, 7));
+                        }
+                        if (time.length() >= 10) {
+                            day = Integer.valueOf(time.substring(8, 10));
+                        }
 
                         examYear.setText(String.valueOf(year));
                         examMonth.setText(String.valueOf(month));

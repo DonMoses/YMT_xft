@@ -1,11 +1,15 @@
 package com.ymt.demo1.main.floatWindow;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
@@ -35,12 +39,21 @@ public class FloatMenuActivity extends Activity {
      */
     public static int viewHeight;
 
+    int screenWidth = 0;
+    int screenHeight = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.float_window_big);
         initView();
-
+//
+//        Window window = getWindow();
+//        DisplayMetrics dm = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(dm);
+//        screenWidth = dm.widthPixels;
+//        screenHeight = dm.heightPixels;
+//        window.setLayout(screenWidth, screenHeight);
     }
 
     @Override
@@ -139,21 +152,27 @@ public class FloatMenuActivity extends Activity {
 
         });
 
-        //todo 浮动窗口拖动、释放效果
-        circleMenuLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_MOVE:
-                        circleMenuLayout.setX(event.getRawX() - circleMenuLayout.getWidth() / 2);
-                        circleMenuLayout.setY(event.getRawY() - getStatusBarHeight() - circleMenuLayout.getHeight() / 2);
-                        break;
-                    default:
-                        break;
-                }
-                return true;
-            }
-        });
+//        //todo 浮动窗口拖动、释放效果
+//        circleMenuLayout.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()) {
+//                    case MotionEvent.ACTION_MOVE:
+//                        circleMenuLayout.setX(event.getRawX() - circleMenuLayout.getWidth() / 2);
+//                        circleMenuLayout.setY(event.getRawY() - getStatusBarHeight() - circleMenuLayout.getHeight() / 2);
+//                        break;
+//                    case MotionEvent.ACTION_OUTSIDE:
+//                        MyWindowManager.removeBigWindow();
+//                        MyWindowManager.removeSmallWindow(AppContext.getContext());
+//                        MyWindowManager.createSmallWindow(AppContext.getContext());
+//                        break;
+//                    default:
+//                        break;
+//                }
+//
+//                return false;
+//            }
+//        });
 
     }
 

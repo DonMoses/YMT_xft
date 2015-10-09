@@ -9,9 +9,9 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:minHeight="34dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="40dp"
         android:orientation="horizontal">
 
         <TextView
@@ -21,8 +21,8 @@
 
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:scrollbarSize="2dp"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbarSize="2dp">
 
             <LinearLayout
                 android:id="@+id/jz_layout"
@@ -36,9 +36,9 @@
     </LinearLayout>
 
     <LinearLayout
-        android:minHeight="34dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="40dp"
         android:orientation="horizontal">
 
         <TextView
@@ -48,8 +48,8 @@
 
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:scrollbarSize="2dp"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbarSize="2dp">
 
             <LinearLayout
                 android:id="@+id/zy_layout"
@@ -63,9 +63,9 @@
     </LinearLayout>
 
     <LinearLayout
-        android:minHeight="34dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="40dp"
         android:orientation="horizontal">
 
         <TextView
@@ -75,8 +75,8 @@
 
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:scrollbarSize="2dp"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbarSize="2dp">
 
             <LinearLayout
                 android:id="@+id/kw_layout"

@@ -16,6 +16,9 @@
     <string name="item_advice">意见反馈</string>
     <string name="item_help">帮注中心</string>
     <string name="item_setting">设置</string>
+    <string name="xxf_qq">1210119119</string>
+    <string name="xxf_url">www.xxf3.com</string>
+    <string name="xxf_phone">400-777-9119</string>
 
     <string-array name="circle_menu_array">
 

@@ -126,19 +126,22 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/xxf_phone_line"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="咨询热线: 400-028-56888"
+            android:text="咨询热线: 400-777-9119"
             android:textColor="@android:color/white" />
 
         <TextView
+            android:id="@+id/xxf_qq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="咨询QQ: 289001567"
+            android:text="咨询QQ: 1210119119"
             android:textColor="@android:color/white" />
 
         <TextView
+            android:id="@+id/xxf_url"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"

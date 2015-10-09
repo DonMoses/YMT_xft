@@ -1,8 +1,12 @@
 package com.ymt.demo1.mainStyles;
 
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -297,7 +301,15 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         View advice = findViewById(R.id.advice);
         //设置
         View setting = findViewById(R.id.setting);
-
+        //电话
+        TextView xxfPhone = (TextView) findViewById(R.id.xxf_phone_line);
+        xxfPhone.setText("咨询热线: " + getString(R.string.xxf_phone));
+        //qq
+        TextView xxfQQ = (TextView) findViewById(R.id.xxf_qq);
+        xxfQQ.setText("咨询QQ: " + getString(R.string.xxf_qq));
+        //网址
+        TextView xxfUrl = (TextView) findViewById(R.id.xxf_url);
+        xxfUrl.setText("网址链接: " + getString(R.string.xxf_url));
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -326,6 +338,24 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                         startActivity(new Intent(NavigationMenuActivity.this, SettingActivity.class));      //设置
                         mDrawerLayout.closeDrawers();
                         break;
+                    case R.id.xxf_phone_line:
+                        // 拨打客服电话
+                        Uri uri = Uri.parse("tel:" + getString(R.string.xxf_phone));
+                        startActivity(new Intent(Intent.ACTION_DIAL, uri));
+                        break;
+                    case R.id.xxf_qq:
+                        // 连线新消防QQ
+                        try {
+                            openQQApp("com.tencent.qq");
+                        } catch (PackageManager.NameNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case R.id.xxf_url:
+                        //打开新消防主页
+                        Uri uri1 = Uri.parse("http:" + getString(R.string.xxf_url));
+                        startActivity(new Intent(Intent.ACTION_VIEW, uri1));
+                        break;
                     default:
                         break;
 
@@ -340,6 +370,34 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         setting.setOnClickListener(onClickListener);
         recommend.setOnClickListener(onClickListener);
         collect.setOnClickListener(onClickListener);
+        xxfPhone.setOnClickListener(onClickListener);
+        xxfQQ.setOnClickListener(onClickListener);
+        xxfUrl.setOnClickListener(onClickListener);
+    }
+
+    private void openQQApp(String packageName) throws PackageManager.NameNotFoundException {
+        PackageManager pm = getPackageManager();
+        PackageInfo pi = pm.getPackageInfo(packageName, 0);
+
+        Intent resolveIntent = new Intent(Intent.ACTION_MAIN, null);
+        resolveIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        resolveIntent.setPackage(pi.packageName);
+
+        List<ResolveInfo> apps = pm.queryIntentActivities(resolveIntent, 0);
+
+        ResolveInfo ri = apps.iterator().next();
+        if (ri != null) {
+            String pkgName = ri.activityInfo.packageName;
+            String className = ri.activityInfo.name;
+
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+
+            ComponentName cn = new ComponentName(pkgName, className);
+
+            intent.setComponent(cn);
+            startActivity(intent);
+        }
     }
 
     protected void initMainView() {

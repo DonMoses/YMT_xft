@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.view.View;
 
 // 用于图片剪切的类
+
 /**
  * Created by DonMoses on 2015/9/17
  */
@@ -15,10 +16,13 @@ public class BitmapCutUtil {
         int viewH = target.getHeight();       //
         int imgW = bitmap.getWidth();           //
         int imgH = bitmap.getHeight();          //
+        //y + height must be <= bitmap.height()
         if ((float) viewW / viewH > (float) imgW / imgH) {        //基于宽
-            bitmap1 = Bitmap.createBitmap(bitmap, 0, (imgH - imgW * viewH / viewW) / 2, imgW, imgW * viewH / viewW);
-        } else {                                             //基于高
-            bitmap1 = Bitmap.createBitmap(bitmap, (imgW - imgH * viewW / viewH) / 2, 0, imgH, imgH * viewW / viewH);
+            int gap = (imgH - imgW * viewH / viewW) / 2;
+            bitmap1 = Bitmap.createBitmap(bitmap, 0, gap, imgW, imgW * viewH / viewW);
+        } else {                                                 //基于高
+            int gap = (imgW - imgH * viewW / viewH) / 2;
+            bitmap1 = Bitmap.createBitmap(bitmap, gap, 0, imgH * viewW / viewH, imgH);
         }
 
         return bitmap1;
