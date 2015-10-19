@@ -1,15 +1,18 @@
 package com.ymt.demo1.main.floatWindow;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.ClipData;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ymt.demo1.R;
@@ -28,7 +31,6 @@ import com.zhy.view.CircleMenuLayout;
  * Created by Dan on 2015/4/16
  */
 public class FloatMenuActivity extends Activity {
-
     /**
      * 记录大悬浮窗的宽度
      */
@@ -38,6 +40,10 @@ public class FloatMenuActivity extends Activity {
      * 记录大悬浮窗的高度
      */
     public static int viewHeight;
+    /**
+     * 记录小窗的位置
+     */
+    private WindowManager.LayoutParams params;
 
     int screenWidth = 0;
     int screenHeight = 0;
@@ -48,12 +54,12 @@ public class FloatMenuActivity extends Activity {
         setContentView(R.layout.float_window_big);
         initView();
 //
-//        Window window = getWindow();
-//        DisplayMetrics dm = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(dm);
-//        screenWidth = dm.widthPixels;
-//        screenHeight = dm.heightPixels;
-//        window.setLayout(screenWidth, screenHeight);
+        Window window = getWindow();
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        screenWidth = dm.widthPixels;
+        screenHeight = dm.heightPixels;
+        window.setLayout(screenWidth, screenHeight);
     }
 
     @Override
@@ -76,11 +82,20 @@ public class FloatMenuActivity extends Activity {
                 R.drawable.icon_float_edu, R.drawable.icon_float_personal_cen,
                 R.drawable.icon_float_news, R.drawable.icon_float_expert};
 
-        final CircleMenuLayout circleMenuLayout = (CircleMenuLayout) findViewById(R.id.float_circle_menu_layout);
-        viewWidth = circleMenuLayout.getLayoutParams().width;
-        viewHeight = circleMenuLayout.getLayoutParams().height;
+        final CircleMenuLayout circleMenuLayout =
+                (CircleMenuLayout) findViewById(R.id.float_circle_menu_layout);
 
         circleMenuLayout.setMenuItemIconsAndTexts(titleIcons, titles);
+        ViewTreeObserver treeObserver = circleMenuLayout.getViewTreeObserver();
+        treeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onGlobalLayout() {
+                circleMenuLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                viewHeight = circleMenuLayout.getWidth();
+                viewWidth = circleMenuLayout.getHeight();
+            }
+        });
 
         /*
         圆形菜单item 单击事件， 分别跳转到相应界面
@@ -89,12 +104,6 @@ public class FloatMenuActivity extends Activity {
             @Override
             public void itemClick(View view, int pos) {
                 switch (pos) {
-//                    case 0:
-//                        //如果新用户，则跳转到注册。如果旧用户，则跳转个人界面。
-//                        MyWindowManager.removeBigWindow();
-//                        startActivity(
-//                                new Intent(FloatMenuActivity.this, PersonalPagerTabActivity.class));  //个人界面
-//                        break;
                     case 0:
                         MyWindowManager.removeBigWindow();
                         startActivity(
@@ -144,6 +153,7 @@ public class FloatMenuActivity extends Activity {
 
             @Override
             public void itemCenterClick(View view) {
+
                 // 点击中心的时候，移除大悬浮窗，创建小悬浮窗
                 MyWindowManager.removeBigWindow();
                 MyWindowManager.removeSmallWindow(AppContext.getContext());
@@ -152,27 +162,62 @@ public class FloatMenuActivity extends Activity {
 
         });
 
-//        //todo 浮动窗口拖动、释放效果
-//        circleMenuLayout.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                switch (event.getAction()) {
-//                    case MotionEvent.ACTION_MOVE:
-//                        circleMenuLayout.setX(event.getRawX() - circleMenuLayout.getWidth() / 2);
-//                        circleMenuLayout.setY(event.getRawY() - getStatusBarHeight() - circleMenuLayout.getHeight() / 2);
-//                        break;
-//                    case MotionEvent.ACTION_OUTSIDE:
-//                        MyWindowManager.removeBigWindow();
-//                        MyWindowManager.removeSmallWindow(AppContext.getContext());
-//                        MyWindowManager.createSmallWindow(AppContext.getContext());
-//                        break;
-//                    default:
-//                        break;
-//                }
-//
-//                return false;
-//            }
-//        });
+        //todo 浮动窗口拖动、释放效果
+        //中心的view
+        final ImageView centerView = (ImageView) findViewById(R.id.float_center_view);
+        params = MyWindowManager.getSmallWindowParams();
+        if (params == null) {
+            params = new WindowManager.LayoutParams();
+        }
+        centerView.setOnTouchListener(new View.OnTouchListener() {
+            float rawX1 = 0;
+            float rawY1 = 0;
+            float rawX2 = 0;
+            float rawY2 = 0;
+            float vX = 0;
+            float vY = 0;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        rawX1 = event.getRawX();
+                        rawY1 = event.getRawY();
+                        vX = circleMenuLayout.getX();
+                        vY = circleMenuLayout.getY();
+                        if (!circleMenuLayout.isNowTouchMove()) {
+                            circleMenuLayout.setIsNowTouchMove(true);
+                        }
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        rawX2 = event.getRawX();
+                        rawY2 = event.getRawY();
+                        circleMenuLayout.setX(vX + (rawX2 - rawX1));
+                        circleMenuLayout.setY(vY + (rawY2 - rawY1));
+                        //设置小悬浮窗的位置跟随大悬浮窗位置变动
+                        params.x = (int) (rawX2);
+                        params.y = (int) (rawY2);
+                        MyWindowManager.setSmallWindowParams(params);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if ((circleMenuLayout.getX() < -0.4 * viewWidth)
+                                || (circleMenuLayout.getX() > screenWidth - 0.6 * viewWidth)
+                                || (circleMenuLayout.getY() < -0.4 * viewHeight)
+                                || (circleMenuLayout.getY() > screenHeight - getStatusBarHeight() - 0.6 * viewHeight)) {
+                            MyWindowManager.removeBigWindow();
+                            MyWindowManager.removeSmallWindow(AppContext.getContext());
+                            MyWindowManager.createSmallWindow(AppContext.getContext());
+                        }
+                        if (circleMenuLayout.isNowTouchMove()) {
+                            circleMenuLayout.setIsNowTouchMove(false);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
 
     }
 

@@ -96,7 +96,7 @@ public class FloatWindowSmallView extends LinearLayout {
                 xInScreen = event.getRawX();
                 yInScreen = event.getRawY() - getStatusBarHeight();
                 // 手指移动的时候更新小悬浮窗的位置
-                updateViewPosition();
+                updatePosition();
                 break;
             case MotionEvent.ACTION_UP:
                 /*
@@ -126,7 +126,7 @@ public class FloatWindowSmallView extends LinearLayout {
     /**
      * 更新小悬浮窗在屏幕中的位置。
      */
-    private void updateViewPosition() {
+    private void updatePosition() {
         mParams.x = (int) (xInScreen - xInView);
         mParams.y = (int) (yInScreen - yInView);
         windowManager.updateViewLayout(this, mParams);

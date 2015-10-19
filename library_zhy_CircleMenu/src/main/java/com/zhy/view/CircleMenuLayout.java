@@ -275,8 +275,25 @@ public class CircleMenuLayout extends ViewGroup {
      */
     private AutoFlingRunnable mFlingRunnable;
 
+    /**
+     * 拖动的监听开关
+     */
+    private boolean isNowTouchMove = false;
+
+    public boolean isNowTouchMove() {
+        return isNowTouchMove;
+    }
+
+    public void setIsNowTouchMove(boolean isNowTouchMove) {
+        this.isNowTouchMove = isNowTouchMove;
+    }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
+        if (isNowTouchMove) {
+            return super.dispatchTouchEvent(event);
+        }
+
         float x = event.getX();
         float y = event.getY();
 

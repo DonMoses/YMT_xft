@@ -742,7 +742,6 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
         }
     }
 
-
     private ImageView picViewI;
     private ImageView picViewII;
     private ImageView picViewIII;

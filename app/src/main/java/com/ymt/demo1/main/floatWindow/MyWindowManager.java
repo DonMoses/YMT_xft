@@ -114,4 +114,14 @@ public class MyWindowManager {
         return mWindowManager;
     }
 
+    /**
+     * 管理小悬浮窗的位置
+     */
+    public static void setSmallWindowParams(WindowManager.LayoutParams params) {
+        smallWindowParams = params;
+    }
+
+    public static LayoutParams getSmallWindowParams() {
+        return smallWindowParams;
+    }
 }
