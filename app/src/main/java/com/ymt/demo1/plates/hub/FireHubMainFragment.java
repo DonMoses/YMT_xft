@@ -35,6 +35,7 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.hub.HubPlateAdapter;
 import com.ymt.demo1.baseClasses.BaseFragment;
 import com.ymt.demo1.beams.hub.HubPlate;
+import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 
 import org.json.JSONArray;
@@ -59,15 +60,12 @@ public class FireHubMainFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_scrollview_list_view, container, false);
-
         initView(view);
         return view;
     }
 
     protected void initView(View view) {
-        //todo 从网络接口获取列表信息
-
-        //一级列表控件
+        //论坛版块二级列表
         ExpandableListView expandableListView = (ExpandableListView) view.findViewById(R.id.hub_list_view);
         //加载时显示圆形进度条
         ProgressBar progressBar = new ProgressBar(getActivity());
@@ -81,7 +79,7 @@ public class FireHubMainFragment extends BaseFragment {
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                //todo subject
+                //跳转到对应板块列表界面
                 Intent intent = new Intent(getActivity(), SubjectsActivity.class);
                 intent.putExtra("plate", childList.get(groupPosition).get(childPosition));
                 intent.putExtra("group_name", parentList.get(groupPosition).getName());
@@ -152,10 +150,13 @@ public class FireHubMainFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         RequestQueue mQueue = Volley.newRequestQueue(getActivity());
-        mQueue.add(hubPlateRequest());
         //一级列表
         plateList = new ArrayList<>();
+        if (AppContext.internetAvialable()) {
+            mQueue.add(hubPlateRequest());
+        }
     }
+
 
     /**
      * hub板块请求
@@ -164,6 +165,7 @@ public class FireHubMainFragment extends BaseFragment {
         return new StringRequest(BaseURLUtil.PLATE_REQUEST_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
+//                Log.e("TAG", ">>>>>>>>>>>>>.s  " + s);
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     if (jsonObject.getInt("retCode") == 0) {        //请求成功
@@ -186,14 +188,14 @@ public class FireHubMainFragment extends BaseFragment {
 
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(getActivity(), volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+                AppContext.toastBadInternet();
             }
         });
 

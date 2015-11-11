@@ -4,10 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.os.Vibrator;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -30,7 +31,7 @@ public class AppContext extends LitePalApplication implements VoiceSettingActivi
     private static List<Activity> yActivities;
     private static Activity floatActivity;
     private static AppContext appContext;
-    public static String now_user_id;
+    public static int now_user_id;
     public static String now_session_id;
     public static String now_user_name;
     public static int screenWidth;
@@ -207,5 +208,34 @@ public class AppContext extends LitePalApplication implements VoiceSettingActivi
     @Override
     public void onSettingDone() {
         initVoiceSetting();
+    }
+
+
+    /**
+     * 当前是否有网络
+     */
+    public static boolean internetAvialable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager)
+                appContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isAvailable()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 网络错误toast
+     */
+    public static void toastBadInternet() {
+        Toast.makeText(appContext, "网络错误，请稍后重试!", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 网络服务器解析toast
+     */
+    public static void toastBadJson() {
+        Toast.makeText(appContext, "服务器故障，请稍后重试!", Toast.LENGTH_SHORT).show();
     }
 }

@@ -22,6 +22,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:cacheColorHint="#0000"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="0.618dp"
         android:fadingEdge="none"
@@ -29,7 +30,5 @@
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="false"
         android:smoothScrollbar="true"
-        ptr:ptrMode="both">
-
-    </com.handmark.pulltorefresh.library.PullToRefreshListView>
+        ptr:ptrMode="both" />
 </LinearLayout>

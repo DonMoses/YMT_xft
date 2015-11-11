@@ -104,13 +104,13 @@ public class PostReplyActivity extends BaseFloatActivity {
                     }
 
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                AppContext.toastBadInternet();
             }
         });
     }

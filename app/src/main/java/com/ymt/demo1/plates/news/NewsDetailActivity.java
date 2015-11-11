@@ -18,14 +18,14 @@ public class NewsDetailActivity extends BaseActivity {
     private String title;
     private String time;
     private NewsSummary summary;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         summary = getIntent().getParcelableExtra("summary");
-        title = summary.getArticle_title();
-        String fullTime = summary.getCreate_time();
-        time = (String) fullTime.subSequence(0, fullTime.length() - 2);
+        title = summary.getArticleTitle();
+        time = summary.getCreateTime();
         setContentView(R.layout.activity_news_detail);
         initTitle();
         initView();
@@ -38,7 +38,21 @@ public class NewsDetailActivity extends BaseActivity {
         final MyTitle title = (MyTitle) findViewById(R.id.my_title);
         title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
 
-        title.updateCenterTitle(getIntent().getStringExtra("title"));     //设置title
+        type = getIntent().getStringExtra("type");
+        if (type != null) {
+            switch (type) {
+                case "hitnum":
+                    title.updateCenterTitle("热点资讯");
+                    break;
+                case "time":
+                    title.updateCenterTitle("最新资讯");
+                    break;
+                case "notice":
+                    title.updateCenterTitle("消防公告");
+                    break;
+            }
+        }
+
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
             public void onClick() {
@@ -87,44 +101,22 @@ public class NewsDetailActivity extends BaseActivity {
          */
         WebView contentView = (WebView) findViewById(R.id.content);
         contentView.loadDataWithBaseURL(null, summary.getContent(), "text/html", "UTF-8", null);
-        //设置底部热点话题内容
-//        setDataToHotGird(hotCommentGrid);
-
-//        /*
-//        点击 “写点评”
-//         */
-//        View view = findViewById(R.id.write_comment_layout);
-//        view.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //todo 写点评
-//                Toast.makeText(NewsDetailActivity.this, "写点评...", Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
-//    /**
-//     * 为底部热点话题设置数据
-//     */
-//    protected void setDataToHotGird(GridView gridView) {
-//        ArrayList<String> list = new ArrayList<>();
-//        String[] hotArray = new String[]{"消防部门", "规范组", "建委",
-//                "科研机构", "设计院", "开发商", "设备商", "服务商"};
-//        Collections.addAll(list, hotArray);
-//        SimpleTxtItemAdapter adapter = new SimpleTxtItemAdapter(this);
-//        gridView.setAdapter(adapter);
-//        adapter.setColor(Color.WHITE, getResources().getColor(R.color.bg_view_blue));
-//        adapter.setList(list);
-//
-//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                String str = parent.getAdapter().getItem(position).toString();
-//                //todo
-//                Toast.makeText(NewsDetailActivity.this, str, Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (type == null) {
+            return;
+        }
+        switch (type) {
+            case "hitnum":
+            case "time":
+                Intent intentR = new Intent(this, FireHRActivity.class);
+                intentR.putExtra("type", type);
+                startActivity(intentR);
+                this.finish();
+                break;
+        }
+    }
 }

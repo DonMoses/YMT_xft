@@ -1,5 +1,6 @@
 package com.ymt.demo1.plates.exportConsult;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import com.ymt.demo1.utils.BaseURLUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +37,6 @@ public class ExportFollowListFragment extends Fragment {
 
     public static final String FRAGMENT_TAG = "ExportFollowFragment";
     private RequestQueue mQueue;
-    private int start;
-    private int pageSize;
     private List<FollowedExpert> followedExperts;
     private PullToRefreshListView chatListView;
     private ExportFollowAdapter followAdapter;
@@ -60,11 +60,7 @@ public class ExportFollowListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mQueue = ((MyConsultActivity) getActivity()).mQueue;
-        start = 1;
-        pageSize = 10;
         followedExperts = new ArrayList<>();
-//        Bundle bundle = getArguments();
-//        String emptyInfo = bundle.getString("empty_info");
     }
 
     /**
@@ -72,7 +68,8 @@ public class ExportFollowListFragment extends Fragment {
      */
     protected void initFollowList(View view) {
         chatListView = (PullToRefreshListView) view.findViewById(R.id.followed_list_view);
-        mQueue.add(getFollowedList(start, pageSize, AppContext.now_session_id));
+        chatListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        mQueue.add(getFollowedList(AppContext.now_session_id));
         followAdapter = new ExportFollowAdapter(getActivity());
         chatListView.setAdapter(followAdapter);
         followAdapter.setList(followedExperts);
@@ -85,23 +82,25 @@ public class ExportFollowListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //进入关注详情界面
-                Toast.makeText(getActivity(), "export " + String.valueOf(position), Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(getActivity(), ExpertInfoActivity.class);
+                intent1.putExtra("id", ((FollowedExpert) parent.getAdapter().getItem(position)).getFkExpertId());
+                startActivity(intent1);
             }
         });
 
         chatListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                start = 1;
-                followedExperts.clear();
-                followAdapter.setList(followedExperts);
-                mQueue.add(getFollowedList(start, pageSize, AppContext.now_session_id));
+                if (AppContext.internetAvialable()) {
+                    followedExperts.clear();
+                    followAdapter.setList(followedExperts);
+                    mQueue.add(getFollowedList(AppContext.now_session_id));
+                }
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                start++;
-                mQueue.add(getFollowedList(start, pageSize, AppContext.now_session_id));
+
             }
         });
 
@@ -112,8 +111,8 @@ public class ExportFollowListFragment extends Fragment {
     /**
      * 获取关注
      */
-    private StringRequest getFollowedList(int start, int pageSize, String sId) {
-        return new StringRequest(BaseURLUtil.followedExpertList(start, pageSize, sId), new Response.Listener<String>() {
+    private StringRequest getFollowedList(String sId) {
+        return new StringRequest(BaseURLUtil.getFollowedExpertList(sId), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -125,20 +124,25 @@ public class ExportFollowListFragment extends Fragment {
                         for (int i = 0; i < length; i++) {
                             JSONObject obj = jsonArray.getJSONObject(i);
                             FollowedExpert expert = new FollowedExpert();
-                            expert.setFk_expert_id(obj.optString("fk_expert_id"));
-                            expert.setThe_id(obj.optString("id"));
-                            expert.setExpert_type(obj.optString("expert_type"));
-                            expert.setExpert_head_pic(BaseURLUtil.BASE_URL + obj.optString("expert_head_pic"));
-                            expert.setCreate_time(obj.optString("create_time"));
-                            expert.setFk_user_id(obj.optString("fk_user_id"));
-                            expert.setExpert_experience(obj.optString("expert_experience"));
-                            expert.setExpert_name(obj.optString("expert_name"));
+                            expert.setFkExpertId(obj.optInt("fkExpertId"));
+                            expert.setHeadPic(obj.optString("headPic"));
+                            expert.setMajorWorks(obj.optString("majorWorks"));
+                            expert.setUserName(obj.optString("userName"));
+
+                            if (DataSupport.where("fkExpertId = ?", String.valueOf(expert.getFkExpertId()))
+                                    .find(FollowedExpert.class)
+                                    .size() != 0) {
+                                expert.updateAll("fkExpertId = ?", String.valueOf(expert.getFkExpertId()));
+                            } else {
+                                expert.save();
+                            }
+                            //// TODO: 2015/11/3
                             followedExperts.add(expert);
-                            followAdapter.setList(followedExperts);
+                            followAdapter.notifyDataSetChanged();
                         }
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
 
                 chatListView.onRefreshComplete();
@@ -146,7 +150,7 @@ public class ExportFollowListFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                AppContext.toastBadInternet();
 
                 chatListView.onRefreshComplete();
             }

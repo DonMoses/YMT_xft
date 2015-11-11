@@ -11,62 +11,33 @@ import java.io.Serializable;
  * Created by Dan on 2015/5/22
  */
 public class StudyDatumItem extends DataSupport implements Parcelable {
-
-//    public enum TypeO {
-//        WORD, PPT, PDF, MP3
-//    }
-
-    private String the_id;
-    private String content;
-    private String author;
-    private String time;
-    private String article_title;
+    private int downNum;
+    private String title;
     private String level;
-    private String status;
-    private String subject;
-    private String create_time;
-    private String fk_create_user_id;
-    private String hitnum;
-    private String pdf_id;
+    private String subjects;
+    private int levelId;
+    private int views;
+    private String historyId;
+    private int score;
+    private int replays;
+    private String yuer;
+    private String date;
+    private String descs;
 
-    public String getThe_id() {
-        return the_id;
+    public int getDownNum() {
+        return downNum;
     }
 
-    public void setThe_id(String the_id) {
-        this.the_id = the_id;
+    public void setDownNum(int downNum) {
+        this.downNum = downNum;
     }
 
-    public String getContent() {
-        return content;
+    public String getTitle() {
+        return title;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getArticle_title() {
-        return article_title;
-    }
-
-    public void setArticle_title(String article_title) {
-        this.article_title = article_title;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getLevel() {
@@ -77,52 +48,76 @@ public class StudyDatumItem extends DataSupport implements Parcelable {
         this.level = level;
     }
 
-    public String getStatus() {
-        return status;
+    public String getSubjects() {
+        return subjects;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setSubjects(String subjects) {
+        this.subjects = subjects;
     }
 
-    public String getSubject() {
-        return subject;
+    public int getLevelId() {
+        return levelId;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setLevelId(int levelId) {
+        this.levelId = levelId;
     }
 
-    public String getCreate_time() {
-        return create_time;
+    public int getViews() {
+        return views;
     }
 
-    public void setCreate_time(String create_time) {
-        this.create_time = create_time;
+    public void setViews(int views) {
+        this.views = views;
     }
 
-    public String getFk_create_user_id() {
-        return fk_create_user_id;
+    public String getHistoryId() {
+        return historyId;
     }
 
-    public void setFk_create_user_id(String fk_create_user_id) {
-        this.fk_create_user_id = fk_create_user_id;
+    public void setHistoryId(String historyId) {
+        this.historyId = historyId;
     }
 
-    public String getHitnum() {
-        return hitnum;
+    public int getScore() {
+        return score;
     }
 
-    public void setHitnum(String hitnum) {
-        this.hitnum = hitnum;
+    public void setScore(int score) {
+        this.score = score;
     }
 
-    public String getPdf_id() {
-        return pdf_id;
+    public int getReplays() {
+        return replays;
     }
 
-    public void setPdf_id(String pdf_id) {
-        this.pdf_id = pdf_id;
+    public void setReplays(int replays) {
+        this.replays = replays;
+    }
+
+    public String getYuer() {
+        return yuer;
+    }
+
+    public void setYuer(String yuer) {
+        this.yuer = yuer;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getDescs() {
+        return descs;
+    }
+
+    public void setDescs(String descs) {
+        this.descs = descs;
     }
 
     @Override
@@ -132,39 +127,39 @@ public class StudyDatumItem extends DataSupport implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.the_id);
-        dest.writeString(this.content);
-        dest.writeString(this.author);
-        dest.writeString(this.time);
-        dest.writeString(this.article_title);
+        dest.writeInt(this.downNum);
+        dest.writeString(this.title);
         dest.writeString(this.level);
-        dest.writeString(this.status);
-        dest.writeString(this.subject);
-        dest.writeString(this.create_time);
-        dest.writeString(this.fk_create_user_id);
-        dest.writeString(this.hitnum);
-        dest.writeString(this.pdf_id);
+        dest.writeString(this.subjects);
+        dest.writeInt(this.levelId);
+        dest.writeInt(this.views);
+        dest.writeString(this.historyId);
+        dest.writeInt(this.score);
+        dest.writeInt(this.replays);
+        dest.writeString(this.yuer);
+        dest.writeString(this.date);
+        dest.writeString(this.descs);
     }
 
     public StudyDatumItem() {
     }
 
     protected StudyDatumItem(Parcel in) {
-        this.the_id = in.readString();
-        this.content = in.readString();
-        this.author = in.readString();
-        this.time = in.readString();
-        this.article_title = in.readString();
+        this.downNum = in.readInt();
+        this.title = in.readString();
         this.level = in.readString();
-        this.status = in.readString();
-        this.subject = in.readString();
-        this.create_time = in.readString();
-        this.fk_create_user_id = in.readString();
-        this.hitnum = in.readString();
-        this.pdf_id = in.readString();
+        this.subjects = in.readString();
+        this.levelId = in.readInt();
+        this.views = in.readInt();
+        this.historyId = in.readString();
+        this.score = in.readInt();
+        this.replays = in.readInt();
+        this.yuer = in.readString();
+        this.date = in.readString();
+        this.descs = in.readString();
     }
 
-    public static final Parcelable.Creator<StudyDatumItem> CREATOR = new Parcelable.Creator<StudyDatumItem>() {
+    public static final Creator<StudyDatumItem> CREATOR = new Creator<StudyDatumItem>() {
         public StudyDatumItem createFromParcel(Parcel source) {
             return new StudyDatumItem(source);
         }

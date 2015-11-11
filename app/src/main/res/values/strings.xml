@@ -19,6 +19,8 @@
     <string name="xxf_qq">1210119119</string>
     <string name="xxf_url">www.xxf3.com</string>
     <string name="xxf_phone">400-777-9119</string>
+    <string name="download">下载</string>
+
 
     <string-array name="circle_menu_array">
 
@@ -91,6 +93,13 @@
         <item>商品收藏</item>
 
     </string-array>
+    <string-array name="edu_exam_test_type">
+        <item>一级注册消防工程师</item>
+        <item>二级注册消防工程师</item>
+        <item>初级建(构)筑物消防员</item>
+        <item>中级建(构)筑物消防员</item>
+
+    </string-array>
 
     <string-array name="voice_settings">
         <item>通知消息内容显示</item>
@@ -132,7 +141,6 @@
 
     <string-array name="exam_years_array">
 
-        <item>全部</item>
         <item>2015</item>
         <item>2014</item>
         <item>2013</item>

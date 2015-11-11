@@ -20,6 +20,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.ymt.demo1.R;
+import com.ymt.demo1.beams.edu.MockExamItem;
 import com.ymt.demo1.beams.edu.exam.Exam;
 import com.ymt.demo1.main.sign.ChangePswActivity;
 
@@ -245,18 +246,14 @@ public class PopActionUtil {
     /**
      * 显示提交试卷POP
      */
-    public PopupWindow getSubPaperPopActionMenu(Exam exam) {
+    public PopupWindow getSubPaperPopActionMenu(MockExamItem exam) {
         inflater = LayoutInflater.from(context);
         View popContent = inflater.inflate(R.layout.layout_sub_paper_pop_action, null);
         final Button yBtn = (Button) popContent.findViewById(R.id.do_download_btn);
         final Button nBtn = (Button) popContent.findViewById(R.id.not_download_btn);
 
         final TextView examName = (TextView) popContent.findViewById(R.id.exam_content);
-        final TextView totalItem = (TextView) popContent.findViewById(R.id.total_item);
-        final TextView totalScore = (TextView) popContent.findViewById(R.id.total_score);
-        examName.setText(exam.getExam_title());
-        totalItem.setText("题目：" + exam.getTotal_item() + "题");
-        totalScore.setText("总分：" + exam.getTotal_score() + "分");
+        examName.setText(exam.getExaName());
 
         final PopupWindow popupWindow = new PopupWindow(popContent,
                 FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);

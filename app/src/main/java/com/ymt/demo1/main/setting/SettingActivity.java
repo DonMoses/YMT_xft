@@ -138,7 +138,7 @@ public class SettingActivity extends Activity {
                 getSharedPreferences("saved_account", MODE_PRIVATE).edit().clear().apply();
                 AppContext.headerPic = null;
                 AppContext.now_user_name = "";
-                AppContext.now_user_id = "";
+                AppContext.now_user_id = 0;
                 AppContext.now_session_id = "";
                 DataSupport.deleteAll(QQMsg.class);
                 DataSupport.deleteAll(QQChatInfo.class);

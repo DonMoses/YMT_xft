@@ -67,7 +67,7 @@ public class NewsSummaryAdapter extends BaseAdapter {
         }
         //todo
 
-        viewHolder.titleView.setText(list.get(position).getArticle_title());
+        viewHolder.titleView.setText(list.get(position).getArticleTitle());
         viewHolder.contentView.setText(StringUtils.replaceBlank(Html.fromHtml(list.get(position).getContent()).toString()));
         viewHolder.hitView.setText(list.get(position).getHitnum() + "跟贴");
         String pic = list.get(position).getPic();

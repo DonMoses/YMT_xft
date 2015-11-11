@@ -104,7 +104,7 @@ public class ChangePswActivity extends Activity {
                         sharedPreferences.edit().clear().apply();
                         AppContext.headerPic = null;
                         AppContext.now_user_name = "";
-                        AppContext.now_user_id = "";
+                        AppContext.now_user_id = 0;
                         AppContext.now_session_id = "";
                         DataSupport.deleteAll(QQMsg.class);
                         DataSupport.deleteAll(QQChatInfo.class);
@@ -127,17 +127,16 @@ public class ChangePswActivity extends Activity {
                         Toast.makeText(ChangePswActivity.this, result, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                AppContext.toastBadInternet();
             }
         });
     }
-
 
     /**
      * 退出账号操作
@@ -151,7 +150,7 @@ public class ChangePswActivity extends Activity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                AppContext.toastBadInternet();
             }
         });
     }

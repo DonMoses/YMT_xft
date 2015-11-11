@@ -3,55 +3,29 @@ package com.ymt.demo1.beams.edu;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.litepal.crud.DataSupport;
+
 /**
  * Created by Dan on 2015/4/9
  * 试题信息
  */
-public class PastExamItem implements Parcelable {
-    private String exam_year;
-    private String the_id;
-    private String files;
-    private String article_title;
+public class PastExamItem extends DataSupport implements Parcelable {
+    private String title;
     private String level;
-    private String status;
-    private String subject;
-    private String create_time;
-    private String hitnum;
-    private String meta_keys;
-    private String fk_create_user_id;
-    private String pdf_id;
-    private String downcount;
+    private String subjects;
+    private int levelId;
+    private String historyId;
+    private int views;
+    private String DATE;
+    private String yuer;
+    private String descs;
 
-    public String getExam_year() {
-        return exam_year;
+    public String getTitle() {
+        return title;
     }
 
-    public void setExam_year(String exam_year) {
-        this.exam_year = exam_year;
-    }
-
-    public String getThe_id() {
-        return the_id;
-    }
-
-    public void setThe_id(String the_id) {
-        this.the_id = the_id;
-    }
-
-    public String getFiles() {
-        return files;
-    }
-
-    public void setFiles(String files) {
-        this.files = files;
-    }
-
-    public String getArticle_title() {
-        return article_title;
-    }
-
-    public void setArticle_title(String article_title) {
-        this.article_title = article_title;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getLevel() {
@@ -62,68 +36,60 @@ public class PastExamItem implements Parcelable {
         this.level = level;
     }
 
-    public String getStatus() {
-        return status;
+    public String getSubjects() {
+        return subjects;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setSubjects(String subjects) {
+        this.subjects = subjects;
     }
 
-    public String getSubject() {
-        return subject;
+    public int getLevelId() {
+        return levelId;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setLevelId(int levelId) {
+        this.levelId = levelId;
     }
 
-    public String getCreate_time() {
-        return create_time;
+    public String getHistoryId() {
+        return historyId;
     }
 
-    public void setCreate_time(String create_time) {
-        this.create_time = create_time;
+    public void setHistoryId(String historyId) {
+        this.historyId = historyId;
     }
 
-    public String getHitnum() {
-        return hitnum;
+    public int getViews() {
+        return views;
     }
 
-    public void setHitnum(String hitnum) {
-        this.hitnum = hitnum;
+    public void setViews(int views) {
+        this.views = views;
     }
 
-    public String getMeta_keys() {
-        return meta_keys;
+    public String getDATE() {
+        return DATE;
     }
 
-    public void setMeta_keys(String meta_keys) {
-        this.meta_keys = meta_keys;
+    public void setDATE(String DATE) {
+        this.DATE = DATE;
     }
 
-    public String getFk_create_user_id() {
-        return fk_create_user_id;
+    public String getYuer() {
+        return yuer;
     }
 
-    public void setFk_create_user_id(String fk_create_user_id) {
-        this.fk_create_user_id = fk_create_user_id;
+    public void setYuer(String yuer) {
+        this.yuer = yuer;
     }
 
-    public String getPdf_id() {
-        return pdf_id;
+    public String getDescs() {
+        return descs;
     }
 
-    public void setPdf_id(String pdf_id) {
-        this.pdf_id = pdf_id;
-    }
-
-    public String getDowncount() {
-        return downcount;
-    }
-
-    public void setDowncount(String downcount) {
-        this.downcount = downcount;
+    public void setDescs(String descs) {
+        this.descs = descs;
     }
 
     @Override
@@ -133,41 +99,33 @@ public class PastExamItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.exam_year);
-        dest.writeString(this.the_id);
-        dest.writeString(this.files);
-        dest.writeString(this.article_title);
+        dest.writeString(this.title);
         dest.writeString(this.level);
-        dest.writeString(this.status);
-        dest.writeString(this.subject);
-        dest.writeString(this.create_time);
-        dest.writeString(this.hitnum);
-        dest.writeString(this.meta_keys);
-        dest.writeString(this.fk_create_user_id);
-        dest.writeString(this.pdf_id);
-        dest.writeString(this.downcount);
+        dest.writeString(this.subjects);
+        dest.writeInt(this.levelId);
+        dest.writeString(this.historyId);
+        dest.writeInt(this.views);
+        dest.writeString(this.DATE);
+        dest.writeString(this.yuer);
+        dest.writeString(this.descs);
     }
 
     public PastExamItem() {
     }
 
     protected PastExamItem(Parcel in) {
-        this.exam_year = in.readString();
-        this.the_id = in.readString();
-        this.files = in.readString();
-        this.article_title = in.readString();
+        this.title = in.readString();
         this.level = in.readString();
-        this.status = in.readString();
-        this.subject = in.readString();
-        this.create_time = in.readString();
-        this.hitnum = in.readString();
-        this.meta_keys = in.readString();
-        this.fk_create_user_id = in.readString();
-        this.pdf_id = in.readString();
-        this.downcount = in.readString();
+        this.subjects = in.readString();
+        this.levelId = in.readInt();
+        this.historyId = in.readString();
+        this.views = in.readInt();
+        this.DATE = in.readString();
+        this.yuer = in.readString();
+        this.descs = in.readString();
     }
 
-    public static final Parcelable.Creator<PastExamItem> CREATOR = new Parcelable.Creator<PastExamItem>() {
+    public static final Creator<PastExamItem> CREATOR = new Creator<PastExamItem>() {
         public PastExamItem createFromParcel(Parcel source) {
             return new PastExamItem(source);
         }

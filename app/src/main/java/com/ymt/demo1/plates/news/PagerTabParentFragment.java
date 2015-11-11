@@ -95,11 +95,12 @@ public class PagerTabParentFragment extends BaseFragment {
                     fragment = new FireNewsFragment();
                     break;
                 case "消防公告":
-                    fragment = NewsFragment.newInstance("xf_article_h_notice");
+                    fragment = FileNoticeFragment.newInstance("xf_article_h_notice");
                     break;
-                case "教育资讯":
-                    fragment = NewsFragment.newInstance("xf_article_h_edu");
-                    break;
+//                case "教育资讯":
+//                    fragment = EduNewsFragment.newInstance("xf_article_h_edu");
+//                    break;
+                //// TODO: 2015/10/23  教育资讯
                 default:
                     break;
             }

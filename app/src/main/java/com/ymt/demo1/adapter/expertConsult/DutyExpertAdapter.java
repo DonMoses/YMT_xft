@@ -1,6 +1,8 @@
 package com.ymt.demo1.adapter.expertConsult;
 
 import android.content.Context;
+import android.text.Layout;
+import android.util.LayoutDirection;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +59,7 @@ public class DutyExpertAdapter extends BaseAdapter {
         } else {
             expertName = (TextView) convertView.getTag();
         }
-        expertName.setText(expertList.get(position).getName());
+        expertName.setText(expertList.get(position).getExName());
 
         return convertView;
     }

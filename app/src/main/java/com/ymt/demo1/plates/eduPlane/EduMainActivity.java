@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,11 +17,14 @@ import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.baseClasses.BaseFloatActivity;
+import com.ymt.demo1.plates.eduPlane.easyWrong.EasyWrongActivity;
+import com.ymt.demo1.plates.eduPlane.myStudy.MyMockListActivity;
+import com.ymt.demo1.plates.eduPlane.video.VideoTrainActivity;
+import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.main.search.SearchActivity;
 import com.ymt.demo1.plates.eduPlane.examGuide.ExamsGuideMainActivity;
 import com.ymt.demo1.plates.eduPlane.mockExams.MockExamsMainActivity;
-import com.ymt.demo1.plates.eduPlane.myStudy.MyStudyActivity;
 import com.ymt.demo1.plates.eduPlane.pastExams.PastExamsMainActivity;
 import com.ymt.demo1.plates.eduPlane.studyDatum.StudyDatumActivity;
 
@@ -127,7 +129,7 @@ public class EduMainActivity extends BaseFloatActivity {
                         startActivity(new Intent(EduMainActivity.this, MockExamsMainActivity.class));    //模拟考试
                         break;
                     case R.id.myStudy:
-                        startActivity(new Intent(EduMainActivity.this, MyStudyActivity.class));          //我的学习
+                        startActivity(new Intent(EduMainActivity.this, MyMockListActivity.class));       //我的学习
                         break;
                     case R.id.studyDatum:
                         startActivity(new Intent(EduMainActivity.this, StudyDatumActivity.class));       //学习资料
@@ -136,10 +138,10 @@ public class EduMainActivity extends BaseFloatActivity {
                         startActivity(new Intent(EduMainActivity.this, ExamsGuideMainActivity.class));   //报考指南
                         break;
                     case R.id.trainVideo:
-                        Toast.makeText(EduMainActivity.this, "培训视频", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(EduMainActivity.this, VideoTrainActivity.class));       //培训视频
                         break;
                     case R.id.examInterpret:
-                        Toast.makeText(EduMainActivity.this, "试题解析", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(EduMainActivity.this, EasyWrongActivity.class));        //易错题分析
                         break;
                     case R.id.eduMore:
                         Toast.makeText(EduMainActivity.this, "更多", Toast.LENGTH_SHORT).show();
@@ -268,11 +270,11 @@ public class EduMainActivity extends BaseFloatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     if (jsonObject.getString("result").equals("Y")) {
-                        JSONArray array = jsonObject.getJSONArray("data");
-                        JSONObject nameObj = array.getJSONObject(0);
-                        JSONObject timeObj = array.getJSONObject(1);
-                        String time = timeObj.optString("val");
-                        String name = nameObj.optString("val");
+                        JSONArray jsonArray = jsonObject.getJSONObject("datas").getJSONArray("listData");
+                        JSONObject object = jsonArray.getJSONObject(0);
+
+                        String time = object.optString("examTime");
+                        String name = object.optString("examName");
 
                         if (time.length() >= 4) {
                             year = Integer.valueOf(time.substring(0, 4));
@@ -287,21 +289,20 @@ public class EduMainActivity extends BaseFloatActivity {
                         examYear.setText(String.valueOf(year));
                         examMonth.setText(String.valueOf(month));
                         examDay.setText(String.valueOf(day) + "日");
-                        if (name.length() > 5) {
-                            examName.setText(name.substring(5));
-                        }
+                        examName.setText(name);
 
                         examTimer();
 
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Toast.makeText(EduMainActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+                AppContext.toastBadInternet();
             }
         });
     }

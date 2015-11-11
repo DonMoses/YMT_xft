@@ -13,12 +13,11 @@ public class NewsSummary extends DataSupport implements Parcelable {
     private String content;
     private String author;
     private String editor;
-    private String article_title;
+    private String articleTitle;
     private String source;
-    private String create_time;
+    private String createTime;
     private String hitnum;
-    private String fk_create_user_id;
-    private String status;
+    private String type;
     private String pic;
 
     public String getPic() {
@@ -29,13 +28,16 @@ public class NewsSummary extends DataSupport implements Parcelable {
         this.pic = pic;
     }
 
-    public String getStatus() {
-        return status;
+    public String getType() {
+        return type;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setType(String type) {
+        this.type = type;
     }
+
+    private String name1;
+    private String name2;
 
     public String getThe_id() {
         return the_id;
@@ -69,12 +71,12 @@ public class NewsSummary extends DataSupport implements Parcelable {
         this.editor = editor;
     }
 
-    public String getArticle_title() {
-        return article_title;
+    public String getArticleTitle() {
+        return articleTitle;
     }
 
-    public void setArticle_title(String article_title) {
-        this.article_title = article_title;
+    public void setArticleTitle(String articleTitle) {
+        this.articleTitle = articleTitle;
     }
 
     public String getSource() {
@@ -85,12 +87,12 @@ public class NewsSummary extends DataSupport implements Parcelable {
         this.source = source;
     }
 
-    public String getCreate_time() {
-        return create_time;
+    public String getCreateTime() {
+        return createTime;
     }
 
-    public void setCreate_time(String create_time) {
-        this.create_time = create_time;
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 
     public String getHitnum() {
@@ -101,16 +103,25 @@ public class NewsSummary extends DataSupport implements Parcelable {
         this.hitnum = hitnum;
     }
 
-    public String getFk_create_user_id() {
-        return fk_create_user_id;
+    public String getName1() {
+        return name1;
     }
 
-    public void setFk_create_user_id(String fk_create_user_id) {
-        this.fk_create_user_id = fk_create_user_id;
+    public void setName1(String name1) {
+        this.name1 = name1;
+    }
+
+    public String getName2() {
+        return name2;
+    }
+
+    public void setName2(String name2) {
+        this.name2 = name2;
     }
 
     public NewsSummary() {
     }
+
 
     @Override
     public int describeContents() {
@@ -123,13 +134,14 @@ public class NewsSummary extends DataSupport implements Parcelable {
         dest.writeString(this.content);
         dest.writeString(this.author);
         dest.writeString(this.editor);
-        dest.writeString(this.article_title);
+        dest.writeString(this.articleTitle);
         dest.writeString(this.source);
-        dest.writeString(this.create_time);
+        dest.writeString(this.createTime);
         dest.writeString(this.hitnum);
-        dest.writeString(this.fk_create_user_id);
-        dest.writeString(this.status);
+        dest.writeString(this.type);
         dest.writeString(this.pic);
+        dest.writeString(this.name1);
+        dest.writeString(this.name2);
     }
 
     protected NewsSummary(Parcel in) {
@@ -137,13 +149,14 @@ public class NewsSummary extends DataSupport implements Parcelable {
         this.content = in.readString();
         this.author = in.readString();
         this.editor = in.readString();
-        this.article_title = in.readString();
+        this.articleTitle = in.readString();
         this.source = in.readString();
-        this.create_time = in.readString();
+        this.createTime = in.readString();
         this.hitnum = in.readString();
-        this.fk_create_user_id = in.readString();
-        this.status = in.readString();
+        this.type = in.readString();
         this.pic = in.readString();
+        this.name1 = in.readString();
+        this.name2 = in.readString();
     }
 
     public static final Creator<NewsSummary> CREATOR = new Creator<NewsSummary>() {

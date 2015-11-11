@@ -29,6 +29,44 @@
         android:textColor="@color/material_blue_grey_800"
         android:textSize="18sp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="32dp"
+        android:orientation="horizontal"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="咨询分类："
+            android:textColor="@color/material_blue_grey_800"
+            android:textSize="14sp" />
+
+        <Spinner
+            android:id="@+id/spinner_1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="6.18dp"
+            android:layout_marginRight="6.18dp"
+            android:layout_weight="1"
+            android:background="@android:color/darker_gray">
+
+        </Spinner>
+
+        <Spinner
+            android:id="@+id/spinner_2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/darker_gray">
+
+        </Spinner>
+
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.2dp"
@@ -108,31 +146,5 @@
             android:background="@android:color/holo_blue_dark"
             android:text="提交咨询" />
     </FrameLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@android:color/holo_blue_light" />
-
-    <TextView
-        android:id="@+id/hot_comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="热门话题"
-        android:textColor="@color/material_blue_grey_800"
-        android:textSize="14sp" />
-
-    <GridView
-        android:id="@+id/hot_comment_grid_view"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:horizontalSpacing="2dp"
-        android:numColumns="5"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp" />
 
 </LinearLayout>

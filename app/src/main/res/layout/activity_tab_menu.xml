@@ -25,75 +25,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="8dp"
             myIndicator:active="@drawable/indicator_red"
             myIndicator:space="5dp"
             myIndicator:unActive="@drawable/indicator_white" />
 
     </FrameLayout>
 
+    <include
+        android:id="@+id/gate"
+        layout="@layout/tab_pager_gate" />
+
     <include layout="@layout/layout_tab_consult_cato_table" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_marginBottom="3dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginTop="3dp"
-        android:orientation="horizontal">
-
-        <FrameLayout
-            android:id="@+id/new1_layout"
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_marginEnd="3dp"
-            android:layout_marginRight="3dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_corner_3_white"
-            android:padding="2dp">
-
-            <ImageView
-                android:id="@+id/img_news1"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:padding="2dp" />
-
-            <TextView
-                android:id="@+id/img_news_text1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:ellipsize="end"
-                android:maxLines="8"
-                android:textColor="@color/material_blue_grey_800"
-                android:textSize="12sp" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/new2_layout"
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_corner_3_white"
-            android:padding="2dp">
-
-            <ImageView
-                android:id="@+id/img_news2"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:padding="2dp" />
-
-            <TextView
-                android:id="@+id/img_news_text2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:ellipsize="end"
-                android:maxLines="8"
-                android:textColor="@color/material_blue_grey_800"
-                android:textSize="12sp" />
-        </FrameLayout>
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

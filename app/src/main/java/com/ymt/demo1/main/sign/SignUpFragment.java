@@ -8,6 +8,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.customViews.MyCheckView;
+import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 
 import org.json.JSONException;
@@ -35,7 +37,7 @@ import org.litepal.tablemanager.Connector;
  */
 public class SignUpFragment extends Fragment {
     public static final String FLAG = "SignUpFragment";
-    public static final String NORMAL_USER = "001";
+    public static final String NORMAL_USER = "app";
     //    public static final String EXPORT_USER = "002";
 //    public static final String MEMBER_USER = "003";
 //    public static final String MANAGER_USER = "004";
@@ -170,28 +172,27 @@ public class SignUpFragment extends Fragment {
      */
     protected StringRequest signUpRequest(final String account, final String psw, final String phone, final String user_type) {
         String loginBaseUrl = BaseURLUtil.doSignUp(account, psw, phone, user_type);
+//        Log.e("TAG", ">>>>>>>>>>>signUP url: " + loginBaseUrl);
         return new StringRequest(loginBaseUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
-                    if (jsonObject.getString("result").equals("Y")) {
+                    if (jsonObject.getJSONObject("datas").optBoolean("listData")) {
                         //sign successfully
                         jumpToSignIn(account, psw);
-
                     } else {
                         //sign unsuccessfully
-                        Toast.makeText(getActivity(), jsonObject.getString("result"), Toast.LENGTH_SHORT).show();
-//                        Log.e("TAG", "sign_up_result>>>>>" + jsonObject.getString("result"));
+                        Toast.makeText(getActivity(), jsonObject.getJSONObject("datas").opt("listData").toString(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                AppContext.toastBadInternet();
             }
         });
     }

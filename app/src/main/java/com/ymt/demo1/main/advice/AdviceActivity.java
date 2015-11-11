@@ -69,7 +69,7 @@ public class AdviceActivity extends Activity {
                     return;
                 }
                 if ((!TextUtils.isEmpty(adviceTxt)) && (!TextUtils.isEmpty(adviceTitle))) {
-                    mQueue.add(doAdvice(AppContext.now_session_id, adviceTitle, adviceTxt, ""));
+                    mQueue.add(doAdvice(adviceTitle, adviceTxt));
                 } else {
                     Toast.makeText(AdviceActivity.this, "输入有误，请重新输入!", Toast.LENGTH_SHORT).show();
                 }
@@ -78,25 +78,24 @@ public class AdviceActivity extends Activity {
         });
     }
 
-    protected StringRequest doAdvice(String sId, String title, String content, String phoneNum) {
-        return new StringRequest(BaseURLUtil.doAdviceAction(sId, title, content, phoneNum), new Response.Listener<String>() {
+    protected StringRequest doAdvice(String title, String content) {
+        return new StringRequest(BaseURLUtil.doAdviceAction(title, content) + "&nickname=" + AppContext.now_user_name, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
-                    if (jsonObject.getString("result").endsWith("Y")) {
-                        Toast.makeText(AdviceActivity.this, "提交成功!", Toast.LENGTH_SHORT).show();
+                    if (jsonObject.getJSONObject("datas").optBoolean("listData")) {
+                        Toast.makeText(AdviceActivity.this, "您的建议已成功提交,谢谢！", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(AdviceActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    AppContext.toastBadJson();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(AdviceActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+                AppContext.toastBadInternet();
             }
         });
     }

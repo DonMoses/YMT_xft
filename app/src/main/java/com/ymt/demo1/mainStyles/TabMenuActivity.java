@@ -1,50 +1,37 @@
 package com.ymt.demo1.mainStyles;
 
-import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.CyclePagerAdapter;
 import com.ymt.demo1.beams.consult_cato.ConsultCato;
-import com.ymt.demo1.beams.news.NewsSummary;
 import com.ymt.demo1.customViews.IndicatorView;
-import com.ymt.demo1.main.CollectActivity;
 import com.ymt.demo1.main.ShareActivity;
 import com.ymt.demo1.main.advice.AdviceActivity;
+import com.ymt.demo1.main.collect.CollectActivity;
 import com.ymt.demo1.main.help.HelpActivity;
 import com.ymt.demo1.main.search.SearchActivity;
 import com.ymt.demo1.main.setting.ManageAppearanceActivity;
@@ -56,13 +43,9 @@ import com.ymt.demo1.plates.eduPlane.EduMainActivity;
 import com.ymt.demo1.plates.exportConsult.ExportConsultMainActivity;
 import com.ymt.demo1.plates.hub.FireHubMainActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
-import com.ymt.demo1.plates.news.NewsDetailActivity;
 import com.ymt.demo1.plates.news.NewsTabActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
-import com.ymt.demo1.utils.BitmapCutUtil;
-import com.ymt.demo1.utils.StringUtils;
-import com.ymt.demo1.utils.textAround.MyLeadingMarginSpan2;
 import com.ymt.demo1.zxing.activity.CaptureActivity;
 
 import org.json.JSONArray;
@@ -85,27 +68,17 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
     private final MyHandler myHandler = new MyHandler(this);
     public static ManageAppearanceActivity.StyleChangeListener styleChangeListener;
     private boolean doAutoChange;
-    private FrameLayout pagerParentLayout;
 
     private ImageView signIcon, adviceIcon, helpIcon, settingIcon, collectionIcon;
     private TextView signText, adviceText, helpText, settingText, collectionText;
 
-    private RequestQueue mQueue;
-    private NewsSummary imgSummary1;
-    private NewsSummary imgSummary2;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        catoList = new ArrayList<>();
-        mQueue = Volley.newRequestQueue(this);
-        imgSummary1 = new NewsSummary();
-        imgSummary2 = new NewsSummary();
-        mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_JZ));
-        mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_ZY));
-        mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_GJC));
-        mQueue.add(getImageNewsPic(BaseURLUtil.BASE_URL + "/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_news_photo" + "&order=new&start=" + String.valueOf(1)));
-
+        RequestQueue mQueue = Volley.newRequestQueue(this);
+        mQueue.add(getCatoRequest(ConsultCatoMainActivity.CATO_JZ
+                , ConsultCatoMainActivity.CATO_ZY
+                , ConsultCatoMainActivity.CATO_KW));
         styleChangeListener = this;
         doAutoChange = true;
         setContentView(R.layout.activity_tab_menu);
@@ -147,6 +120,12 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
         initMainView();
     }
 
+    protected void initGate() {
+        View gateView = findViewById(R.id.gate);
+        //顶部板块入口
+        initPagerGate(gateView);
+    }
+
     /**
      * 初始化顶部广告ViewPager
      */
@@ -159,39 +138,24 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
         final CyclePagerAdapter adPagerAdapter = new CyclePagerAdapter();
         adViewPager.setAdapter(adPagerAdapter);
 
-        //pager外部layout
-        pagerParentLayout = (FrameLayout) findViewById(R.id.pager_layout);
-
         /*
         更新数据源（Views）
          */
         LayoutInflater inflater = LayoutInflater.from(this);
         final ArrayList<View> views = new ArrayList<>();
-        TableLayout gateView = (TableLayout) inflater.inflate(R.layout.tab_pager_gate, null);
-        //顶部板块入口
-        initPagerGate(gateView);
-        views.add(gateView);         //各个板块的入口
+        views.add(inflater.inflate(R.layout.banner_page_5, null));
         views.add(inflater.inflate(R.layout.banner_page_1, null));
         views.add(inflater.inflate(R.layout.banner_page_2, null));
         views.add(inflater.inflate(R.layout.banner_page_3, null));
         views.add(inflater.inflate(R.layout.banner_page_4, null));
         views.add(inflater.inflate(R.layout.banner_page_5, null));
+        views.add(inflater.inflate(R.layout.banner_page_1, null));
 
         adPagerAdapter.setViews(views);
-        adViewPager.setCurrentItem(0);
         //指示器Indicator
         final IndicatorView indicator = (IndicatorView) findViewById(R.id.myPointIndicator);
-        indicator.updateTotal(adPagerAdapter.getCount() - 1);   //设置指示器显示item个数（适配adapter中元素个数）
-        if (adViewPager.getCurrentItem() == 0) {
-            indicator.setVisibility(View.INVISIBLE);
-        }
-
-        //获取pager的margin值
-        final LinearLayout.LayoutParams pagerParams = (LinearLayout.LayoutParams) pagerParentLayout.getLayoutParams();
-        final int l = pagerParams.leftMargin;
-        final int t = pagerParams.topMargin;
-        final int r = pagerParams.rightMargin;
-        final int b = pagerParams.bottomMargin;
+        indicator.updateTotal(adPagerAdapter.getCount() - 2);   //设置指示器显示item个数（适配adapter中元素个数）
+        indicator.setCurr(0);
 
         /*
         pager 滑动事件
@@ -200,34 +164,23 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-
             }
 
             @Override
             public void onPageSelected(int position) {
-//                int pageIndex = position;
-//                int indicatorIndex;
-//                if (position == 0) {
-//                    pageIndex = views.size() - 2;
-//                    indicatorIndex = 2;
-//                } else if (position == views.size() - 1) {
-//                    pageIndex = 1;
-//                    indicatorIndex = 0;
-//                } else {
-//                    indicatorIndex = position - 1;
-//                }
-//                adViewPager.setCurrentItem(pageIndex, false);
-//                indicator.setCurr(indicatorIndex);
+                int pageIndex = position;
+                int indicatorIndex;
                 if (position == 0) {
-                    indicator.setVisibility(View.INVISIBLE);
-                    pagerParams.setMargins(l, t, r, b);
+                    pageIndex = views.size() - 2;
+                    indicatorIndex = adPagerAdapter.getCount() - 2 - 1;
+                } else if (position == views.size() - 1) {
+                    pageIndex = 1;
+                    indicatorIndex = 0;
                 } else {
-                    indicator.setVisibility(View.VISIBLE);
-                    indicator.setCurr(position - 1);
-                    pagerParams.setMargins(0, 0, 0, 0);
+                    indicatorIndex = position - 1;
                 }
-
-                pagerParentLayout.setLayoutParams(pagerParams);
+                adViewPager.setCurrentItem(pageIndex, false);
+                indicator.setCurr(indicatorIndex);
             }
 
             @Override
@@ -243,24 +196,6 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
                         break;
 
                 }
-
-            }
-        });
-
-        adViewPager.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        ALWAYS_ON = false;
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        ALWAYS_ON = true;
-                        break;
-                    default:
-                        break;
-                }
-                return false;
             }
         });
 
@@ -276,32 +211,22 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
                         continue;
                     }
 
-                    if (adViewPager.getCurrentItem() == 0) {
-                        doAutoChange = false;
-                    }
-
                     if (doAutoChange) {
+
                         int toPosition;
                         int curPosition = adViewPager.getCurrentItem();
-                        if (curPosition != 0) {
-                            if (curPosition == adPagerAdapter.getCount() - 1) {
-                                toPosition = 1;
-                            } else {
-                                toPosition = curPosition + 1;
-                            }
+                        toPosition = curPosition + 1;
 
-                            Message msg = Message.obtain();
-                            msg.what = SHOW_NEXT_PAGE;
-                            msg.arg1 = toPosition;
-                            myHandler.sendMessage(msg);
+                        Message msg = Message.obtain();
+                        msg.what = SHOW_NEXT_PAGE;
+                        msg.arg1 = toPosition;
+                        myHandler.sendMessage(msg);
+
+                        try {
+                            Thread.sleep(6000);         //每6 s切换到下一page
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
-
-                    }
-
-                    try {
-                        Thread.sleep(6000);         //每6 s切换到下一page
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
                     }
 
                 }
@@ -311,52 +236,12 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
     }
 
     protected void initMainView() {
+        //板块view
+        initGate();
         //咨询分类列表数据
         setCatoView();
-        //图片新闻混编
-        initImgNew();
         //底部tab
         initTab();
-    }
-
-    /**
-     * 图片新闻的混编展示
-     */
-    private void initImgNew() {
-        newsTextI = (TextView) findViewById(R.id.img_news_text1);
-        newsTextII = (TextView) findViewById(R.id.img_news_text2);
-        newsViewI = (ImageView) findViewById(R.id.img_news1);
-        newsViewII = (ImageView) findViewById(R.id.img_news2);
-        View new1Layout = findViewById(R.id.new1_layout);
-        View new2Layout = findViewById(R.id.new2_layout);
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.new1_layout:
-                        if (TextUtils.isEmpty(imgSummary1.getArticle_title())) {
-                            return;
-                        }
-                        Intent intent1 = new Intent(TabMenuActivity.this, NewsDetailActivity.class);
-                        intent1.putExtra("summary", imgSummary1);
-                        startActivity(intent1);
-                        break;
-                    case R.id.new2_layout:
-                        if (TextUtils.isEmpty(imgSummary2.getArticle_title())) {
-                            return;
-                        }
-                        Intent intent2 = new Intent(TabMenuActivity.this, NewsDetailActivity.class);
-                        intent2.putExtra("summary", imgSummary2);
-                        startActivity(intent2);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        };
-        new1Layout.setOnClickListener(onClickListener);
-        new2Layout.setOnClickListener(onClickListener);
-
     }
 
     /**
@@ -616,40 +501,46 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
     /**
      * 获取分类列表
      */
-    protected StringRequest getCatoRequest(String type) {
-        return new StringRequest(BaseURLUtil.doTypeAction(type), new Response.Listener<String>() {
+    protected StringRequest getCatoRequest(int... type) {
+        return new StringRequest(BaseURLUtil.getConsultCato(type), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
                     JSONObject object = new JSONObject(s);
                     if (object.getString("result").equals("Y")) {
-                        JSONArray jsonArray = object.getJSONArray("listData");
+                        JSONArray jsonArray = object.getJSONObject("datas").getJSONArray("listData");
                         int length = jsonArray.length();
                         for (int i = 0; i < length; i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             ConsultCato consultCato = new ConsultCato();
-                            consultCato.setCode(jsonObject.getString("code"));
-                            consultCato.setNote(jsonObject.getString("note"));
-                            int savedSize = DataSupport.where("code = ?", jsonObject.getString("code")).find(ConsultCato.class).size();
+                            consultCato.setCodeId(jsonObject.optInt("codeId"));
+                            consultCato.setCodeValue(jsonObject.optString("codeValue"));
+                            consultCato.setCodeType(jsonObject.optInt("codeType"));
+                            int savedSize = DataSupport.where("codeType = ? and codeId = ?"
+                                    , String.valueOf(consultCato.getCodeType())
+                                    , String.valueOf(consultCato.getCodeId())).find(ConsultCato.class).size();
                             if (savedSize == 0) {
                                 consultCato.save();
                             } else {
                                 ContentValues contentValues = new ContentValues();
-                                contentValues.put("note", jsonObject.getString("note"));
-                                DataSupport.updateAll(ConsultCato.class, contentValues, "code = ?", jsonObject.getString("code"));
+                                contentValues.put("codeId", consultCato.getCodeId());
+                                contentValues.put("codeValue", consultCato.getCodeValue());
+                                DataSupport.updateAll(ConsultCato.class, contentValues, "codeType = ? and codeId = ?"
+                                        , String.valueOf(consultCato.getCodeType())
+                                        , String.valueOf(consultCato.getCodeId()));
                             }
                         }
                         setCatoView();
 
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(TabMenuActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    AppContext.toastBadJson();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(TabMenuActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+                AppContext.toastBadInternet();
             }
         });
     }
@@ -658,7 +549,7 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
     protected void setCatoView() {
         final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 AppContext.screenWidth / 5, LinearLayout.LayoutParams.MATCH_PARENT);
-        params.setMargins(6, 10, 6, 10);
+        params.setMargins(3, 5, 3, 5);
 
         TextView jzTxt = (TextView) findViewById(R.id.cato_jz);
         TextView zyTxt = (TextView) findViewById(R.id.cato_zy);
@@ -721,24 +612,25 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
             kwLayout.removeAllViews();
         }
 
-        final List<ConsultCato> allCatoJZ = DataSupport.where("code like ?", "j%").find(ConsultCato.class);
-        List<ConsultCato> allCatoZY = DataSupport.where("code like ?", "z%").find(ConsultCato.class);
-        List<ConsultCato> allCatoKW = DataSupport.where("code like ?", "g%").find(ConsultCato.class);
+        final List<ConsultCato> allCatoJZ = DataSupport.where("codeType = ?", String.valueOf(ConsultCatoMainActivity.CATO_JZ)).find(ConsultCato.class);
+        List<ConsultCato> allCatoZY = DataSupport.where("codeType = ?", String.valueOf(ConsultCatoMainActivity.CATO_ZY)).find(ConsultCato.class);
+        List<ConsultCato> allCatoKW = DataSupport.where("codeType = ?", String.valueOf(ConsultCatoMainActivity.CATO_KW)).find(ConsultCato.class);
+
         int length1 = allCatoJZ.size();
         for (int i = 0; i < length1; i++) {
             TextView textView = new TextView(this);
             textView.setLayoutParams(params);
             textView.setTextColor(Color.WHITE);
             final ConsultCato consultCato = allCatoJZ.get(i);
-            textView.setText(consultCato.getNote());
+            textView.setText(consultCato.getCodeValue());
             textView.setGravity(Gravity.CENTER);
             textView.setBackgroundResource(R.drawable.bg_cato_child_rect);
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(TabMenuActivity.this, CatoConsultListActivity.class);
-                    intent.putExtra("search_key_word", consultCato.getNote());
-                    intent.putExtra("code", consultCato.getCode());
+                    intent.putExtra("codeId", consultCato.getCodeId());
+                    intent.putExtra("codeValue", consultCato.getCodeValue());
                     startActivity(intent);
                 }
             });
@@ -750,15 +642,15 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
             textView.setLayoutParams(params);
             textView.setTextColor(Color.WHITE);
             final ConsultCato consultCato = allCatoZY.get(i);
-            textView.setText(consultCato.getNote());
+            textView.setText(consultCato.getCodeValue());
             textView.setGravity(Gravity.CENTER);
             textView.setBackgroundResource(R.drawable.bg_cato_child_rect);
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(TabMenuActivity.this, CatoConsultListActivity.class);
-                    intent.putExtra("search_key_word", consultCato.getNote());
-                    intent.putExtra("code", consultCato.getCode());
+                    intent.putExtra("codeId", consultCato.getCodeId());
+                    intent.putExtra("codeValue", consultCato.getCodeValue());
                     startActivity(intent);
                 }
             });
@@ -771,186 +663,20 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
             textView.setLayoutParams(params);
             textView.setTextColor(Color.WHITE);
             final ConsultCato consultCato = allCatoKW.get(i);
-            textView.setText(consultCato.getNote());
+            textView.setText(consultCato.getCodeValue());
             textView.setGravity(Gravity.CENTER);
             textView.setBackgroundResource(R.drawable.bg_cato_child_rect);
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(TabMenuActivity.this, CatoConsultListActivity.class);
-                    intent.putExtra("search_key_word", consultCato.getNote());
-                    intent.putExtra("code", consultCato.getCode());
+                    intent.putExtra("codeId", consultCato.getCodeId());
+                    intent.putExtra("codeValue", consultCato.getCodeValue());
                     startActivity(intent);
                 }
             });
             kwLayout.addView(textView);
         }
-    }
-
-    private ImageView newsViewI, newsViewII;
-    private TextView newsTextI, newsTextII;
-    private int finalH1, finalW1, finalH2, finalW2;
-
-    /**
-     * 测量需要图文混编的view
-     */
-    private void doAroundTxt(final ImageView imageView, final int viewNum) {
-        final ViewTreeObserver vto = imageView.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-            @Override
-            public void onGlobalLayout() {
-                imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                if (viewNum == 0) {
-                    finalH1 = imageView.getMeasuredHeight();
-                    finalW1 = imageView.getMeasuredWidth();
-                    makeSpan(newsTextI, newsTextI.getText().toString(), finalW1, finalH1);
-                } else {
-                    finalH2 = imageView.getMeasuredHeight();
-                    finalW2 = imageView.getMeasuredWidth();
-                    makeSpan(newsTextII, newsTextII.getText().toString(), finalW2, finalH2);
-                }
-            }
-        });
-    }
-
-    /**
-     * This method builds the text layout
-     */
-    private void makeSpan(TextView textView, String targetTxt, int oViewFinalW, int oViewFinalH) {
-
-        /**
-         * Get the text
-         */
-        Spanned htmlText = Html.fromHtml(targetTxt);
-        SpannableString mSpannableString = new SpannableString(htmlText);
-
-        int allTextStart = 0;
-        int allTextEnd = htmlText.length() - 1;
-
-        /**
-         * Calculate the lines number = image height.
-         * You can improve it... it is just an example
-         */
-        int lines;
-        Rect bounds = new Rect();
-        textView.getPaint().getTextBounds(targetTxt.substring(0, 10), 0, 1, bounds);
-
-        //float textLineHeight = mTextView.getPaint().getTextSize();
-        float fontSpacing = textView.getPaint().getFontSpacing();
-        lines = (int) (oViewFinalH / (fontSpacing));
-
-        /**
-         * Build the layout with LeadingMarginSpan2
-         */
-        MyLeadingMarginSpan2 span = new MyLeadingMarginSpan2(lines, oViewFinalW + 10);
-        mSpannableString.setSpan(span, allTextStart, allTextEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        textView.setText(mSpannableString);
-
-    }
-
-    private String[] imgUrls = new String[3];
-
-    /**
-     * 最近的三张图片新闻（显示在主界面）
-     */
-    private StringRequest getImageNewsPic(String urlStr) {
-
-        return new StringRequest(urlStr, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    JSONArray summaryArray = jsonObject.getJSONObject("datas").getJSONArray("listData");
-                    //图片
-                    int length = summaryArray.length();
-                    for (int i = 0; i < length; i++) {
-                        JSONObject object = summaryArray.getJSONObject(i);
-                        NewsSummary summary = new NewsSummary();
-                        summary.setContent(object.optString("content"));
-                        summary.setCreate_time(object.optString("create_time"));
-                        summary.setArticle_title(object.optString("article_title"));
-                        summary.setHitnum(object.optString("hitnum"));
-                        summary.setThe_id(object.optString("id"));
-                        summary.setFk_create_user_id(object.optString("fk_create_user_id"));
-                        summary.setSource(object.optString("source"));
-                        summary.setEditor(object.optString("editor"));
-                        summary.setAuthor(object.optString("author"));
-                        summary.setStatus(object.optString("status"));
-                        summary.setPic(BaseURLUtil.BASE_URL + object.opt("pic"));
-
-                        if (i == 0) {
-                            imgSummary1 = summary;
-                            imgUrls[0] = summary.getPic();
-                            String str = StringUtils.replaceBlank(Html.fromHtml(summary.getContent()).toString());
-                            newsTextI.setText(str);
-                        } else if (i == 1) {
-                            imgSummary2 = summary;
-                            imgUrls[1] = summary.getPic();
-                            String str = StringUtils.replaceBlank(Html.fromHtml(summary.getContent()).toString());
-                            newsTextII.setText(str);
-                        } else {
-                            break;
-                        }
-                    }
-                    //读取图片
-                    getImageNews();
-
-                } catch (JSONException e) {
-//                    e.printStackTrace();
-                    Toast.makeText(TabMenuActivity.this, "网络错误，请稍后重试！", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
-        });
-    }
-
-    //读取、截图
-    private void getImageNews() {
-        //todo 根据控件、图片的尺寸进行剪裁。   【目前的方式值适用于控件宽:控件高 近似于 图片宽:图片高】
-        for (int i = 0; i < 2; i++) {
-            String urls = imgUrls[i];
-            if (i == 0) {
-                ImageRequest request = new ImageRequest(urls, new Response.Listener<Bitmap>() {
-                    @Override
-                    public void onResponse(Bitmap bitmap) {
-                        Bitmap bitmap1 = BitmapCutUtil.getBitmapCutByViewSize(newsViewI, bitmap);
-                        newsViewI.setImageBitmap(bitmap1);
-                    }
-                }, newsViewI.getWidth(), newsViewI.getHeight(), Bitmap.Config.RGB_565, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-
-                    }
-                });
-                mQueue.add(request);
-            } else if (i == 1) {
-                ImageRequest request = new ImageRequest(urls, new Response.Listener<Bitmap>() {
-                    @Override
-                    public void onResponse(Bitmap bitmap) {
-                        Bitmap bitmap1 = BitmapCutUtil.getBitmapCutByViewSize(newsViewII, bitmap);
-                        newsViewII.setImageBitmap(bitmap1);
-                    }
-                }, newsViewII.getWidth(), newsViewII.getHeight(), Bitmap.Config.RGB_565, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-
-                    }
-                });
-                mQueue.add(request);
-            }
-
-        }
-        //todo 图文混编前测量
-        doAroundTxt(newsViewI, 0);
-        doAroundTxt(newsViewII, 1);
-
     }
 
 }

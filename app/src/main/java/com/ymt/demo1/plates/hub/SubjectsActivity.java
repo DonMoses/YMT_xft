@@ -22,6 +22,7 @@ import com.ymt.demo1.beams.hub.HubPlate;
 import com.ymt.demo1.beams.hub.HubSubjectI;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.baseClasses.BaseFloatActivity;
+import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 
 import org.json.JSONArray;
@@ -157,13 +158,13 @@ public class SubjectsActivity extends BaseFloatActivity {
                         listView.setEmptyView(textView);
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(SubjectsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    AppContext.toastBadJson();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(SubjectsActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+                AppContext.toastBadInternet();
             }
         });
     }

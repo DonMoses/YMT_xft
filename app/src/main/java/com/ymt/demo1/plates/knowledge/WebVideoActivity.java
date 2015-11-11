@@ -21,6 +21,7 @@ public class WebVideoActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_video);
         initView();
+
     }
 
     protected void initView() {

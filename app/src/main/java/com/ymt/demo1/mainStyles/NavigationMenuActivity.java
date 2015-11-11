@@ -39,11 +39,11 @@ import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.CyclePagerAdapter;
 import com.ymt.demo1.beams.consult_cato.ConsultCato;
-import com.ymt.demo1.beams.news.NewsSummary;
+import com.ymt.demo1.beams.news.ImageNewsSummary;
 import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.customViews.IndicatorView;
-import com.ymt.demo1.main.CollectActivity;
 import com.ymt.demo1.main.ShareActivity;
+import com.ymt.demo1.main.collect.CollectActivity;
 import com.ymt.demo1.plates.news.NewsDetailActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
@@ -61,7 +61,7 @@ import com.ymt.demo1.plates.hub.FireHubMainActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeMainActivity;
 import com.ymt.demo1.plates.news.NewsTabActivity;
 import com.ymt.demo1.plates.personal.PersonalPagerTabActivity;
-import com.ymt.demo1.utils.BitmapCutUtil;
+import com.ymt.demo1.utils.bitmap.BitmapCutUtil;
 import com.ymt.demo1.utils.ConnectionActReceiver;
 import com.ymt.demo1.zxing.activity.CaptureActivity;
 
@@ -94,22 +94,20 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        catoList = new ArrayList<>();
         mQueue = Volley.newRequestQueue(this);
         //3个显示在主页的图片新闻
-        imgSummary1 = new NewsSummary();
-        imgSummary2 = new NewsSummary();
-        imgSummary3 = new NewsSummary();
+        imgSummary1 = new ImageNewsSummary();
+        imgSummary2 = new ImageNewsSummary();
+        imgSummary3 = new ImageNewsSummary();
         //注册网络广播监听
         connectionActReceiver = new ConnectionActReceiver();
         connectionActReceiver.setOnConnectionChangeListener(this);
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(connectionActReceiver, filter);
 
-        mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_JZ));
-        mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_ZY));
-        mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_GJC));
-//        mQueue.add(getImageNewsPic(BaseURLUtil.BASE_URL + "/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_news_photo" + "&order=new&start=" + String.valueOf(1)));
+        mQueue.add(getCatoRequest(ConsultCatoMainActivity.CATO_JZ
+                , ConsultCatoMainActivity.CATO_ZY
+                , ConsultCatoMainActivity.CATO_KW));
         //界面风格
         styleChangeListener = this;
         //自动轮播开关
@@ -443,7 +441,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                         startActivity(new Intent(NavigationMenuActivity.this, MoreCatoActivity.class));             //更多
                         break;
                     case R.id.img_news1:
-                        if (TextUtils.isEmpty(imgSummary1.getArticle_title())) {
+                        if (TextUtils.isEmpty(imgSummary1.getArticleTitle())) {
                             return;
                         }
                         Intent intent1 = new Intent(NavigationMenuActivity.this, NewsDetailActivity.class);
@@ -451,7 +449,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                         startActivity(intent1);
                         break;
                     case R.id.img_news2:
-                        if (TextUtils.isEmpty(imgSummary2.getArticle_title())) {
+                        if (TextUtils.isEmpty(imgSummary2.getArticleTitle())) {
                             return;
                         }
                         Intent intent2 = new Intent(NavigationMenuActivity.this, NewsDetailActivity.class);
@@ -459,7 +457,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                         startActivity(intent2);
                         break;
                     case R.id.img_news3:
-                        if (TextUtils.isEmpty(imgSummary3.getArticle_title())) {
+                        if (TextUtils.isEmpty(imgSummary3.getArticleTitle())) {
                             return;
                         }
                         Intent intent3 = new Intent(NavigationMenuActivity.this, NewsDetailActivity.class);
@@ -557,40 +555,48 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
     /**
      * 获取分类列表
      */
-    protected StringRequest getCatoRequest(String type) {
-        return new StringRequest(BaseURLUtil.doTypeAction(type), new Response.Listener<String>() {
+    protected StringRequest getCatoRequest(int... type) {
+        return new StringRequest(BaseURLUtil.getConsultCato(type), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
                     JSONObject object = new JSONObject(s);
                     if (object.getString("result").equals("Y")) {
-                        JSONArray jsonArray = object.getJSONArray("listData");
+                        JSONArray jsonArray = object.getJSONObject("datas").getJSONArray("listData");
                         int length = jsonArray.length();
                         for (int i = 0; i < length; i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             ConsultCato consultCato = new ConsultCato();
-                            consultCato.setCode(jsonObject.getString("code"));
-                            consultCato.setNote(jsonObject.getString("note"));
-                            int savedSize = DataSupport.where("code = ?", jsonObject.getString("code")).find(ConsultCato.class).size();
+                            consultCato.setCodeId(jsonObject.optInt("codeId"));
+                            consultCato.setCodeValue(jsonObject.optString("codeValue"));
+                            consultCato.setCodeType(jsonObject.optInt("codeType"));
+                            int savedSize = DataSupport.where("codeType = ? and codeId = ?"
+                                    , String.valueOf(consultCato.getCodeType())
+                                    , String.valueOf(consultCato.getCodeId())).find(ConsultCato.class).size();
                             if (savedSize == 0) {
                                 consultCato.save();
                             } else {
                                 ContentValues contentValues = new ContentValues();
-                                contentValues.put("note", jsonObject.getString("note"));
-                                DataSupport.updateAll(ConsultCato.class, contentValues, "code = ?", jsonObject.getString("code"));
+                                contentValues.put("codeId", consultCato.getCodeId());
+                                contentValues.put("codeValue", consultCato.getCodeValue());
+                                DataSupport.updateAll(ConsultCato.class, contentValues,
+                                        "codeType = ? and codeId = ?"
+                                        , String.valueOf(consultCato.getCodeType())
+                                        , String.valueOf(consultCato.getCodeId()));
                             }
                         }
                         setCatoView();
 
+
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(NavigationMenuActivity.this, "数据错误，请稍后重试！", Toast.LENGTH_SHORT).show();
+                    AppContext.toastBadJson();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(NavigationMenuActivity.this, "网络错误，请稍后重试！", Toast.LENGTH_SHORT).show();
+                AppContext.toastBadInternet();
             }
         });
     }
@@ -661,24 +667,24 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
             kwLayout.removeAllViews();
         }
 
-        final List<ConsultCato> allCatoJZ = DataSupport.where("code like ?", "j%").find(ConsultCato.class);
-        List<ConsultCato> allCatoZY = DataSupport.where("code like ?", "z%").find(ConsultCato.class);
-        List<ConsultCato> allCatoKW = DataSupport.where("code like ?", "g%").find(ConsultCato.class);
+        List<ConsultCato> allCatoJZ = DataSupport.where("codeType = ?", String.valueOf(ConsultCatoMainActivity.CATO_JZ)).find(ConsultCato.class);
+        List<ConsultCato> allCatoZY = DataSupport.where("codeType = ?", String.valueOf(ConsultCatoMainActivity.CATO_ZY)).find(ConsultCato.class);
+        List<ConsultCato> allCatoKW = DataSupport.where("codeType = ?", String.valueOf(ConsultCatoMainActivity.CATO_KW)).find(ConsultCato.class);
         int length1 = allCatoJZ.size();
         for (int i = 0; i < length1; i++) {
             TextView textView = new TextView(this);
             textView.setLayoutParams(params);
             textView.setTextColor(Color.WHITE);
             final ConsultCato consultCato = allCatoJZ.get(i);
-            textView.setText(consultCato.getNote());
+            textView.setText(consultCato.getCodeValue());
             textView.setGravity(Gravity.CENTER);
             textView.setBackgroundResource(R.drawable.bg_cato_child);
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(NavigationMenuActivity.this, CatoConsultListActivity.class);
-                    intent.putExtra("search_key_word", consultCato.getNote());
-                    intent.putExtra("code", consultCato.getCode());
+                    intent.putExtra("codeId", consultCato.getCodeId());
+                    intent.putExtra("codeValue", consultCato.getCodeValue());
                     startActivity(intent);
                 }
             });
@@ -690,15 +696,15 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
             textView.setLayoutParams(params);
             textView.setTextColor(Color.WHITE);
             final ConsultCato consultCato = allCatoZY.get(i);
-            textView.setText(consultCato.getNote());
+            textView.setText(consultCato.getCodeValue());
             textView.setGravity(Gravity.CENTER);
             textView.setBackgroundResource(R.drawable.bg_cato_child);
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(NavigationMenuActivity.this, CatoConsultListActivity.class);
-                    intent.putExtra("search_key_word", consultCato.getNote());
-                    intent.putExtra("code", consultCato.getCode());
+                    intent.putExtra("codeId", consultCato.getCodeId());
+                    intent.putExtra("codeValue", consultCato.getCodeValue());
                     startActivity(intent);
                 }
             });
@@ -711,15 +717,15 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
             textView.setLayoutParams(params);
             textView.setTextColor(Color.WHITE);
             final ConsultCato consultCato = allCatoKW.get(i);
-            textView.setText(consultCato.getNote());
+            textView.setText(consultCato.getCodeValue());
             textView.setGravity(Gravity.CENTER);
             textView.setBackgroundResource(R.drawable.bg_cato_child);
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(NavigationMenuActivity.this, CatoConsultListActivity.class);
-                    intent.putExtra("search_key_word", consultCato.getNote());
-                    intent.putExtra("code", consultCato.getCode());
+                    intent.putExtra("codeId", consultCato.getCodeId());
+                    intent.putExtra("codeValue", consultCato.getCodeValue());
                     startActivity(intent);
                 }
             });
@@ -745,9 +751,9 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
     private ImageView picViewI;
     private ImageView picViewII;
     private ImageView picViewIII;
-    private NewsSummary imgSummary1;
-    private NewsSummary imgSummary2;
-    private NewsSummary imgSummary3;
+    private ImageNewsSummary imgSummary1;
+    private ImageNewsSummary imgSummary2;
+    private ImageNewsSummary imgSummary3;
 
     private String[] imgUrls = new String[3];
 
@@ -767,37 +773,31 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                     int length = summaryArray.length();
                     for (int i = 0; i < length; i++) {
                         JSONObject object = summaryArray.getJSONObject(i);
-                        NewsSummary summary = new NewsSummary();
+                        ImageNewsSummary summary = new ImageNewsSummary();
                         summary.setContent(object.optString("content"));
-                        summary.setCreate_time(object.optString("create_time"));
-                        summary.setArticle_title(object.optString("article_title"));
-                        summary.setHitnum(object.optString("hitnum"));
                         summary.setThe_id(object.optString("id"));
-                        summary.setFk_create_user_id(object.optString("fk_create_user_id"));
-                        summary.setSource(object.optString("source"));
-                        summary.setEditor(object.optString("editor"));
-                        summary.setAuthor(object.optString("author"));
-                        summary.setStatus(object.optString("status"));
-                        summary.setPic(BaseURLUtil.BASE_URL + object.opt("pic"));
+                        summary.setCreateTime(object.optString("createTime"));
+                        summary.setCover(object.optString("cover"));
+                        summary.setArticleTitle(object.getString("newsTitle"));
 
                         if (i == 0) {
                             imgSummary1 = summary;
                             if (picViewI.getBackground() != null) {
                                 picViewI.setBackgroundDrawable(null);
                             }
-                            imgUrls[0] = summary.getPic();
+                            imgUrls[0] = summary.getCover();
                         } else if (i == 1) {
                             imgSummary2 = summary;
                             if (picViewII.getBackground() != null) {
                                 picViewII.setBackgroundDrawable(null);
                             }
-                            imgUrls[1] = summary.getPic();
+                            imgUrls[1] = summary.getCover();
                         } else if (i == 2) {
                             imgSummary3 = summary;
                             if (picViewIII.getBackground() != null) {
                                 picViewIII.setBackgroundDrawable(null);
                             }
-                            imgUrls[2] = summary.getPic();
+                            imgUrls[2] = summary.getCover();
                         } else {
                             break;
                         }
@@ -806,30 +806,28 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                     getImageNews();
 
                 } catch (JSONException e) {
-//                    e.printStackTrace();
-                    Toast.makeText(NavigationMenuActivity.this, "网络错误，请稍后重试！", Toast.LENGTH_SHORT).show();
+                    AppContext.toastBadJson();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                AppContext.toastBadInternet();
             }
         });
     }
 
     @Override
     public void onConnected() {
-        mQueue.add(getImageNewsPic(BaseURLUtil.BASE_URL + "/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_news_photo" + "&order=new&start=" + String.valueOf(1)));
+        mQueue.add(getImageNewsPic(BaseURLUtil.getImgNews()));
     }
 
-    //读取、截图
     private void getImageNews() {
-        //todo 根据控件、图片的尺寸进行剪裁。   【目前的方式值适用于控件宽:控件高 近似于 图片宽:图片高】
+        // 根据控件、图片的尺寸进行剪裁。   【目前的方式值适用于控件宽:控件高 近似于 图片宽:图片高】
         for (int i = 0; i < 3; i++) {
-            String urls = imgUrls[i];
+            String mapUrl = imgUrls[i];
             if (i == 0) {
-                ImageRequest request = new ImageRequest(urls, new Response.Listener<Bitmap>() {
+                ImageRequest request = new ImageRequest(mapUrl, new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap bitmap) {
                         Bitmap bitmap1 = BitmapCutUtil.getBitmapCutByViewSize(picViewI, bitmap);
@@ -838,12 +836,13 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                 }, picViewI.getWidth(), picViewI.getHeight(), Bitmap.Config.RGB_565, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-
+                        AppContext.toastBadInternet();
                     }
                 });
                 mQueue.add(request);
+
             } else if (i == 1) {
-                ImageRequest request = new ImageRequest(urls, new Response.Listener<Bitmap>() {
+                ImageRequest request = new ImageRequest(mapUrl, new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap bitmap) {
                         Bitmap bitmap1 = BitmapCutUtil.getBitmapCutByViewSize(picViewII, bitmap);
@@ -852,12 +851,12 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                 }, picViewII.getWidth(), picViewII.getHeight(), Bitmap.Config.RGB_565, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-
+                        AppContext.toastBadInternet();
                     }
                 });
                 mQueue.add(request);
             } else if (i == 2) {
-                ImageRequest request = new ImageRequest(urls, new Response.Listener<Bitmap>() {
+                ImageRequest request = new ImageRequest(mapUrl, new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap bitmap) {
                         Bitmap bitmap1 = BitmapCutUtil.getBitmapCutByViewSize(picViewIII, bitmap);
@@ -866,7 +865,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
                 }, picViewIII.getWidth(), picViewIII.getHeight(), Bitmap.Config.RGB_565, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-
+                        AppContext.toastBadInternet();
                     }
                 });
                 mQueue.add(request);

@@ -56,8 +56,8 @@ public class StudyItemDetailActivity extends BaseActivity {
                 //todo 分享内容
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("*/*");
-                intent.putExtra(Intent.EXTRA_SUBJECT, "学习资料-" + studyItem.getArticle_title());
-                intent.putExtra(Intent.EXTRA_TEXT, studyItem.getPdf_id());
+                intent.putExtra(Intent.EXTRA_SUBJECT, "学习资料-" + studyItem.getTitle());
+//                intent.putExtra(Intent.EXTRA_TEXT, studyItem.getPdf_id());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(Intent.createChooser(intent, getTitle()));
             }
@@ -72,24 +72,16 @@ public class StudyItemDetailActivity extends BaseActivity {
 
     protected void initView() {
         final TextView titleView = (TextView) findViewById(R.id.title);
-        final TextView timeView = (TextView) findViewById(R.id.create_time);
+        final TextView srcView = (TextView) findViewById(R.id.create_time);
         final WebView contentView = (WebView) findViewById(R.id.content);
         //所需积分
         final TextView scoreNeed = (TextView) findViewById(R.id.download_file_score_needed);
 
         final Button downBtn = (Button) findViewById(R.id.download_btn);
 
-        titleView.setText(studyItem.getArticle_title() + ".pdf");
-        String author = studyItem.getAuthor();
-        if (!author.equals("无")) {
-            timeView.setText("作者：" + author + "  上传时间：" + studyItem.getCreate_time());
-        } else {
-            timeView.setText("上传时间：" + studyItem.getCreate_time());
-        }
+        srcView.setText(studyItem.getTitle());
+        srcView.setText("资源来自：" + studyItem.getDescs());
 
-        if (!studyItem.getArticle_title().equals(studyItem.getContent())) {
-            contentView.loadDataWithBaseURL(null, studyItem.getContent() + ".pdf", "text/html", "utf-8", null);
-        }
         //todo 下载积分
         scoreNeed.setText(String.valueOf(0));
 
@@ -118,8 +110,8 @@ public class StudyItemDetailActivity extends BaseActivity {
                         switch (action) {
                             case "确定":
                                 Toast.makeText(StudyItemDetailActivity.this, "确定", Toast.LENGTH_LONG).show();
-                                downloadBZGFFile(studyItem.getArticle_title() + ".pdf", studyItem.getPdf_id());
-
+//                                downloadBZGFFile(studyItem.getTitle() + ".pdf", studyItem.getPdfId());
+                                //// TODO: 2015/11/10  接口待修复
                                 break;
                             case "取消":
                                 Toast.makeText(StudyItemDetailActivity.this, "取消", Toast.LENGTH_SHORT).show();

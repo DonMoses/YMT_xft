@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -16,7 +17,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.expert_consult.QQChatInfo;
 import com.ymt.demo1.main.floatWindow.FloatWindowService;
 import com.ymt.demo1.mainStyles.CircleMenuActivity;
 import com.ymt.demo1.mainStyles.NavigationMenuActivity;
@@ -26,7 +26,6 @@ import com.ymt.demo1.utils.BaseURLUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.litepal.crud.DataSupport;
 import org.litepal.tablemanager.Connector;
 
 /**
@@ -42,11 +41,13 @@ public class MainActivity extends Activity {
     public static final String FIRST_LAUNCH_KEY = "first_launch_key";
 
     private SharedPreferences sharedPreferences;
+
     private RequestQueue mQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Connector.getDatabase();
         SharedPreferences preferences = getSharedPreferences(SETTING_PREFERENCES, MODE_PRIVATE);
         boolean isFirstLaunch = preferences.getBoolean(MainActivity.FIRST_LAUNCH_KEY, true);
         if (isFirstLaunch) {
@@ -55,10 +56,9 @@ public class MainActivity extends Activity {
         } else {
             chooseLaunchStyle();                                        //常规启动
         }
-        
+
         startService(new Intent(this, FloatWindowService.class));
 
-        Connector.getDatabase();
         sharedPreferences = AppContext.getSaveAccountPreferences(this);
         mQueue = Volley.newRequestQueue(this);
 
@@ -118,51 +118,62 @@ public class MainActivity extends Activity {
     /**
      * 自动登录
      */
-    protected StringRequest signInRequest(final String userName, final String psw) {
-        String url = BaseURLUtil.doSignIn(userName, psw);
+    protected StringRequest signInRequest(final String account, final String psw) {
+        String url = BaseURLUtil.doSignIn(account, psw);
+//        Log.e("TAG", " login in url:  " + url);
 
         StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
-                    if (jsonObject.getString("result").equals("Y")) {
-                        //登录成功
-                        Toast.makeText(MainActivity.this, R.string.sign_in_ok, Toast.LENGTH_SHORT).show();
-                        //将账号Account信息加入到全局Application中
+
+                    if (jsonObject.getString("result").equals("N")) {
+
+                        Toast.makeText(MainActivity.this, "登陆失败！", Toast.LENGTH_SHORT).show();
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("account", userName);
+                        editor.putString("account", account);
                         editor.putString("password", psw);
-                        editor.putString("now_user_id", jsonObject.getString("id"));
-                        editor.putString("now_session_id", jsonObject.getString("sId"));
+                        editor.putString("now_user_id", "");
+                        editor.putString("now_session_id", "");
                         editor.apply();
 
-                         /*
-                        如果更改账号登录，则删除前一账号的QQ信息
-                         */
-                        String savedUserId = sharedPreferences.getString("now_user_id", "");
-                        if ((!TextUtils.isEmpty(savedUserId)) && (!savedUserId.equals(jsonObject.getString("id")))) {
-                            DataSupport.deleteAll(QQChatInfo.class);
-//                            Log.e("TAG", "do deleteAll>>>>>>>QQ>>>>>>>>>>");
-                        }
+                        AppContext.now_session_id = "";
+                        AppContext.now_user_id = 0;
+                        AppContext.now_user_name = "";
 
-                        AppContext.now_session_id = jsonObject.getString("sId");
-                        AppContext.now_user_id = jsonObject.getString("id");
-                        AppContext.now_user_name = userName;
-                        Intent intent = new Intent(MainActivity.this, QQUnreadMsgService.class);
-                        startService(intent);
+                    } else if (jsonObject.getString("result").equals("Y")) {
+
+                        //登录成功
+                        Toast.makeText(MainActivity.this, R.string.sign_in_ok, Toast.LENGTH_SHORT).show();
+                        JSONObject listData = jsonObject.getJSONObject("datas").getJSONObject("listData");
+                        int userId = listData.optInt("uid");
+                        String userSId = listData.optString("sId");
+
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("account", account);
+                        editor.putString("password", psw);
+                        editor.putInt("now_user_id", userId);
+                        editor.putString("now_session_id", userSId);
+                        editor.apply();
+
+                        AppContext.now_session_id = userSId;
+                        AppContext.now_user_id = userId;
+                        AppContext.now_user_name = account;
 
                         mQueue.add(AppContext.getHeader(jsonObject.optString("headPic")));
+
+                        MainActivity.this.finish();
                     }
+
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
-                chooseLaunchStyle();        //成功登录，跳转到主界面
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                chooseLaunchStyle();        //未成功登录，仍调到主界面
+                AppContext.toastBadInternet();
             }
         });
 

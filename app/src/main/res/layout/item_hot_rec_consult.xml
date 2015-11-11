@@ -1,53 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/nearly_consult_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="3dp"
     android:layout_weight="1.2"
-    android:background="@android:color/white"
-    android:minHeight="72dp"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:background="@android:color/white">
 
     <TextView
         android:id="@+id/consult_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_marginTop="3.2dp"
         android:ellipsize="end"
         android:hint="最近咨询 title"
         android:maxLength="78"
+        android:paddingLeft="3.09dp"
+        android:paddingRight="3.09dp"
         android:singleLine="true"
-        android:textColor="@color/material_blue_grey_800"
-        android:textColorHint="@android:color/darker_gray"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/consult_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/consult_title"
-        android:gravity="end"
-        android:hint="2015-6-15"
-        android:layout_marginTop="3.09dp"
         android:textColor="@color/material_blue_grey_800"
         android:textColorHint="@android:color/darker_gray"
         android:textSize="13sp" />
 
-    <TextView
-        android:id="@+id/consult_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/consult_time"
-        android:layout_marginTop="6.18dp"
-        android:ellipsize="middle"
-        android:hint="最近咨询 content"
-        android:maxLength="120"
-        android:maxLines="3"
-        android:textColor="@android:color/darker_gray"
-        android:textColorHint="@android:color/darker_gray"
-        android:textSize="12.5sp" />
-
-</RelativeLayout>
+</LinearLayout>

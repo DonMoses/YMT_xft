@@ -151,8 +151,8 @@ public class ExportBookingListAdapter extends BaseExpandableListAdapter {
         switch (bookingType) {
             case PAST_BOOKING:
                 Picasso.with(context).load(childList.get(groupPosition).
-                        get(childPosition).getExpert().getHead_pic()).into(pastHolder.exportHeader);
-                pastHolder.exportName.setText(childList.get(groupPosition).get(childPosition).getExpert().getUser_name());
+                        get(childPosition).getExpert().getHeadPic()).into(pastHolder.exportHeader);
+                pastHolder.exportName.setText(childList.get(groupPosition).get(childPosition).getExpert().getUsername());
                 pastHolder.bookingDate.setText(childList.get(groupPosition).get(childPosition).getDate());
                 pastHolder.exportHeader.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -165,9 +165,9 @@ public class ExportBookingListAdapter extends BaseExpandableListAdapter {
                 break;
             case RECENT_BOOKING:
                 Picasso.with(context).load(childList.get(groupPosition).get(childPosition).
-                        getExpert().getHead_pic()).into(recentHolder.exportHeader);
+                        getExpert().getHeadPic()).into(recentHolder.exportHeader);
                 recentHolder.exportName.setText(
-                        childList.get(groupPosition).get(childPosition).getExpert().getUser_name());
+                        childList.get(groupPosition).get(childPosition).getExpert().getUsername());
                 recentHolder.bookingDate.setText(
                         childList.get(groupPosition).get(childPosition).getDate());
                 recentHolder.bookingDateHour.setText(

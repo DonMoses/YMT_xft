@@ -11,14 +11,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.consult_cato.SearchedConsult;
+import com.ymt.demo1.beams.consult_cato.ConsultItem;
 import com.ymt.demo1.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchedConsultAdapter extends BaseAdapter {
-    List<SearchedConsult> list = new ArrayList<>();
+    List<ConsultItem> list = new ArrayList<>();
     LayoutInflater inflater;
     Context context;
 
@@ -27,7 +27,7 @@ public class SearchedConsultAdapter extends BaseAdapter {
         this.context = context;
     }
 
-    public void setList(List<SearchedConsult> list) {
+    public void setList(List<ConsultItem> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -57,21 +57,24 @@ public class SearchedConsultAdapter extends BaseAdapter {
             viewHolder.content = (TextView) convertView.findViewById(R.id.content);
             viewHolder.commentBtn = (ImageButton) convertView.findViewById(R.id.comment_btn);
             viewHolder.commentedCount = (TextView) convertView.findViewById(R.id.comment_count);
+            viewHolder.time = (TextView) convertView.findViewById(R.id.time);
 
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.title.setText(list.get(position).getArticle_title());
-        viewHolder.content.setText(StringUtils.replaceBlank(Html.fromHtml(list.get(position).getArticle_content()).toString()));
-        viewHolder.commentedCount.setText(String.valueOf(list.get(position).getHitnum()) + "人");
+        viewHolder.title.setText(list.get(position).getTitle());
+        viewHolder.content.setText(StringUtils.replaceBlank(Html.fromHtml(list.get(position).getItContent()).toString()));
+        viewHolder.commentedCount.setText(String.valueOf(list.get(position).getViews()) + "人");
         viewHolder.commentBtn.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_comment_normal));
+        viewHolder.time.setText(list.get(position).getCreateTime());
 
         return convertView;
     }
 
     class ViewHolder {
+        TextView time;
         TextView title;
         TextView content;
         ImageButton commentBtn;

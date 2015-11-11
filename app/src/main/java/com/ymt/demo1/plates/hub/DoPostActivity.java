@@ -142,15 +142,14 @@ public class DoPostActivity extends BaseFloatActivity {
                         finish();
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(DoPostActivity.this, "网络问题，请稍后再试!", Toast.LENGTH_SHORT).show();
+                    AppContext.toastBadJson();
                 }
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(DoPostActivity.this, "网络问题，请稍后再试!", Toast.LENGTH_SHORT).show();
+                AppContext.toastBadInternet();
             }
         });
     }

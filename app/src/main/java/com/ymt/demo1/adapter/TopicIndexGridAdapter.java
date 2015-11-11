@@ -26,8 +26,8 @@ import java.util.ArrayList;
  */
 
 public class TopicIndexGridAdapter extends BaseAdapter {
-    ArrayList<String> mList = new ArrayList<>();
-    ArrayList<String> exceptList = new ArrayList<>();
+    ArrayList<Integer> mList = new ArrayList<>();
+    ArrayList<Integer> exceptList = new ArrayList<>();
     Context context;
     LayoutInflater inflater;
     private int hidePosition = AdapterView.INVALID_POSITION;
@@ -77,7 +77,7 @@ public class TopicIndexGridAdapter extends BaseAdapter {
         return mList.get(position);
     }
 
-    public void setList(ArrayList<String> mList, ArrayList<String> exceptList) {
+    public void setList(ArrayList<Integer> mList, ArrayList<Integer> exceptList) {
         this.mList = mList;
         this.exceptList = exceptList;
         notifyDataSetChanged();
@@ -143,12 +143,12 @@ public class TopicIndexGridAdapter extends BaseAdapter {
     public void swapView(int draggedPos, int destPos) {
         //从前向后拖动，其他item依次前移
         if (draggedPos < destPos) {
-            mList.add(destPos + 1, getItem(draggedPos).toString());
+            mList.add(destPos + 1, (Integer) getItem(draggedPos));
             mList.remove(draggedPos);
         }
         //从后向前拖动，其他item依次后移
         else if (draggedPos > destPos) {
-            mList.add(destPos, getItem(draggedPos).toString());
+            mList.add(destPos, (Integer) getItem(draggedPos));
             mList.remove(draggedPos + 1);
         }
         hidePosition = destPos;

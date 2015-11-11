@@ -44,6 +44,10 @@ public class FloatMenuActivity extends Activity {
      * 记录小窗的位置
      */
     private WindowManager.LayoutParams params;
+    /**
+     * 是否拖动的开关
+     */
+    private boolean isMoved;
 
     int screenWidth = 0;
     int screenHeight = 0;
@@ -181,6 +185,7 @@ public class FloatMenuActivity extends Activity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        isMoved = false;
                         rawX1 = event.getRawX();
                         rawY1 = event.getRawY();
                         vX = circleMenuLayout.getX();
@@ -190,6 +195,7 @@ public class FloatMenuActivity extends Activity {
                         }
                         break;
                     case MotionEvent.ACTION_MOVE:
+                        isMoved = true;
                         rawX2 = event.getRawX();
                         rawY2 = event.getRawY();
                         circleMenuLayout.setX(vX + (rawX2 - rawX1));
@@ -215,7 +221,16 @@ public class FloatMenuActivity extends Activity {
                     default:
                         break;
                 }
-                return true;
+                return isMoved;
+            }
+        });
+
+        centerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyWindowManager.removeBigWindow();
+                MyWindowManager.removeSmallWindow(AppContext.getContext());
+                MyWindowManager.createSmallWindow(AppContext.getContext());
             }
         });
 

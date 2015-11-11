@@ -258,7 +258,7 @@ public class MyHubFragment extends BaseFragment {
                         hubPostAdapter.setSubjects(postList);
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
 
                 pullToRefreshListView.onRefreshComplete();
@@ -266,6 +266,7 @@ public class MyHubFragment extends BaseFragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                AppContext.toastBadInternet();
                 pullToRefreshListView.onRefreshComplete();
             }
         });
@@ -304,7 +305,7 @@ public class MyHubFragment extends BaseFragment {
                         hubReplyAdapter.setSubjects(replyList);
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
 
                 pullToRefreshListView.onRefreshComplete();
@@ -312,6 +313,7 @@ public class MyHubFragment extends BaseFragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                AppContext.toastBadInternet();
                 pullToRefreshListView.onRefreshComplete();
             }
         });
@@ -350,13 +352,13 @@ public class MyHubFragment extends BaseFragment {
                         hubSysInfoAdapter.setSubjects(sysInfoList);
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                AppContext.toastBadInternet();
             }
         });
     }

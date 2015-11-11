@@ -21,6 +21,7 @@ import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.consult_cato.ConsultCato;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.search.SearchActivity;
+import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 
 import org.json.JSONArray;
@@ -42,15 +43,16 @@ public class ConsultCatoMainActivity extends BaseActivity {
     private List<List<ConsultCato>> childList;
     private ExpandableListView expandableListView;
     private int expandIndex;
+    public static final int CATO_JZ = 6;
+    public static final int CATO_ZY = 7;
+    public static final int CATO_KW = 8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consult_cato_main);
         RequestQueue mQueue = Volley.newRequestQueue(this);
-        mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_JZ));
-        mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_ZY));
-        mQueue.add(getCatoRequest(BaseURLUtil.PUB_ZX_GJC));
+        mQueue.add(getCatoRequest(CATO_JZ, CATO_ZY, CATO_KW));
         expandIndex = getIntent().getIntExtra("expand_index", 0);
         myHandler = new MyHandler(this);
         initTitle();
@@ -95,14 +97,13 @@ public class ConsultCatoMainActivity extends BaseActivity {
         parentList.add("关键词");
         //二级列表
         childList = new ArrayList<>();
-        List<ConsultCato> constList = DataSupport.where("code like ?", "j%").find(ConsultCato.class);
-        List<ConsultCato> profList = DataSupport.where("code like ?", "z%").find(ConsultCato.class);
-        List<ConsultCato> keyWordList = DataSupport.where("code like ?", "g%").find(ConsultCato.class);
+        List<ConsultCato> constList = DataSupport.where("codeType = ?", String.valueOf(ConsultCatoMainActivity.CATO_JZ)).find(ConsultCato.class);
+        List<ConsultCato> profList = DataSupport.where("codeType = ?", String.valueOf(ConsultCatoMainActivity.CATO_ZY)).find(ConsultCato.class);
+        List<ConsultCato> keyWordList = DataSupport.where("codeType = ?", String.valueOf(ConsultCatoMainActivity.CATO_KW)).find(ConsultCato.class);
 
         childList.add(constList);
         childList.add(profList);
         childList.add(keyWordList);
-        //todo 模拟取数据，设置0.2s 延时
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -133,10 +134,9 @@ public class ConsultCatoMainActivity extends BaseActivity {
                 ConsultCatoExpandListAdapter adapter = (ConsultCatoExpandListAdapter) parent.getExpandableListAdapter();
                 ConsultCato consultCato = (ConsultCato) adapter.getChild(groupPosition, childPosition);
                 Intent intent = new Intent(ConsultCatoMainActivity.this, CatoConsultListActivity.class);
-                intent.putExtra("search_key_word", consultCato.getNote());
-                intent.putExtra("code", consultCato.getCode());
+                intent.putExtra("codeId", consultCato.getCodeId());
+                intent.putExtra("codeValue", consultCato.getCodeValue());
                 startActivity(intent);
-//                Toast.makeText(ConsultCatoMainActivity.this, txt, Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -147,7 +147,6 @@ public class ConsultCatoMainActivity extends BaseActivity {
         consultCatoExpandListAdapter.setList(parentList, childList);
         //默认选中第一栏
         expandableListView.expandGroup(expandIndex);
-
     }
 
     static class MyHandler extends Handler {
@@ -171,44 +170,51 @@ public class ConsultCatoMainActivity extends BaseActivity {
                 }
             }
         }
+
     }
 
     /**
      * 获取分类列表
      */
-    protected StringRequest getCatoRequest(String type) {
-        return new StringRequest(BaseURLUtil.doTypeAction(type), new Response.Listener<String>() {
+    protected StringRequest getCatoRequest(int... type) {
+        return new StringRequest(BaseURLUtil.getConsultCato(type), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
                     JSONObject object = new JSONObject(s);
                     if (object.getString("result").equals("Y")) {
-                        JSONArray jsonArray = object.getJSONArray("listData");
+                        JSONArray jsonArray = object.getJSONObject("datas").getJSONArray("listData");
                         int length = jsonArray.length();
                         for (int i = 0; i < length; i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             ConsultCato consultCato = new ConsultCato();
-                            consultCato.setCode(jsonObject.getString("code"));
-                            consultCato.setNote(jsonObject.getString("note"));
-                            int savedSize = DataSupport.where("code = ?", jsonObject.getString("code")).find(ConsultCato.class).size();
+                            consultCato.setCodeId(jsonObject.optInt("codeId"));
+                            consultCato.setCodeValue(jsonObject.optString("codeValue"));
+                            consultCato.setCodeType(jsonObject.optInt("codeType"));
+                            int savedSize = DataSupport.where("codeType = ? and codeId = ?"
+                                    , String.valueOf(consultCato.getCodeType())
+                                    , String.valueOf(consultCato.getCodeId())).find(ConsultCato.class).size();
                             if (savedSize == 0) {
                                 consultCato.save();
                             } else {
                                 ContentValues contentValues = new ContentValues();
-                                contentValues.put("note", jsonObject.getString("note"));
-                                DataSupport.updateAll(ConsultCato.class, contentValues, "code = ?", jsonObject.getString("code"));
+                                contentValues.put("codeId", consultCato.getCodeId());
+                                contentValues.put("codeValue", consultCato.getCodeValue());
+                                DataSupport.updateAll(ConsultCato.class, contentValues, "codeType = ? and codeId = ?"
+                                        , String.valueOf(consultCato.getCodeType())
+                                        , String.valueOf(consultCato.getCodeId()));
                             }
                         }
 
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(ConsultCatoMainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    AppContext.toastBadJson();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(ConsultCatoMainActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+                AppContext.toastBadInternet();
             }
         });
     }

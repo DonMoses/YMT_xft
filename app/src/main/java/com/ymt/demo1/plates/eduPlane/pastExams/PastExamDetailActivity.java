@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.PopupWindow;
@@ -22,6 +23,7 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.edu.PastExamItem;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.utils.PopActionListener;
 import com.ymt.demo1.utils.PopActionUtil;
@@ -33,14 +35,14 @@ import org.json.JSONObject;
  * Created by Dan on 2015/4/29
  */
 public class PastExamDetailActivity extends BaseActivity {
-    private PastExamItem examItem;
-    public static final String TABLE_PAST_EXAM_TYPE = "xf_article_e_history";
+    private String historyId;
     private RequestQueue mQueue;
+    private String examPdfId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        examItem = getIntent().getParcelableExtra("exam");
+        historyId = getIntent().getStringExtra("historyId");
         mQueue = Volley.newRequestQueue(this);
         setContentView(R.layout.activity_download_layout_pdf);
         initTitle();
@@ -64,7 +66,7 @@ public class PastExamDetailActivity extends BaseActivity {
             @Override
             public void onRightLClick() {
                 //收藏
-                mQueue.add(doCollect(examItem.getThe_id()));
+                mQueue.add(doCollect(historyId, AppContext.now_session_id));
             }
 
             @Override
@@ -81,29 +83,24 @@ public class PastExamDetailActivity extends BaseActivity {
         });
     }
 
+    private TextView titleView;
+    private TextView timeView;
+    private WebView contentView;
+    //所需积分
+    private TextView scoreNeed;
+
     protected void initView() {
-        final TextView titleView = (TextView) findViewById(R.id.title);
-        final TextView timeView = (TextView) findViewById(R.id.create_time);
-        final WebView contentView = (WebView) findViewById(R.id.content);
-        //所需积分
-        final TextView scoreNeed = (TextView) findViewById(R.id.download_file_score_needed);
-
         final Button downBtn = (Button) findViewById(R.id.download_btn);
+        titleView = (TextView) findViewById(R.id.title);
+        timeView = (TextView) findViewById(R.id.create_time);
+        contentView = (WebView) findViewById(R.id.content);
 
-        titleView.setText(examItem.getArticle_title());
-        timeView.setText(examItem.getCreate_time());
-        scoreNeed.setText("0");
-        contentView.loadDataWithBaseURL(null, examItem.getArticle_title() + ".pdf", "text/html", "utf-8", null);
+        scoreNeed = (TextView) findViewById(R.id.download_file_score_needed);
 
-
-//        //热门话题GridView
-//        final GridView hotCommentGrid = (GridView) findViewById(R.id.hot_comment_grid_view);
-
-        //下载按钮监听
         downBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //下载事件
                 //设置背景颜色变暗
                 final WindowManager.LayoutParams lp =
                         PastExamDetailActivity.this.getWindow().getAttributes();
@@ -121,7 +118,9 @@ public class PastExamDetailActivity extends BaseActivity {
                         switch (action) {
                             case "确定":
                                 Toast.makeText(PastExamDetailActivity.this, "确定", Toast.LENGTH_LONG).show();
-                                downloadBZGFFile(examItem.getArticle_title() + ".pdf", examItem.getPdf_id());
+                                if (AppContext.internetAvialable() && examPdfId != null) {
+                                    downloadBZGFFile(titleView.getText().toString() + ".pdf", examPdfId);
+                                }
                                 break;
                             case "取消":
                                 Toast.makeText(PastExamDetailActivity.this, "取消", Toast.LENGTH_SHORT).show();
@@ -141,11 +140,14 @@ public class PastExamDetailActivity extends BaseActivity {
             }
         });
 
+        mQueue.add(getExamDetail(historyId));
+
     }
 
     protected void downloadBZGFFile(String name, String pdf_id) {
+        //下载
         DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-        Uri uri = Uri.parse(BaseURLUtil.PDF_BASE + pdf_id);
+        Uri uri = Uri.parse(BaseURLUtil.getEduPdf(pdf_id));
 //        Uri uri = Uri.parse("http://tingge.5nd.com/20060919/2015/2015-7-8/67322/1.Mp3");
         DownloadManager.Request request = new DownloadManager.Request(uri);
 
@@ -164,8 +166,9 @@ public class PastExamDetailActivity extends BaseActivity {
         //TODO 把id保存好，在接收者里面要用，最好保存在Preferences里面
     }
 
-    protected StringRequest doCollect(String article_id) {
-        return new StringRequest(BaseURLUtil.doCollect(TABLE_PAST_EXAM_TYPE, article_id), new Response.Listener<String>() {
+    protected StringRequest doCollect(String examId, String sId) {
+        //todo 收藏
+        return new StringRequest(BaseURLUtil.collectPastExam(examId, sId), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -174,15 +177,206 @@ public class PastExamDetailActivity extends BaseActivity {
                         Toast.makeText(PastExamDetailActivity.this, "收藏成功！", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(PastExamDetailActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+                AppContext.toastBadInternet();
             }
         });
+    }
+
+    private StringRequest getExamDetail(final String examId) {
+        //获取试题详情
+        return new StringRequest(BaseURLUtil.getPastExamDetailById(examId), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONObject object = jsonObject.getJSONObject("datas").getJSONObject("listData");
+                    ExamInfo examInfo = new ExamInfo();
+                    examInfo.setColumnType(object.optString("columnType"));
+                    examInfo.setDescs(object.optString("descs"));
+                    examInfo.setDownNum(object.optInt("downNum"));
+                    examInfo.setHistoryId(object.optString("historyId"));
+                    examInfo.setModel(object.optInt("model"));
+                    examInfo.setOpTime(object.optString("opTime"));
+                    examInfo.setReplays(object.optInt("replays"));
+                    examInfo.setScore(object.optInt("score"));
+                    examInfo.setSubId(object.optInt("subId"));
+                    examInfo.setTitle(object.optString("title"));
+                    examInfo.setUrl(object.optString("url"));
+                    examInfo.setViews(object.optInt("views"));
+                    examInfo.setYuer(object.optString("yuer"));
+                    //// TODO: 2015/11/5 更新试卷信息
+                    titleView.setText(examInfo.getTitle());
+                    timeView.setText(examInfo.getOpTime() + "上传");
+                    scoreNeed.setText(examInfo.getScore() + "分");
+                    loadPDF2(contentView, BaseURLUtil.getEduPdf(examInfo.getUrl()));
+                    examPdfId = examInfo.getUrl();
+                } catch (JSONException e) {
+                    AppContext.toastBadJson();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                AppContext.toastBadInternet();
+            }
+        });
+    }
+
+    class ExamInfo {
+        private String columnType;
+        private String descs;
+        private int downNum;
+        private String historyId;
+        private int model;
+        private String opTime;
+        private int replays;
+        private int score;
+        private int subId;
+        private String title;
+        private String url;
+        private int views;
+        private String yuer;
+
+        public String getColumnType() {
+            return columnType;
+        }
+
+        public void setColumnType(String columnType) {
+            this.columnType = columnType;
+        }
+
+        public String getDescs() {
+            return descs;
+        }
+
+        public void setDescs(String descs) {
+            this.descs = descs;
+        }
+
+        public int getDownNum() {
+            return downNum;
+        }
+
+        public void setDownNum(int downNum) {
+            this.downNum = downNum;
+        }
+
+        public String getHistoryId() {
+            return historyId;
+        }
+
+        public void setHistoryId(String historyId) {
+            this.historyId = historyId;
+        }
+
+        public int getModel() {
+            return model;
+        }
+
+        public void setModel(int model) {
+            this.model = model;
+        }
+
+        public String getOpTime() {
+            return opTime;
+        }
+
+        public void setOpTime(String opTime) {
+            this.opTime = opTime;
+        }
+
+        public int getReplays() {
+            return replays;
+        }
+
+        public void setReplays(int replays) {
+            this.replays = replays;
+        }
+
+        public int getScore() {
+            return score;
+        }
+
+        public void setScore(int score) {
+            this.score = score;
+        }
+
+        public int getSubId() {
+            return subId;
+        }
+
+        public void setSubId(int subId) {
+            this.subId = subId;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public int getViews() {
+            return views;
+        }
+
+        public void setViews(int views) {
+            this.views = views;
+        }
+
+        public String getYuer() {
+            return yuer;
+        }
+
+        public void setYuer(String yuer) {
+            this.yuer = yuer;
+        }
+    }
+
+    //方法1:利用设备自带浏览器打开pdf
+    private void loadPDF1(WebView mWebView, String pdfUrl) {
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.getSettings().setSupportZoom(true);
+        mWebView.getSettings().setDomStorageEnabled(true);
+        mWebView.getSettings().setAllowFileAccess(true);
+        mWebView.getSettings().setUseWideViewPort(true);
+        mWebView.getSettings().setBuiltInZoomControls(true);
+        mWebView.requestFocus();
+        mWebView.getSettings().setLoadWithOverviewMode(true);
+        mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        mWebView.loadUrl("http://docs.google.com/gview?embedded=true&url=" + pdfUrl);
+
+    }
+
+    //方法2:利用Google服务解析后再在mWebView中打开pdf
+    private void loadPDF2(WebView mWebView, String pdfUrl) {
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.getSettings().setSupportZoom(true);
+        mWebView.getSettings().setDomStorageEnabled(true);
+        mWebView.getSettings().setAllowFileAccess(true);
+        mWebView.getSettings().setUseWideViewPort(true);
+        mWebView.getSettings().setBuiltInZoomControls(true);
+        mWebView.requestFocus();
+        mWebView.getSettings().setLoadWithOverviewMode(true);
+        mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        String data = "<iframe src='http://docs.google.com/gview?embedded=true&url=" + pdfUrl + "'" + " width='100%' height='100%' style='border: none;'></iframe>";
+        mWebView.loadData(data, "text/html", "UTF-8");
+
     }
 
 }

@@ -3,6 +3,7 @@ package com.ymt.demo1.plates.consultCato;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -17,8 +18,9 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.SearchedConsultAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
-import com.ymt.demo1.beams.consult_cato.SearchedConsult;
+import com.ymt.demo1.beams.consult_cato.ConsultItem;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.main.search.SearchActivity;
 
@@ -33,11 +35,11 @@ import java.util.List;
  * Created by Dan on 2015/5/4
  */
 public class CatoConsultListActivity extends BaseActivity {
-    private String consult_key_word;
+    private int codeId;
     private int startIndex;
     private SearchedConsultAdapter adapter;
     private RequestQueue mQueue;
-    private String typeCode;
+    private String codeValue;
     private PullToRefreshListView listView;
 
     @Override
@@ -45,11 +47,10 @@ public class CatoConsultListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         mQueue = Volley.newRequestQueue(this);
-        consult_key_word = intent.getStringExtra("search_key_word");
-        typeCode = intent.getStringExtra("code");
-        mQueue.add(getConsultRequest(5, startIndex, typeCode, ""));
-//        Log.e("TAG", ">>>>>>>>>>>>>>>>>" + typeCode);
+        codeId = intent.getIntExtra("codeId", 0);
+        codeValue = intent.getStringExtra("codeValue");
         startIndex = 1;
+        mQueue.add(getConsultRequest(startIndex, codeId));
         setContentView(R.layout.activity_cato_consult_list);
         initTitle();
         initView();
@@ -62,7 +63,7 @@ public class CatoConsultListActivity extends BaseActivity {
         final MyTitle title = (MyTitle) findViewById(R.id.my_title);
         title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
 
-        title.updateCenterTitle(consult_key_word);     //设置title
+        title.updateCenterTitle(codeValue);     //设置title
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
             public void onClick() {
@@ -93,25 +94,24 @@ public class CatoConsultListActivity extends BaseActivity {
 
         //延时进度条
         ProgressBar progressBar = new ProgressBar(this);
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(AppContext.screenWidth / 8, AppContext.screenWidth / 8);
+        progressBar.setLayoutParams(layoutParams);
         progressBar.setIndeterminate(false);
         listView.setEmptyView(progressBar);
         adapter = new SearchedConsultAdapter(this);
         listView.setAdapter(adapter);
 
         //todo 从数据库获取已保存的咨询
-        List<SearchedConsult> mConsultList = DataSupport.where("consult_key_word = ?", consult_key_word).find(SearchedConsult.class);
+        List<ConsultItem> mConsultList = DataSupport.where("codeId = ?", String.valueOf(codeId)).find(ConsultItem.class);
         adapter.setList(mConsultList);
 
         //设置listView点击事件
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Log.e("TAG", ">>>>>>>>>>>>>>search_item>>>>" + position);
                 //todo 跳转到具体内容界面
                 Intent intent = new Intent(CatoConsultListActivity.this, ConsultDetailActivity.class);
-                intent.putExtra("search_key_word", consult_key_word);
-                intent.putExtra("title", ((SearchedConsult) parent.getAdapter().getItem(position)).getArticle_title());
-                intent.putExtra("content", ((SearchedConsult) parent.getAdapter().getItem(position)).getArticle_content());
+                intent.putExtra("item", ((ConsultItem) parent.getAdapter().getItem(position)));
                 startActivity(intent);
             }
         });
@@ -120,16 +120,22 @@ public class CatoConsultListActivity extends BaseActivity {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 //下拉刷新
-                startIndex = 1;
-                DataSupport.deleteAll(SearchedConsult.class);
-                mQueue.add(getConsultRequest(5, startIndex, typeCode, ""));
+                if (AppContext.internetAvialable()) {
+                    startIndex = 1;
+                    DataSupport.deleteAll(ConsultItem.class);
+                    mQueue.add(getConsultRequest(startIndex, codeId));
+                }
+
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 //上拉加载更多
-                startIndex++;
-                mQueue.add(getConsultRequest(5, startIndex, typeCode, ""));
+                if (AppContext.internetAvialable()) {
+                    startIndex++;
+                    mQueue.add(getConsultRequest(startIndex, codeId));
+                }
+
             }
         });
     }
@@ -137,52 +143,48 @@ public class CatoConsultListActivity extends BaseActivity {
     /**
      * 根据关键字从网络获取咨询、并保存到数据库
      */
-    protected StringRequest getConsultRequest(int pageSize, int start, String typeCode, String searchWhat) {
-//        Log.e("TAG", ">>>>>>>>url>>>>>>>>>" + BaseURLUtil.doTypeContentListAction(pageSize, start, typeCode, searchWhat));
-        return new StringRequest(BaseURLUtil.doTypeContentListAction(pageSize, start, typeCode, searchWhat), new Response.Listener<String>() {
+    protected StringRequest getConsultRequest(int start, int... typeCode) {
+        return new StringRequest(BaseURLUtil.getTypedCatoList(start, typeCode), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-//                Log.e("TAG", ">>>>>>>>>>>>>>>>>" + s);
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     if (jsonObject.getString("result").equals("Y")) {
-                        JSONObject jsonObject1 = jsonObject.getJSONObject("datas");
-                        JSONArray jsonArray = jsonObject1.getJSONArray("listData");
+                        JSONArray jsonArray = jsonObject.getJSONObject("datas").getJSONArray("listData");
                         int length = jsonArray.length();
 
                         for (int i = 0; i < length; i++) {
                             JSONObject object = jsonArray.getJSONObject(i);
-                            SearchedConsult consult = new SearchedConsult();
-                            String id = object.getString("id");
-                            consult.setArticle_id(id);
-                            consult.setCreate_time(object.optString("create_time"));
-                            consult.setArticle_content(object.optString("content"));
-                            consult.setArticle_title(object.optString("article_title"));
-                            consult.setConsult_key_word(consult_key_word);
-                            consult.setFk_expert_id(object.optString("fk_expert_id"));
-                            consult.setHitnum(object.optString("hitnum"));
-                            int savedSize = DataSupport.where("article_id = ?", id).find(SearchedConsult.class).size();
-//                            Log.e("TAG", ">>>>>>>>>savedSize>>>>>>>" + savedSize);
+                            ConsultItem consult = new ConsultItem();
+                            consult.setCid(object.optInt("cid"));
+                            consult.setCreateTime(object.optString("createTime"));
+                            consult.setExpertId(object.optInt("expertId"));
+                            consult.setItContent(object.optString("itContent"));
+                            consult.setItTime(object.optString("itTime"));
+                            consult.setTitle(object.optString("title"));
+                            consult.setViews(object.optInt("views"));
+                            consult.setCodeId(codeId);
+                            int savedSize = DataSupport.where("cid = ?", String.valueOf(consult.getCid())).find(ConsultItem.class).size();
                             if (savedSize == 0) {
                                 consult.save();
                             } else {
-                                consult.updateAll("article_id = ?", id);
+                                consult.updateAll("cid = ?", String.valueOf(consult.getCid()));
                             }
                         }
                         //todo 从数据库获取已保存的咨询
-                        List<SearchedConsult> mConsultList = DataSupport.where("consult_key_word = ?", consult_key_word).find(SearchedConsult.class);
+                        List<ConsultItem> mConsultList = DataSupport.where("codeId = ?", String.valueOf(codeId)).find(ConsultItem.class);
                         adapter.setList(mConsultList);
                         listView.onRefreshComplete();
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                AppContext.toastBadInternet();
             }
         });
     }

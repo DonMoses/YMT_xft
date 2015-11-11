@@ -1,6 +1,7 @@
 package com.ymt.demo1.adapter.expertConsult;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +10,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
-import com.ymt.demo1.beams.HeaderById;
 import com.ymt.demo1.beams.expert_consult.QQMsg;
 import com.ymt.demo1.customViews.CircleImageView;
-
-import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,8 +58,8 @@ public class ChatMessageListAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        String role = messages.get(position).getReply_role();
-        if (role.equals("002") || role.equals("001")) {
+        String role = messages.get(position).getCmdType();
+        if (role.equals("")) {
             return INFO_OUT;
         } else {
             return INFO_IN;
@@ -112,26 +110,22 @@ public class ChatMessageListAdapter extends BaseAdapter {
         //todo 这里简单模拟专家 、 用户信息。实际中使用Export 和Account 获取
         switch (infoType) {
             case INFO_IN:
-                List<HeaderById> list1 = DataSupport.where("the_id = ?", messages.get(position).getFk_reply_user_id()).find(HeaderById.class);
-
-                if (list1.size() > 0) {
-                    String headerIn = list1.get(0).getHeaderUrl();
-                    Picasso.with(context).load(headerIn).into(inViewHolder.exportHeader);
+                String header = messages.get(position).getHeadImage();
+                if (!TextUtils.isEmpty(header)) {
+                    Picasso.with(context).load(header).into(inViewHolder.exportHeader);
                 }
-                inViewHolder.inContent.setText(messages.get(position).getContent());
-                inViewHolder.name.setText(messages.get(position).getPro_expert_user_id());
-                inViewHolder.reply.setText(messages.get(position).getReply_time());
+                inViewHolder.inContent.setText(messages.get(position).getMsg());
+                inViewHolder.name.setText(messages.get(position).getName());
+                inViewHolder.reply.setText(messages.get(position).getOpTime());
                 break;
             case INFO_OUT:
-                List<HeaderById> list2 = DataSupport.where("the_id = ?", messages.get(position).getFk_reply_user_id()).find(HeaderById.class);
-
-                if (list2.size() > 0) {
-                    String headerOut = list2.get(0).getHeaderUrl();
-                    Picasso.with(context).load(headerOut).into(outViewHolder.userHeader);
+                String header1 = messages.get(position).getHeadImage();
+                if (!TextUtils.isEmpty(header1)) {
+                    Picasso.with(context).load(header1).into(outViewHolder.userHeader);
                 }
-                outViewHolder.outContent.setText(messages.get(position).getContent());
-                outViewHolder.name.setText(messages.get(position).getPro_expert_user_id());
-                outViewHolder.reply.setText(messages.get(position).getReply_time());
+                outViewHolder.outContent.setText(messages.get(position).getMsg());
+                outViewHolder.name.setText(messages.get(position).getName());
+                outViewHolder.reply.setText(messages.get(position).getOpTime());
                 break;
             default:
                 break;

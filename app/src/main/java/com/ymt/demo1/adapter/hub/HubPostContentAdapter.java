@@ -5,6 +5,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -53,7 +54,7 @@ public class HubPostContentAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_hub_post_content, null);
             viewHolder = new ViewHolder();
-            viewHolder.msg = (TextView) convertView.findViewById(R.id.content_msg);
+            viewHolder.msg = (WebView) convertView.findViewById(R.id.content_msg);
             viewHolder.dateline = (TextView) convertView.findViewById(R.id.content_dateline);
             viewHolder.user = (TextView) convertView.findViewById(R.id.content_user);
             viewHolder.tags = (TextView) convertView.findViewById(R.id.content_tags);
@@ -63,7 +64,8 @@ public class HubPostContentAdapter extends BaseAdapter {
         }
 
         PostContent content = mList.get(position);
-        viewHolder.msg.setText(Html.fromHtml(content.getMessage()));
+        viewHolder.msg.getSettings().setDefaultTextEncodingName("UTF-8");
+        viewHolder.msg.loadDataWithBaseURL(null,content.getMessage(),"text/html","utf-8",null);
         viewHolder.dateline.setText(String.valueOf(content.getDateline()));
         viewHolder.user.setText("by  " + content.getAuthor());
         viewHolder.tags.setText(content.getTags());
@@ -71,7 +73,7 @@ public class HubPostContentAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
-        TextView msg;
+        WebView msg;
         TextView dateline;
         TextView user;
         TextView tags;

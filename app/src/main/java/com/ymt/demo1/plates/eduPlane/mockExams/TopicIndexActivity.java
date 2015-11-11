@@ -18,14 +18,14 @@ import java.util.ArrayList;
  * Created by Dan on 2015/4/10
  */
 public class TopicIndexActivity extends Activity {
-    private ArrayList<String> doneList;
-    private ArrayList<String> allList;
+    private ArrayList<Integer> doneList;
+    private ArrayList<Integer> allList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        doneList = getIntent().getStringArrayListExtra("doneList");
-        allList = getIntent().getStringArrayListExtra("allList");
+        doneList = getIntent().getIntegerArrayListExtra("doneList");
+        allList = getIntent().getIntegerArrayListExtra("allList");
         setContentView(R.layout.activity_edu_order_grid);
         initView();
 
@@ -45,9 +45,9 @@ public class TopicIndexActivity extends Activity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String text = parent.getAdapter().getItem(position).toString();
+                Integer index = (Integer) parent.getAdapter().getItem(position);
                 Intent intent = new Intent(TopicIndexActivity.this, PastExamsListActivity.class);
-                intent.putExtra("index", Integer.valueOf(text));
+                intent.putExtra("index", index);
                 setResult(RESULT_OK, intent);
                 finish();
             }

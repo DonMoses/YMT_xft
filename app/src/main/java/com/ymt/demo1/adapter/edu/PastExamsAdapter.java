@@ -58,8 +58,8 @@ public class PastExamsAdapter extends BaseAdapter {
         } else {
             contentHolder = (ContentHolder) convertView.getTag();
         }
-        contentHolder.examName.setText(list.get(position).getArticle_title());
-        contentHolder.downloadCount.setText(list.get(position).getDowncount() + "下载");
+        contentHolder.examName.setText(list.get(position).getTitle());
+        contentHolder.downloadCount.setText(list.get(position).getViews() + "查看");
         convertView.setBackgroundResource(R.drawable.like_pressed_for_test);
 
         return convertView;

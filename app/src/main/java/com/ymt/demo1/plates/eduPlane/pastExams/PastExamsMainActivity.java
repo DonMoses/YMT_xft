@@ -16,13 +16,14 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.beams.edu.PastExamItem;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.baseClasses.BaseFloatActivity;
+import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
-import com.ymt.demo1.main.search.SearchActivity;
 import com.ymt.demo1.plates.eduPlane.ExamsOrderYearActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,19 +43,19 @@ public class PastExamsMainActivity extends BaseFloatActivity {
         super.onCreate(savedInstanceState);
         RequestQueue mQueue = Volley.newRequestQueue(this);
         inflater = LayoutInflater.from(this);
-        setContentView(R.layout.layout_past_mock_exam_main);
+        setContentView(R.layout.layout_past_exam_main);
         initTitle();
         initView();
 
-        mQueue.add(getExamInfo(1, "level001", ""));
-        mQueue.add(getExamInfo(1, "level002", ""));
-        mQueue.add(getExamInfo(1, "level003", ""));
-        mQueue.add(getExamInfo(1, "level004", ""));
+        mQueue.add(getExamInfo(1, 5, "1001", null, null));
+        mQueue.add(getExamInfo(1, 5, "1002", null, null));
+        mQueue.add(getExamInfo(1, 5, "1003", null, null));
+        mQueue.add(getExamInfo(1, 5, "1004", null, null));
     }
 
     protected void initTitle() {
         MyTitle title = (MyTitle) findViewById(R.id.my_title);
-        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L_R);
+        title.setTitleStyle(MyTitle.TitleStyle.RIGHT_ICON_L);
         title.updateCenterTitle("历年真题");
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
             @Override
@@ -72,13 +73,12 @@ public class PastExamsMainActivity extends BaseFloatActivity {
                 ArrayList<String> list = new ArrayList<>();
                 list.addAll(Arrays.asList(array).subList(0, size));
                 intent.putStringArrayListExtra("tests_years", list);
-                intent.putExtra("type", "past");
-                startActivity(intent);
+                startActivityForResult(intent, 1024);
             }
 
             @Override
             public void onRightRClick() {
-                startActivity(new Intent(PastExamsMainActivity.this, SearchActivity.class));
+
             }
         });
     }
@@ -95,22 +95,22 @@ public class PastExamsMainActivity extends BaseFloatActivity {
                 switch (v.getId()) {
                     case R.id.view_all_level001:
                         Intent intent1 = new Intent(PastExamsMainActivity.this, PastExamsListActivity.class);
-                        intent1.putExtra("level", 1);
+                        intent1.putExtra("level", "1001");
                         startActivity(intent1);
                         break;
                     case R.id.view_all_level002:
                         Intent intent2 = new Intent(PastExamsMainActivity.this, PastExamsListActivity.class);
-                        intent2.putExtra("level", 2);
+                        intent2.putExtra("level", "1002");
                         startActivity(intent2);
                         break;
                     case R.id.view_all_level003:
                         Intent intent3 = new Intent(PastExamsMainActivity.this, PastExamsListActivity.class);
-                        intent3.putExtra("level", 3);
+                        intent3.putExtra("level", "1003");
                         startActivity(intent3);
                         break;
                     case R.id.view_all_level004:
                         Intent intent4 = new Intent(PastExamsMainActivity.this, PastExamsListActivity.class);
-                        intent4.putExtra("level", 4);
+                        intent4.putExtra("level", "1004");
                         startActivity(intent4);
                         break;
                     default:
@@ -130,38 +130,33 @@ public class PastExamsMainActivity extends BaseFloatActivity {
         level002Layout = (LinearLayout) findViewById(R.id.layout_level002);
     }
 
-
-    protected StringRequest getExamInfo(int start, final String level, String searchWhat) {
-        return new StringRequest(BaseURLUtil.getPastExamsByLevel(start, level, searchWhat), new Response.Listener<String>() {
+    protected StringRequest getExamInfo(int index, int pageNum, final String level, String opTime, String searchWhat) {
+        return new StringRequest(BaseURLUtil.getPastExamListByLevel(index, pageNum, level, opTime, searchWhat), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
                     JSONObject object = new JSONObject(s);
                     if (object.getString("result").equals("Y")) {
-                        JSONObject object1 = object.getJSONObject("datas");
-                        JSONArray array = object1.getJSONArray("listData");
+                        JSONArray array = object.getJSONObject("datas").getJSONObject("listData")
+                                .getJSONArray("edu");
                         int length = array.length();
                         for (int i = 0; i < length; i++) {
                             JSONObject obj = array.getJSONObject(i);
                             final PastExamItem exam = new PastExamItem();
-                            exam.setExam_year(obj.optString("exam_year"));
-                            exam.setThe_id(obj.optString("id"));
-                            exam.setFiles(obj.optString("files"));
-                            exam.setArticle_title(obj.optString("article_title"));
+                            exam.setTitle(obj.optString("title"));
                             exam.setLevel(obj.optString("level"));
-                            exam.setStatus(obj.optString("status"));
-                            exam.setSubject(obj.optString("subject"));
-                            exam.setMeta_keys(obj.optString("meta_keys"));
-                            exam.setCreate_time(obj.optString("create_time"));
-                            exam.setHitnum(obj.optString("hitnum"));
-                            exam.setFk_create_user_id(obj.optString("fk_create_user_id"));
-                            exam.setPdf_id(obj.optString("pdf_id"));
-                            exam.setDowncount(obj.optString("downcount"));
+                            exam.setSubjects(obj.optString("subjects"));
+                            exam.setLevelId(obj.optInt("levelId"));
+                            exam.setHistoryId(obj.optString("historyId"));
+                            exam.setViews(obj.optInt("views"));
+                            exam.setDATE(obj.optString("DATE"));
+                            exam.setYuer(obj.optString("yuer"));
+                            exam.setDescs(obj.optString("descs"));
 
                             View itemView = inflater.inflate(R.layout.item_past_exams_content_s, null);
                             TextView examName = (TextView) itemView.findViewById(R.id.content);
                             TextView downloadCount = (TextView) itemView.findViewById(R.id.download_count);
-                            examName.setText(exam.getArticle_title());
+                            examName.setText(exam.getTitle());
                             downloadCount.setVisibility(View.GONE);
 
                             LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(
@@ -180,35 +175,42 @@ public class PastExamsMainActivity extends BaseFloatActivity {
                                 }
                             });
 
-                            if (level.equals("level001")) {
+                            if (level.equals("1001")) {
                                 level001Layout.addView(view1);
                                 level001Layout.addView(itemView);
-
-                            } else if (level.equals("level002")) {
+                            } else if (level.equals("1002")) {
                                 level002Layout.addView(view1);
                                 level002Layout.addView(itemView);
-                            } else if (level.equals("level003")) {
+                            } else if (level.equals("1003")) {
                                 level003Layout.addView(view1);
                                 level003Layout.addView(itemView);
-                            } else if (level.equals("level004")) {
+                            } else if (level.equals("1004")) {
                                 level004Layout.addView(view1);
                                 level004Layout.addView(itemView);
+                            }
+
+                            if (DataSupport.where("historyId = ?", exam.getHistoryId()).find(PastExamItem.class)
+                                    .size() == 0) {
+                                exam.save();
+                            } else {
+                                exam.updateAll("historyId = ?", exam.getHistoryId());
                             }
 
                         }
                     }
 
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                AppContext.toastBadInternet();
             }
         });
-
     }
+
 }
 
 

@@ -112,6 +112,28 @@
                 android:layout_margin="1.2dp"
                 android:background="@drawable/bg_table_view_info"
                 android:gravity="center_vertical"
+                android:text="毕业院校及专业"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:id="@+id/school"
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:layout_span="3"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center"
+                android:textColor="@color/material_blue_grey_800" />
+
+        </TableRow>
+
+
+        <TableRow android:minHeight="26dp">
+
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center_vertical"
                 android:text="最高学历"
                 android:textColor="@color/material_blue_grey_800" />
 
@@ -213,62 +235,7 @@
 
         </TableRow>
 
-        <TableRow android:minHeight="26dp">
 
-            <TextView
-                android:layout_height="match_parent"
-                android:layout_margin="1.2dp"
-                android:background="@drawable/bg_table_view_info"
-                android:gravity="center_vertical"
-                android:text="工作单位地址"
-                android:textColor="@color/material_blue_grey_800" />
-
-            <TextView
-                android:id="@+id/work_addr"
-                android:layout_height="match_parent"
-                android:layout_margin="1.2dp"
-                android:background="@drawable/bg_table_view_info"
-                android:gravity="center"
-                android:textColor="@color/material_blue_grey_800" />
-
-            <TextView
-                android:layout_height="match_parent"
-                android:layout_margin="1.2dp"
-                android:background="@drawable/bg_table_view_info"
-                android:gravity="center_vertical"
-                android:text="邮编"
-                android:textColor="@color/material_blue_grey_800" />
-
-            <TextView
-                android:id="@+id/work_zip_code"
-                android:layout_height="match_parent"
-                android:layout_margin="1.2dp"
-                android:background="@drawable/bg_table_view_info"
-                android:gravity="center"
-                android:textColor="@color/material_blue_grey_800" />
-
-        </TableRow>
-
-        <TableRow android:minHeight="26dp">
-
-            <TextView
-                android:layout_height="match_parent"
-                android:layout_margin="1.2dp"
-                android:background="@drawable/bg_table_view_info"
-                android:gravity="center_vertical"
-                android:text="毕业院校及专业"
-                android:textColor="@color/material_blue_grey_800" />
-
-            <TextView
-                android:id="@+id/school"
-                android:layout_height="match_parent"
-                android:layout_margin="1.2dp"
-                android:layout_span="3"
-                android:background="@drawable/bg_table_view_info"
-                android:gravity="center"
-                android:textColor="@color/material_blue_grey_800" />
-
-        </TableRow>
 
         <TableRow android:minHeight="26dp">
 
@@ -290,6 +257,27 @@
                 android:textColor="@color/material_blue_grey_800" />
 
         </TableRow>
+        <TableRow android:minHeight="26dp">
+
+            <TextView
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center_vertical"
+                android:text="工作单位地址"
+                android:textColor="@color/material_blue_grey_800" />
+
+            <TextView
+                android:id="@+id/work_addr"
+                android:layout_height="match_parent"
+                android:layout_margin="1.2dp"
+                android:layout_span="3"
+                android:background="@drawable/bg_table_view_info"
+                android:gravity="center"
+                android:textColor="@color/material_blue_grey_800" />
+
+        </TableRow>
+
 
     </TableLayout>
 </merge>

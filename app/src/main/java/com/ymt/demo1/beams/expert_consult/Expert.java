@@ -9,68 +9,65 @@ import org.litepal.crud.DataSupport;
  * Created by Dan on 2015/6/16
  */
 public class Expert extends DataSupport implements Parcelable {
-    private String id_number;
-
-    public String getId_number() {
-        return id_number;
-    }
-
-    public void setId_number(String id_number) {
-        this.id_number = id_number;
-    }
-
-    private String count;
-    private String pro_life;
-    private String head_pic;
+   private String reportingMethods;
+    private String workAddr;
+    private String majorWorks;
+    private int count;
     private String tel;
-    private String fk_user_id;
+    private String goods;
     private String addr;
     private String education;
-    private String reporting_methods;
-    private String home_zip_code;
-    private String the_id;
+    private String userType;
     private String politics;
     private String qualification;
+    private String username;
     private String level;
+    private int fkUserId;
+    private String codeValue;
+    private String workName;
     private String capacity;
     private String experience;
-    private String industry;
-    private String note;
-    private String work_addr;
-    private String others;
-    private String home_addr;
-    private String user_name;
-    private String school;
+    private int industry;
+    private String proLife;
+    private String honoraryTitle;
+    private int waitCount;
+    private String headPic;
+    private String certificateNumber;
     private String degree;
-    private String major_works;
-    private String work_zip_code;
-    private String create_time;
-    private String position_title;
-    private String work_experience;
-    private String work_name;
+    private String school;
+    private String workExperience;
+    private String positionTitle;
 
-    public String getCount() {
+    public String getReportingMethods() {
+        return reportingMethods;
+    }
+
+    public void setReportingMethods(String reportingMethods) {
+        this.reportingMethods = reportingMethods;
+    }
+
+    public String getWorkAddr() {
+        return workAddr;
+    }
+
+    public void setWorkAddr(String workAddr) {
+        this.workAddr = workAddr;
+    }
+
+    public String getMajorWorks() {
+        return majorWorks;
+    }
+
+    public void setMajorWorks(String majorWorks) {
+        this.majorWorks = majorWorks;
+    }
+
+    public int getCount() {
         return count;
     }
 
-    public void setCount(String count) {
+    public void setCount(int count) {
         this.count = count;
-    }
-
-    public String getPro_life() {
-        return pro_life;
-    }
-
-    public void setPro_life(String pro_life) {
-        this.pro_life = pro_life;
-    }
-
-    public String getHead_pic() {
-        return head_pic;
-    }
-
-    public void setHead_pic(String head_pic) {
-        this.head_pic = head_pic;
     }
 
     public String getTel() {
@@ -81,12 +78,12 @@ public class Expert extends DataSupport implements Parcelable {
         this.tel = tel;
     }
 
-    public String getFk_user_id() {
-        return fk_user_id;
+    public String getGoods() {
+        return goods;
     }
 
-    public void setFk_user_id(String fk_user_id) {
-        this.fk_user_id = fk_user_id;
+    public void setGoods(String goods) {
+        this.goods = goods;
     }
 
     public String getAddr() {
@@ -105,28 +102,12 @@ public class Expert extends DataSupport implements Parcelable {
         this.education = education;
     }
 
-    public String getReporting_methods() {
-        return reporting_methods;
+    public String getUserType() {
+        return userType;
     }
 
-    public void setReporting_methods(String reporting_methods) {
-        this.reporting_methods = reporting_methods;
-    }
-
-    public String getHome_zip_code() {
-        return home_zip_code;
-    }
-
-    public void setHome_zip_code(String home_zip_code) {
-        this.home_zip_code = home_zip_code;
-    }
-
-    public String getThe_id() {
-        return the_id;
-    }
-
-    public void setThe_id(String the_id) {
-        this.the_id = the_id;
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 
     public String getPolitics() {
@@ -145,12 +126,44 @@ public class Expert extends DataSupport implements Parcelable {
         this.qualification = qualification;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getLevel() {
         return level;
     }
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public int getFkUserId() {
+        return fkUserId;
+    }
+
+    public void setFkUserId(int fkUserId) {
+        this.fkUserId = fkUserId;
+    }
+
+    public String getCodeValue() {
+        return codeValue;
+    }
+
+    public void setCodeValue(String codeValue) {
+        this.codeValue = codeValue;
+    }
+
+    public String getWorkName() {
+        return workName;
+    }
+
+    public void setWorkName(String workName) {
+        this.workName = workName;
     }
 
     public String getCapacity() {
@@ -169,60 +182,52 @@ public class Expert extends DataSupport implements Parcelable {
         this.experience = experience;
     }
 
-    public String getIndustry() {
+    public int getIndustry() {
         return industry;
     }
 
-    public void setIndustry(String industry) {
+    public void setIndustry(int industry) {
         this.industry = industry;
     }
 
-    public String getNote() {
-        return note;
+    public String getProLife() {
+        return proLife;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setProLife(String proLife) {
+        this.proLife = proLife;
     }
 
-    public String getWork_addr() {
-        return work_addr;
+    public String getHonoraryTitle() {
+        return honoraryTitle;
     }
 
-    public void setWork_addr(String work_addr) {
-        this.work_addr = work_addr;
+    public void setHonoraryTitle(String honoraryTitle) {
+        this.honoraryTitle = honoraryTitle;
     }
 
-    public String getOthers() {
-        return others;
+    public int getWaitCount() {
+        return waitCount;
     }
 
-    public void setOthers(String others) {
-        this.others = others;
+    public void setWaitCount(int waitCount) {
+        this.waitCount = waitCount;
     }
 
-    public String getHome_addr() {
-        return home_addr;
+    public String getHeadPic() {
+        return headPic;
     }
 
-    public void setHome_addr(String home_addr) {
-        this.home_addr = home_addr;
+    public void setHeadPic(String headPic) {
+        this.headPic = headPic;
     }
 
-    public String getUser_name() {
-        return user_name;
+    public String getCertificateNumber() {
+        return certificateNumber;
     }
 
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
-    }
-
-    public String getSchool() {
-        return school;
-    }
-
-    public void setSchool(String school) {
-        this.school = school;
+    public void setCertificateNumber(String certificateNumber) {
+        this.certificateNumber = certificateNumber;
     }
 
     public String getDegree() {
@@ -233,55 +238,28 @@ public class Expert extends DataSupport implements Parcelable {
         this.degree = degree;
     }
 
-    public String getMajor_works() {
-        return major_works;
+    public String getSchool() {
+        return school;
     }
 
-    public void setMajor_works(String major_works) {
-        this.major_works = major_works;
+    public void setSchool(String school) {
+        this.school = school;
     }
 
-    public String getWork_zip_code() {
-        return work_zip_code;
+    public String getWorkExperience() {
+        return workExperience;
     }
 
-    public void setWork_zip_code(String work_zip_code) {
-        this.work_zip_code = work_zip_code;
+    public void setWorkExperience(String workExperience) {
+        this.workExperience = workExperience;
     }
 
-    public String getCreate_time() {
-        return create_time;
+    public String getPositionTitle() {
+        return positionTitle;
     }
 
-    public void setCreate_time(String create_time) {
-        this.create_time = create_time;
-    }
-
-    public String getPosition_title() {
-        return position_title;
-    }
-
-    public void setPosition_title(String position_title) {
-        this.position_title = position_title;
-    }
-
-    public String getWork_experience() {
-        return work_experience;
-    }
-
-    public void setWork_experience(String work_experience) {
-        this.work_experience = work_experience;
-    }
-
-    public String getWork_name() {
-        return work_name;
-    }
-
-    public void setWork_name(String work_name) {
-        this.work_name = work_name;
-    }
-
-    public Expert() {
+    public void setPositionTitle(String positionTitle) {
+        this.positionTitle = positionTitle;
     }
 
     @Override
@@ -291,69 +269,68 @@ public class Expert extends DataSupport implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id_number);
-        dest.writeString(this.count);
-        dest.writeString(this.pro_life);
-        dest.writeString(this.head_pic);
+        dest.writeString(this.reportingMethods);
+        dest.writeString(this.workAddr);
+        dest.writeString(this.majorWorks);
+        dest.writeInt(this.count);
         dest.writeString(this.tel);
-        dest.writeString(this.fk_user_id);
+        dest.writeString(this.goods);
         dest.writeString(this.addr);
         dest.writeString(this.education);
-        dest.writeString(this.reporting_methods);
-        dest.writeString(this.home_zip_code);
-        dest.writeString(this.the_id);
+        dest.writeString(this.userType);
         dest.writeString(this.politics);
         dest.writeString(this.qualification);
+        dest.writeString(this.username);
         dest.writeString(this.level);
+        dest.writeInt(this.fkUserId);
+        dest.writeString(this.codeValue);
+        dest.writeString(this.workName);
         dest.writeString(this.capacity);
         dest.writeString(this.experience);
-        dest.writeString(this.industry);
-        dest.writeString(this.note);
-        dest.writeString(this.work_addr);
-        dest.writeString(this.others);
-        dest.writeString(this.home_addr);
-        dest.writeString(this.user_name);
-        dest.writeString(this.school);
+        dest.writeInt(this.industry);
+        dest.writeString(this.proLife);
+        dest.writeString(this.honoraryTitle);
+        dest.writeInt(this.waitCount);
+        dest.writeString(this.headPic);
+        dest.writeString(this.certificateNumber);
         dest.writeString(this.degree);
-        dest.writeString(this.major_works);
-        dest.writeString(this.work_zip_code);
-        dest.writeString(this.create_time);
-        dest.writeString(this.position_title);
-        dest.writeString(this.work_experience);
-        dest.writeString(this.work_name);
+        dest.writeString(this.school);
+        dest.writeString(this.workExperience);
+        dest.writeString(this.positionTitle);
+    }
+
+    public Expert() {
     }
 
     protected Expert(Parcel in) {
-        this.id_number = in.readString();
-        this.count = in.readString();
-        this.pro_life = in.readString();
-        this.head_pic = in.readString();
+        this.reportingMethods = in.readString();
+        this.workAddr = in.readString();
+        this.majorWorks = in.readString();
+        this.count = in.readInt();
         this.tel = in.readString();
-        this.fk_user_id = in.readString();
+        this.goods = in.readString();
         this.addr = in.readString();
         this.education = in.readString();
-        this.reporting_methods = in.readString();
-        this.home_zip_code = in.readString();
-        this.the_id = in.readString();
+        this.userType = in.readString();
         this.politics = in.readString();
         this.qualification = in.readString();
+        this.username = in.readString();
         this.level = in.readString();
+        this.fkUserId = in.readInt();
+        this.codeValue = in.readString();
+        this.workName = in.readString();
         this.capacity = in.readString();
         this.experience = in.readString();
-        this.industry = in.readString();
-        this.note = in.readString();
-        this.work_addr = in.readString();
-        this.others = in.readString();
-        this.home_addr = in.readString();
-        this.user_name = in.readString();
-        this.school = in.readString();
+        this.industry = in.readInt();
+        this.proLife = in.readString();
+        this.honoraryTitle = in.readString();
+        this.waitCount = in.readInt();
+        this.headPic = in.readString();
+        this.certificateNumber = in.readString();
         this.degree = in.readString();
-        this.major_works = in.readString();
-        this.work_zip_code = in.readString();
-        this.create_time = in.readString();
-        this.position_title = in.readString();
-        this.work_experience = in.readString();
-        this.work_name = in.readString();
+        this.school = in.readString();
+        this.workExperience = in.readString();
+        this.positionTitle = in.readString();
     }
 
     public static final Creator<Expert> CREATOR = new Creator<Expert>() {

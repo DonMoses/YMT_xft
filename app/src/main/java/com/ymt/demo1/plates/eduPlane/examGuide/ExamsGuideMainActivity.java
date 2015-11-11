@@ -96,14 +96,7 @@ public class ExamsGuideMainActivity extends BaseFloatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 //todo 根据关键字搜索，跳转到咨询搜索界面
-//                SimpleExpandListAdapter adapter = (SimpleExpandListAdapter) parent.getExpandableListAdapter();
-//                ConsultCato consultCato = (ConsultCato) adapter.getChild(groupPosition, childPosition);
-//                Intent intent = new Intent(ExamsGuideMainActivity.this, CatoConsultListActivity.class);
-//                intent.putExtra("search_key_word", consultCato.getNote());
-//                intent.putExtra("code", consultCato.getCode());
-//                startActivity(intent);
-//                Toast.makeText(ConsultCatoMainActivity.this, txt, Toast.LENGTH_SHORT).show();
-                return true;
+              return true;
             }
         });
 

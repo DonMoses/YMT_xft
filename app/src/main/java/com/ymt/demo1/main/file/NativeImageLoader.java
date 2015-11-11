@@ -22,7 +22,6 @@ public class NativeImageLoader {
     private static NativeImageLoader mInstance = new NativeImageLoader();
     private ExecutorService mImageThreadPool = Executors.newFixedThreadPool(1);
 
-
     private NativeImageLoader() {
         //获取应用程序的最大内存  
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);

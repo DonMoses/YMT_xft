@@ -278,14 +278,12 @@ public class SearchFileActivity extends BaseFloatActivity {
             for (File file : theFileDirPath.listFiles()) {
                 if (file.isFile()) {
                     myFiles.add(file);
-
                 } else {
                     listAllFile(file);
                 }
             }
         }
     }
-
 
     /**
      * 封装1个方法，搜索文件， 得到list数据源

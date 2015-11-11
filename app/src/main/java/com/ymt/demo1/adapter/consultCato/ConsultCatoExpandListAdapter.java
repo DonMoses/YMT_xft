@@ -110,7 +110,7 @@ public class ConsultCatoExpandListAdapter extends BaseExpandableListAdapter {
         } else {
             textView = (TextView) convertView.getTag();
         }
-        String txt = childList.get(groupPosition).get(childPosition).getNote();
+        String txt = childList.get(groupPosition).get(childPosition).getCodeValue();
         textView.setText(txt);
         switch (txt.length() % 4) {
             case 0:

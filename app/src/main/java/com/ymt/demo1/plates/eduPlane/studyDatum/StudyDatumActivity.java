@@ -2,7 +2,9 @@ package com.ymt.demo1.plates.eduPlane.studyDatum;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -19,14 +21,17 @@ import com.ymt.demo1.adapter.edu.StudyDatumAdapter;
 import com.ymt.demo1.beams.edu.StudyDatumItem;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.baseClasses.BaseFloatActivity;
+import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.main.search.SearchActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Dan on 2015/4/9
@@ -34,23 +39,25 @@ import java.util.ArrayList;
  */
 public class StudyDatumActivity extends BaseFloatActivity {
 
-    private ArrayList<StudyDatumItem> datumItems;
+    private List<StudyDatumItem> datumItems;
     private RequestQueue mQueue;
     private StudyDatumAdapter studyDatumAdapter;
     private PullToRefreshListView pullToRefreshListView;
     private int start;
+    private int pageNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mQueue = Volley.newRequestQueue(this);
         datumItems = new ArrayList<>();
+        datumItems.addAll(DataSupport.findAll(StudyDatumItem.class));
         start = 1;
+        pageNum = 10;
         setContentView(R.layout.activity_edu_study_datum);
         initTitle();
         initView();
-        mQueue.add(getStudyDatum(start, ""));
-
+        mQueue.add(getStudyDatum(start, pageNum));
     }
 
     protected void initTitle() {
@@ -82,7 +89,13 @@ public class StudyDatumActivity extends BaseFloatActivity {
         pullToRefreshListView = (PullToRefreshListView) findViewById(R.id.studyDatum_list);
         studyDatumAdapter = new StudyDatumAdapter(this);
         pullToRefreshListView.setAdapter(studyDatumAdapter);
-        pullToRefreshListView.setEmptyView(new ProgressBar(this));
+        pullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
+        studyDatumAdapter.setList(datumItems);
+        ProgressBar progressBar = new ProgressBar(this);
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(AppContext.screenWidth / 8, AppContext.screenWidth / 8);
+        progressBar.setLayoutParams(layoutParams);
+        pullToRefreshListView.setEmptyView(progressBar);
+
         pullToRefreshListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -96,24 +109,26 @@ public class StudyDatumActivity extends BaseFloatActivity {
         pullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                start = 1;
-                datumItems.clear();
-                studyDatumAdapter.setList(datumItems);
-                mQueue.add(getStudyDatum(start, ""));
+                if (AppContext.internetAvialable()) {
+                    start = 1;
+                    datumItems.clear();
+                    mQueue.add(getStudyDatum(start, pageNum));
+                }
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                start++;
-                mQueue.add(getStudyDatum(start, ""));
+                if (AppContext.internetAvialable()) {
+                    start++;
+                    mQueue.add(getStudyDatum(start, pageNum));
+                }
             }
         });
 
     }
 
-
-    protected StringRequest getStudyDatum(int start, String searchWhat) {
-        return new StringRequest(BaseURLUtil.getStudyDatum(start, searchWhat), new Response.Listener<String>() {
+    protected StringRequest getStudyDatum(int index, int pageNum) {
+        return new StringRequest(BaseURLUtil.getStudyDatum(index, pageNum), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -125,32 +140,37 @@ public class StudyDatumActivity extends BaseFloatActivity {
                         for (int i = 0; i < length; i++) {
                             JSONObject obj = array.getJSONObject(i);
                             StudyDatumItem study = new StudyDatumItem();
-                            study.setThe_id(obj.optString("id"));
-                            study.setContent(obj.optString("content"));
-                            study.setAuthor(obj.optString("author"));
-                            study.setTime(obj.optString("time"));
-                            study.setArticle_title(obj.optString("article_title"));
+                            study.setDownNum(obj.optInt("downNum"));
+                            study.setTitle(obj.optString("title"));
                             study.setLevel(obj.optString("level"));
-                            study.setStatus(obj.optString("status"));
-                            study.setSubject(obj.optString("subject"));
-                            study.setCreate_time(obj.optString("create_time"));
-                            study.setFk_create_user_id(obj.optString("fk_creat_user_id"));
-                            study.setHitnum(obj.optString("hitnum"));
-                            study.setPdf_id(BaseURLUtil.PDF_BASE + obj.optString("pdf_id"));
-                            datumItems.add(study);
-                        }
-                        studyDatumAdapter.setList(datumItems);
+                            study.setSubjects(obj.optString("subjects"));
+                            study.setLevelId(obj.optInt("levelId"));
+                            study.setViews(obj.optInt("views"));
+                            study.setHistoryId(obj.optString("historyId"));
+                            study.setScore(obj.optInt("score"));
+                            study.setReplays(obj.optInt("replays"));
+                            study.setYuer(obj.optString("yuer"));
+                            study.setDate(obj.optString("date"));
+                            study.setDescs(obj.optString("descs"));
 
+                            if (DataSupport.where("historyId = ?", study.getHistoryId()).find(StudyDatumItem.class).size() == 0) {
+                                study.save();
+                            } else {
+                                study.updateAll("historyId = ?", study.getHistoryId());
+                            }
+                        }
+                        datumItems.addAll(DataSupport.findAll(StudyDatumItem.class));
+                        studyDatumAdapter.notifyDataSetChanged();
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
-
                 pullToRefreshListView.onRefreshComplete();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                AppContext.toastBadInternet();
                 pullToRefreshListView.onRefreshComplete();
             }
         });

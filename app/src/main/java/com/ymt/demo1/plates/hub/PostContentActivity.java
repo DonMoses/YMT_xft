@@ -3,6 +3,7 @@ package com.ymt.demo1.plates.hub;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.ymt.demo1.adapter.hub.HubPostContentAdapter;
 import com.ymt.demo1.beams.hub.PostContent;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.baseClasses.BaseFloatActivity;
+import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 
 import org.json.JSONArray;
@@ -112,11 +114,10 @@ public class PostContentActivity extends BaseFloatActivity {
 
     }
 
-    protected StringRequest getPostContent(int tid, int index) {
+    protected StringRequest getPostContent(final int tid, final int index) {
         return new StringRequest(BaseURLUtil.getPostContentUrl(tid, index), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-//                Log.e("TAG", ">>>>>>>>>>>>>>>>response s>>>>>>>>" + s);
                 try {
                     JSONObject jsonObject = new JSONObject(s);
 //                    if(jsonObject.optInt("retCode") == 0){
@@ -134,18 +135,20 @@ public class PostContentActivity extends BaseFloatActivity {
                         content.setDateline(object.optInt("dateline"));
                         mPostContentList.add(content);
                         //todo 刷新适配器
+                        Log.e("TAG", ">>>>>>>>>>>>>>>>message >>>>>>>>" + content.getMessage());
 
                         mPostContentAdapter.setList(mPostContentList);
                     }
 
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
                 contentListView.onRefreshComplete();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                AppContext.toastBadInternet();
                 contentListView.onRefreshComplete();
             }
         });

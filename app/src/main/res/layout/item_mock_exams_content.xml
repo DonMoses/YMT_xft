@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#F0F0F0"
-    android:minHeight="80dp"
+    android:minHeight="48dp"
     android:orientation="horizontal"
     android:padding="3.09dp">
 
@@ -37,15 +37,6 @@
 
             <TextView
                 android:id="@+id/total_item"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:textColor="@color/material_blue_grey_800"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/total_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

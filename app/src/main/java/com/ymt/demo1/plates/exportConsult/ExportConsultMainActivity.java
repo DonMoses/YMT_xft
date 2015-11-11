@@ -20,15 +20,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -42,18 +40,17 @@ import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.expertConsult.DutyExpertAdapter;
+import com.ymt.demo1.adapter.expertConsult.HotRecConsultAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
-import com.ymt.demo1.beams.expert_consult.Expert;
-import com.ymt.demo1.beams.expert_consult.HotConsult;
+import com.ymt.demo1.beams.expert_consult.ConsultInfo;
 import com.ymt.demo1.beams.expert_consult.OnDutyExpert;
-import com.ymt.demo1.beams.expert_consult.RecentConsult;
+import com.ymt.demo1.beams.expert_consult.PreExpert;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.main.sign.SignInUpActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.utils.PopActionListener;
 import com.ymt.demo1.utils.PopActionUtil;
-import com.ymt.demo1.utils.StringUtils;
 import com.ymt.demo1.main.search.SearchActivity;
 
 import org.json.JSONArray;
@@ -73,20 +70,14 @@ import java.util.TimeZone;
 public class ExportConsultMainActivity extends BaseActivity implements View.OnClickListener {
     private PopActionListener actionListener;
     private Handler mHandler = new MyHandler(this);
-    private TextView nearlyConsultTitle;
-    TextView nearlyConsultContent;
-    TextView hotConsultTitle;
-    TextView hotConsultContent;
-    TextView hotConsultTime;
-    TextView nearlyConsultTime;
-    private Expert todayExpert;
-    private Expert tomorrowExpert;
+    private PreExpert todayExpert;
+    private PreExpert tomorrowExpert;
     private ImageView todayExportIcon;
     private TextView todayExportName;
-    private TextView todayExportMajor;
+    private TextView todayExportCount;
     private ImageView tomorrowExportIcon;
     private TextView tomorrowExportName;
-    private TextView tomorrowExportMajor;
+    private TextView tomorrowExportCount;
 
     private List<OnDutyExpert> onDutyAmExperts = new ArrayList<>();
     private List<OnDutyExpert> onDutyPmExperts = new ArrayList<>();
@@ -97,20 +88,13 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         RequestQueue mQueue = Volley.newRequestQueue(this);
-        mQueue.add(hotConsultRequest(1, 10));
-        mQueue.add(recentConsultRequest(1, 10));
+        mQueue.add(hotConsultRequest("hot"));
+        mQueue.add(recentConsultRequest("new"));
         mQueue.add(getExperts(6, 1, ""));
         mQueue.add(getOnDutyExperts());
         setContentView(R.layout.activity_export_consult_main);
         initTitle();
         initView();
-    }
-
-    @Override
-    protected void onDestroy() {
-        DataSupport.deleteAll(HotConsult.class);
-        DataSupport.deleteAll(RecentConsult.class);
-        super.onDestroy();
     }
 
     protected void initTitle() {
@@ -127,9 +111,6 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
             @Override
             public void onAction(String action) {
                 switch (action) {
-//                    case "立即咨询":
-//                        startActivity(new Intent(ExportConsultMainActivity.this, ExportConsultNowActivity.class));
-//                        break;
                     case "我的咨询":
                         if (TextUtils.isEmpty(AppContext.now_session_id)) {
                             //先登录
@@ -178,7 +159,6 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1024 && resultCode == RESULT_OK) {
-//            Log.e("TAG", ">>>>>>>>>>>>>>.onAction》》我的咨询");
             actionListener.onAction("我的咨询");
         }
     }
@@ -204,51 +184,61 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         todayExportIcon = (ImageView) findViewById(R.id.today_export_icon);
         todayExportName = (TextView) findViewById(R.id.today_export_name);
         //        TextView todayExportBirth = (TextView) findViewById(R.id.today_export_birth);
-        todayExportMajor = (TextView) findViewById(R.id.today_export_major);
+        todayExportCount = (TextView) findViewById(R.id.today_export_major);
         tomorrowExportIcon = (ImageView) findViewById(R.id.tomorrow_export_icon);
         tomorrowExportName = (TextView) findViewById(R.id.tomorrow_export_name);
         //        TextView tomorrowExportBirth = (TextView) findViewById(R.id.tomorrow_export_birth);
-        tomorrowExportMajor = (TextView) findViewById(R.id.tomorrow_export_major);
+        tomorrowExportCount = (TextView) findViewById(R.id.tomorrow_export_major);
 
         //点击跳转到专家详情
         todayExportView.setOnClickListener(this);
         tomorrowExportView.setOnClickListener(this);
     }
 
-    /**
-     * 最近、 热门咨询信息
-     */
+    private List<ConsultInfo> recList;
+    private List<ConsultInfo> hotList;
+    private HotRecConsultAdapter recAdapter;
+    private HotRecConsultAdapter hotAdapter;
+
     protected void initNearlyHotConsult() {
-        // 最近咨询info
-        RecentConsult recentConsult = DataSupport.findFirst(RecentConsult.class);
-        //  热门咨询info
-        HotConsult hotConsult = DataSupport.findFirst(HotConsult.class);
+        /*
+      最近、 热门咨询信息
+     */
+        ListView recListView = (ListView) findViewById(R.id.rec_consult_list_view);
+        ListView hotListView = (ListView) findViewById(R.id.hot_consult_list_view);
+        recList = new ArrayList<>();
+        hotList = new ArrayList<>();
+        recAdapter = new HotRecConsultAdapter(this, HotRecConsultAdapter.CONSULT_MAIN_TYPE);
+        hotAdapter = new HotRecConsultAdapter(this, HotRecConsultAdapter.CONSULT_MAIN_TYPE);
+        recAdapter.setHotList(recList);
+        hotAdapter.setHotList(hotList);
+        recListView.setAdapter(recAdapter);
+        hotListView.setAdapter(hotAdapter);
+        TextView newListBtn = (TextView) findViewById(R.id.nearly_consult);
+        TextView hotListBtn = (TextView) findViewById(R.id.hot_consult);
+        newListBtn.setOnClickListener(this);
+        hotListBtn.setOnClickListener(this);
 
-        //设置info 到控件
-        nearlyConsultTitle = (TextView) findViewById(R.id.nearly_consult_title);
-        nearlyConsultContent = (TextView) findViewById(R.id.nearly_consult_content);
-        hotConsultTitle = (TextView) findViewById(R.id.hot_consult_title);
-        hotConsultContent = (TextView) findViewById(R.id.hot_consult_content);
-        hotConsultTime = (TextView) findViewById(R.id.hot_consult_time);
-        nearlyConsultTime = (TextView) findViewById(R.id.nearly_consult_time);
+        //// TODO: 2015/11/3 详情界面
+        recListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ConsultInfo consult = (ConsultInfo) recAdapter.getItem(position);
+                Intent intent = new Intent(ExportConsultMainActivity.this, ConsultDetailActivity.class);
+                intent.putExtra("cid", consult.getCid());
+                startActivity(intent);
+            }
+        });
 
-        if (recentConsult != null) {
-            nearlyConsultTitle.setText(recentConsult.getArticle_title());
-            nearlyConsultContent.setText(StringUtils.replaceBlank(Html.fromHtml(recentConsult.getContent()).toString()));
-            nearlyConsultTime.setText(recentConsult.getCreate_time().substring(0, 10));
-        }
-        if (hotConsult != null) {
-            hotConsultTitle.setText(hotConsult.getArticle_title());
-            hotConsultContent.setText(StringUtils.replaceBlank(Html.fromHtml(hotConsult.getContent()).toString()));
-            hotConsultTime.setText(hotConsult.getCreate_time().substring(0, 10));
-        }
-
-        //点击进入咨询详细内容界面
-        RelativeLayout nearlyConsultView = (RelativeLayout) findViewById(R.id.nearly_consult_view);
-        RelativeLayout hotConsultView = (RelativeLayout) findViewById(R.id.hot_consult_view);
-        nearlyConsultView.setOnClickListener(this);
-        hotConsultView.setOnClickListener(this);
-
+        hotListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ConsultInfo consult = (ConsultInfo) hotAdapter.getItem(position);
+                Intent intent = new Intent(ExportConsultMainActivity.this, ConsultDetailActivity.class);
+                intent.putExtra("cid", consult.getCid());
+                startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -267,21 +257,19 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Expert expert = (Expert) parent.getAdapter().getItem(position);
-//                Intent intent = new Intent(ExportConsultMainActivity.this, ExpertInfoActivity.class);
-//                intent.putExtra("expert_info", expert);
-//                startActivity(intent);
+                OnDutyExpert expert = (OnDutyExpert) parent.getAdapter().getItem(position);
+                Intent intent1 = new Intent(ExportConsultMainActivity.this, ExpertInfoActivity.class);
+                intent1.putExtra("id", Integer.valueOf(expert.getFkUserId()));
+                startActivity(intent1);
             }
         };
         amDutyView.setOnItemClickListener(itemClickListener);
         pmDutyView.setOnItemClickListener(itemClickListener);
-
     }
 
     private void onDutyGet() {
-        amAdapter.setExpertList(onDutyAmExperts);
-        pmAdapter.setExpertList(onDutyPmExperts);
-//        Log.e("TAG", ">>>>>>>>>>>duty_list>>>>>>>");
+        amAdapter.notifyDataSetChanged();
+        pmAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -291,7 +279,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
                 // 点击跳转到专家详情界面
                 if (todayExpert != null) {
                     Intent intent1 = new Intent(ExportConsultMainActivity.this, ExpertInfoActivity.class);
-                    intent1.putExtra("expert_info", todayExpert);
+                    intent1.putExtra("id", todayExpert.getFkUserId());
                     startActivity(intent1);
                 }
                 break;
@@ -299,15 +287,19 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
                 // 点击跳转到专家详情界面
                 if (tomorrowExpert != null) {
                     Intent intent2 = new Intent(ExportConsultMainActivity.this, ExpertInfoActivity.class);
-                    intent2.putExtra("expert_info", tomorrowExpert);
+                    intent2.putExtra("id", tomorrowExpert.getFkUserId());
                     startActivity(intent2);
                 }
                 break;
-            case R.id.nearly_consult_view:
-                startActivity(new Intent(ExportConsultMainActivity.this, RecentConsultListActivity.class));
+            case R.id.nearly_consult:
+                Intent newIntent = new Intent(ExportConsultMainActivity.this, HotRecConsultListActivity.class);
+                newIntent.putExtra("type", "new");
+                startActivity(newIntent);
                 break;
-            case R.id.hot_consult_view:
-                startActivity(new Intent(ExportConsultMainActivity.this, HotConsultListActivity.class));
+            case R.id.hot_consult:
+                Intent hotIntent = new Intent(ExportConsultMainActivity.this, HotRecConsultListActivity.class);
+                hotIntent.putExtra("type", "hot");
+                startActivity(hotIntent);
                 break;
             case R.id.more_export:
                 // 更多专家
@@ -332,11 +324,7 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
             if (activity != null) {
                 switch (msg.what) {
                     case 1:          //值日表
-                        ((LinearLayout) activity.findViewById(R.id.duty_parent_view)).getChildAt(1).setVisibility(View.GONE);
                         activity.onDutyGet();
-                        break;
-                    case 2:         //专家表
-                        ((LinearLayout) activity.findViewById(R.id.expert_parent_view)).getChildAt(0).setVisibility(View.GONE);
                         break;
                     default:
                         break;
@@ -345,121 +333,79 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         }
     }
 
-    protected StringRequest hotConsultRequest(int start, int pageSize) {
-//        Log.e("TAG", ">>>>hot>>>>>>>>.url>>>>>>>>>>>>>" + BaseURLUtil.doGetHotConsult(start, pageSize));
-        return new StringRequest(BaseURLUtil.doGetHotConsult(start, pageSize), new Response.Listener<String>() {
+    /**
+     * 热点咨询
+     */
+    protected StringRequest hotConsultRequest(String type) {
+        return new StringRequest(BaseURLUtil.getRecentHotConsult(type) + "&pagesize=3", new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     if (jsonObject.getString("result").equals("Y")) {
-                        JSONObject jsonObject1 = jsonObject.getJSONObject("datas");
-                        JSONArray jsonArray = jsonObject1.getJSONArray("listData");
-                        int length = jsonObject1.getInt("size");
+                        JSONArray jsonArray = jsonObject.getJSONObject("datas").getJSONArray("listData");
+                        int length = jsonArray.length();
+
                         for (int i = 0; i < length; i++) {
                             JSONObject obj = jsonArray.getJSONObject(i);
-                            HotConsult consult = new HotConsult();
-                            consult.setGjc(obj.optString("gjc"));
-                            consult.setCreate_time(obj.optString("create_time"));
-                            consult.setStatus(obj.optString("status"));
-                            consult.setArticle_title(obj.optString("article_title"));
-                            consult.setContent(obj.optString("content"));
-                            consult.setFk_consult_user_id(obj.optString("fk_consult_user_id"));
-                            consult.setFk_create_user_id(obj.optString("fk_create_user_id"));
-                            consult.setFk_expert_id(obj.optString("fk_expert_id"));
-                            consult.setGg(obj.optString("gg"));
-                            consult.setHitnum(obj.optString("hitnum"));
-                            String id = obj.optString("id");
-                            consult.setThe_id(id);
-                            consult.setJz(obj.optString("jz"));
-                            consult.setZy(obj.optString("zy"));
-                            consult.setIshot(obj.optString("ishot"));
-                            int size = DataSupport.where("the_id = ?", id).find(HotConsult.class).size();
-                            if (size == 0) {
-                                consult.save();
-                            } else {
-                                consult.updateAll("the_id = ?", id);
-                            }
-
-                            if (i == 0) {
-                                hotConsultTitle.setText(consult.getArticle_title());
-                                hotConsultContent.setText(StringUtils.replaceBlank(Html.fromHtml(consult.getContent()).toString()));
-                                hotConsultTime.setText(consult.getCreate_time().substring(0, 10));
-                            }
+                            ConsultInfo consultInfo = new ConsultInfo();
+                            consultInfo.setCid(obj.optInt("cid"));
+                            consultInfo.setTitle(obj.optString("title"));
+                            hotList.add(consultInfo);
+                            hotAdapter.notifyDataSetChanged();
                         }
+
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(ExportConsultMainActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    protected StringRequest recentConsultRequest(int start, int pageSize) {
-//        Log.e("TAG", ">>>>recent>>>>>>>>.url>>>>>>>>>>>>>" + BaseURLUtil.doGetRecentConsult(start, pageSize));
-        return new StringRequest(BaseURLUtil.doGetRecentConsult(start, pageSize), new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-
-                try {
-                    JSONObject jsonObject = new JSONObject(s);
-                    if (jsonObject.getString("result").equals("Y")) {
-                        JSONObject jsonObject1 = jsonObject.getJSONObject("datas");
-                        JSONArray jsonArray = jsonObject1.getJSONArray("listData");
-                        int length = jsonObject1.getInt("size");
-                        for (int i = 0; i < length; i++) {
-                            JSONObject obj = jsonArray.getJSONObject(i);
-                            RecentConsult consult = new RecentConsult();
-                            consult.setGjc(obj.optString("gjc"));
-                            consult.setCreate_time(obj.optString("create_time"));
-                            consult.setStatus(obj.optString("status"));
-                            consult.setArticle_title(obj.optString("article_title"));
-                            consult.setContent(obj.optString("content"));
-                            consult.setFk_consult_user_id(obj.optString("fk_consult_user_id"));
-                            consult.setFk_create_user_id(obj.optString("fk_create_user_id"));
-                            consult.setFk_expert_id(obj.optString("fk_expert_id"));
-                            consult.setGg(obj.optString("gg"));
-                            consult.setHitnum(obj.optString("hitnum"));
-                            String id = obj.optString("id");
-                            consult.setThe_id(id);
-                            consult.setJz(obj.optString("jz"));
-                            consult.setZy(obj.optString("zy"));
-                            consult.setIshot(obj.optString("ishot"));
-                            int size = DataSupport.where("the_id = ?", id).find(RecentConsult.class).size();
-//                            Log.e("TAG", ">>>>>>>>>>recent id>>>>>>>>>>>" + id);
-                            if (size == 0) {
-                                consult.save();
-                            } else {
-                                consult.updateAll("the_id = ?", id);
-                            }
-
-                            if (i == 0) {
-                                nearlyConsultTitle.setText(consult.getArticle_title());
-                                nearlyConsultContent.setText(StringUtils.replaceBlank(Html.fromHtml(consult.getContent()).toString()));
-                                nearlyConsultTime.setText(consult.getCreate_time().substring(0, 10));
-                            }
-                        }
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(ExportConsultMainActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+                AppContext.toastBadInternet();
             }
         });
     }
 
     /**
-     * 获取专家列表
+     * 最新咨询
+     */
+    protected StringRequest recentConsultRequest(String type) {
+        return new StringRequest(BaseURLUtil.getRecentHotConsult(type) + "&pagesize=3", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (jsonObject.getString("result").equals("Y")) {
+                        JSONArray jsonArray = jsonObject.getJSONObject("datas").getJSONArray("listData");
+                        int length = jsonArray.length();
+
+                        for (int i = 0; i < length; i++) {
+                            JSONObject obj = jsonArray.getJSONObject(i);
+                            ConsultInfo consultInfo = new ConsultInfo();
+                            consultInfo.setCid(obj.optInt("cid"));
+                            consultInfo.setTitle(obj.optString("title"));
+
+                            recList.add(consultInfo);
+                            recAdapter.notifyDataSetChanged();
+                        }
+
+                    }
+                } catch (JSONException e) {
+                    AppContext.toastBadJson();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                AppContext.toastBadInternet();
+            }
+        });
+    }
+
+    /**
+     * 获取资深专家
      */
     protected StringRequest getExperts(int pageSize, int start, String searchWho) {
         return new StringRequest(BaseURLUtil.doGetExpertList(pageSize, start, searchWho), new Response.Listener<String>() {
@@ -468,73 +414,46 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     if (jsonObject.getString("result").equals("Y")) {
-                        JSONObject jsonObject1 = jsonObject.getJSONObject("datas");
-                        JSONArray jsonArray = jsonObject1.getJSONArray("listData");
+                        JSONArray jsonArray = jsonObject.getJSONObject("datas").getJSONArray("listData");
                         int length = jsonArray.length();
                         for (int i = 0; i < length; i++) {
                             JSONObject obj = jsonArray.getJSONObject(i);
-                            Expert expert = new Expert();
-                            String id = obj.optString("id");
-                            expert.setThe_id(id);
-                            expert.setCount(obj.optString("count"));
-                            expert.setPro_life(obj.optString("pro_life"));
-                            expert.setHead_pic(BaseURLUtil.BASE_URL + obj.optString("head_pic"));
-                            expert.setTel(obj.optString("tel"));
-                            expert.setFk_user_id(obj.optString("fk_user_id"));
-                            expert.setAddr(obj.optString("addr"));
-                            expert.setEducation(obj.optString("education"));
-                            expert.setReporting_methods(obj.optString("reporting_methods"));
-                            expert.setHome_zip_code(obj.optString("home_zip_code"));
-                            expert.setPolitics(obj.optString("politics"));
-                            expert.setQualification(obj.optString("qualification"));
-                            expert.setLevel(obj.optString("level"));
-                            expert.setCapacity(obj.optString("capacity"));
-                            expert.setExperience(obj.optString("experience"));
-                            expert.setIndustry(obj.optString("industry"));
-                            expert.setNote(obj.optString("note"));
-                            expert.setWork_addr(obj.optString("work_addr"));
-                            expert.setOthers(obj.optString("others"));
-                            expert.setId_number(obj.optString("id_number"));
-                            expert.setHome_addr(obj.optString("home_addr"));
-                            expert.setUser_name(obj.optString("user_name"));
-                            expert.setSchool(obj.optString("school"));
-                            expert.setDegree(obj.optString("degree"));
-                            expert.setMajor_works(obj.optString("major_works"));
-                            expert.setWork_zip_code(obj.optString("work_zip_code"));
-                            expert.setCreate_time(obj.optString("create_time"));
-                            expert.setPosition_title(obj.optString("position_title"));
-                            expert.setWork_experience(obj.optString("work_experience"));
-                            expert.setWork_name(obj.optString("work_name"));
-
-                            int size = DataSupport.where("the_id = ?", id).find(Expert.class).size();
+                            PreExpert preExpert = new PreExpert();
+                            preExpert.setCount(obj.optInt("count"));
+                            preExpert.setUsername(obj.optString("username"));
+                            preExpert.setLevel(obj.optString("level"));
+                            preExpert.setFkUserId(obj.optInt("fkUserId"));
+                            preExpert.setWaitCount(obj.optInt("waitCount"));
+                            preExpert.setHeadImage(obj.optString("headImage"));
+                            int size = DataSupport.where("fkUserId = ?", String.valueOf(preExpert.getFkUserId())).find(PreExpert.class).size();
                             if (size == 0) {
-                                expert.save();
+                                preExpert.save();
                             } else {
-                                expert.updateAll("the_id = ?", id);
+                                preExpert.updateAll("fkUserId = ?", String.valueOf(preExpert.getFkUserId()));
                             }
                         }
 
-                        todayExpert = DataSupport.findFirst(Expert.class);
-                        tomorrowExpert = DataSupport.findLast(Expert.class);
+                        List<PreExpert> list = DataSupport.where("level = ? or level = ?", "level2", "level1").find(PreExpert.class);
+                        todayExpert = list.get(0);
+                        tomorrowExpert = list.get(1);
                         if (todayExpert != null && tomorrowExpert != null) {
-                            Picasso.with(ExportConsultMainActivity.this).load(todayExpert.getHead_pic()).into(todayExportIcon);
-                            todayExportName.setText("姓名：" + todayExpert.getUser_name());
-                            todayExportMajor.setText("职业：" + todayExpert.getMajor_works());
-                            Picasso.with(ExportConsultMainActivity.this).load(tomorrowExpert.getHead_pic()).into(tomorrowExportIcon);
-                            tomorrowExportName.setText("姓名：" + tomorrowExpert.getUser_name());
-                            tomorrowExportMajor.setText("职业：" + tomorrowExpert.getMajor_works());
+                            Picasso.with(ExportConsultMainActivity.this).load(todayExpert.getHeadImage()).into(todayExportIcon);
+                            todayExportName.setText("姓名：" + todayExpert.getUsername());
+                            todayExportCount.setText(todayExpert.getCount() + "个咨询");
+                            Picasso.with(ExportConsultMainActivity.this).load(tomorrowExpert.getHeadImage()).into(tomorrowExportIcon);
+                            tomorrowExportName.setText("姓名：" + tomorrowExpert.getUsername());
+                            tomorrowExportCount.setText(tomorrowExpert.getCount() + "个咨询");
                         }
 
-                        mHandler.sendEmptyMessage(2);
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(ExportConsultMainActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+                AppContext.toastBadInternet();
             }
         });
     }
@@ -543,46 +462,41 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
      * 获取值班专家表
      */
     protected StringRequest getOnDutyExperts() {
+        onDutyAmExperts.clear();
+        onDutyPmExperts.clear();
         return new StringRequest(BaseURLUtil.getOnDutyExpert(), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     if (jsonObject.getString("result").equals("Y")) {
-                        JSONObject jsonObject1 = jsonObject.getJSONObject("datas");
-                        JSONArray jsonArray = jsonObject1.getJSONArray("listData");
+                        JSONArray jsonArray = jsonObject.getJSONObject("datas").getJSONArray("listData");
                         int length = jsonArray.length();
                         for (int i = 0; i < length; i++) {
                             JSONObject obj = jsonArray.getJSONObject(i);
-                            String flag = obj.optString("flag");
-                            String day = obj.optString("day");
-                            JSONArray jsonArray1 = obj.getJSONArray("users");
-                            int length1 = jsonArray1.length();
-                            for (int j = 0; j < length1; j++) {
-                                JSONObject object = jsonArray1.getJSONObject(j);
-                                OnDutyExpert expert = new OnDutyExpert();
-                                expert.setName(object.optString("name"));
-                                expert.setUserId(object.optString("userId"));
-                                expert.setFlag(flag);
-                                expert.setDay(day);
-                                if (flag.equals("上午") && day.equals(getDay())) {
-                                    onDutyAmExperts.add(expert);
-                                } else if (flag.equals("下午") && day.equals(getDay())) {
-                                    onDutyPmExperts.add(expert);
-                                }
+                            OnDutyExpert dutyExpert = new OnDutyExpert();
+                            dutyExpert.setTheId(obj.optInt("id"));
+                            dutyExpert.setDutyTime(obj.optString("dutyTime"));
+                            dutyExpert.setExName(obj.optString("exName"));
+                            dutyExpert.setFkUserId(obj.optString("fkUserId"));
+                            dutyExpert.setOndutyDate(obj.optString("ondutyDate"));
+                            if (dutyExpert.getDutyTime().equals("09:00-12:00")) {
+                                onDutyAmExperts.add(dutyExpert);
+                            } else {
+                                onDutyPmExperts.add(dutyExpert);
                             }
                         }
-
                         mHandler.sendEmptyMessage(1);
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+
+                    AppContext.toastBadJson();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(ExportConsultMainActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+                AppContext.toastBadInternet();
             }
         });
     }

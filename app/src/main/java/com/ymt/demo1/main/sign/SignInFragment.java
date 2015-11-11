@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.SearchString;
-import com.ymt.demo1.beams.consult_cato.SearchedConsult;
+import com.ymt.demo1.beams.consult_cato.ConsultItem;
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
 import com.ymt.demo1.beams.expert_consult.QQMsg;
 import com.ymt.demo1.customViews.MyCheckView;
@@ -34,7 +35,6 @@ import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.utils.PopActionListener;
 import com.ymt.demo1.utils.PopActionUtil;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
@@ -107,7 +107,7 @@ public class SignInFragment extends Fragment {
                 //todo 获取网络账号密码信息
                 switch (v.getId()) {
                     case R.id.auto_create_account_btn:
-                        //自动分配账号
+                        //todo 自动分配账号
                         queue.add(getAutoAccount());
                         break;
                     case R.id.sign_in_btn:
@@ -121,7 +121,7 @@ public class SignInFragment extends Fragment {
                         if (!savedUserAccount.equals(account)) {
                             DataSupport.deleteAll(QQChatInfo.class);
                             DataSupport.deleteAll(QQMsg.class);
-                            DataSupport.deleteAll(SearchedConsult.class);
+                            DataSupport.deleteAll(ConsultItem.class);
                             DataSupport.deleteAll(SearchString.class);
                         }
                         queue.add(signInRequest(account, psw));
@@ -210,6 +210,7 @@ public class SignInFragment extends Fragment {
 
     protected StringRequest signInRequest(final String account, final String psw) {
         String url = BaseURLUtil.doSignIn(account, psw);
+        Log.e("TAG", " login in url:  " + url);
 
         StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
@@ -217,16 +218,35 @@ public class SignInFragment extends Fragment {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     SignInUpActivity activity = (SignInUpActivity) getActivity();
-                    if (jsonObject.getString("result").equals("Y")) {
+
+                    if (jsonObject.getString("result").equals("N")) {
+
+                        Toast.makeText(getActivity(), "登陆失败！", Toast.LENGTH_SHORT).show();
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("account", account);
+                        editor.putString("password", psw);
+                        editor.putString("now_user_id", "");
+                        editor.putString("now_session_id", "");
+                        editor.apply();
+
+                        AppContext.now_session_id = "";
+                        AppContext.now_user_id = 0;
+                        AppContext.now_user_name = "";
+
+                        activity.isSigned = false;
+
+                    } else if (jsonObject.getString("result").equals("Y")) {
+
                         //登录成功
                         Toast.makeText(getActivity(), R.string.sign_in_ok, Toast.LENGTH_SHORT).show();
-                        String userId = jsonObject.optString("id");
-                        String userSId = jsonObject.optString("sId");
+                        JSONObject listData = jsonObject.getJSONObject("datas").getJSONObject("listData");
+                        int userId = listData.optInt("uid");
+                        String userSId = listData.optString("sId");
 
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("account", account);
                         editor.putString("password", psw);
-                        editor.putString("now_user_id", userId);
+                        editor.putInt("now_user_id", userId);
                         editor.putString("now_session_id", userSId);
                         editor.apply();
 
@@ -258,63 +278,22 @@ public class SignInFragment extends Fragment {
 
                         activity.isSigned = true;
                         activity.finish();
-
-                    } else {
-                        Toast.makeText(getActivity(), jsonObject.getString("result"), Toast.LENGTH_SHORT).show();
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("account", account);
-                        editor.putString("password", psw);
-                        editor.putString("now_user_id", "");
-                        editor.putString("now_session_id", "");
-                        editor.apply();
-
-                        AppContext.now_session_id = "";
-                        AppContext.now_user_id = "";
-                        AppContext.now_user_name = "";
-
-                        activity.isSigned = false;
                     }
 
                 } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    AppContext.toastBadJson();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(getActivity(), volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+                AppContext.toastBadInternet();
             }
         });
 
         request.setRetryPolicy(new DefaultRetryPolicy(8 * 1000, 1, 1));
         return request;
     }
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        //这里不能调用super的方法，如果调用则下面代码失效
-//        switch (requestCode) {
-//            case 0:
-//                if (resultCode == Activity.RESULT_OK) {      //从注册界面返回的账号和密码
-//                    accountETxt.setText(data.getStringExtra("account"));
-//                    pswETxt.setText(data.getStringExtra("password"));
-////                    Log.e("TAG", "account>>>" + data.getStringExtra("account"));
-////                    Log.e("TAG", "password>>>" + data.getStringExtra("password"));
-//                }
-//                break;
-//            case 128:
-//                if (resultCode == Activity.RESULT_OK) {      //从注册界面返回的账号和密码
-//                    accountETxt.setText(data.getStringExtra("loginName"));
-//                    pswETxt.setText(data.getStringExtra("psw"));
-////                    Log.e("TAG", "account>>>" + data.getStringExtra("account"));
-////                    Log.e("TAG", "password>>>" + data.getStringExtra("password"));
-//                }
-//                break;
-//            default:
-//                break;
-//        }
-//    }
 
     @Override
     public void onPause() {
@@ -329,33 +308,26 @@ public class SignInFragment extends Fragment {
     /**
      * 自动生成账号
      */
+    //默认密码
+    private final static String DEFAULT_PSW = "000000";
+
     protected StringRequest getAutoAccount() {
         return new StringRequest(BaseURLUtil.AUTO_CREATE_ACCOUNT, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
-                    if (jsonObject.getString("result").equals("Y")) {
-                        JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                        JSONArray jsonArray = jsonObject1.getJSONArray("listData");
-                        JSONObject obj = jsonArray.getJSONObject(0);
-                        String account = obj.optString("login_name");
-//                        String psw = obj.optString("pwd");
-                        accountETxt.setText(account);
-//                        pswETxt.setText(psw);
-//                        popAutoAccountInfo(account, psw);
-                        pswETxt.setText("123456");
-                        popAutoAccountInfo(account, "123456");
-
-                    }
+                    accountETxt.setText(jsonObject.getJSONObject("datas").optString("listData"));
+                    pswETxt.setText(DEFAULT_PSW);
+                    popAutoAccountInfo(accountETxt.getText().toString(), DEFAULT_PSW);
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                AppContext.toastBadInternet();
             }
         });
     }

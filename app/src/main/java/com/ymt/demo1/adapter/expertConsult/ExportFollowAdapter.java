@@ -75,14 +75,14 @@ public class ExportFollowAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Picasso.with(context).load(mList.get(position).getExpert_head_pic()).into(viewHolder.exportHeader);
-        viewHolder.exportName.setText(mList.get(position).getExpert_name());
+        Picasso.with(context).load(mList.get(position).getHeadPic()).into(viewHolder.exportHeader);
+        viewHolder.exportName.setText(mList.get(position).getUserName());
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.un_follow:
-                        queue.add(unFollow(position, AppContext.now_session_id, mList.get(position).getFk_expert_id(), mList.get(position).getFk_user_id()));
+                        queue.add(unFollow(position, AppContext.now_session_id, mList.get(position).getFkExpertId()));
                         break;
                     default:
                         break;
@@ -102,13 +102,14 @@ public class ExportFollowAdapter extends BaseAdapter {
     /**
      * 取消关注
      */
-    private StringRequest unFollow(final int position, String sId, String expertId, String userId) {
-        return new StringRequest(BaseURLUtil.unfollowedExpert(sId, expertId, userId), new Response.Listener<String>() {
+    private StringRequest unFollow(final int position, String sId, int expertId) {
+        return new StringRequest(BaseURLUtil.unfollowExpert(sId, expertId), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
-                    if (jsonObject.getString("result").equals("Y")) {
+                    if (jsonObject.getString("result").equals("Y")
+                            && jsonObject.getJSONObject("datas").optInt("listData") > 0) {
                         Toast.makeText(context, "已取消关注！", Toast.LENGTH_SHORT).show();
                         mList.remove(position);
                         setList(mList);

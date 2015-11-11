@@ -18,12 +18,10 @@ import java.util.List;
  */
 public class MockExamsAdapter extends BaseAdapter {
     private LayoutInflater inflater;
-    private Context context;
     List<MockExamItem> list = new ArrayList<>();
 
     public MockExamsAdapter(Context context) {
         this.inflater = LayoutInflater.from(context);
-        this.context = context;
     }
 
     public void setList(List<MockExamItem> list) {
@@ -54,16 +52,14 @@ public class MockExamsAdapter extends BaseAdapter {
             contentHolder = new ContentHolder();
             contentHolder.examName = (TextView) convertView.findViewById(R.id.content);
             contentHolder.totalItem = (TextView) convertView.findViewById(R.id.total_item);
-            contentHolder.totalTime = (TextView) convertView.findViewById(R.id.total_time);
             contentHolder.totalScore = (TextView) convertView.findViewById(R.id.total_score);
             convertView.setTag(contentHolder);
         } else {
             contentHolder = (ContentHolder) convertView.getTag();
         }
-        contentHolder.examName.setText(list.get(position).getExam_title());
-        contentHolder.totalItem.setText("总题:" + list.get(position).getTotal_item() + "题");
-        contentHolder.totalTime.setText("考试时长:" + list.get(position).getExam_time() + "分钟");
-        contentHolder.totalScore.setText("总分:" + list.get(position).getTotal_score() + "分");
+        contentHolder.examName.setText(list.get(position).getExaName());
+        contentHolder.totalItem.setText(list.get(position).getBank_num() + "题");
+        contentHolder.totalScore.setText(list.get(position).getScores() + "分");
         convertView.setBackgroundResource(R.drawable.like_pressed_for_test);
 
         return convertView;
@@ -72,7 +68,6 @@ public class MockExamsAdapter extends BaseAdapter {
     class ContentHolder {
         TextView examName;
         TextView totalItem;
-        TextView totalTime;
         TextView totalScore;
     }
 

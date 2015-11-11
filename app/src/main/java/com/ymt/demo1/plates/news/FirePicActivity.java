@@ -26,6 +26,7 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.beams.news.NewsSummary;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.baseClasses.BaseFloatActivity;
+import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 
 import org.json.JSONArray;
@@ -100,7 +101,7 @@ public class FirePicActivity extends BaseFloatActivity {
     }
 
     private StringRequest summaryRequest(int start) {
-        return new StringRequest(BaseURLUtil.BASE_URL+"/fw?controller=com.xfsm.action.ArticleAction&m=list&type=xf_article_h_news_photo&order=new&start=" + String.valueOf(start), new Response.Listener<String>() {
+        return new StringRequest(BaseURLUtil.getPicNewsUrl(), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -111,22 +112,23 @@ public class FirePicActivity extends BaseFloatActivity {
                         JSONObject object = summaryArray.getJSONObject(i);
                         NewsSummary summary = new NewsSummary();
                         summary.setContent(object.optString("content"));
-                        summary.setCreate_time(object.optString("create_time"));
-                        summary.setArticle_title(object.optString("article_title"));
-                        summary.setHitnum(object.optString("hitnum"));
                         summary.setThe_id(object.optString("id"));
-                        summary.setFk_create_user_id(object.optString("fk_create_user_id"));
-                        summary.setSource(object.optString("source"));
-                        summary.setEditor(object.optString("editor"));
                         summary.setAuthor(object.optString("author"));
-                        summary.setStatus(object.optString("status"));
-                        summary.setPic(BaseURLUtil.BASE_URL + object.opt("pic"));
+                        summary.setCreateTime(object.optString("createTime"));
+                        summary.setEditor(object.optString("editor"));
+                        summary.setSource(object.optString("source"));
+                        summary.setArticleTitle(object.optString("articleTitle"));
+                        summary.setHitnum(object.optString("hitnum"));
+                        summary.setType(object.optString("type"));
+                        summary.setPic(object.optString("pic"));
+                        summary.setName1(object.optString("name1"));
+                        summary.setName2(object.optString("name2"));
                         newsList.add(summary);
 
                     }
                     summaryAdapter.setList(newsList);
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
                 newsListView.onRefreshComplete();
 
@@ -134,7 +136,7 @@ public class FirePicActivity extends BaseFloatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(FirePicActivity.this, "网络错误，请稍后重试！", Toast.LENGTH_SHORT).show();
+                AppContext.toastBadInternet();
                 newsListView.onRefreshComplete();
             }
         });
@@ -187,7 +189,7 @@ public class FirePicActivity extends BaseFloatActivity {
             }
             //todo
 
-            viewHolder.titleView.setText(list.get(position).getArticle_title());
+            viewHolder.titleView.setText(list.get(position).getArticleTitle());
             viewHolder.hitView.setText(list.get(position).getHitnum() + "跟贴");
             String pic = list.get(position).getPic();
             if (!TextUtils.isEmpty(pic)) {

@@ -27,7 +27,6 @@ import java.util.List;
  */
 public class QQUnreadMsgService extends IntentService {
     private Boolean isSignedIn = false;
-    private SharedPreferences preferences;
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -36,7 +35,7 @@ public class QQUnreadMsgService extends IntentService {
             int length = chats.size();
             for (int i = 0; i < length; i++) {
                 QQChatInfo info = chats.get(i);
-                String qq_id = info.getQq_id();
+                int qq_id = info.getConsultId();
                 unreadMsg(qq_id);
 //                sendQQChatMsgRequest(qq_id);
             }
@@ -47,14 +46,13 @@ public class QQUnreadMsgService extends IntentService {
         super("QQMsgService");
         if (TextUtils.isEmpty(AppContext.now_session_id)) {
             isSignedIn = true;
-            preferences = getSharedPreferences("unread_info", Context.MODE_PRIVATE);
         }
     }
 
     /**
      * 未读消息
      */
-    protected void unreadMsg(String qq_id) {
+    protected void unreadMsg(int qq_id) {
         final String urlStr = BaseURLUtil.getMyUnreadQQMsgUrl(AppContext.now_session_id, qq_id, AppContext.now_user_id);
         HttpURLConnection connection = null;
         StringBuilder response = new StringBuilder();
@@ -78,17 +76,13 @@ public class QQUnreadMsgService extends IntentService {
 
             try {
                 JSONObject jsonObject = new JSONObject(String.valueOf(response));
-                JSONObject jsonObject1 = jsonObject.getJSONObject("datas");
-                int unReadCount = jsonObject1.getInt("size");
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putInt(qq_id, unReadCount);
-                editor.apply();
+               //// TODO: 2015/11/4  未读消息
             } catch (JSONException e) {
-                e.printStackTrace();
+                AppContext.toastBadJson();
             }
         } catch (IOException e) {
             e.printStackTrace();
-//            Log.e("TAG", ">>>>>>>>>>>>.error>>>>>>>>>>>" + e.toString());
+            AppContext.toastBadInternet();
         } finally {
             if (connection != null) {
                 connection.disconnect();

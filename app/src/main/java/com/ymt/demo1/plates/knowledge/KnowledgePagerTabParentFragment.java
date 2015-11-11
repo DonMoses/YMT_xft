@@ -68,7 +68,9 @@ public class KnowledgePagerTabParentFragment extends BaseFragment {
 //                "系统",
                 "科研",
                 "规范",
-                "视频"};
+                "视频",
+                "数据库"
+        };
 
         public NavigationAdapter(FragmentManager fm) {
             super(fm);
@@ -88,14 +90,17 @@ public class KnowledgePagerTabParentFragment extends BaseFragment {
                 case "系统":
                     f = new KnowledgeHyFragment();
                     break;
-                case "科研":
-                    f = KnowledgeItemListViewFragment.getNewInstance(KnowledgeItemListViewFragment.KNOWLEDGE_KYWX);
-                    break;
                 case "规范":
                     f = KnowledgeItemListViewFragment.getNewInstance(KnowledgeItemListViewFragment.KNOWLEDGE_BZGF);
                     break;
+                case "科研":
+                    f = KnowledgeItemListViewFragment.getNewInstance(KnowledgeItemListViewFragment.KNOWLEDGE_KYWX);
+                    break;
                 case "视频":
                     f = new KnowledgeVideoFragment();
+                    break;
+                case "数据库":
+                    f = KnowledgeItemListViewFragment.getNewInstance(KnowledgeItemListViewFragment.KNOWLEDGE_SJK);
                     break;
                 default:
                     f = new Fragment();

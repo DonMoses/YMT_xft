@@ -32,11 +32,9 @@ import com.ymt.demo1.adapter.knowledge.KnowledgeItemAdapter;
 import com.ymt.demo1.adapter.SearchedConsultAdapter;
 import com.ymt.demo1.adapter.knowledge.VideoListAdapter;
 import com.ymt.demo1.beams.AllSearchItem;
-import com.ymt.demo1.beams.consult_cato.SearchedConsult;
-import com.ymt.demo1.beams.expert_consult.Expert;
-import com.ymt.demo1.beams.knowledge.KnowledgeItemBZGF;
-import com.ymt.demo1.beams.knowledge.KnowledgeItemKYWX;
-import com.ymt.demo1.beams.knowledge.KnowledgeVideo;
+import com.ymt.demo1.beams.consult_cato.ConsultItem;
+import com.ymt.demo1.beams.expert_consult.PreExpert;
+import com.ymt.demo1.beams.knowledge.KnowledgeItem;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.baseClasses.BaseFloatActivity;
 import com.ymt.demo1.utils.BaseURLUtil;
@@ -44,7 +42,6 @@ import com.ymt.demo1.plates.consultCato.ConsultDetailActivity;
 import com.ymt.demo1.plates.exportConsult.ExpertInfoActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeItemDetailActivity;
 import com.ymt.demo1.plates.knowledge.KnowledgeItemListViewFragment;
-import com.ymt.demo1.plates.knowledge.KnowledgeVideoFragment;
 import com.ymt.demo1.plates.knowledge.WebVideoActivity;
 
 import org.json.JSONArray;
@@ -75,11 +72,9 @@ public class SearchResultActivity extends BaseFloatActivity {
     private KnowledgeItemAdapter knowledgeNormalAdapter;
     private VideoListAdapter videoListAdapter;
     private AllSearchListAdapter allSearchListAdapter;
-    private List<Expert> experts = new ArrayList<>();
-    private List<KnowledgeItemBZGF> bzgfList = new ArrayList<>();
-    private List<KnowledgeItemKYWX> kywxList = new ArrayList<>();
-    private List<KnowledgeVideo> spzlList = new ArrayList<>();
-    private List<SearchedConsult> consultList = new ArrayList<>();
+    private List<PreExpert> experts = new ArrayList<>();
+    private List<KnowledgeItem> knowledgeItemList = new ArrayList<>();
+    private List<ConsultItem> consultList = new ArrayList<>();
     private List<AllSearchItem> allSearchList = new ArrayList<>();
 
     @Override
@@ -228,27 +223,31 @@ public class SearchResultActivity extends BaseFloatActivity {
         expertGirdView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<GridView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<GridView> refreshView) {
-                start = 1;
-                experts.clear();
-                expertListAdapter.setExperts(experts);
-                String sKw = searchTxt.getText().toString();
-                mQueue.add(getExperts(pageSize, start, sKw));
+                if (AppContext.internetAvialable()) {
+                    start = 1;
+                    experts.clear();
+                    expertListAdapter.setExperts(experts);
+                    String sKw = searchTxt.getText().toString();
+                    mQueue.add(getExperts(pageSize, start, sKw));
+                }
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<GridView> refreshView) {
-                start++;
-                String sKw = searchTxt.getText().toString();
-                mQueue.add(getExperts(pageSize, start, sKw));
+                if (AppContext.internetAvialable()) {
+                    start++;
+                    String sKw = searchTxt.getText().toString();
+                    mQueue.add(getExperts(pageSize, start, sKw));
+                }
             }
         });
 
         expertGirdView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Expert expert = (Expert) expertGirdView.getRefreshableView().getAdapter().getItem(position);
+                PreExpert expert = (PreExpert) expertGirdView.getRefreshableView().getAdapter().getItem(position);
                 Intent intent = new Intent(SearchResultActivity.this, ExpertInfoActivity.class);
-                intent.putExtra("expert_info", expert);
+                intent.putExtra("id", expert.getFkUserId());
                 startActivity(intent);
             }
         });
@@ -256,10 +255,7 @@ public class SearchResultActivity extends BaseFloatActivity {
     }
 
     protected void initListView() {
-        bzgfList.clear();
-        kywxList.clear();
-        consultList.clear();
-        spzlList.clear();
+        knowledgeItemList.clear();
         allSearchList.clear();
         normalListView = (PullToRefreshListView) findViewById(R.id.result_list_view);
         if (normalListView == null) {
@@ -286,29 +282,24 @@ public class SearchResultActivity extends BaseFloatActivity {
                 allSearchListAdapter.setList(allSearchList, kword);
                 mQueue.add(getAllSearch(AppContext.now_user_id, start, pageSize, kword));
                 break;
-            case 2:                 //知识平台-科研
-                knowledgeNormalAdapter = new KnowledgeItemAdapter(SearchResultActivity.this, KnowledgeItemListViewFragment.KNOWLEDGE_KYWX);
+            case 2:                 //知识平台-标准
+            case 3:                 //知识平台-科研
+                knowledgeNormalAdapter = new KnowledgeItemAdapter(SearchResultActivity.this);
                 normalListView.setAdapter(knowledgeNormalAdapter);
-                knowledgeNormalAdapter.setKYWXList(kywxList);
-                mQueue.add(getKywxList(pageSize, start, kword));
-                break;
-            case 3:                 //知识平台-标准
-                knowledgeNormalAdapter = new KnowledgeItemAdapter(SearchResultActivity.this, KnowledgeItemListViewFragment.KNOWLEDGE_BZGF);
-                normalListView.setAdapter(knowledgeNormalAdapter);
-                knowledgeNormalAdapter.setBZGFList(bzgfList);
-                mQueue.add(getBzgfList(pageSize, start, kword));
+                knowledgeNormalAdapter.setKnowledgeItemList(knowledgeItemList);
+                mQueue.add(getKnowledgePdfList(pageSize, start, kword));
                 break;
             case 4:                 //知识平台-视频
                 videoListAdapter = new VideoListAdapter(SearchResultActivity.this, AppContext.screenWidth);
                 normalListView.setAdapter(videoListAdapter);
-                videoListAdapter.setVideos(spzlList);
-                mQueue.add(getKnowledgeVideo(pageSize, start, kword));
+                videoListAdapter.setVideos(knowledgeItemList);
+                mQueue.add(getKnowledgeVideoList(pageSize, start, kword));
                 break;
             case 5:                 //咨询分类
                 searchedConsultAdapter = new SearchedConsultAdapter(SearchResultActivity.this);
                 normalListView.setAdapter(searchedConsultAdapter);
                 searchedConsultAdapter.setList(consultList);
-                mQueue.add(getConsultRequest(pageSize, start, "", kword));
+                mQueue.add(getConsultRequest(start, 761, 762, 763));
                 break;
             default:
                 break;
@@ -329,24 +320,20 @@ public class SearchResultActivity extends BaseFloatActivity {
                         mQueue.add(getAllSearch(AppContext.now_user_id, start, pageSize, inKw));
                         break;
                     case 2:                 //知识平台-科研
-                        kywxList.clear();
-                        knowledgeNormalAdapter.setKYWXList(kywxList);
-                        mQueue.add(getKywxList(pageSize, start, inKw));
-                        break;
                     case 3:                 //知识平台-标准
-                        bzgfList.clear();
-                        knowledgeNormalAdapter.setBZGFList(bzgfList);
-                        mQueue.add(getBzgfList(pageSize, start, inKw));
+                        knowledgeItemList.clear();
+                        knowledgeNormalAdapter.setKnowledgeItemList(knowledgeItemList);
+                        mQueue.add(getKnowledgePdfList(pageSize, start, inKw));
                         break;
                     case 4:                 //知识平台-视频
-                        spzlList.clear();
-                        videoListAdapter.setVideos(spzlList);
-                        mQueue.add(getKnowledgeVideo(pageSize, start, inKw));
+                        knowledgeItemList.clear();
+                        videoListAdapter.setVideos(knowledgeItemList);
+                        mQueue.add(getKnowledgeVideoList(pageSize, start, inKw));
                         break;
                     case 5:                 //咨询分类
                         consultList.clear();
                         searchedConsultAdapter.setList(consultList);
-                        mQueue.add(getConsultRequest(pageSize, start, "", inKw));
+                        mQueue.add(getConsultRequest(start, 761, 762, 763));
                         break;
                     default:
                         break;
@@ -363,16 +350,14 @@ public class SearchResultActivity extends BaseFloatActivity {
                         mQueue.add(getAllSearch(AppContext.now_user_id, start, pageSize, inKw));
                         break;
                     case 2:                 //知识平台-科研
-                        mQueue.add(getKywxList(pageSize, start, inKw));
-                        break;
                     case 3:                 //知识平台-标准
-                        mQueue.add(getBzgfList(pageSize, start, inKw));
+                        mQueue.add(getKnowledgePdfList(pageSize, start, inKw));
                         break;
                     case 4:                 //知识平台-视频
-                        mQueue.add(getKnowledgeVideo(pageSize, start, inKw));
+                        mQueue.add(getKnowledgeVideoList(pageSize, start, inKw));
                         break;
                     case 5:                 //咨询分类
-                        mQueue.add(getConsultRequest(pageSize, start, "", inKw));
+                        mQueue.add(getConsultRequest(start, 761, 762, 763));
                         break;
                     default:
                         break;
@@ -390,57 +375,53 @@ public class SearchResultActivity extends BaseFloatActivity {
 
                 int pos = spinner.getSelectedItemPosition();
                 switch (pos) {
-                    case 0:                 //全部
+                    case 0:                 //全文检索
                         //todo
-                        AllSearchItem item = (AllSearchItem) parent.getAdapter().getItem(position);
-                        switch (item.getDoc_type_name()) {
-                            case "标准规范":
-                                KnowledgeItemBZGF itemBZGF = new KnowledgeItemBZGF();
-                                itemBZGF.setCreate_time(item.getCreate_date());
-                                itemBZGF.setArticle_title(item.getDoc_title());
-                                itemBZGF.setPdf_id(item.getFile_path());
-                                itemBZGF.setContent(item.getFile_name());
-                                Intent intent0 = new Intent(SearchResultActivity.this, KnowledgeItemDetailActivity.class);
-                                intent0.putExtra("bzgf", itemBZGF);
-                                startActivity(intent0);
-                                break;
-                            case "问答咨询":
-                                KnowledgeItemBZGF itemWd = new KnowledgeItemBZGF();
-                                itemWd.setCreate_time(item.getCreate_date());
-                                itemWd.setArticle_title(item.getDoc_title());
-                                itemWd.setPdf_id(item.getFile_path());
-                                itemWd.setContent(item.getDoc_content());
-                                Intent intent1 = new Intent(SearchResultActivity.this, KnowledgeItemDetailActivity.class);
-                                intent1.putExtra("bzgf", itemWd);
-                                startActivity(intent1);
-                                break;
-                            case "论坛":
-                            case "教育":
-                            case "商品":
-                            case "咨询":
-                            default:
-                                break;
-                        }
+//                        AllSearchItem item = (AllSearchItem) parent.getAdapter().getItem(position);
+//                        switch (item.getDoc_type_name()) {
+//                            case "标准规范":
+//                                KnowledgeItem itemBZGF = new KnowledgeItem();
+//                                itemBZGF.setCreate_time(item.getCreate_date());
+//                                itemBZGF.setArticle_title(item.getDoc_title());
+//                                itemBZGF.setPdf_id(item.getFile_path());
+//                                itemBZGF.setContent(item.getFile_name());
+//                                Intent intent0 = new Intent(SearchResultActivity.this, KnowledgeItemDetailActivity.class);
+//                                intent0.putExtra("bzgf", itemBZGF);
+//                                startActivity(intent0);
+//                                break;
+//                            case "问答咨询":
+//                                KnowledgeItem itemWd = new KnowledgeItem();
+//                                itemWd.setCreate_time(item.getCreate_date());
+//                                itemWd.setArticle_title(item.getDoc_title());
+//                                itemWd.setPdf_id(item.getFile_path());
+//                                itemWd.setContent(item.getDoc_content());
+//                                Intent intent1 = new Intent(SearchResultActivity.this, KnowledgeItemDetailActivity.class);
+//                                intent1.putExtra("bzgf", itemWd);
+//                                startActivity(intent1);
+//                                break;
+//                            case "论坛":
+//                            case "教育":
+//                            case "商品":
+//                            case "咨询":
+//                            default:
+//                                break;
+//                        }
                         break;
                     case 2:
+                    case 3:
                         Intent intent2 = new Intent(SearchResultActivity.this, KnowledgeItemDetailActivity.class);
-                        intent2.putExtra("kywx", ((KnowledgeItemKYWX) parent.getAdapter().getItem(position)));
+                        intent2.putExtra("item", ((KnowledgeItem) parent.getAdapter().getItem(position)));
                         startActivity(intent2);
                         break;
-                    case 3:
-                        Intent intent3 = new Intent(SearchResultActivity.this, KnowledgeItemDetailActivity.class);
-                        intent3.putExtra("bzgf", ((KnowledgeItemBZGF) parent.getAdapter().getItem(position)));
-                        startActivity(intent3);
-                        break;
-                    case 4:         //视频
+                    case 4:         //todo 视频
                         Intent intent = new Intent(SearchResultActivity.this, WebVideoActivity.class);
-                        intent.putExtra("mp4_url", ((KnowledgeVideo) parent.getAdapter().getItem(position)).getAttachment());
+                        intent.putExtra("mp4_url", BaseURLUtil.getKnowledgeFileUrl(((KnowledgeItem) parent.getAdapter().getItem(position)).getKnowId()));
                         startActivity(intent);
                         break;
                     case 5:         //咨询分类
                         Intent intent5 = new Intent(SearchResultActivity.this, ConsultDetailActivity.class);
-                        intent5.putExtra("title", ((SearchedConsult) parent.getAdapter().getItem(position)).getArticle_title());
-                        intent5.putExtra("content", ((SearchedConsult) parent.getAdapter().getItem(position)).getArticle_content());
+                        intent5.putExtra("title", ((ConsultItem) parent.getAdapter().getItem(position)).getTitle());
+                        intent5.putExtra("content", ((ConsultItem) parent.getAdapter().getItem(position)).getItContent());
                         startActivity(intent5);
                         break;
                     default:
@@ -450,8 +431,6 @@ public class SearchResultActivity extends BaseFloatActivity {
                 }
             }
         });
-
-
     }
 
     /**
@@ -461,7 +440,6 @@ public class SearchResultActivity extends BaseFloatActivity {
         return new StringRequest(BaseURLUtil.doGetExpertList(pageSize, start, searchWho), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-//                Log.e("TAG", ">>>>>>>>>>>expert>>>>" + s);
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     if (jsonObject.getString("result").equals("Y")) {
@@ -470,52 +448,26 @@ public class SearchResultActivity extends BaseFloatActivity {
                         int length = jsonArray.length();
                         for (int i = 0; i < length; i++) {
                             JSONObject obj = jsonArray.getJSONObject(i);
-                            Expert expert = new Expert();
-                            String id = obj.optString("id");
-                            expert.setThe_id(id);
-                            expert.setCount(obj.optString("count"));
-                            expert.setPro_life(obj.optString("pro_life"));
-                            expert.setHead_pic(BaseURLUtil.BASE_URL + obj.optString("head_pic"));
-                            expert.setTel(obj.optString("tel"));
-                            expert.setFk_user_id(obj.optString("fk_user_id"));
-                            expert.setAddr(obj.optString("addr"));
-                            expert.setEducation(obj.optString("education"));
-                            expert.setReporting_methods(obj.optString("reporting_methods"));
-                            expert.setHome_zip_code(obj.optString("home_zip_code"));
-                            expert.setPolitics(obj.optString("politics"));
-                            expert.setQualification(obj.optString("qualification"));
-                            expert.setLevel(obj.optString("level"));
-                            expert.setCapacity(obj.optString("capacity"));
-                            expert.setExperience(obj.optString("experience"));
-                            expert.setIndustry(obj.optString("industry"));
-                            expert.setNote(obj.optString("note"));
-                            expert.setWork_addr(obj.optString("work_addr"));
-                            expert.setOthers(obj.optString("others"));
-                            expert.setId_number(obj.optString("id_number"));
-                            expert.setHome_addr(obj.optString("home_addr"));
-                            expert.setUser_name(obj.optString("user_name"));
-                            expert.setSchool(obj.optString("school"));
-                            expert.setDegree(obj.optString("degree"));
-                            expert.setMajor_works(obj.optString("major_works"));
-                            expert.setWork_zip_code(obj.optString("work_zip_code"));
-                            expert.setCreate_time(obj.optString("create_time"));
-                            expert.setPosition_title(obj.optString("position_title"));
-                            expert.setWork_experience(obj.optString("work_experience"));
-                            expert.setWork_name(obj.optString("work_name"));
-                            experts.add(expert);
+                            PreExpert preExpert = new PreExpert();
+                            preExpert.setCount(obj.optInt("count"));
+                            preExpert.setUsername(obj.optString("username"));
+                            preExpert.setLevel(obj.optString("level"));
+                            preExpert.setFkUserId(obj.optInt("fkUserId"));
+                            preExpert.setWaitCount(obj.optInt("waitCount"));
+                            preExpert.setHeadImage(obj.optString("headImage"));
+                            experts.add(preExpert);
                         }
-                        expertListAdapter.setExperts(experts);
-
+                        expertListAdapter.notifyDataSetChanged();
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
-
+                    AppContext.toastBadJson();
                 }
                 expertGirdView.onRefreshComplete();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                AppContext.toastBadInternet();
                 expertGirdView.onRefreshComplete();
             }
         });
@@ -525,15 +477,13 @@ public class SearchResultActivity extends BaseFloatActivity {
     /**
      * 标准规范
      */
-    protected StringRequest getBzgfList(int pageSize, int startIndex, String searchWhat) {
-//        Log.e("TAG", ">>>>>>>>>>>>>url>>>>>>>>>>" + BaseURLUtil.doGetKnowledgeAction(KNOWLEDGE_BZGF, pageSize, startIndex, searchWhat));
+    protected StringRequest getKnowledgePdfList(int pageSize, int startIndex, String searchWhat) {
         return new StringRequest(BaseURLUtil.doGetKnowledgeAction(KnowledgeItemListViewFragment.KNOWLEDGE_BZGF, pageSize, startIndex, searchWhat), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
 
                 try {
                     JSONObject object = new JSONObject(s);
-//                    Log.e("TAG", ">>>>>>>>>>>>>s>>>>>>>>>>" + s);
 
                     if (object.getString("result").equals("Y")) {
                         JSONObject jsonObject = object.getJSONObject("datas");
@@ -541,93 +491,48 @@ public class SearchResultActivity extends BaseFloatActivity {
                         int length = jsonArray.length();
                         for (int i = 0; i < length; i++) {
                             JSONObject obj = jsonArray.getJSONObject(i);
-                            KnowledgeItemBZGF knowledgeItemBZGF = new KnowledgeItemBZGF();
-                            knowledgeItemBZGF.setHitnum(obj.optString("hitnum"));
-                            knowledgeItemBZGF.setCreate_time(obj.optString("create_time"));
-                            knowledgeItemBZGF.setArticle_title(obj.optString("article_title"));
-                            knowledgeItemBZGF.setContent(obj.optString("content"));
-                            knowledgeItemBZGF.setDowncount(obj.optString("downcount"));
-                            knowledgeItemBZGF.setFiles(obj.optString("files"));
-                            knowledgeItemBZGF.setFk_create_user_id(obj.optString("fk_create_user_id"));
-                            knowledgeItemBZGF.setJzxf(obj.optString("jzxf"));
-                            knowledgeItemBZGF.setMeta_keys(obj.optString("meta_keys"));
-                            knowledgeItemBZGF.setStatus(obj.optString("status"));
-                            String id = obj.optString("id");
-                            knowledgeItemBZGF.setThe_id(id);
-                            knowledgeItemBZGF.setScore(obj.optString("score"));
-                            knowledgeItemBZGF.setHxxf(obj.optString("hxxf"));
-                            knowledgeItemBZGF.setDqxf(obj.optString("dqxf"));
-                            knowledgeItemBZGF.setPdf_id(obj.optString("pdf_id"));
-                            bzgfList.add(knowledgeItemBZGF);
-                            knowledgeNormalAdapter.setBZGFList(bzgfList);
+                            KnowledgeItem knowledgeItem = new KnowledgeItem();
+                            knowledgeItem.setAuditorId(obj.optString("auditorId"));
+                            knowledgeItem.setAuthor(obj.optString("author"));
+                            knowledgeItem.setAvrScor(obj.optInt("avrScor"));
+                            knowledgeItem.setDocBrief(obj.optString("docBrief"));
+                            knowledgeItem.setDocLoacl(obj.optString("docLoacl"));
+                            knowledgeItem.setDocTitle(obj.optString("docTitle"));
+                            knowledgeItem.setDocType(obj.optString("docType"));
+                            knowledgeItem.setDownTimes(obj.optInt("downTimes"));
+                            knowledgeItem.setDownVal(obj.optInt("downVal"));
+                            knowledgeItem.setEditor(obj.optString("editor"));
+                            knowledgeItem.setFileName(obj.optString("fileName"));
+                            knowledgeItem.setKeyWord(obj.optString("keyWord"));
+                            knowledgeItem.setKind(obj.optString("kind"));
+                            String id = obj.optString("knowId");
+                            knowledgeItem.setKnowId(id);
+                            knowledgeItem.setNetType(obj.optString("netType"));
+                            knowledgeItem.setPassTime(obj.optString("passTime"));
+                            knowledgeItem.setPrtKind(obj.optString("prtKind"));
+                            knowledgeItem.setReadTimes(obj.optInt("readTimes"));
+                            knowledgeItem.setReason(obj.optString("reason"));
+                            knowledgeItem.setScorTimes(obj.optInt("scorTimes"));
+                            knowledgeItem.setSource(obj.optString("source"));
+                            knowledgeItem.setStat(obj.optString("stat"));
+                            knowledgeItem.setType(obj.optString("type"));
+                            knowledgeItem.setUpDateTime(obj.optString("upDate"));
+                            knowledgeItem.setUserid(obj.optString("userid"));
+                            knowledgeItemList.add(knowledgeItem);
+                            knowledgeNormalAdapter.setKnowledgeItemList(knowledgeItemList);
                         }
                         normalListView.onRefreshComplete();
 
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                     normalListView.onRefreshComplete();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                normalListView.onRefreshComplete();
-            }
-        });
-
-    }
-
-    /**
-     * 科研文献
-     */
-    protected StringRequest getKywxList(int pageSize, int startIndex, String searchWhat) {
-        return new StringRequest(BaseURLUtil.doGetKnowledgeAction(KnowledgeItemListViewFragment.KNOWLEDGE_KYWX, pageSize, startIndex, searchWhat), new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                try {
-                    JSONObject object = new JSONObject(s);
-//                    Log.e("TAG", ">>>>>>>>>>>>>s>>>>>>>>>>" + s);
-
-                    if (object.getString("result").equals("Y")) {
-                        JSONObject jsonObject = object.getJSONObject("datas");
-                        JSONArray jsonArray = jsonObject.getJSONArray("listData");
-                        int length = jsonArray.length();
-                        for (int i = 0; i < length; i++) {
-                            JSONObject obj = jsonArray.getJSONObject(i);
-                            KnowledgeItemKYWX knowledgeItemKYWX = new KnowledgeItemKYWX();
-                            knowledgeItemKYWX.setHitnum(obj.optString("hitnum"));
-                            knowledgeItemKYWX.setCreate_time(obj.optString("create_time"));
-                            knowledgeItemKYWX.setArticle_title(obj.optString("article_title"));
-                            knowledgeItemKYWX.setContent(obj.optString("content"));
-                            knowledgeItemKYWX.setDowncount(obj.optString("downcount"));
-                            knowledgeItemKYWX.setFiles(obj.optString("files"));
-                            knowledgeItemKYWX.setFk_create_user_id(obj.optString("fk_create_user_id"));
-                            knowledgeItemKYWX.setJzxf(obj.optString("jzxf"));
-                            knowledgeItemKYWX.setMeta_keys(obj.optString("meta_keys"));
-                            knowledgeItemKYWX.setStatus(obj.optString("status"));
-                            knowledgeItemKYWX.setAuthor(obj.optString("author"));
-                            knowledgeItemKYWX.setPdf_id(obj.optString("pdf_id"));
-                            knowledgeItemKYWX.setIsFile(obj.optString("isfile"));
-                            knowledgeItemKYWX.setAttribute(obj.optString("attribute"));
-
-                            String id = obj.optString("id");
-                            knowledgeItemKYWX.setThe_id(id);
-                            knowledgeItemKYWX.setScore(obj.optString("score"));
-                            kywxList.add(knowledgeItemKYWX);
-                            knowledgeNormalAdapter.setKYWXList(kywxList);
-                        }
-                        normalListView.onRefreshComplete();
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    normalListView.onRefreshComplete();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
+                AppContext.toastBadInternet();
                 normalListView.onRefreshComplete();
             }
         });
@@ -637,12 +542,10 @@ public class SearchResultActivity extends BaseFloatActivity {
     /**
      * 咨询分类
      */
-    protected StringRequest getConsultRequest(int pageSize, int start, String typeCode, String searchWhat) {
-//        Log.e("TAG", ">>>>>>>>url>>>>>>>>>" + BaseURLUtil.doTypeContentListAction(pageSize, start, typeCode, searchWhat));
-        return new StringRequest(BaseURLUtil.doTypeContentListAction(pageSize, start, typeCode, searchWhat), new Response.Listener<String>() {
+    protected StringRequest getConsultRequest(int start, int... typeCode) {
+        return new StringRequest(BaseURLUtil.getTypedCatoList(start, typeCode), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-//                Log.e("TAG", ">>>>>>>>>>>>>>>>>" + s);
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     if (jsonObject.getString("result").equals("Y")) {
@@ -652,15 +555,14 @@ public class SearchResultActivity extends BaseFloatActivity {
 
                         for (int i = 0; i < length; i++) {
                             JSONObject object = jsonArray.getJSONObject(i);
-                            SearchedConsult consult = new SearchedConsult();
-                            String id = object.getString("id");
-                            consult.setArticle_id(id);
-                            consult.setCreate_time(object.optString("create_time"));
-                            consult.setArticle_content(object.optString("content"));
-                            consult.setArticle_title(object.optString("article_title"));
-//                            consult.setConsult_key_word(consult_key_word);
-                            consult.setFk_expert_id(object.optString("fk_expert_id"));
-                            consult.setHitnum(object.optString("hitnum"));
+                            ConsultItem consult = new ConsultItem();
+                            consult.setCid(object.optInt("cid"));
+                            consult.setCreateTime(object.optString("createTime"));
+                            consult.setExpertId(object.optInt("expertId"));
+                            consult.setItContent(object.optString("itContent"));
+                            consult.setItTime(object.optString("itTime"));
+                            consult.setTitle(object.optString("title"));
+                            consult.setViews(object.optInt("views"));
                             consultList.add(consult);
                             searchedConsultAdapter.setList(consultList);
                         }
@@ -668,7 +570,7 @@ public class SearchResultActivity extends BaseFloatActivity {
 
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                     normalListView.onRefreshComplete();
                 }
 
@@ -676,6 +578,7 @@ public class SearchResultActivity extends BaseFloatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                AppContext.toastBadInternet();
                 normalListView.onRefreshComplete();
             }
         });
@@ -684,8 +587,8 @@ public class SearchResultActivity extends BaseFloatActivity {
     /**
      * 知识平台-视频
      */
-    protected StringRequest getKnowledgeVideo(int pageSize, int start, String searchWhat) {
-        return new StringRequest(BaseURLUtil.doGetKnowledgeAction(KnowledgeVideoFragment.KNOWLEDGE_SPZL, pageSize, start, searchWhat), new Response.Listener<String>() {
+    protected StringRequest getKnowledgeVideoList(int pageSize, int start, String searchWhat) {
+        return new StringRequest(BaseURLUtil.doGetKnowledgeAction(KnowledgeItemListViewFragment.KNOWLEDGE_SPZL, pageSize, start, searchWhat), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -697,32 +600,48 @@ public class SearchResultActivity extends BaseFloatActivity {
 
                         for (int i = 0; i < length; i++) {
                             JSONObject obj = jsonArray.getJSONObject(i);
-                            KnowledgeVideo video = new KnowledgeVideo();
-                            String id = obj.optString("id");
-                            video.setCreate_time(obj.optString("create_time"));
-                            video.setArticle_title(obj.optString("article_title"));
-                            video.setContent(obj.optString("content"));
-                            video.setHitnum(obj.optString("hitnum"));
-                            video.setFk_create_user_id(obj.optString("fk_create_user_id"));
-                            video.setStatus(obj.optString("status"));
-                            video.setThe_id(id);
-                            video.setAttachment(obj.optString("attachment"));
-                            video.setClassify(obj.optString("classify"));
-                            video.setCover(obj.optString("cover"));
-                            spzlList.add(video);
-                            videoListAdapter.setVideos(spzlList);
+                            KnowledgeItem knowledgeItem = new KnowledgeItem();
+                            knowledgeItem.setAuditorId(obj.optString("auditorId"));
+                            knowledgeItem.setAuthor(obj.optString("author"));
+                            knowledgeItem.setAvrScor(obj.optInt("avrScor"));
+                            knowledgeItem.setDocBrief(obj.optString("docBrief"));
+                            knowledgeItem.setDocLoacl(obj.optString("docLoacl"));
+                            knowledgeItem.setDocTitle(obj.optString("docTitle"));
+                            knowledgeItem.setDocType(obj.optString("docType"));
+                            knowledgeItem.setDownTimes(obj.optInt("downTimes"));
+                            knowledgeItem.setDownVal(obj.optInt("downVal"));
+                            knowledgeItem.setEditor(obj.optString("editor"));
+                            knowledgeItem.setFileName(obj.optString("fileName"));
+                            knowledgeItem.setKeyWord(obj.optString("keyWord"));
+                            knowledgeItem.setKind(obj.optString("kind"));
+                            String id = obj.optString("knowId");
+                            knowledgeItem.setKnowId(id);
+                            knowledgeItem.setNetType(obj.optString("netType"));
+                            knowledgeItem.setPassTime(obj.optString("passTime"));
+                            knowledgeItem.setPrtKind(obj.optString("prtKind"));
+                            knowledgeItem.setReadTimes(obj.optInt("readTimes"));
+                            knowledgeItem.setReason(obj.optString("reason"));
+                            knowledgeItem.setScorTimes(obj.optInt("scorTimes"));
+                            knowledgeItem.setSource(obj.optString("source"));
+                            knowledgeItem.setStat(obj.optString("stat"));
+                            knowledgeItem.setType(obj.optString("type"));
+                            knowledgeItem.setUpDateTime(obj.optString("upDate"));
+                            knowledgeItem.setUserid(obj.optString("userid"));
+                            knowledgeItemList.add(knowledgeItem);
+                            videoListAdapter.setVideos(knowledgeItemList);
                         }
                         normalListView.onRefreshComplete();
 
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                     normalListView.onRefreshComplete();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                AppContext.toastBadInternet();
                 normalListView.onRefreshComplete();
             }
         });
@@ -731,7 +650,7 @@ public class SearchResultActivity extends BaseFloatActivity {
     /**
      * 全部
      */
-    protected StringRequest getAllSearch(String user_id, int start, int limit, final String queryInfo) {
+    protected StringRequest getAllSearch(int user_id, int start, int limit, final String queryInfo) {
         return new StringRequest("http://101.204.236.5/webintf/search/getFullQueryForKN?userId=" + user_id + "&queryWay=app&start=" + String.valueOf(start) + "&limit=" + String.valueOf(limit) + "&queryInfo=" + URLEncoder.encode(queryInfo), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -759,13 +678,14 @@ public class SearchResultActivity extends BaseFloatActivity {
                     }
                     normalListView.onRefreshComplete();
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                     normalListView.onRefreshComplete();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                AppContext.toastBadInternet();
                 normalListView.onRefreshComplete();
             }
         });

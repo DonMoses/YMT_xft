@@ -1,99 +1,160 @@
 package com.ymt.demo1.beams.expert_consult;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.litepal.crud.DataSupport;
 
 /**
  * Created by Dan on 2015/6/12
  */
-public class QQMsg extends DataSupport {
-    private String msg_id;
-    private String content;
-    private String pro_expert_user_id;
-    private String status;
-    private String fk_reply_user_id;
-    private String reply_time;
-    private String type;
-    private String reply_role;
-    private String reply_user_name;
-    private String fk_qq_id;
+public class QQMsg extends DataSupport implements Parcelable {
+    private int cId;
+    private String cmdType;
+    private String headImage;
+    private int theId;
+    private String msg;
+    private String name;
+    private String opTime;
+    private String title;
 
-    public String getMsg_id() {
-        return msg_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setMsg_id(String msg_id) {
-        this.msg_id = msg_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public String getContent() {
-        return content;
+    public int getcId() {
+        return cId;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setcId(int cId) {
+        this.cId = cId;
     }
 
-    public String getPro_expert_user_id() {
-        return pro_expert_user_id;
+    public String getCmdType() {
+        return cmdType;
     }
 
-    public void setPro_expert_user_id(String pro_expert_user_id) {
-        this.pro_expert_user_id = pro_expert_user_id;
+    public void setCmdType(String cmdType) {
+        this.cmdType = cmdType;
     }
 
-    public String getStatus() {
-        return status;
+    public String getHeadImage() {
+        return headImage;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setHeadImage(String headImage) {
+        this.headImage = headImage;
     }
 
-    public String getFk_reply_user_id() {
-        return fk_reply_user_id;
+    public int getTheId() {
+        return theId;
     }
 
-    public void setFk_reply_user_id(String fk_reply_user_id) {
-        this.fk_reply_user_id = fk_reply_user_id;
+    public void setTheId(int theId) {
+        this.theId = theId;
     }
 
-    public String getReply_time() {
-        return reply_time;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setReply_time(String reply_time) {
-        this.reply_time = reply_time;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
-    public String getType() {
-        return type;
+    public String getName() {
+        return name;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getReply_role() {
-        return reply_role;
+    public String getOpTime() {
+        return opTime;
     }
 
-    public void setReply_role(String reply_role) {
-        this.reply_role = reply_role;
+    public void setOpTime(String opTime) {
+        this.opTime = opTime;
     }
 
-    public String getReply_user_name() {
-        return reply_user_name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setReply_user_name(String reply_user_name) {
-        this.reply_user_name = reply_user_name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getFk_qq_id() {
-        return fk_qq_id;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setFk_qq_id(String fk_qq_id) {
-        this.fk_qq_id = fk_qq_id;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    private int userId;
+    private String userName;
+    private String userType;
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.cId);
+        dest.writeString(this.cmdType);
+        dest.writeString(this.headImage);
+        dest.writeInt(this.theId);
+        dest.writeString(this.msg);
+        dest.writeString(this.name);
+        dest.writeString(this.opTime);
+        dest.writeString(this.title);
+        dest.writeInt(this.userId);
+        dest.writeString(this.userName);
+        dest.writeString(this.userType);
+    }
+
+    public QQMsg() {
+    }
+
+    protected QQMsg(Parcel in) {
+        this.cId = in.readInt();
+        this.cmdType = in.readString();
+        this.headImage = in.readString();
+        this.theId = in.readInt();
+        this.msg = in.readString();
+        this.name = in.readString();
+        this.opTime = in.readString();
+        this.title = in.readString();
+        this.userId = in.readInt();
+        this.userName = in.readString();
+        this.userType = in.readString();
+    }
+
+    public static final Creator<QQMsg> CREATOR = new Creator<QQMsg>() {
+        public QQMsg createFromParcel(Parcel source) {
+            return new QQMsg(source);
+        }
+
+        public QQMsg[] newArray(int size) {
+            return new QQMsg[size];
+        }
+    };
 }

@@ -11,11 +11,9 @@ import android.widget.Toast;
 
 import com.ymt.demo1.R;
 
-import com.ymt.demo1.customKeyBoard.ConsultActivity;
-import com.ymt.demo1.main.CollectActivity;
 import com.ymt.demo1.main.ShareActivity;
+import com.ymt.demo1.main.collect.CollectActivity;
 import com.ymt.demo1.main.setting.ManageAppearanceActivity;
-import com.ymt.demo1.main.sign.SignInUpActivity;
 import com.ymt.demo1.plates.consultCato.ConsultCatoMainActivity;
 import com.ymt.demo1.plates.eduPlane.EduMainActivity;
 import com.ymt.demo1.plates.exportConsult.ExportConsultMainActivity;

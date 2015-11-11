@@ -2,6 +2,7 @@ package com.ymt.demo1.plates.news;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -16,26 +17,33 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.news.NewsSummaryAdapter;
+import com.ymt.demo1.beams.knowledge.KnowledgeItem;
 import com.ymt.demo1.beams.news.NewsSummary;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.baseClasses.BaseFloatActivity;
+import com.ymt.demo1.plates.knowledge.KnowledgeItemListViewFragment;
+import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 
 /**
  * Created by Dan on 2015/7/14
+ * 热点新闻
  */
 public class FireHRActivity extends BaseFloatActivity {
     private PullToRefreshListView newsListView;
-    private int start;
     private RequestQueue mQueue;
     private NewsSummaryAdapter summaryAdapter;
     private ArrayList<NewsSummary> newsList;
+    private String state = "001";
+    private int start;
+    private int pagesize;
     private String type;
 
     @Override
@@ -43,20 +51,21 @@ public class FireHRActivity extends BaseFloatActivity {
         super.onCreate(savedInstanceState);
         mQueue = Volley.newRequestQueue(this);
         start = 1;
+        pagesize = 15;
         type = getIntent().getStringExtra("type");
         setContentView(R.layout.activity_fire_hr);
         initTitle();
         initView();
-        mQueue.add(summaryRequest(type, start));
+        mQueue.add(summaryRequest(state, start, pagesize, type));
 
     }
 
     protected void initTitle() {
         MyTitle title = (MyTitle) findViewById(R.id.my_title);
         title.setTitleStyle(MyTitle.TitleStyle.LEFT_ICON);
-        if (type.equals("hot")) {
+        if (type.equals("hitnum")) {
             title.updateCenterTitle("热点资讯");
-        } else if (type.equals("new")) {
+        } else if (type.equals("time")) {
             title.updateCenterTitle("最新资讯");
         }
         title.setOnLeftActionClickListener(new MyTitle.OnLeftActionClickListener() {
@@ -78,13 +87,13 @@ public class FireHRActivity extends BaseFloatActivity {
                 start = 1;
                 newsList.clear();
                 summaryAdapter.setList(newsList);
-                mQueue.add(summaryRequest(type, start));
+                mQueue.add(summaryRequest(state, start, pagesize, type));
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 start++;
-                mQueue.add(summaryRequest(type, start));
+                mQueue.add(summaryRequest(state, start, pagesize, type));
             }
         });
 
@@ -94,14 +103,15 @@ public class FireHRActivity extends BaseFloatActivity {
                 Intent intent = new Intent(FireHRActivity.this, NewsDetailActivity.class);
                 NewsSummary summary = (NewsSummary) (parent.getAdapter()).getItem(position);
                 intent.putExtra("summary", summary);
+                intent.putExtra("type", type);
                 startActivity(intent);
             }
         });
     }
 
-    private StringRequest summaryRequest(String type, int start) {
+    private StringRequest summaryRequest(String state, int start, int pagezie, String type) {
 
-        return new StringRequest(BaseURLUtil.BASE_URL+"/fw?controller=com.xfsm.action.ArticleAction&m=list&type=" + "xf_article_h_news" + "&order=" + type + "&start=" + String.valueOf(start), new Response.Listener<String>() {
+        return new StringRequest(BaseURLUtil.getNews(state, start, pagezie, type), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -112,22 +122,22 @@ public class FireHRActivity extends BaseFloatActivity {
                         JSONObject object = summaryArray.getJSONObject(i);
                         NewsSummary summary = new NewsSummary();
                         summary.setContent(object.optString("content"));
-                        summary.setCreate_time(object.optString("create_time"));
-                        summary.setArticle_title(object.optString("article_title"));
+                        summary.setCreateTime(object.optString("createTime"));
+                        summary.setArticleTitle(object.optString("articleTitle"));
                         summary.setHitnum(object.optString("hitnum"));
                         summary.setThe_id(object.optString("id"));
-                        summary.setFk_create_user_id(object.optString("fk_create_user_id"));
                         summary.setSource(object.optString("source"));
                         summary.setEditor(object.optString("editor"));
                         summary.setAuthor(object.optString("author"));
-                        summary.setStatus(object.optString("status"));
+                        summary.setName1(object.optString("name1"));
+                        summary.setName2(object.optString("name2"));
                         newsList.add(summary);
                         summaryAdapter.setList(newsList);
                     }
                     // when refresh completed
                     newsListView.onRefreshComplete();
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
                 newsListView.onRefreshComplete();
 
@@ -135,10 +145,11 @@ public class FireHRActivity extends BaseFloatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(FireHRActivity.this, "网络错误，请稍后重试！", Toast.LENGTH_SHORT).show();
+                AppContext.toastBadInternet();
                 newsListView.onRefreshComplete();
             }
         });
 
     }
+
 }

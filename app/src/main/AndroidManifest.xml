@@ -156,6 +156,69 @@
             android:name="JPUSH_APPKEY"
             android:value="04dd21d45e1a7c0b659a35a1" />
 
+        <!-- 极光推送 -->
+
+        <!--shareSDK-->
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <data android:scheme="tencent100371282" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!--微信分享回调 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <!--易信分享回调 -->
+        <activity
+            android:name=".yxapi.YXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <!-- QQ客户端回调 -->
+        <activity
+            android:name="cn.sharesdk.tencent.qq.ResultReceiver"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <!--
+            如果集成QQ分享，或者使用QQ客户端来进行QQ空间的分享，须要在此处添加一个对ACTION_VIEW
+            事件的过滤器，其中的scheme是“tencent”前缀再开发者应用的加上appId。如果此过滤器不设置，
+            则分享结束以后不能得到正确的回调
+            -->
+            <intent-filter android:priority="1000">
+                <data android:scheme="tencent100371282" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+
+        <!-- 支付宝分享回调 -->
+        <activity
+            android:name=".apshare.ShareEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <!--shareSDK-->
+
+
         <activity
             android:name=".demos.TestActivity"
             android:launchMode="singleTask"
@@ -204,10 +267,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".main.ShareActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".main.CollectActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
@@ -275,11 +334,11 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".plates.eduPlane.mockExams.ReadyActivity"
+            android:name=".plates.eduPlane.myStudy.MyMockListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".plates.eduPlane.mockExams.DoPaperActivity"
+            android:name=".plates.eduPlane.mockExams.ReadyActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
@@ -313,6 +372,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".plates.knowledge.WebVideoActivity"
+            android:hardwareAccelerated="true"
             android:launchMode="singleTask" />
         <activity
             android:name=".plates.news.FireHRActivity"
@@ -323,7 +383,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".plates.eduPlane.myStudy.MyStudyActivity"
+            android:name=".plates.eduPlane.myStudy.MyStudyMainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
@@ -373,7 +433,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".plates.exportConsult.ExportConsultNowActivity"
+            android:name=".plates.exportConsult.ConsultNowActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
@@ -398,15 +458,15 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".plates.exportConsult.HotConsultListActivity"
+            android:name=".main.collect.CollectActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".plates.exportConsult.RecentConsultListActivity"
+            android:name=".plates.exportConsult.HotRecConsultListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".plates.exportConsult.HRConsultDetailActivity"
+            android:name=".plates.exportConsult.ConsultDetailActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
@@ -433,6 +493,22 @@
             android:name=".plates.hub.PostReplyActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.eduPlane.easyWrong.EasyWrongDetailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.eduPlane.mockExams.AnswerActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.eduPlane.easyWrong.EasyWrongActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".plates.eduPlane.video.VideoTrainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <!-- 滑动风格主机面 -->
         <activity
             android:name=".mainStyles.NavigationMenuActivity"
@@ -451,7 +527,13 @@
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
+        </receiver>
 
+        <receiver android:name=".plates.knowledge.KnDownloadReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+                <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED" />
+            </intent-filter>
         </receiver>
     </application>
 

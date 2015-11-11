@@ -168,7 +168,7 @@ public class SearchActivity extends BaseFloatActivity {
 
     }
 
-    protected StringRequest getHisKW(String user_id, int start, int limit) {
+    protected StringRequest getHisKW(int user_id, int start, int limit) {
         return new StringRequest(BaseURLUtil.getHistoryKW(user_id, start, limit), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -187,13 +187,14 @@ public class SearchActivity extends BaseFloatActivity {
                         }
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                     myHandler.sendEmptyMessage(0);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                AppContext.toastBadInternet();
                 myHandler.sendEmptyMessage(0);
             }
         });
@@ -215,13 +216,14 @@ public class SearchActivity extends BaseFloatActivity {
                         }
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                     myHandler.sendEmptyMessage(1);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                AppContext.toastBadInternet();
                 myHandler.sendEmptyMessage(1);
             }
         });

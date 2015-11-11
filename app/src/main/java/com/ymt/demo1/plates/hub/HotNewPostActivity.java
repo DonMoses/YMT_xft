@@ -18,6 +18,7 @@ import com.ymt.demo1.adapter.hub.Subject2Adapter;
 import com.ymt.demo1.beams.hub.HubSubjectII;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.baseClasses.BaseFloatActivity;
+import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 
 import org.json.JSONArray;
@@ -146,7 +147,7 @@ public class HotNewPostActivity extends BaseFloatActivity {
                         subject2Adapter.setSubjects(mSubjects);
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    AppContext.toastBadJson();
                 }
                 subjectListView.onRefreshComplete();
 
@@ -154,6 +155,7 @@ public class HotNewPostActivity extends BaseFloatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                AppContext.toastBadInternet();
                 subjectListView.onRefreshComplete();
             }
         });

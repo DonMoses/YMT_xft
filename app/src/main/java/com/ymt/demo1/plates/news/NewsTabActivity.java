@@ -42,9 +42,4 @@ public class NewsTabActivity extends BaseFloatActivity {
         });
     }
 
-    protected void initView() {
-        //todo 适配图片新闻数据
-    }
-
-
 }

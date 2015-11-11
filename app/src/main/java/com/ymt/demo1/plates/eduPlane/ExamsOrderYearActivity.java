@@ -42,33 +42,9 @@ public class ExamsOrderYearActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String text = parent.getAdapter().getItem(position).toString();
-                Intent intent = null;
-
-                switch (getIntent().getStringExtra("type")) {
-                    case "past":
-                        intent = new Intent(ExamsOrderYearActivity.this, PastExamsListActivity.class);
-                        break;
-                    case "mock":
-                        intent = new Intent(ExamsOrderYearActivity.this, MockExamsListActivity.class);
-                        break;
-                    default:
-                        break;
-
-                }
-
-                if (intent != null) {
-                    switch (text) {
-                        case "全部":
-                            intent.putExtra("all", "all");
-                            break;
-                        default:
-                            intent.putExtra("year", Integer.valueOf(text));
-                            break;
-
-                    }
-                    startActivity(intent);
-                }
-
+                Intent intent = new Intent(ExamsOrderYearActivity.this, PastExamsListActivity.class);
+                intent.putExtra("year", text);
+                startActivity(intent);
                 finish();
             }
         });

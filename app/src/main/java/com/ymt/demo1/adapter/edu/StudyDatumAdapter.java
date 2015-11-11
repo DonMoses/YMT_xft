@@ -13,13 +13,14 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.beams.edu.StudyDatumItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /*
    定义listView 中item 的适配器
     */
 public class StudyDatumAdapter extends BaseAdapter {
     final int SIMPLE_TYPE = 0;
-    ArrayList<StudyDatumItem> mList = new ArrayList<>();
+    List<StudyDatumItem> mList = new ArrayList<>();
     Context context;
     LayoutInflater inflater;
 
@@ -28,7 +29,7 @@ public class StudyDatumAdapter extends BaseAdapter {
         inflater = LayoutInflater.from(context);
     }
 
-    public void setList(ArrayList<StudyDatumItem> list) {
+    public void setList(List<StudyDatumItem> list) {
         this.mList = list;
         notifyDataSetChanged();
     }
@@ -65,12 +66,12 @@ public class StudyDatumAdapter extends BaseAdapter {
         if (convertView == null) {
             switch (type) {
                 case SIMPLE_TYPE:
-                    convertView = inflater.inflate(R.layout.item_study_datum, parent, false);
+                    convertView = inflater.inflate(R.layout.item_study_datum_and_easy_wrong_tpic, parent, false);
                     viewHolder = new ViewHolder();
                     viewHolder.title = (TextView) convertView.findViewById(R.id.datum_title);
                     viewHolder.fileIcon = (ImageView) convertView.findViewById(R.id.file_icon);
                     viewHolder.content = (TextView) convertView.findViewById(R.id.datum_content);
-                    viewHolder.time = (TextView) convertView.findViewById(R.id.time);
+                    viewHolder.desrc = (TextView) convertView.findViewById(R.id.time);
                     viewHolder.hitNum = (TextView) convertView.findViewById(R.id.hit_num);
                     convertView.setTag(viewHolder);
                     break;
@@ -94,29 +95,11 @@ public class StudyDatumAdapter extends BaseAdapter {
         switch (type) {
             case SIMPLE_TYPE:
                 StudyDatumItem studyDatum = (StudyDatumItem) getItem(position);
-                viewHolder.title.setText(studyDatum.getArticle_title());
-//                StudyDatumItem.TypeO typeO = studyDatum.getTypeO();
-//                switch (typeO) {
-//                    case WORD:
-//                        Picasso.with(context).load(R.drawable.icon_file_txt).into(viewHolder.fileIcon);
-//                        break;
-//                    case PPT:
-//                        Picasso.with(context).load(R.drawable.icon_file_ppt).into(viewHolder.fileIcon);
-//                        break;
-//                    case PDF:
-//                        Picasso.with(context).load(R.drawable.icon_file_pdf).into(viewHolder.fileIcon);
-//                        break;
-//                    case MP3:
-//                        Picasso.with(context).load(R.drawable.icon_file_mp3).into(viewHolder.fileIcon);
-//                        break;
-//                    default:
-//                        break;
-//
-//                }
+                viewHolder.title.setText(studyDatum.getTitle());
                 Picasso.with(context).load(R.drawable.icon_file_pdf).into(viewHolder.fileIcon);
-                viewHolder.content.setText(String.valueOf(studyDatum.getContent()) + ".pdf");
-                viewHolder.time.setText(String.valueOf(studyDatum.getCreate_time()));
-                viewHolder.hitNum.setText(String.valueOf(studyDatum.getHitnum()) + "查看");
+                viewHolder.content.setText(String.valueOf("主要内容：" + studyDatum.getSubjects()));
+                viewHolder.desrc.setText(String.valueOf("资源出处：" + studyDatum.getDescs()));
+                viewHolder.hitNum.setText(String.valueOf(studyDatum.getDownNum()) + "下载 " + studyDatum.getViews() + "查看");
                 break;
 
             default:
@@ -133,7 +116,7 @@ public class StudyDatumAdapter extends BaseAdapter {
         TextView title;
         ImageView fileIcon;
         TextView content;
-        TextView time;
+        TextView desrc;
         TextView hitNum;
     }
 }
