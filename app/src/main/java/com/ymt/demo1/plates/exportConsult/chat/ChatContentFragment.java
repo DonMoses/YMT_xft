@@ -1,9 +1,11 @@
-package com.ymt.demo1.plates.exportConsult;
+package com.ymt.demo1.plates.exportConsult.chat;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -17,9 +19,7 @@ import com.android.volley.toolbox.Volley;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.expertConsult.ChatMessageListAdapter;
-import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.expert_consult.QQMsg;
-import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 
@@ -36,48 +36,29 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Dan on 2015/5/14
+ * Created by DonMoses on 2015/11/12
  */
-public class ConsultChatActivity extends BaseActivity {
-
+public class ChatContentFragment extends Fragment {
     private RequestQueue requestQueue;
     private ChatMessageListAdapter messageListAdapter;
     private PullToRefreshListView infoListView;
     private List<QQMsg> mQQMsgs;
-
     private int cId;
+    private static ChatContentFragment contentFragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mQQMsgs = new ArrayList<>();
-        setContentView(R.layout.activity_consult_chat);
-        cId = getIntent().getIntExtra("cId", 0);
-        mQQMsgs.addAll(DataSupport.where("cId = ?", String.valueOf(cId)).find(QQMsg.class));
-        requestQueue = Volley.newRequestQueue(this);
-        messageListAdapter = new ChatMessageListAdapter(this);
-        initTitle();
-        initView();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_chat_content, container, false);
+        initView(view);
+        return view;
+
     }
 
-    protected void initTitle() {
-        //todo 调用网络接口，获取聊天记录
-        final MyTitle title = (MyTitle) findViewById(R.id.my_title);
-        title.setTitleStyle(MyTitle.TitleStyle.LEFT_ICON);
-        String titleStr = getIntent().getStringExtra("title");
-        if (titleStr != null) {
-            title.updateCenterTitle(titleStr);
-        }
-    }
-
-    /**
-     * 初始化聊天界面
-     */
-    protected void initView() {
+    private void initView(View view) {
         //输入框
-        final EditText inputView = (EditText) findViewById(R.id.edit_text_chat);
+        final EditText inputView = (EditText) view.findViewById(R.id.edit_text_chat);
         //发送按钮
-        Button sendInfoBtn = (Button) findViewById(R.id.button_send_info);
+        Button sendInfoBtn = (Button) view.findViewById(R.id.button_send_info);
         sendInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,13 +72,33 @@ public class ConsultChatActivity extends BaseActivity {
         });
 
         //message ListView列表
-        infoListView = (PullToRefreshListView) findViewById(R.id.list_view_chat);
+        infoListView = (PullToRefreshListView) view.findViewById(R.id.list_view_chat);
         //适配器
         infoListView.setAdapter(messageListAdapter);
         messageListAdapter.setMessages(mQQMsgs);
         infoListView.getRefreshableView().setSelection(infoListView.getBottom());
 
         requestQueue.add(getQQMsgs(cId));
+    }
+
+    public static ChatContentFragment getInstance(int cid) {
+        if (contentFragment == null) {
+            contentFragment = new ChatContentFragment();
+        }
+        Bundle bundle = new Bundle();
+        bundle.putInt("cid", cid);
+        contentFragment.setArguments(bundle);
+        return contentFragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        cId = getArguments().getInt("cid");
+        requestQueue = Volley.newRequestQueue(getActivity());
+        mQQMsgs = new ArrayList<>();
+        mQQMsgs.addAll(DataSupport.where("cId = ?", String.valueOf(cId)).find(QQMsg.class));
+        messageListAdapter = new ChatMessageListAdapter(getActivity());
     }
 
     protected StringRequest doSend(String msg, final int cId, final int userId) {
@@ -193,9 +194,4 @@ public class ConsultChatActivity extends BaseActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(ConsultChatActivity.this, MyConsultActivity.class));
-        super.onBackPressed();
-    }
 }

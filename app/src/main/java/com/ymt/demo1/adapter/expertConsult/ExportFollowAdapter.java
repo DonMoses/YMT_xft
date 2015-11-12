@@ -12,6 +12,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.expert_consult.FollowedExpert;
@@ -38,7 +39,7 @@ public class ExportFollowAdapter extends BaseAdapter {
     public ExportFollowAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
-        queue = ((MyConsultActivity) context).mQueue;
+        queue = Volley.newRequestQueue(context);
     }
 
     public void setList(List<FollowedExpert> mList) {

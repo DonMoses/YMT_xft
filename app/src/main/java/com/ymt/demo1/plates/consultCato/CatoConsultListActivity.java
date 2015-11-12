@@ -20,9 +20,9 @@ import com.ymt.demo1.adapter.SearchedConsultAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.consult_cato.ConsultItem;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.search.FullSearchActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
-import com.ymt.demo1.main.search.SearchActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,7 +75,7 @@ public class CatoConsultListActivity extends BaseActivity {
             @Override
             public void onRightLClick() {
                 //打开搜索界面
-                startActivity(new Intent(CatoConsultListActivity.this, SearchActivity.class));
+                startActivity(new Intent(CatoConsultListActivity.this, FullSearchActivity.class));
             }
 
             @Override

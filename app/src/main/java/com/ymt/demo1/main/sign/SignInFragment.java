@@ -227,11 +227,14 @@ public class SignInFragment extends Fragment {
                         editor.putString("password", psw);
                         editor.putString("now_user_id", "");
                         editor.putString("now_session_id", "");
+                        editor.putString("user_type", "");
+
                         editor.apply();
 
                         AppContext.now_session_id = "";
                         AppContext.now_user_id = 0;
                         AppContext.now_user_name = "";
+                        AppContext.user_type = "";
 
                         activity.isSigned = false;
 
@@ -242,17 +245,21 @@ public class SignInFragment extends Fragment {
                         JSONObject listData = jsonObject.getJSONObject("datas").getJSONObject("listData");
                         int userId = listData.optInt("uid");
                         String userSId = listData.optString("sId");
+                        String user_type = listData.optString("userType");
 
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("account", account);
                         editor.putString("password", psw);
                         editor.putInt("now_user_id", userId);
                         editor.putString("now_session_id", userSId);
+                        editor.putString("user_type", user_type);
+
                         editor.apply();
 
                         AppContext.now_session_id = userSId;
                         AppContext.now_user_id = userId;
                         AppContext.now_user_name = account;
+                        AppContext.user_type = user_type;
 
                         queue.add(AppContext.getHeader(jsonObject.optString("headPic")));
 

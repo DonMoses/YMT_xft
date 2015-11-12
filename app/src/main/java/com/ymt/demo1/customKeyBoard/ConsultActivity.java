@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.search.SearchActivity;
+import com.ymt.demo1.main.search.FullSearchActivity;
 
 /**
  * Created by Dan on 2015/4/17
@@ -85,7 +85,7 @@ public class ConsultActivity extends BaseActivity {
         title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
             public void onRightLClick() {
-                startActivity(new Intent(ConsultActivity.this, SearchActivity.class));
+                startActivity(new Intent(ConsultActivity.this, FullSearchActivity.class));
             }
 
             @Override

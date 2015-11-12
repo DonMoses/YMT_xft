@@ -7,7 +7,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -136,11 +135,14 @@ public class MainActivity extends Activity {
                         editor.putString("password", psw);
                         editor.putString("now_user_id", "");
                         editor.putString("now_session_id", "");
+                        editor.putString("user_type", "");
+
                         editor.apply();
 
                         AppContext.now_session_id = "";
                         AppContext.now_user_id = 0;
                         AppContext.now_user_name = "";
+                        AppContext.user_type = "";
 
                     } else if (jsonObject.getString("result").equals("Y")) {
 
@@ -149,17 +151,20 @@ public class MainActivity extends Activity {
                         JSONObject listData = jsonObject.getJSONObject("datas").getJSONObject("listData");
                         int userId = listData.optInt("uid");
                         String userSId = listData.optString("sId");
+                        String user_type = listData.optString("userType");
 
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("account", account);
                         editor.putString("password", psw);
                         editor.putInt("now_user_id", userId);
                         editor.putString("now_session_id", userSId);
+                        editor.putString("user_type", user_type);
                         editor.apply();
 
                         AppContext.now_session_id = userSId;
                         AppContext.now_user_id = userId;
                         AppContext.now_user_name = account;
+                        AppContext.user_type = user_type;
 
                         mQueue.add(AppContext.getHeader(jsonObject.optString("headPic")));
 

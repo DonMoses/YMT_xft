@@ -16,6 +16,7 @@ public class BaseURLUtil {
     public static final String EXPERT_BASE = "http://con.xxf3.com";
     public static final String EDU_BASE = "http://edu.xxf3.com";
     public static final String KNO_BASE = "http://know.xxf3.com";
+    public static final String SEARCH_BASE = "http://public.xxf3.com";
 
     //学习资料
     public static final String STUDY_DATUM = EDU_BASE + "/xxf/searchShows.do?";
@@ -29,10 +30,12 @@ public class BaseURLUtil {
     private static final String QQ_MSG_BASE = EXPERT_BASE + "/cs/ac.do?";
     //发送一条消息
     private static final String QQ_SEND_MSG = EXPERT_BASE + "/crc/acc.do?";
+    //一个会话的成员信息
+    private static final String QQ_CHAT_MEMBER = EXPERT_BASE + "/cs/findDuiHuaUser.do?";
     //获取一个QQ回话的所有消息
     private static final String QQ_CHAT_MSGS = EXPERT_BASE + "/crc/fcrbc.do?cid=";
     //我的QQ消息条目
-    private static final String MY_QQ_INFO = BASE_URL + "/xxf/participateConsultation.do?sId=";
+    private static final String MY_QQ_INFO = BASE_URL + "/xxf/participateConsultation.do?";
     //分类
     private static final String CONSULT_CATO_BASE = BASE_URL + "/cc/fcbt.do?typeId=";
     //新闻
@@ -43,10 +46,14 @@ public class BaseURLUtil {
     private static final String NEWS_NOTICES_CONTENT_BASE = BASE_URL + "/hc/findNews.do?";
     //分类内容列表
     private static final String TYPE_CONTENT_LIST_BASE = EXPERT_BASE + "/cs/faci.do?";
+    //值守专家 -获取未分配的咨询列表
+    private static final String UNDO_CONSULT_LIST = EXPERT_BASE + "/cs/fac.do?";
     //最近咨询
     private static final String RECENT_CONSULT = EXPERT_BASE + "/cs/fnc.do?";
     //热点咨询
     private static final String HOT_CONSULT = EXPERT_BASE + "/cs/fhc.do?";
+    //我的咨询（一周、一月、三月、半年）
+    private static final String MY_HISTORY_CONSULT = EXPERT_BASE + "/cs/fac.do?";
     //咨询的具体内容
     private static final String CONSULT_CONTENT = EXPERT_BASE + "/cs/fci.do?cid=";
     //专家列表
@@ -95,10 +102,12 @@ public class BaseURLUtil {
     private static final String COLLECT_KNOWLEDGE = KNO_BASE + "/xxfKnow/collect.do?";
     //知识平台详情
     private static final String KNOWLEDGE_DETAIL = KNO_BASE + "/xxfKnow/getKnowInfo.do?knowId=";
+    //全文检索
+    public static final String FULL_SEARCH = SEARCH_BASE + "/webintf/search/fullSearch?";
     //全文检索-热门词
-    public static final String HOT_KEY_WORDS = BASE_URL + "/webintf/search/getFullQueryHot?";
+    public static final String HOT_KEY_WORDS = SEARCH_BASE + "/webintf/search/getFullQueryHot?";
     //搜索历史
-    private static final String HIS_KEY_WORDS = BASE_URL + "/webintf/search/getFullQueryHis?userId=";
+    private static final String HIS_KEY_WORDS = SEARCH_BASE + "/webintf/search/getFullQueryHis?";
     //建议
     private static final String ADVICE_BASE = BASE_URL + "/fc/af.do?";
     //论坛1
@@ -201,14 +210,21 @@ public class BaseURLUtil {
      * 历史搜索
      */
     public static String getHistoryKW(int user_id, int start, int limit) {
-        return HIS_KEY_WORDS + String.valueOf(user_id) + "&start=" + String.valueOf(start) + "&limit=" + String.valueOf(limit);
+        return HIS_KEY_WORDS + "userId=" + String.valueOf(user_id) + "&start=" + String.valueOf(start) + "&limit=" + String.valueOf(limit);
+    }
+
+    /**
+     * 全文检索
+     */
+    public static String getFullSearch(int userId, int queryType, int start, int limit, String queryInfo) {
+        return FULL_SEARCH + "userId=" + String.valueOf(userId) + "&queryWay=app&queryType=" + String.valueOf(queryType) + "&start=" + String.valueOf(start) + "&limit=" + String.valueOf(limit) + "&queryInfo=" + URLEncoder.encode(queryInfo) + "&jsoncallback=";
     }
 
     /**
      * 热门搜索
      */
     public static String getHotKW(int start, int limit) {
-        return HOT_KEY_WORDS + String.valueOf(start) + "&limit=" + String.valueOf(limit);
+        return HOT_KEY_WORDS + "start=" + String.valueOf(start) + "&limit=" + String.valueOf(limit);
     }
 
     /**
@@ -429,7 +445,7 @@ public class BaseURLUtil {
      * 关注的专家列表
      */
     public static String getFollowedExpertList(String sId) {
-        return BASE_URL + "/xxf/getXfExpertCare.do?sId=" + sId;
+        return BASE_URL + "/xxf/getXfExpertCare.do?sId=" + sId + "&index=1&pageNum=50";
     }
 
     /**
@@ -442,8 +458,8 @@ public class BaseURLUtil {
     /**
      * 修改密码
      */
-    public static String getChangePswUrl(String loginName, String oldPsw, String newPsw) {
-        return CHANGE_PSW + loginName + "&old_pwd=" + oldPsw + "&new_pwd=" + newPsw;
+    public static String getChangePswUrl(String newPsw, String oldPsw, String sId) {
+        return CHANGE_PSW + "pwd=" + newPsw + "&oldpwd=" + oldPsw + "&t=app&sId=" + sId;
     }
 
     /**
@@ -462,6 +478,23 @@ public class BaseURLUtil {
      */
     public static String getExpertInfo(int expId) {
         return EXPERT_INFO + String.valueOf(expId);
+    }
+
+    /**
+     * 值守专家获取问分配的问题
+     */
+    public static String getUndoConsultList(String expertType, String sId, int index) {
+        //// TODO: 2015/11/12 这里调换了位置，以测试之用。【需要在接口调整完成后置换】
+        switch (expertType) {
+            case "004":
+                return UNDO_CONSULT_LIST + "hasExpert=0&sId=" + sId + "&index=" + String.valueOf(index);
+            case "003":
+                return UNDO_CONSULT_LIST + "sId=" + sId + "&index=" + String.valueOf(index);
+            default:
+                return UNDO_CONSULT_LIST + "hasExpert=0&sId=" + sId + "&index=" + String.valueOf(index);
+
+        }
+
     }
 
     /**
@@ -484,6 +517,20 @@ public class BaseURLUtil {
      */
     public static String getRecentHotConsultByPage(String type, int start, int pagesize) {
         return RECENT_CONSULT + "type=" + type + "&start=" + String.valueOf(start) + "&pagesize=" + String.valueOf(pagesize) + "&ctype=1";
+    }
+
+    /**
+     * 我的历史咨询
+     */
+    public static String getMyHistoryConsult(String sId, int date, int index) {
+        return MY_HISTORY_CONSULT + "sId=" + sId + "&date=" + String.valueOf(date) + "&index=" + String.valueOf(index);
+    }
+
+    /**
+     * 会话的成员
+     */
+    public static String getQqChatMember(int cid) {
+        return QQ_CHAT_MEMBER + "cid=" + String.valueOf(cid);
     }
 
     /**
@@ -547,8 +594,8 @@ public class BaseURLUtil {
     /**
      * 根据sessionID获得消息（所有消息）
      */
-    public static String getMyQQMsg(String sessionID) {
-        return MY_QQ_INFO + sessionID;
+    public static String getMyQQMsg(String sId, int index, int pageNum) {
+        return MY_QQ_INFO + "sId=" + sId + "&index=" + String.valueOf(index) + "&pageNum=" + String.valueOf(pageNum);
     }
 
     /**

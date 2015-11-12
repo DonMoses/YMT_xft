@@ -24,7 +24,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.search.SearchActivity;
+import com.ymt.demo1.main.search.FullSearchActivity;
 
 /**
  * This activity just provides a toolbar.
@@ -63,7 +63,7 @@ public class PersonalPagerTabActivity extends BaseActivity {
         title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
             public void onRightLClick() {
-                startActivity(new Intent(PersonalPagerTabActivity.this, SearchActivity.class));
+                startActivity(new Intent(PersonalPagerTabActivity.this, FullSearchActivity.class));
             }
 
             @Override

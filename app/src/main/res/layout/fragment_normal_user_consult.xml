@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/my_consult_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/holo_blue_dark" />
+
+    <TableLayout
+        android:id="@+id/consult_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:stretchColumns="0,1,2">
+
+        <TableRow
+            android:id="@+id/consult_tab_row"
+            android:layout_height="match_parent"
+            android:paddingBottom="3dp"
+            android:paddingTop="4.854dp">
+
+            <LinearLayout android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tab_chat"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableTop="@drawable/icon_chat_on"
+                    android:gravity="center"
+                    android:text="会话"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tab_follow"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableTop="@drawable/icon_follow_off"
+                    android:gravity="center"
+                    android:text="关注"
+                    android:textColor="@color/material_blue_grey_800"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

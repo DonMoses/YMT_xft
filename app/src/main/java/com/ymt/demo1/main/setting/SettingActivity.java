@@ -160,7 +160,6 @@ public class SettingActivity extends Activity {
         return new StringRequest(BaseURLUtil.signOutAct(sId), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("TAG", ">>>>>>>>>..s>>." + s);
             }
         }, new Response.ErrorListener() {
             @Override

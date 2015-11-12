@@ -17,12 +17,12 @@ import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.baseClasses.BaseFloatActivity;
+import com.ymt.demo1.main.search.FullSearchActivity;
 import com.ymt.demo1.plates.eduPlane.easyWrong.EasyWrongActivity;
 import com.ymt.demo1.plates.eduPlane.myStudy.MyMockListActivity;
 import com.ymt.demo1.plates.eduPlane.video.VideoTrainActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
-import com.ymt.demo1.main.search.SearchActivity;
 import com.ymt.demo1.plates.eduPlane.examGuide.ExamsGuideMainActivity;
 import com.ymt.demo1.plates.eduPlane.mockExams.MockExamsMainActivity;
 import com.ymt.demo1.plates.eduPlane.pastExams.PastExamsMainActivity;
@@ -88,7 +88,7 @@ public class EduMainActivity extends BaseFloatActivity {
         title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
             public void onRightLClick() {
-                startActivity(new Intent(EduMainActivity.this, SearchActivity.class));
+                startActivity(new Intent(EduMainActivity.this, FullSearchActivity.class));
             }
 
             @Override

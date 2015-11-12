@@ -33,7 +33,7 @@ import com.ymt.demo1.main.ShareActivity;
 import com.ymt.demo1.main.advice.AdviceActivity;
 import com.ymt.demo1.main.collect.CollectActivity;
 import com.ymt.demo1.main.help.HelpActivity;
-import com.ymt.demo1.main.search.SearchActivity;
+import com.ymt.demo1.main.search.FullSearchActivity;
 import com.ymt.demo1.main.setting.ManageAppearanceActivity;
 import com.ymt.demo1.main.setting.SettingActivity;
 import com.ymt.demo1.plates.MoreCatoActivity;
@@ -342,7 +342,7 @@ public class TabMenuActivity extends ActionBarActivity implements ManageAppearan
     public void onSearchBtnClicked(MenuItem item) {
         switch (item.getTitle().toString()) {
             case "action_search":
-                startActivity(new Intent(this, SearchActivity.class));
+                startActivity(new Intent(this, FullSearchActivity.class));
                 break;
         }
     }

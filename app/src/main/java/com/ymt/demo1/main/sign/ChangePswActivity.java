@@ -78,7 +78,7 @@ public class ChangePswActivity extends Activity {
                 if (!reNewPsw.equals(newPsw)) {
                     Toast.makeText(ChangePswActivity.this, "新密码输入不一致，请重新输入...", Toast.LENGTH_SHORT).show();
                 } else {
-                    queue.add(changePswRequest(account.getText().toString(), oldPsw, newPsw));
+                    queue.add(changePswRequest(newPsw, oldPsw, AppContext.now_session_id));
                 }
             }
         });
@@ -87,15 +87,15 @@ public class ChangePswActivity extends Activity {
     /**
      * 发起请求 修改密码
      */
-    protected StringRequest changePswRequest(final String loginName, String oldPsw, final String newPsw) {
-        return new StringRequest(BaseURLUtil.getChangePswUrl(loginName, oldPsw, newPsw), new Response.Listener<String>() {
+    protected StringRequest changePswRequest(final String newPsw, String oldPsw, String sId) {
+        return new StringRequest(BaseURLUtil.getChangePswUrl(newPsw, oldPsw, sId), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
 //                Log.e("TAG", ">>>>>>>>>>>>>>.s>>" + s);
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     String result = jsonObject.getString("result");
-                    if (result.equals("Y")) {
+                    if (result.equals("Y") && jsonObject.getJSONObject("datas").optInt("listData") > 0) {
                         //修改密码成功，跳转到登录界面
                         Toast.makeText(ChangePswActivity.this, "修改成功!", Toast.LENGTH_SHORT).show();
 
@@ -105,16 +105,14 @@ public class ChangePswActivity extends Activity {
                         AppContext.headerPic = null;
                         AppContext.now_user_name = "";
                         AppContext.now_user_id = 0;
-                        AppContext.now_session_id = "";
                         DataSupport.deleteAll(QQMsg.class);
                         DataSupport.deleteAll(QQChatInfo.class);
                         queue.add(signOutAction(AppContext.now_session_id));
 
                         //跳转登录界面
-                        Intent intent = new Intent(ChangePswActivity.this, SignInFragment.class);
+                        Intent intent = new Intent(ChangePswActivity.this, SignInUpActivity.class);
                         intent.putExtra("change", true);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("account", loginName);
                         editor.putString("password", newPsw);
                         editor.apply();
 
@@ -122,9 +120,9 @@ public class ChangePswActivity extends Activity {
                         startActivity(intent);
                         //结束本活动
                         finish();
-                    } else {
+                    } else if (jsonObject.optString("result").equals("N")) {
                         //修改不成功，弹出提示框
-                        Toast.makeText(ChangePswActivity.this, result, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChangePswActivity.this, "修改密码失败!", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     AppContext.toastBadJson();
@@ -145,7 +143,7 @@ public class ChangePswActivity extends Activity {
         return new StringRequest(BaseURLUtil.signOutAct(sId), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e("TAG", ">>>>>>>>>..s>>." + s);
+                AppContext.now_session_id = "";
             }
         }, new Response.ErrorListener() {
             @Override

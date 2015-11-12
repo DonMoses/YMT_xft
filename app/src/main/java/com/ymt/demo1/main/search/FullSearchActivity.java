@@ -23,8 +23,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
-import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.baseClasses.BaseFloatActivity;
+import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 
 import org.json.JSONArray;
@@ -37,7 +37,7 @@ import java.util.ArrayList;
 /**
  * Created by Dan on 2015/4/9
  */
-public class SearchActivity extends BaseFloatActivity {
+public class FullSearchActivity extends BaseFloatActivity {
     private ArrayList<String> hisList;
     private ArrayList<String> hotList;
     private ArrayAdapter<String> historyAdapter;
@@ -67,17 +67,18 @@ public class SearchActivity extends BaseFloatActivity {
         if (hotList.size() > 0) {
             hotList.clear();
         }
-        mQueue.add(getHisKW(AppContext.now_user_id, 0, 100));
-        mQueue.add(getHotKW(0, 12));
+        mQueue.add(getHisKW(AppContext.now_user_id, 1, 100));
+        mQueue.add(getHotKW(1, 12));
     }
 
     /**
      * activity动画
      */
-
     protected void initView() {
         final Spinner spinner = (Spinner) findViewById(R.id.search_spinner);
-        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"全部", "专家", "科研", "规范", "视频", "咨询"});
+        //queryType：查询大类，为空就是查询全部
+        //1、咨询； 2、知识；3、论坛；4、教育；5、商品，6、资讯
+        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"全部", "咨询", "知识", "论坛", "教育", "商品", "资讯"});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setVisibility(View.VISIBLE);//设置默认显示
@@ -116,7 +117,7 @@ public class SearchActivity extends BaseFloatActivity {
                 if (!TextUtils.isEmpty(kw)) {
 
                     //跳转到搜索结果界面
-                    Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
+                    Intent intent = new Intent(FullSearchActivity.this, FullSearchResultActivity.class);
                     intent.putExtra("position", spinner.getSelectedItemPosition()); //搜索类型
                     intent.putExtra("keyword", kw);             //搜索关键字
                     startActivity(intent);
@@ -126,9 +127,8 @@ public class SearchActivity extends BaseFloatActivity {
 //                searchTxt.setText(null);
                     searchTxt.clearFocus();
                 } else {
-                    Toast.makeText(SearchActivity.this, "请输入搜索关键词...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FullSearchActivity.this, "请输入搜索关键词...", Toast.LENGTH_SHORT).show();
                 }
-
 
             }
         });
@@ -230,16 +230,16 @@ public class SearchActivity extends BaseFloatActivity {
     }
 
     static class MyHandler extends Handler {
-        private WeakReference<SearchActivity> reference;
+        private WeakReference<FullSearchActivity> reference;
 
-        public MyHandler(SearchActivity activity) {
+        public MyHandler(FullSearchActivity activity) {
             reference = new WeakReference<>(activity);
         }
 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            SearchActivity activity = reference.get();
+            FullSearchActivity activity = reference.get();
             if (activity != null) {
                 switch (msg.what) {
                     case 0:

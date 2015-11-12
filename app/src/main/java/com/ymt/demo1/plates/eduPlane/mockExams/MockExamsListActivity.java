@@ -20,10 +20,10 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.edu.MockExamsAdapter;
 import com.ymt.demo1.beams.edu.MockExamItem;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.search.FullSearchActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.baseClasses.BaseFloatActivity;
 import com.ymt.demo1.utils.BaseURLUtil;
-import com.ymt.demo1.main.search.SearchActivity;
 import com.ymt.demo1.main.sign.SignInFragment;
 
 import org.json.JSONArray;
@@ -96,7 +96,7 @@ public class MockExamsListActivity extends BaseFloatActivity {
 
             @Override
             public void onRightRClick() {
-                startActivity(new Intent(MockExamsListActivity.this, SearchActivity.class));
+                startActivity(new Intent(MockExamsListActivity.this, FullSearchActivity.class));
             }
         });
     }

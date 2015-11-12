@@ -28,12 +28,14 @@ import cn.jpush.android.api.JPushInterface;
  * Created by Dan on 2015/4/16
  */
 public class AppContext extends LitePalApplication implements VoiceSettingActivity.VoiceSettingListener {
+
     private static List<Activity> yActivities;
     private static Activity floatActivity;
     private static AppContext appContext;
     public static int now_user_id;
     public static String now_session_id;
     public static String now_user_name;
+    public static String user_type;
     public static int screenWidth;
     //    public static int sysKeyBoardWidth;
 //    public static int sysKeyBoardHeight;

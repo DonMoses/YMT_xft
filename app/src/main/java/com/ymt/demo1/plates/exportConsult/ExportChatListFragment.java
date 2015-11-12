@@ -16,10 +16,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.expertConsult.QQChatListAdapter;
 import com.ymt.demo1.beams.expert_consult.QQChatInfo;
 import com.ymt.demo1.launchpages.QQUnreadMsgService;
+import com.ymt.demo1.plates.exportConsult.chat.ConsultChatActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 
@@ -94,7 +96,7 @@ public class ExportChatListFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mQueue = ((MyConsultActivity) activity).mQueue;
+        mQueue = Volley.newRequestQueue(activity);
         doRefresh();
     }
 
@@ -127,9 +129,9 @@ public class ExportChatListFragment extends Fragment {
     /**
      * 获取QQ会话列表
      */
-    protected StringRequest getMyQQMsgs(final String sId) {
+    protected StringRequest getMyQQMsgs(final String sId, int index, int pageNum) {
 
-        return new StringRequest(BaseURLUtil.getMyQQMsg(sId), new Response.Listener<String>() {
+        return new StringRequest(BaseURLUtil.getMyQQMsg(sId, index, pageNum), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {
@@ -193,7 +195,7 @@ public class ExportChatListFragment extends Fragment {
     }
 
     protected void doRefresh() {
-        mQueue.add(getMyQQMsgs(AppContext.now_session_id));
+        mQueue.add(getMyQQMsgs(AppContext.now_session_id, 1, 100));
     }
 
     protected void doGetUnreadInfo(int cId) {

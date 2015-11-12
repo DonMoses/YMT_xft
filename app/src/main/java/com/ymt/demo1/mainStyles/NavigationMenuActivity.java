@@ -44,10 +44,10 @@ import com.ymt.demo1.customViews.CircleImageView;
 import com.ymt.demo1.customViews.IndicatorView;
 import com.ymt.demo1.main.ShareActivity;
 import com.ymt.demo1.main.collect.CollectActivity;
+import com.ymt.demo1.main.search.FullSearchActivity;
 import com.ymt.demo1.plates.news.NewsDetailActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
-import com.ymt.demo1.main.search.SearchActivity;
 import com.ymt.demo1.main.advice.AdviceActivity;
 import com.ymt.demo1.main.help.HelpActivity;
 import com.ymt.demo1.main.setting.ManageAppearanceActivity;
@@ -502,7 +502,7 @@ public class NavigationMenuActivity extends ActionBarActivity implements ManageA
     public void onSearchBtnClicked(MenuItem item) {
         switch (item.getTitle().toString()) {
             case "action_search":
-                startActivity(new Intent(this, SearchActivity.class));
+                startActivity(new Intent(this, FullSearchActivity.class));
                 break;
         }
     }

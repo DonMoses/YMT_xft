@@ -2,7 +2,6 @@ package com.ymt.demo1.plates.eduPlane.studyDatum;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,9 +20,9 @@ import com.ymt.demo1.adapter.edu.StudyDatumAdapter;
 import com.ymt.demo1.beams.edu.StudyDatumItem;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.baseClasses.BaseFloatActivity;
+import com.ymt.demo1.main.search.FullSearchActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
-import com.ymt.demo1.main.search.SearchActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,7 +73,7 @@ public class StudyDatumActivity extends BaseFloatActivity {
             @Override
             public void onRightLClick() {
                 //todo
-                startActivity(new Intent(StudyDatumActivity.this, SearchActivity.class));
+                startActivity(new Intent(StudyDatumActivity.this, FullSearchActivity.class));
             }
 
             @Override

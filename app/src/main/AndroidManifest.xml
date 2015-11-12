@@ -244,10 +244,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".main.search.SearchResultActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".customKeyBoard.ConsultActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -311,10 +307,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".plates.MoreCatoActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".main.search.SearchActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
@@ -446,11 +438,15 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".plates.exportConsult.typedUserConsult.MyHistoryConsultActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".plates.exportConsult.ExpertInfoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".plates.exportConsult.ConsultChatActivity"
+            android:name=".plates.exportConsult.chat.ConsultChatActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
@@ -499,6 +495,14 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".plates.eduPlane.mockExams.AnswerActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".main.search.FullSearchActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".main.search.FullSearchResultActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity

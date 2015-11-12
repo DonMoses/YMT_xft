@@ -10,7 +10,7 @@ import com.ymt.demo1.R;
 import com.ymt.demo1.adapter.edu.ExamsGuideExpandListAdapter;
 import com.ymt.demo1.customViews.MyTitle;
 import com.ymt.demo1.baseClasses.BaseFloatActivity;
-import com.ymt.demo1.main.search.SearchActivity;
+import com.ymt.demo1.main.search.FullSearchActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,7 @@ public class ExamsGuideMainActivity extends BaseFloatActivity {
             @Override
             public void onRightLClick() {
                 //打开搜索界面
-                startActivity(new Intent(ExamsGuideMainActivity.this, SearchActivity.class));
+                startActivity(new Intent(ExamsGuideMainActivity.this, FullSearchActivity.class));
             }
 
             @Override

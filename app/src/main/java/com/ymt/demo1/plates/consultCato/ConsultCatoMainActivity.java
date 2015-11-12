@@ -8,7 +8,6 @@ import android.os.Message;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -20,7 +19,7 @@ import com.ymt.demo1.adapter.consultCato.ConsultCatoExpandListAdapter;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.beams.consult_cato.ConsultCato;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.search.SearchActivity;
+import com.ymt.demo1.main.search.FullSearchActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 
@@ -76,7 +75,7 @@ public class ConsultCatoMainActivity extends BaseActivity {
             @Override
             public void onRightLClick() {
                 //打开搜索界面
-                startActivity(new Intent(ConsultCatoMainActivity.this, SearchActivity.class));
+                startActivity(new Intent(ConsultCatoMainActivity.this, FullSearchActivity.class));
             }
 
             @Override

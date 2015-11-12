@@ -29,9 +29,9 @@ import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.search.FullSearchActivity;
 import com.ymt.demo1.utils.PopActionListener;
 import com.ymt.demo1.utils.PopActionUtil;
-import com.ymt.demo1.main.search.SearchActivity;
 
 /**
  * This activity just provides a toolbar.
@@ -103,7 +103,7 @@ public class KnowledgeMainActivity extends BaseActivity {
         title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
             public void onRightLClick() {
-                startActivity(new Intent(KnowledgeMainActivity.this, SearchActivity.class));
+                startActivity(new Intent(KnowledgeMainActivity.this, FullSearchActivity.class));
 
             }
 

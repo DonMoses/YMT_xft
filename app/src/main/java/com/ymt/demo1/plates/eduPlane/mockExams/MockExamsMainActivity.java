@@ -3,7 +3,6 @@ package com.ymt.demo1.plates.eduPlane.mockExams;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -18,11 +17,11 @@ import com.android.volley.toolbox.Volley;
 import com.ymt.demo1.R;
 import com.ymt.demo1.beams.edu.MockExamItem;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.search.FullSearchActivity;
 import com.ymt.demo1.main.sign.SignInUpActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.baseClasses.BaseFloatActivity;
 import com.ymt.demo1.utils.BaseURLUtil;
-import com.ymt.demo1.main.search.SearchActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -68,7 +67,7 @@ public class MockExamsMainActivity extends BaseFloatActivity {
         title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
             public void onRightLClick() {
-                startActivity(new Intent(MockExamsMainActivity.this, SearchActivity.class));
+                startActivity(new Intent(MockExamsMainActivity.this, FullSearchActivity.class));
             }
 
             @Override

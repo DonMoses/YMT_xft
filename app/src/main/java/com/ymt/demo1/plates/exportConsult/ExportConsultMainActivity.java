@@ -46,12 +46,13 @@ import com.ymt.demo1.beams.expert_consult.ConsultInfo;
 import com.ymt.demo1.beams.expert_consult.OnDutyExpert;
 import com.ymt.demo1.beams.expert_consult.PreExpert;
 import com.ymt.demo1.customViews.MyTitle;
+import com.ymt.demo1.main.search.FullSearchActivity;
 import com.ymt.demo1.main.sign.SignInUpActivity;
+import com.ymt.demo1.plates.exportConsult.typedUserConsult.MyHistoryConsultActivity;
 import com.ymt.demo1.utils.AppContext;
 import com.ymt.demo1.utils.BaseURLUtil;
 import com.ymt.demo1.utils.PopActionListener;
 import com.ymt.demo1.utils.PopActionUtil;
-import com.ymt.demo1.main.search.SearchActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -111,6 +112,16 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
             @Override
             public void onAction(String action) {
                 switch (action) {
+                    case "立即咨询":
+                        if (!(TextUtils.isEmpty(AppContext.now_session_id))) {
+                            Intent intent = new Intent(ExportConsultMainActivity.this, ConsultNowActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Intent intent = new Intent(ExportConsultMainActivity.this, SignInUpActivity.class);
+                            intent.putExtra("isFromConsult", true);
+                            startActivity(intent);
+                        }
+                        break;
                     case "我的咨询":
                         if (TextUtils.isEmpty(AppContext.now_session_id)) {
                             //先登录
@@ -122,10 +133,9 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
                             startActivity(new Intent(ExportConsultMainActivity.this, MyConsultActivity.class));
                         }
                         break;
-//                    case "咨询历史":
-//                        Toast.makeText(ExportConsultMainActivity.this, "咨询历史", Toast.LENGTH_SHORT).show();
-//
-//                        break;
+                    case "咨询历史":
+                        startActivity(new Intent(ExportConsultMainActivity.this, MyHistoryConsultActivity.class));
+                        break;
                     default:
                         break;
                 }
@@ -140,14 +150,26 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
             public void onRightLClick() {
-                startActivity(new Intent(ExportConsultMainActivity.this, SearchActivity.class));
+                startActivity(new Intent(ExportConsultMainActivity.this, FullSearchActivity.class));
             }
 
             @Override
             public void onRightRClick() {
                 PopActionUtil popActionUtil = PopActionUtil.getInstance(ExportConsultMainActivity.this);
-//                popActionUtil.setActions(new String[]{"立即咨询", "我的咨询", "咨询历史"});
-                popActionUtil.setActions(new String[]{"我的咨询"});
+                if (TextUtils.isEmpty(AppContext.user_type)) {
+                    popActionUtil.setActions(new String[]{"立即咨询", "我的咨询", "咨询历史"});
+                } else {
+                    switch (AppContext.user_type) {
+                        case "003": //值守专家
+                        case "004": //资深专家
+                            popActionUtil.setActions(new String[]{"我的咨询"});
+                            break;
+                        default:    //其他用户
+                            popActionUtil.setActions(new String[]{"立即咨询", "我的咨询", "咨询历史"});
+                            break;
+                    }
+                }
+
                 PopupWindow popupWindow = popActionUtil.getSimpleTxtPopActionMenu();
                 popupWindow.showAtLocation(title.getRootView(),
                         Gravity.TOP | Gravity.END, 10, 100);
@@ -183,11 +205,9 @@ public class ExportConsultMainActivity extends BaseActivity implements View.OnCl
         RelativeLayout tomorrowExportView = (RelativeLayout) findViewById(R.id.tomorrow_export_layout);
         todayExportIcon = (ImageView) findViewById(R.id.today_export_icon);
         todayExportName = (TextView) findViewById(R.id.today_export_name);
-        //        TextView todayExportBirth = (TextView) findViewById(R.id.today_export_birth);
         todayExportCount = (TextView) findViewById(R.id.today_export_major);
         tomorrowExportIcon = (ImageView) findViewById(R.id.tomorrow_export_icon);
         tomorrowExportName = (TextView) findViewById(R.id.tomorrow_export_name);
-        //        TextView tomorrowExportBirth = (TextView) findViewById(R.id.tomorrow_export_birth);
         tomorrowExportCount = (TextView) findViewById(R.id.tomorrow_export_major);
 
         //点击跳转到专家详情

@@ -24,7 +24,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.ymt.demo1.R;
 import com.ymt.demo1.baseClasses.BaseActivity;
 import com.ymt.demo1.customViews.MyTitle;
-import com.ymt.demo1.main.search.SearchActivity;
+import com.ymt.demo1.main.search.FullSearchActivity;
 
 /**
  * This activity just provides a toolbar.
@@ -68,7 +68,7 @@ public class MyStudyMainActivity extends BaseActivity {
         title.setOnRightActionClickListener(new MyTitle.OnRightActionClickListener() {
             @Override
             public void onRightLClick() {
-                startActivity(new Intent(MyStudyMainActivity.this, SearchActivity.class));
+                startActivity(new Intent(MyStudyMainActivity.this, FullSearchActivity.class));
             }
 
             @Override
