@@ -2,6 +2,7 @@ package com.ymt.demo1.adapter.expertConsult;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,7 @@ public class ChatMessageListAdapter extends BaseAdapter {
     @Override
     public int getItemViewType(int position) {
         String role = messages.get(position).getCmdType();
+        Log.e("TAG", "msg type: " + messages.get(position).getCmdType());
         if (role.equals("")) {
             return INFO_OUT;
         } else {

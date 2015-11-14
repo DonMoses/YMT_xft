@@ -110,7 +110,6 @@ public class QQMsg extends DataSupport implements Parcelable {
     private String userName;
     private String userType;
 
-
     @Override
     public int describeContents() {
         return 0;

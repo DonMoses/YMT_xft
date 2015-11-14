@@ -33,7 +33,9 @@ public class BaseURLUtil {
     //一个会话的成员信息
     private static final String QQ_CHAT_MEMBER = EXPERT_BASE + "/cs/findDuiHuaUser.do?";
     //获取一个QQ回话的所有消息
-    private static final String QQ_CHAT_MSGS = EXPERT_BASE + "/crc/fcrbc.do?cid=";
+    private static final String QQ_CHAT_MSGS = EXPERT_BASE + "/crc/fcrbc.do?";
+    //获取一个QQ会话的未读消息
+    private static final String QQ_UNREAD = EXPERT_BASE + "/crc/fum.do?";
     //我的QQ消息条目
     private static final String MY_QQ_INFO = BASE_URL + "/xxf/participateConsultation.do?";
     //分类
@@ -527,6 +529,13 @@ public class BaseURLUtil {
     }
 
     /**
+     * 会话的未读消息
+     */
+    public static String getMyUnreadQQinfo(String sId, int cid) {
+        return QQ_UNREAD + "sId=" + sId + "&cid=" + String.valueOf(cid) + "&t=app";
+    }
+
+    /**
      * 会话的成员
      */
     public static String getQqChatMember(int cid) {
@@ -609,8 +618,8 @@ public class BaseURLUtil {
      * 根据sessionID、qqID获得某一条QQ的所有消息
      */
 
-    public static String getMyAllQQMsgUrl(int cId) {
-        return QQ_CHAT_MSGS + String.valueOf(cId);
+    public static String getMyAllQQMsgUrl(String sId, int cId) {
+        return QQ_CHAT_MSGS + "sId=" + sId + "&cid=" + String.valueOf(cId);
     }
 
     /**
@@ -623,8 +632,8 @@ public class BaseURLUtil {
     /**
      * 发送消息
      */
-    public static String sendQQMsgUrl(String msg, int consultId, int userId) {
-        return QQ_SEND_MSG + "msg=" + msg + "&cid=" + String.valueOf(consultId) + "&userId=" + String.valueOf(userId) + "&t=app";
+    public static String sendQQMsgUrl(int userId, int cid, String msg, String sId) {
+        return QQ_SEND_MSG + "userId=" + String.valueOf(userId) + "&cid=" + String.valueOf(cid) + "&msg=" + URLEncoder.encode(msg) + "&sId=" + sId + "&t=app";
     }
 
     /**

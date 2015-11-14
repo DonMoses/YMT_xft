@@ -64,7 +64,7 @@ public class ChatContentFragment extends Fragment {
             public void onClick(View v) {
                 String sendInfo = inputView.getText().toString();
                 if (!TextUtils.isEmpty(sendInfo)) {
-                    requestQueue.add(doSend(sendInfo, cId, AppContext.now_user_id));
+                    requestQueue.add(doSend(AppContext.now_user_id, cId, sendInfo, AppContext.now_session_id));
                     infoListView.getRefreshableView().setSelection(infoListView.getBottom());
                 }
                 inputView.setText("");
@@ -78,7 +78,7 @@ public class ChatContentFragment extends Fragment {
         messageListAdapter.setMessages(mQQMsgs);
         infoListView.getRefreshableView().setSelection(infoListView.getBottom());
 
-        requestQueue.add(getQQMsgs(cId));
+        requestQueue.add(getQQMsgs(AppContext.now_session_id, cId));
     }
 
     public static ChatContentFragment getInstance(int cid) {
@@ -101,21 +101,16 @@ public class ChatContentFragment extends Fragment {
         messageListAdapter = new ChatMessageListAdapter(getActivity());
     }
 
-    protected StringRequest doSend(String msg, final int cId, final int userId) {
-        try {
-            msg = URLEncoder.encode(msg, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+    protected StringRequest doSend(int userId, int cid, String msg, String sId) {
 
-        return new StringRequest(Request.Method.GET, BaseURLUtil.sendQQMsgUrl(msg, cId, userId), new Response.Listener<String>() {
+        return new StringRequest(BaseURLUtil.sendQQMsgUrl(userId, cid, msg, sId), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getJSONObject("datas").optInt("listData") > 0) {
                         //// TODO: 2015/11/4  发送消息成功，刷新页面
-                        requestQueue.add(getQQMsgs(cId));
+                        requestQueue.add(getQQMsgs(AppContext.now_session_id, cId));
                     }
 
                 } catch (JSONException e) {
@@ -143,8 +138,8 @@ public class ChatContentFragment extends Fragment {
     /**
      * 一个QQ会话的所有消息
      */
-    protected StringRequest getQQMsgs(final int cId) {
-        return new StringRequest(BaseURLUtil.getMyAllQQMsgUrl(cId), new Response.Listener<String>() {
+    protected StringRequest getQQMsgs(String sId, final int cId) {
+        return new StringRequest(BaseURLUtil.getMyAllQQMsgUrl(sId, cId), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 try {

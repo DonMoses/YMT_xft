@@ -3,6 +3,7 @@ package com.ymt.demo1.adapter.expertConsult;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,7 @@ public class QQChatListAdapter extends BaseAdapter {
         viewHolder.userName.setText(mList.get(position).getUserName());
         //todo chat的标题
         viewHolder.msgTitle.setText(mList.get(position).getTitle());
+//        Log.e("TAG", ">>>unreadCount: " + unreadCount);
         if (unreadCount > 0) {
             viewHolder.unReadMsgCount.setVisibility(View.VISIBLE);
             viewHolder.unReadMsgCount.setText(String.valueOf(unreadCount));

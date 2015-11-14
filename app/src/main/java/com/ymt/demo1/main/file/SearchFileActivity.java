@@ -190,7 +190,11 @@ public class SearchFileActivity extends BaseFloatActivity {
             } else {
                 viewHolder = (Mp3ViewHolder) convertView.getTag();
             }
-            if (mData.get(position).isFile()) {
+
+            if (mData.get(position).isDirectory()) {
+                viewHolder.mp3Img.setImageResource(R.drawable.documents_folder);
+                viewHolder.mp3Size.setText(countFiles(mData.get(position)) + "个文件");
+            } else {
                 viewHolder.mp3Size.setText(sizeFile(mData.get(position)));
                 if (mData.get(position).getName().endsWith(".mp3")
                         || mData.get(position).getName().endsWith(".MP3")) {
@@ -219,10 +223,6 @@ public class SearchFileActivity extends BaseFloatActivity {
                 } else {
                     Picasso.with(SearchFileActivity.this).load(R.drawable.icon_help).into(viewHolder.mp3Img);
                 }
-
-            } else {
-                viewHolder.mp3Img.setImageResource(R.drawable.documents_folder);
-                viewHolder.mp3Size.setText(countFiles(mData.get(position)) + "个文件");
             }
 
             viewHolder.mp3Name.setText(mData.get(position).getName());

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ public class ExportChatListFragment extends Fragment {
     public QQChatListAdapter chatAdapter;
     private ListView qqListView;
     private List<QQChatInfo> chatInfos;
+    private boolean firstIn = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,6 +78,15 @@ public class ExportChatListFragment extends Fragment {
 
         qqListView.setSelection(qqListView.getBottom());
 
+        if (!firstIn) {
+            Message msg = Message.obtain();
+            for (int i = 0; i < chatInfos.size(); i++) {
+                msg.obj = chatInfos.get(i).getConsultId();
+                msg.what = 1024;
+                myHandler.sendMessage(msg);
+            }
+        }
+
     }
 
     public static ExportChatListFragment newInstance(String emptyInfo) {
@@ -91,6 +102,7 @@ public class ExportChatListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         chatInfos = new ArrayList<>();
         chatInfos.addAll(DataSupport.findAll(QQChatInfo.class));
+        firstIn = true;
     }
 
     @Override
@@ -198,8 +210,8 @@ public class ExportChatListFragment extends Fragment {
         mQueue.add(getMyQQMsgs(AppContext.now_session_id, 1, 100));
     }
 
-    protected void doGetUnreadInfo(int cId) {
-        getUnreadCount(cId);
+    protected void doGetUnreadInfo(String sId, int cId) {
+        mQueue.add(getUnreadCount(sId, cId));
     }
 
     static class MyHandler extends Handler {
@@ -220,7 +232,7 @@ public class ExportChatListFragment extends Fragment {
                         break;
                     case 1024:
                         int qq_id = (int) msg.obj;
-                        activity.doGetUnreadInfo(qq_id);
+                        activity.doGetUnreadInfo(AppContext.now_session_id, qq_id);
                         break;
                     default:
                         break;
@@ -233,7 +245,34 @@ public class ExportChatListFragment extends Fragment {
     /**
      * 未读消息
      */
-    protected void getUnreadCount(int cId) {
+    protected StringRequest getUnreadCount(String sId, final int cId) {
 
+        return new StringRequest(BaseURLUtil.getMyUnreadQQinfo(sId, cId), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+//                Log.e("TAG", ">>cid: " + cId);
+//                Log.e("TAG", ">>s: " + s);
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    JSONArray jsonArray = jsonObject.getJSONObject("datas").getJSONArray("listData");
+                    int length = jsonArray.length();
+                    //更新未读消息ui
+                    for (int i = 0; i < chatInfos.size(); i++) {
+                        if (cId == chatInfos.get(i).getConsultId()) {
+                            chatInfos.get(i).setUnReadCount(length);
+                            chatAdapter.notifyDataSetChanged();
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    AppContext.toastBadJson();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                AppContext.toastBadInternet();
+            }
+        });
     }
 }

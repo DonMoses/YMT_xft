@@ -148,6 +148,8 @@ public class ConsultNowActivity extends BaseFloatActivity {
 
         //上传附件按钮
         final Button uploadBtn = (Button) findViewById(R.id.upload_btn);
+        //// TODO: 2015/11/14 文件管理器有bug，需要修复，这里暂时屏蔽
+        uploadBtn.setVisibility(View.GONE);
         //提交按钮
         final Button submitBtn = (Button) findViewById(R.id.submit_btn);
         View.OnClickListener onClickListener = new View.OnClickListener() {
